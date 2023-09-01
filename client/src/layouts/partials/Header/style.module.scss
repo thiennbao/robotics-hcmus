@@ -1,0 +1,39 @@
+.header {
+  height: 80px;
+}
+
+.headerLogo {
+  height: 70px;
+  width: auto;
+}
+
+.navLink {
+  &:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    width: 0;
+    left: 0;
+    height: 2px;
+    background: var(--main-color);
+    -webkit-transition: 0.4s;
+    -moz-transition: 0.4s;
+    -o-transition: 0.4s;
+    transition: 0.4s;
+  }
+
+  &:hover:after {
+    width: 100%;
+    -webkit-transition: 0.4s;
+    -moz-transition: 0.4s;
+    -o-transition: 0.4s;
+    transition: 0.4s;
+  }
+}
+
+.headerIcon {
+  &:hover {
+    color: var(--main-color);
+    transition: 0.2s;
+  }
+}
