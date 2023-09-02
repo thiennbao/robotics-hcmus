@@ -1,6 +1,6 @@
 import SiteLayout from "layouts/SiteLayout";
 
-const News = () => {
+const NewsPage = () => {
   return (
     <SiteLayout>
       <h1>News</h1>
@@ -17,4 +17,4 @@ const News = () => {
   )
 }
 
-export default News
+export default NewsPage

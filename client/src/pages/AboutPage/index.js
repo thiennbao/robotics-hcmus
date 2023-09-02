@@ -1,6 +1,6 @@
 import SiteLayout from "layouts/SiteLayout";
 
-const About = () => {
+const AboutPage = () => {
   return (
     <SiteLayout>
       <h1>About</h1>
@@ -17,4 +17,4 @@ const About = () => {
   )
 }
 
-export default About
+export default AboutPage

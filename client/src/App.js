@@ -1,22 +1,22 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import "./App.scss";
-import Home from "./pages/Home";
-import About from "./pages/About";
-import Courses from "./pages/Courses";
-import News from "./pages/News";
-import Contact from "./pages/Contact";
+import HomePage from "./pages/HomePage";
+import AboutPage from "./pages/AboutPage";
+import CoursesPage from "./pages/CoursesPage";
+import NewsPage from "./pages/NewsPage";
+import ContactPage from "./pages/ContactPage";
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/courses" element={<Courses />} />
-          <Route path="/news" element={<News />} />
-          <Route path="/contact" element={<Contact />} />
+          <Route path="/" element={<HomePage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/courses" element={<CoursesPage />} />
+          <Route path="/news" element={<NewsPage />} />
+          <Route path="/contact" element={<ContactPage />} />
         </Routes>
       </BrowserRouter>
     </div>

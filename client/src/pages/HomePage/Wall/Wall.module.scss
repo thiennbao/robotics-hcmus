@@ -1,0 +1,32 @@
+.wall {
+  margin-top: 0;
+  height: 100vh;
+  background-color: black;
+  position: relative;
+  overflow: hidden;
+}
+
+.wallContent {
+  color: white;
+  position: absolute;
+  top: 50%;
+  left: 15%;
+  transform: translateY(-50%);
+  width: 40%;
+
+  p:first-child {
+    font-size: 30px;
+  }
+  h1 {
+    font-size: 80px;
+  }
+  h1 + p {
+    font-size: 20px;
+  }
+}
+
+.btn {
+  width: 200px;
+  height: 60px;
+  margin-top: 40px;
+}

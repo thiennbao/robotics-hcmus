@@ -1,7 +1,7 @@
 # Robotics & IoT - HCMUS
 > Website for Robotics & IoT Club
 
-### How to run
+## How to run
 To clone and run this application, you'll need Git and Node.js (which comes with npm) installed on your computer.
 
 From your command line:
@@ -26,8 +26,11 @@ In each side, install dependencies
 ```sh
 npm install
 ```
-and then run
+and run
 ```sh
 npm start
 ```
-All done, your client is running at `http://localhost:3000/` and server is running at `http://localhost:8000/`
+All done, your client is running at `http://localhost:3000` and server is running at `http://localhost:8000`
+
+## Demo
+Client: https://robotics-client.onrender.com

@@ -1,8 +1,11 @@
 :root {
-  --main-color: #2e5185
+  --primary-color: #2e5185;
 }
 * {
   box-sizing: border-box;
+}
+section {
+  margin: 100px 0;
 }
 a {
   color: black;

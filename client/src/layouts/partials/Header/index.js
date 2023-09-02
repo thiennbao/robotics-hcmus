@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import clsx from "clsx";
 import logo from "assets/logo.png";
-import style from "./style.module.scss";
+import style from "./Header.module.scss";
+import { useEffect, useState } from "react";
 
 const NavLinks = ({ items }) => {
   return (
@@ -44,10 +45,23 @@ const navItems = [
 const navIcons = ["facebook", "telephone-fill", "envelope-fill"];
 
 const Header = () => {
+  const [isSmallHeader, setIsSmallHeader] = useState(false)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsSmallHeader(window.scrollY !== 0)
+    }
+    window.addEventListener('scroll', handleScroll)
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [isSmallHeader])
+
   return (
-    <header className="fixed-top">
+    <header className={clsx(style.header, isSmallHeader && style.smallHeader, "fixed-top")}>
       <div className="container">
-        <div className={clsx(style.header, "row align-items-center fw-bold")}>
+        <div className={clsx("row align-items-center fw-bold")}>
           <div className="col-2">
             <Link to="/">
               <img src={logo} alt="Robotics & IoT - HCMUS" className={style.headerLogo} />

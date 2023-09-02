@@ -1,6 +1,6 @@
 import SiteLayout from "layouts/SiteLayout";
 
-const Contact = () => {
+const ContactPage = () => {
   return (
     <SiteLayout>
       <h1>Contact</h1>
@@ -17,4 +17,4 @@ const Contact = () => {
   )
 }
 
-export default Contact
+export default ContactPage

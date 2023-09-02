@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import clsx from "clsx";
 import logo from "assets/logo.png";
-import style from "./style.module.scss";
+import style from "./Footer.module.scss";
 
 const FooterLinks = ({ items }) => {
   return (
@@ -19,7 +19,7 @@ const FooterContactList = ({ items }) => {
   return (
     <ul className="list-unstyled">
       {items.map((item, index) => (
-        <li className="mt-2">
+        <li key={index} className="mt-2">
           <i className={clsx(style.footerIcon, `bi bi-${item.icon}`)}></i> {item.title}
         </li>
       ))}
