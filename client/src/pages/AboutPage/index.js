@@ -1,14 +1,10 @@
 import SiteLayout from "layouts/SiteLayout";
+import Wallpaper from "layouts/partials/Wallpaper";
 
 const AboutPage = () => {
   return (
     <SiteLayout>
-      <h1>About</h1>
-      <h1>About</h1>
-      <h1>About</h1>
-      <h1>About</h1>
-      <h1>About</h1>
-      <h1>About</h1>
+      <Wallpaper page="ABOUT" />
       <h1>About</h1>
       <h1>About</h1>
       <h1>About</h1>

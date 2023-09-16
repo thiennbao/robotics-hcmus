@@ -64,23 +64,25 @@ const Courses = ({ limit }) => {
   ];
 
   return (
-    <section className="container">
-      <Heading Tag="h2" extra subcontent="--- WELCOME TO">POPULAR COURSES</Heading>
-      <div className="row">
-        {courses.map((course, index) => (
-          <div key={index} className="col-4 g-5">
-            <Course
-              image={course.image}
-              title={course.title}
-              description={course.description}
-              yearOlds={course.yearOlds}
-              classes={course.classes}
-              hours={course.hours}
-            />
-          </div>
-        ))}
+    <section>
+      <div className="container">
+        <Heading Tag="h2" extra subcontent="--- WELCOME TO">POPULAR COURSES</Heading>
+        <div className="row">
+          {courses.map((course, index) => (
+            <div key={index} className="col-4 g-5">
+              <Course
+                image={course.image}
+                title={course.title}
+                description={course.description}
+                yearOlds={course.yearOlds}
+                classes={course.classes}
+                hours={course.hours}
+              />
+            </div>
+          ))}
+        </div>
+        {limit && <Button className={style.btn} type="shadow" to="/courses">See all courses</Button> }
       </div>
-      {limit && <Button className={style.btn} type="shadow" to="/courses">See all courses</Button> }
     </section>
   );
 };

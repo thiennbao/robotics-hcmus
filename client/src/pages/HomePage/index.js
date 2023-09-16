@@ -1,5 +1,5 @@
 import SiteLayout from "layouts/SiteLayout";
-import Wall from "./Wall";
+import HomeWall from "./HomeWall";
 import Description from "pages/AboutPage/Description";
 import ImageRow from "components/ImageRow";
 import Courses from "pages/CoursesPage/Courses";
@@ -11,21 +11,23 @@ import course4 from "assets/course-4.jpg";
 import Special from "pages/AboutPage/Special";
 import Testimonial from "./Testimonial";
 import Team from "pages/AboutPage/Team";
+import HotNews from "pages/NewsPage/HotNews";
 
 const HomePage = () => {
   return (
     <SiteLayout>
-      <Wall />
+      <HomeWall />
       <Description />
       <ImageRow
         images={[course1, course2, course3, course4]}
-        height="70vh"
+        height="80vh"
         brightness="0.4"
-        contents={["WEDO", "SPIKE Prime", "Mindstorms", "Arduino"]}
+        contents={["WEDO", "SPIKE PRIME", "MINDSTORMS", "ARDUINO"]}
         fontSize="30px"
       />
-      <Courses limit={8} />
+      <HotNews />
       <Special />
+      <Courses limit={8} />
       <Testimonial />
       <Team />
       <ImageRow

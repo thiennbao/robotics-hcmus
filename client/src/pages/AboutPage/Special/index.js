@@ -2,6 +2,7 @@ import clsx from "clsx";
 import style from "./Special.module.scss";
 import Heading from "components/Heading";
 import image from "assets/about-2.jpg";
+import Wavy from "components/Wavy";
 
 const Feature = ({ title, content }) => {
   return (
@@ -19,35 +20,38 @@ const Feature = ({ title, content }) => {
 
 const Special = () => {
   return (
-    <section className="container">
-      <div className="row justify-content-between">
-        <div className="col-5">
-          <Heading Tag="h2" extra subcontent="--- WELCOME TO">
-            SPECIAL
-          </Heading>
-          <p className="my-4">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec
-            ullamcorper mattis, pulvinar dapibus leo.
-          </p>
-          <Feature
-            title="Lorem ipsum"
-            content="Malesuada elementum curabitur massa pellentesque fames at dui eu justo"
-          />
-          <Feature
-            title="Lorem ipsum"
-            content="Malesuada elementum curabitur massa pellentesque fames at dui eu justo"
-          />
-          <Feature
-            title="Lorem ipsum"
-            content="Malesuada elementum curabitur massa pellentesque fames at dui eu justo"
-          />
-          <Feature
-            title="Lorem ipsum"
-            content="Malesuada elementum curabitur massa pellentesque fames at dui eu justo"
-          />
-        </div>
-        <div className="col-6">
-          <img className={style.img} src={image} alt="" />
+    <section>
+      <Wavy />
+      <div className="container">
+        <div className="row justify-content-between">
+          <div className="col-5">
+            <Heading Tag="h2" extra subcontent="--- WELCOME TO">
+              SPECIAL
+            </Heading>
+            <p className="my-4">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec
+              ullamcorper mattis, pulvinar dapibus leo.
+            </p>
+            <Feature
+              title="Lorem ipsum"
+              content="Malesuada elementum curabitur massa pellentesque fames at dui eu justo"
+            />
+            <Feature
+              title="Lorem ipsum"
+              content="Malesuada elementum curabitur massa pellentesque fames at dui eu justo"
+            />
+            <Feature
+              title="Lorem ipsum"
+              content="Malesuada elementum curabitur massa pellentesque fames at dui eu justo"
+            />
+            <Feature
+              title="Lorem ipsum"
+              content="Malesuada elementum curabitur massa pellentesque fames at dui eu justo"
+            />
+          </div>
+          <div className="col-6">
+            <img className={style.img} src={image} alt="" />
+          </div>
         </div>
       </div>
     </section>

@@ -1,0 +1,12 @@
+.wavy {
+  height: 150px;
+  background-size: 100%;
+  background-position: bottom;
+  position: relative;
+  background-color: white;
+
+  section:has(> &), div:has(> &) {
+    background-color: #f7f7f7;
+    padding-bottom: 50px;
+  }
+}

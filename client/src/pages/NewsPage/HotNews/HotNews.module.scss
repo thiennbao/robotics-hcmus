@@ -1,0 +1,35 @@
+.slideWrapper {
+  margin: 50px 0;
+  overflow: hidden;
+  
+  & > div:first-child {
+    display: flex;
+    transform: translateX(-20%);
+    transition: 1s;
+
+    & > div > div {
+      min-height: 300px;
+    }
+  }
+
+  & > div:last-child {
+    text-align: center;
+
+    & i {
+      cursor: pointer;
+      display: inline-block;
+      margin: 0 15px;
+      transition: 0.5s;
+    }
+  }
+}
+
+.newsSlide {
+  width: 100%;
+}
+
+.btn {
+  width: 240px;
+  height: 60px;
+  margin: auto;
+}

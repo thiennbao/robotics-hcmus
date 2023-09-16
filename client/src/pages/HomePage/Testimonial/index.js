@@ -1,6 +1,7 @@
 import { useState } from "react";
 import style from "./Testimonial.module.scss";
 import Heading from "components/Heading";
+import Wavy from "components/Wavy";
 
 const QuoteSlide = ({ quote }) => {
   return (
@@ -41,6 +42,7 @@ const Testimonial = () => {
 
   return (
     <div>
+      <Wavy />
       <Heading Tag="h2" extra className="text-center" subcontent="What they say about us">
         Customer Testimonial
       </Heading>

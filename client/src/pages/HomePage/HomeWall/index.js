@@ -1,11 +1,11 @@
-import style from "./Wall.module.scss";
-import Wallpaper from "../Wallpaper";
+import style from "./HomeWall.module.scss";
+import Background from "./Background";
 import Button from "components/Button";
 
-const Wall = () => {
+const HomeWall = () => {
   return (
     <section className={style.wall}>
-      <Wallpaper />
+      <Background />
       <div className={style.wallContent}>
         <p>VNUHCM - University of Science</p>
         <h1>Robotics & IoT</h1>
@@ -16,4 +16,4 @@ const Wall = () => {
   );
 };
 
-export default Wall
+export default HomeWall
