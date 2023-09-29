@@ -9,9 +9,9 @@ const NewsSlide = ({ news }) => {
 
 // Call API
 const newsList = [
-  `<div style="background-color: tomato"><h1>Bruh News</h1><p>Lmao lmao lmao lmao lmao</p><p>Lmao lmao lmao lmao lmao</p><p>Lmao lmao lmao lmao lmao</p><p>Lmao lmao lmao lmao lmao</p></div>`,
-  `<div style="background-color: violet"><h1>Bruh News</h1><p>Lmao lmao lmao lmao lmao</p><p>Lmao lmao lmao lmao lmao</p><p>Lmao lmao lmao lmao lmao</p><p>Lmao lmao lmao lmao lmao</p></div>`,
-  `<div style="background-color: darkviolet"><h1>Bruh News</h1><p>Lmao lmao lmao lmao lmao</p><p>Lmao lmao lmao lmao lmao</p><p>Lmao lmao lmao lmao lmao</p><p>Lmao lmao lmao lmao lmao</p></div>`,
+  `<div style="background-color: #f7f7f7; text-align: center"><h1>Bruh News</h1><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p></div>`,
+  `<div style="background-color: #f7f7f7; text-align: center"><h1>Bruh News</h1><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p></div>`,
+  `<div style="background-color: #f7f7f7; text-align: center"><h1>Bruh News</h1><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p></div>`,
 ];
 
 const HotNews = () => {

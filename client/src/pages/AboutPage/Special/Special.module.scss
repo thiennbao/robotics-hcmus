@@ -1,11 +1,34 @@
+@import "scss/variables";
 
-.icon {
-  color: var(--primary-color);
-  font-size: 40px;
+.special {
+  & .feature {
+    & i {
+      color: $primary-color;
+      font-size: 2.5rem;
+    }
+
+    & p:first-child {
+      font-size: 1.5rem;
+    }
+  }
+
+  & img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 }
 
-.img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+@media (max-width: 768px) {
+  .special {
+    & .feature {
+      & p:first-child {
+        font-size: 1.25rem;
+      }
+    }
+
+    & img {
+      aspect-ratio: 2 / 1;
+    }
+  }
 }

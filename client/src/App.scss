@@ -1,11 +1,9 @@
-:root {
-  --primary-color: #2e5185;
-}
 * {
   box-sizing: border-box;
 }
 section {
   margin: 50px 0;
+  overflow: hidden;
 }
 a {
   color: black;

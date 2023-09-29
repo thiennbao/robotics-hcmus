@@ -1,11 +1,16 @@
-.footerHeading {
-  color: var(--primary-color);
-}
+@import "scss/variables";
 
-.footerIcon {
-  color: var(--primary-color);
-}
+.footer {
+  & img {
+    width: 60%;
+    margin-bottom: 1.5rem;
+  }
 
-.footerLogo {
-  width: 80%;
+  & h3 {
+    color: $primary-color;
+  }
+
+  & i {
+    color: $primary-color;
+  }
 }

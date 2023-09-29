@@ -1,5 +1,5 @@
 import style from "./Wallpaper.module.scss";
-import wall from "assets/wallpaper-1.jpg"
+import wall from "assets/general/wallpaper-1.jpg"
 
 const Wallpaper = ({ page }) => {
   console.log(window.location.pathname)

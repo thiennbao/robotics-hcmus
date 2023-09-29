@@ -1,32 +1,75 @@
+@import "scss/animations";
+
+// Wall content
 .wall {
   margin-top: 0;
   height: 100vh;
   background-color: black;
   position: relative;
   overflow: hidden;
+
+  & div {
+    p {
+      font-size: 2rem;
+      animation: down 1.5s;
+    }
+    h1 {
+      font-size: 6rem;
+      animation: down 1.5s;
+    }
+    h1 + p {
+      font-size: 1.1rem;
+      animation: up 1.5s;
+    }
+  }
 }
 
-.wallContent {
-  color: white;
-  position: absolute;
-  top: 50%;
-  left: 15%;
-  transform: translateY(-50%);
-  width: 40%;
+@media (max-width: 1024px) {
+  .wall {
+    div {
+      h1 {
+        font-size: 4rem;
+      }
+      
+    }
+  }
+}
+@media (max-width: 768px) {
+  .wall {
+    div {
+      bottom: 0;
 
-  p:first-child {
-    font-size: 30px;
-  }
-  h1 {
-    font-size: 80px;
-  }
-  h1 + p {
-    font-size: 20px;
+      p {
+        font-size: 1.25rem;
+      }
+      h1 {
+        font-size: 4.5rem;
+      }
+      h1 + p {
+        margin: 2rem 0;
+      }
+    }
   }
 }
 
 .btn {
-  width: 200px;
-  height: 60px;
-  margin-top: 40px;
+  height: 3.5rem;
+
+  &Left {
+    animation: right 1.5s;
+  }
+  &Right {
+    animation: left 1.5s;
+  }
+}
+
+// Background
+.wallpaper {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  filter: brightness(0.15);
+  animation: wall-zoom 10s;
+  overflow: hidden;
 }

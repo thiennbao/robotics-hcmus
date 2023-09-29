@@ -1,53 +1,100 @@
+@import "scss/variables";
+
 .header {
   height: 150px;
   transition: 0.5s;
-}
-.header > div, .header > div > div {
-  height: 100%;
-}
 
-.headerLogo {
-  height: 60px;
-  width: auto;
-}
+  & > div,
+  & > div > div {
+    height: 100%;
+  }
 
-.navLink {
-  color: #fff;
+  & img {
+    height: 60px;
+  }
 
-  &:after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    width: 0;
+  & .link {
+    color: #fff;
+
+    &:after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      width: 0;
+      left: 0;
+      height: 2px;
+      background: $primary-color;
+      transition: 0.4s;
+    }
+
+    &:hover:after {
+      width: 100%;
+      transition: 0.4s;
+    }
+  }
+
+  & .icon {
+    color: #fff;
+
+    &:hover {
+      color: $primary-color;
+      transition: 0.2s;
+    }
+  }
+
+  & .current {
+    color: $primary-color;
+
+    &::after {
+      width: 100%;
+    }
+  }
+
+  &.shrink {
+    background-color: black;
+    height: 80px;
+    transition: 0.5s;
+  }
+
+  & label {
+    font-size: 2rem;
+  }
+
+  & .sideMenu {
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 2;
+    width: 70%;
+    height: 100vh;
+    background-color: #fff;
+    transform: translateX(100%);
+    transition: 0.5s;
+
+    & div:nth-child(n + 3) {
+      border-bottom: lightgray solid 1px;
+    }
+  }
+
+  & .overlay {
+    display: none;
+    position: fixed;
+    top: 0;
     left: 0;
-    height: 2px;
-    background: var(--primary-color);
-    -webkit-transition: 0.4s;
-    -moz-transition: 0.4s;
-    -o-transition: 0.4s;
-    transition: 0.4s;
+    z-index: 1;
+    width: 100vw;
+    height: 100vh;
+    background-color: black;
+    opacity: 0.8;
   }
 
-  &:hover:after {
-    width: 100%;
-    -webkit-transition: 0.4s;
-    -moz-transition: 0.4s;
-    -o-transition: 0.4s;
-    transition: 0.4s;
-  }
-}
+  & input:checked {
+    & ~ .sideMenu {
+      transform: translateX(0);
+    }
 
-.headerIcon {
-  color: #fff;
-  
-  &:hover {
-    color: var(--primary-color);
-    transition: 0.2s;
+    & + label .overlay {
+      display: block;
+    }
   }
-}
-
-.smallHeader {
-  background-color: black;
-  height: 80px;
-  transition: 0.5s;
 }

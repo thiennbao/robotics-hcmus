@@ -1,0 +1,50 @@
+@import "scss/variables";
+
+.timetable {
+  & table {
+    margin: 2rem auto;
+    text-align: center;
+    width: 100%;
+
+    & tbody tr:nth-child(odd) {
+      background-color: $background-color;
+    }
+
+    & td,
+    th {
+      width: calc(100% / 7);
+      height: 6rem;
+
+      & div {
+        background-size: cover;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        height: 100%;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .timetable {
+    & > div > div {
+      overflow-x: scroll;
+
+      & table {
+        width: 60rem;
+
+        & td,
+        th {
+          height: 5rem;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .timetable {
+  }
+}

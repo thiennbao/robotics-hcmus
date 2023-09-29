@@ -41,8 +41,7 @@ const Testimonial = () => {
   const [slide, setSlide] = useState(0);
 
   return (
-    <div>
-      <Wavy />
+    <Wavy>
       <Heading Tag="h2" extra className="text-center" subcontent="What they say about us">
         Customer Testimonial
       </Heading>
@@ -71,7 +70,7 @@ const Testimonial = () => {
           ))}
         </div>
       </div>
-    </div>
+    </Wavy>
   );
 };
 
