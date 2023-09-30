@@ -1,4 +1,5 @@
 import style from "./Courses.module.scss";
+import Section from "layouts/partials/Section";
 import Heading from "components/Heading";
 import Button from "components/Button";
 import Appearance from "components/Appearance";
@@ -89,15 +90,13 @@ const Courses = ({ limit }) => {
   ];
 
   return (
-    <section className={style.courses}>
+    <Section className={style.courses}>
       <div className="container">
-        <Heading Tag="h2" extra subcontent="--- WELCOME TO">
-          POPULAR COURSES
-        </Heading>
+        <Heading subcontent="--- WELCOME TO">POPULAR COURSES</Heading>
         <div className="row">
           {courses.map((course, index) => (
             <div key={index} className="col-lg-4 col-md-6 gy-5">
-              <Appearance type="up" animation={{ delay: `${index * 0.1}s` }} lmao="lmao">
+              <Appearance type="up" animation={{ delay: `${index * 0.1}s` }}>
                 <Course
                   image={course.image}
                   title={course.title}
@@ -111,12 +110,14 @@ const Courses = ({ limit }) => {
           ))}
         </div>
         {limit && (
-          <Button className={style.btn} type="shadow" to="/courses">
-            See all courses
-          </Button>
+          <Appearance type="up">
+            <Button className={style.button} type="shadow" to="/courses">
+              See all courses
+            </Button>
+          </Appearance>
         )}
       </div>
-    </section>
+    </Section>
   );
 };
 

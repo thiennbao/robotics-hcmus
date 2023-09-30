@@ -1,16 +1,18 @@
 import Heading from "components/Heading";
 import style from "./Timetable.module.scss";
+import Section from "layouts/partials/Section";
+import Appearance from "components/Appearance";
 
 const Timetable = () => {
   // Call API bla bla
 
   return (
-    <section className={style.timetable}>
+    <Section className={style.timetable}>
       <div className="container">
-        <Heading Tag="h2" extra subcontent="--- WELCOME TO">
+        <Heading subcontent="--- WELCOME TO">
           TIME TABLE
         </Heading>
-        <div>
+        <Appearance type="right">
           <table>
             <thead>
               <tr>
@@ -89,9 +91,9 @@ const Timetable = () => {
               </tr>
             </tbody>
           </table>
-        </div>
+        </Appearance>
       </div>
-    </section>
+    </Section>
   );
 };
 

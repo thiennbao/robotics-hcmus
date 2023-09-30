@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import clsx from "clsx";
 import style from "./Appearance.module.scss";
 
-const Appearance = ({ lmao, type, animation = {}, children }) => {
+const Appearance = ({ type, animation = {}, children }) => {
   const { duration, timingFunction, delay, iterationCount, direction, fillMode } = animation;
 
   const [animated, setAnimated] = useState(false);
@@ -11,14 +11,20 @@ const Appearance = ({ lmao, type, animation = {}, children }) => {
 
   useEffect(() => {
     if (!animated) {
-      const handleScroll = () => {
-        setAnimated(!!ref.current && ref.current.getBoundingClientRect().y < window.innerHeight - 100);
-      };
-      window.addEventListener("scroll", handleScroll);
+      if (!!ref.current && ref.current.getBoundingClientRect().y < window.innerHeight - 100) {
+        setAnimated(true)
+      } else {
+        const handleScroll = () => {
+          setAnimated(
+            !!ref.current && ref.current.getBoundingClientRect().y < window.innerHeight - 100
+          );
+        };
+        window.addEventListener("scroll", handleScroll);
 
-      return () => {
-        window.removeEventListener("scroll", handleScroll);
-      };
+        return () => {
+          window.removeEventListener("scroll", handleScroll);
+        };
+      }
     }
   }, [animated]);
 

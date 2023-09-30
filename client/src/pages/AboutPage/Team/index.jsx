@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import style from "./Team.module.scss";
+import Section from "layouts/partials/Section";
 import Heading from "components/Heading";
 import Button from "components/Button";
 import Appearance from "components/Appearance";
@@ -67,12 +68,10 @@ const Team = ({ limit }) => {
   ];
 
   return (
-    <section className={style.team}>
+    <Section className={style.team}>
       <div className="container">
-        <Heading Tag="h2" extra subcontent="--- WELCOME TO">
-          OUR TEAM
-        </Heading>
-        <div className="row g-3 mt-5">
+        <Heading subcontent="--- WELCOME TO">OUR TEAM</Heading>
+        <div className="row g-3 my-3">
           {members.map((member, index) => (
             <div key={index} className={clsx(style.wrapper, "col-lg-6")}>
               <Appearance type={index % 2 ? "left" : "right"}>
@@ -87,12 +86,14 @@ const Team = ({ limit }) => {
           ))}
         </div>
         {limit && (
-          <Button className={style.btn} type="shadow" to="/about">
-            See all members
-          </Button>
+          <Appearance type="up">
+            <Button className={style.button} type="shadow" to="/about">
+              See all members
+            </Button>
+          </Appearance>
         )}
       </div>
-    </section>
+    </Section>
   );
 };
 

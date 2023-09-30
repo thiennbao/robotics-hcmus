@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import style from "./Description.module.scss";
+import Section from "layouts/partials/Section";
 import Heading from "components/Heading";
 import Button from "components/Button";
 import Appearance from "components/Appearance";
@@ -7,14 +8,14 @@ import Appearance from "components/Appearance";
 import about1 from "assets/gallery/about-1.jpg";
 import about2 from "assets/gallery/about-2.jpg";
 
-const Description = () => {
+const Description = ({ full }) => {
   return (
-    <section className={style.description}>
+    <Section className={style.description}>
       <div className="container">
         <div className="row gy-4 justify-content-between">
           <div className="col-lg-5 col-md-6">
             <Appearance type="right">
-              <Heading Tag="h2" extra subcontent="WHO WE ARE">
+              <Heading subcontent="WHO WE ARE">
                 Robotics & IoT - HCMUS
               </Heading>
               <div className="my-5">
@@ -33,10 +34,31 @@ const Description = () => {
                   porta phasellus quisque cubilia nullam vestibulum. Nunc dis eros congue et
                   eleifend natoque.
                 </p>
+                {full && (
+                  <>
+                    <p>
+                      Placerat dictum curabitur ridiculus laoreet tortor. Ipsum pellentesque
+                      inceptos porta phasellus quisque cubilia nullam vestibulum. Nunc dis eros
+                      congue et eleifend natoque.
+                    </p>
+                    <p>
+                      Placerat dictum curabitur ridiculus laoreet tortor. Ipsum pellentesque
+                      inceptos porta phasellus quisque cubilia nullam vestibulum. Nunc dis eros
+                      congue et eleifend natoque.
+                    </p>
+                    <p>
+                      Placerat dictum curabitur ridiculus laoreet tortor. Ipsum pellentesque
+                      inceptos porta phasellus quisque cubilia nullam vestibulum. Nunc dis eros
+                      congue et eleifend natoque.
+                    </p>
+                  </>
+                )}
               </div>
-              <Button className={clsx("m-md-0 m-auto", style.btn)} type="shadow" to="/">
-                Learn more
-              </Button>
+              {!full && (
+                <Button className={clsx("m-md-0 m-auto", style.button)} type="shadow" to="/about">
+                  Learn more
+                </Button>
+              )}
             </Appearance>
           </div>
           <div className={clsx("col-md-6", style.images)}>
@@ -55,7 +77,7 @@ const Description = () => {
           </div>
         </div>
       </div>
-    </section>
+    </Section>
   );
 };
 

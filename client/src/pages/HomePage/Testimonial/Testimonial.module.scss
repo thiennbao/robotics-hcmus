@@ -4,7 +4,7 @@
   overflow: hidden;
   text-align: center;
 
-  & > div:first-child {
+  & > div > div:first-child {
     display: flex;
     transform: translateX(-20%);
     transition: 1s;

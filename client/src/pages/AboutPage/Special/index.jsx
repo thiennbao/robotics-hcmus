@@ -1,8 +1,8 @@
 import clsx from "clsx";
 import style from "./Special.module.scss";
+import Section from "layouts/partials/Section";
 import Heading from "components/Heading";
 import image from "assets/gallery/about-2.jpg";
-import Wavy from "components/Wavy";
 import Appearance from "components/Appearance";
 
 const Feature = ({ title, content }) => {
@@ -21,52 +21,48 @@ const Feature = ({ title, content }) => {
 
 const Special = () => {
   return (
-    <section className={style.special}>
-      <Wavy>
-        <div className="container">
-          <div className="row justify-content-between">
-            <div className="col-xl-5 col-lg-6 col-md-8 mb-4">
-              <Heading Tag="h2" extra subcontent="--- WELCOME TO">
-                SPECIAL
-              </Heading>
-              <p className="my-3">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec
-                ullamcorper mattis, pulvinar dapibus leo.
-              </p>
-              <Appearance type="right">
-                <Feature
-                  title="Lorem ipsum"
-                  content="Malesuada elementum curabitur massa pellentesque fames at dui eu justo"
-                />
-              </Appearance>
-              <Appearance type="right">
-                <Feature
-                  title="Lorem ipsum"
-                  content="Malesuada elementum curabitur massa pellentesque fames at dui eu justo"
-                />
-              </Appearance>
-              <Appearance type="right">
-                <Feature
-                  title="Lorem ipsum"
-                  content="Malesuada elementum curabitur massa pellentesque fames at dui eu justo"
-                />
-              </Appearance>
-              <Appearance type="right">
-                <Feature
-                  title="Lorem ipsum"
-                  content="Malesuada elementum curabitur massa pellentesque fames at dui eu justo"
-                />
-              </Appearance>
-            </div>
-            <div className="col-lg-6 col-md-4 d-flex">
-              <Appearance type="left">
-                <img src={image} alt="" />
-              </Appearance>
-            </div>
+    <Section wavy className={style.special}>
+      <div className="container">
+        <div className="row justify-content-between">
+          <div className="col-xl-5 col-lg-6 col-md-8 mb-4">
+            <Heading subcontent="--- WELCOME TO">SPECIAL</Heading>
+            <p className="my-3">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec
+              ullamcorper mattis, pulvinar dapibus leo.
+            </p>
+            <Appearance type="right">
+              <Feature
+                title="Lorem ipsum"
+                content="Malesuada elementum curabitur massa pellentesque fames at dui eu justo"
+              />
+            </Appearance>
+            <Appearance type="right">
+              <Feature
+                title="Lorem ipsum"
+                content="Malesuada elementum curabitur massa pellentesque fames at dui eu justo"
+              />
+            </Appearance>
+            <Appearance type="right">
+              <Feature
+                title="Lorem ipsum"
+                content="Malesuada elementum curabitur massa pellentesque fames at dui eu justo"
+              />
+            </Appearance>
+            <Appearance type="right">
+              <Feature
+                title="Lorem ipsum"
+                content="Malesuada elementum curabitur massa pellentesque fames at dui eu justo"
+              />
+            </Appearance>
+          </div>
+          <div className="col-lg-6 col-md-4 d-flex">
+            <Appearance type="left">
+              <img src={image} alt="" />
+            </Appearance>
           </div>
         </div>
-      </Wavy>
-    </section>
+      </div>
+    </Section>
   );
 };
 

@@ -1,14 +1,12 @@
 @import "scss/variables";
 
 .heading {
+  font-size: 40px;
+
   &::before {
     content: attr(subcontent);
     display: block;
     font-size: 20px;
     color: $primary-color;
   }
-}
-
-.extra {
-  font-size: 40px;
 }

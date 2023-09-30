@@ -1,7 +1,8 @@
 import { useState } from "react";
 import style from "./Testimonial.module.scss";
+import Section from "layouts/partials/Section";
 import Heading from "components/Heading";
-import Wavy from "components/Wavy";
+import Appearance from "components/Appearance";
 
 const QuoteSlide = ({ quote }) => {
   return (
@@ -41,21 +42,25 @@ const Testimonial = () => {
   const [slide, setSlide] = useState(0);
 
   return (
-    <Wavy>
-      <Heading Tag="h2" extra className="text-center" subcontent="What they say about us">
-        Customer Testimonial
-      </Heading>
+    <Section wavy>
+      <Appearance type="up">
+        <Heading className="text-center" subcontent="What they say about us">
+          Customer Testimonial
+        </Heading>
+      </Appearance>
       <div className={style.slideWrapper}>
-        <div
-          style={{
-            transform: `translateX(${(-slide * 100) / quotes.length}%)`,
-            width: `${quotes.length * 100}%`,
-          }}
-        >
-          {quotes.map((quote, index) => (
-            <QuoteSlide key={index} quote={quote} />
-          ))}
-        </div>
+        <Appearance type="down">
+          <div
+            style={{
+              transform: `translateX(${(-slide * 100) / quotes.length}%)`,
+              width: `${quotes.length * 100}%`,
+            }}
+          >
+            {quotes.map((quote, index) => (
+              <QuoteSlide key={index} quote={quote} />
+            ))}
+          </div>
+        </Appearance>
         <div>
           {quotes.map((quote, index) => (
             <i
@@ -70,7 +75,7 @@ const Testimonial = () => {
           ))}
         </div>
       </div>
-    </Wavy>
+    </Section>
   );
 };
 

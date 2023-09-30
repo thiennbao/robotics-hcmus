@@ -40,14 +40,14 @@ const HomeWall = () => {
         </p>
         <div className="row justify-content-center">
           <Button
-            className={clsx(style.btn, style.btnLeft, "col-lg-3 col-md-4 col-sm-5 col-11 m-2")}
+            className={clsx(style.button, style.buttonLeft, "col-lg-3 col-md-4 col-sm-5 col-11 m-2")}
             type="fill"
             to="/"
           >
             REGISTER NOW
           </Button>
           <Button
-            className={clsx(style.btn, style.btnRight, "col-lg-3 col-md-4 col-sm-5 col-11 m-2")}
+            className={clsx(style.button, style.buttonRight, "col-lg-3 col-md-4 col-sm-5 col-11 m-2")}
             type="outline"
             to="/"
           >

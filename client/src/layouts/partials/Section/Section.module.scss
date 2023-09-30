@@ -8,8 +8,7 @@
   mask-position: bottom;
 
   & + div {
-    background-color: $background-color;
-    padding-bottom: 50px;
+    background-image: linear-gradient(to bottom, $background-color, transparent);
   }
 }
 

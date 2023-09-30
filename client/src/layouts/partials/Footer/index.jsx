@@ -1,31 +1,6 @@
 import { Link } from "react-router-dom";
 import logo from "assets/general/logo.png";
 import style from "./Footer.module.scss";
-import Wavy from "components/Wavy";
-
-const FooterLinks = ({ items }) => {
-  return (
-    <ul className="list-unstyled row">
-      {items.map((item, index) => (
-        <li key={index} className="col-6 mt-2">
-          <Link to={item.to}>{item.title}</Link>
-        </li>
-      ))}
-    </ul>
-  );
-};
-
-const FooterContactList = ({ items }) => {
-  return (
-    <ul className="list-unstyled">
-      {items.map((item, index) => (
-        <li key={index} className="mt-2">
-          <i className={`bi bi-${item.icon}`}></i> {item.title}
-        </li>
-      ))}
-    </ul>
-  );
-};
 
 const quickLinks = [
   { title: "Home", to: "/" },
@@ -33,17 +8,10 @@ const quickLinks = [
   { title: "Courses", to: "/courses" },
   { title: "News", to: "/news" },
   { title: "Contact", to: "/contact" },
+  { title: "Join us", to: "/joinus" },
 ];
 
-const aboutUsLinks = [
-  { title: "Our Team", to: "/" },
-  { title: "Join us", to: "/" },
-  { title: "Privacy Policy", to: "/" },
-  { title: "Testimonial", to: "/" },
-  { title: "Contat", to: "/" },
-];
-
-const contactList = [
+const contactInfos = [
   {
     title: "CLB Robotics & IoT, Room No.86, 8th Floor, I Building, University of Science, VNUHCM",
     icon: "house-fill",
@@ -58,31 +26,41 @@ const contactList = [
 const Footer = () => {
   return (
     <footer className={style.footer}>
-      <Wavy>
-        <div className="container">
-          <div className="row gy-4">
-            <div className="col-lg-3 col-md-6">
-              <img src={logo} alt="Logo" />
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor
-                incididunt ut labore et dolore magna aliqua.
-              </p>
-            </div>
-            <div className="col-lg-3 col-md-6">
-              <h3>Quick Links</h3>
-              <FooterLinks items={quickLinks} />
-            </div>
-            <div className="col-lg-3 col-md-6">
-              <h3>About Us</h3>
-              <FooterLinks items={aboutUsLinks} />
-            </div>
-            <div className="col-lg-3 col-md-6">
-              <h3>Contact</h3>
-              <FooterContactList items={contactList} />
-            </div>
+      <div className="container">
+        <div className="row gy-4">
+          <div className="col-lg-3 col-md-6">
+            <img src={logo} alt="Logo" />
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor
+              incididunt ut labore et dolore magna aliqua.
+            </p>
+          </div>
+          <div className="col-lg-3 col-md-6">
+            <h3>Quick Links</h3>
+            <ul className="list-unstyled row">
+              {quickLinks.map((item, index) => (
+                <li key={index} className="col-6 mt-2">
+                  <Link to={item.to}>{item.title}</Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="col-lg-3 col-md-6">
+            <h3>Empty column</h3>
+            <p>Add something later</p>
+          </div>
+          <div className="col-lg-3 col-md-6">
+            <h3>Contact</h3>
+            <ul className="list-unstyled">
+              {contactInfos.map((item, index) => (
+                <li key={index} className="mt-2">
+                  <i className={`bi bi-${item.icon}`}></i> {item.title}
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
-      </Wavy>
+      </div>
     </footer>
   );
 };

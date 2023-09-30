@@ -14,7 +14,6 @@ const links = [
 const icons = ["facebook", "telephone-fill", "envelope-fill"];
 
 const Header = () => {
-  const [page, setPage] = useState(0);
   const [isShrink, setIsShrink] = useState(false);
 
   useEffect(() => {
@@ -27,6 +26,8 @@ const Header = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [isShrink]);
+
+  const path = window.location.pathname;
 
   return (
     <header className={clsx(style.header, isShrink && style.shrink, "fixed-top")}>
@@ -44,12 +45,11 @@ const Header = () => {
                   <li key={index} className="pe-4">
                     <Link
                       className={clsx(
-                        page === index && style.current,
+                        path === link.to && style.current,
                         style.link,
                         "p-2 position-relative"
                       )}
                       to={link.to}
-                      onClick={() => setPage(index)}
                     >
                       {link.title}
                     </Link>
@@ -91,11 +91,7 @@ const Header = () => {
                   <ul className="list-unstyled">
                     {links.map((link, index) => (
                       <li key={index} className="my-3">
-                        <Link
-                          to={link.to}
-                          onClick={() => setPage(index)}
-                          className={clsx(page === index && style.current)}
-                        >
+                        <Link to={link.to} className={clsx(path === link.to && style.current)}>
                           {link.title}
                         </Link>
                       </li>

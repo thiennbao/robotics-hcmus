@@ -1,10 +1,13 @@
-import clsx from 'clsx'
-import style from './Heading.module.scss'
+import clsx from "clsx";
+import style from "./Heading.module.scss";
 
-const Heading = ({Tag, extra, subcontent, className, children}) => {
+const Heading = (props) => {
+  const { className, children, ...restProps } = props;
   return (
-    <Tag className={clsx(style.heading, extra && style.extra, className)} subcontent={subcontent}>{children}</Tag>
-  )
-}
+    <h2 className={clsx(style.heading, className)} {...restProps}>
+      {children}
+    </h2>
+  );
+};
 
-export default Heading
+export default Heading;

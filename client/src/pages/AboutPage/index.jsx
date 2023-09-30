@@ -1,14 +1,20 @@
 import SiteLayout from "layouts/SiteLayout";
 import Wallpaper from "layouts/partials/Wallpaper";
+import Description from "./Description";
+import Quote from "./Quote";
+import Team from "./Team";
+import Special from "./Special";
+import Gallery from "./Gallery";
 
 const AboutPage = () => {
   return (
     <SiteLayout>
-      <Wallpaper page="ABOUT" />
-      <h1>About</h1>
-      <h1>About</h1>
-      <h1>About</h1>
-      <h1>About</h1>
+      <Wallpaper page="ABOUT US" />
+      <Description full />
+      <Special />
+      <Quote />
+      <Team />
+      <Gallery />
     </SiteLayout>
   )
 }

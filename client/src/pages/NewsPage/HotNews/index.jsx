@@ -1,10 +1,12 @@
 import { useState } from "react";
 import style from "./HotNews.module.scss";
+import Section from "layouts/partials/Section";
 import Heading from "components/Heading";
 import Button from "components/Button";
+import Appearance from "components/Appearance";
 
 const NewsSlide = ({ news }) => {
-  return <div className={style.newsSlide} dangerouslySetInnerHTML={{__html: news}} />;
+  return <div className={style.newsSlide} dangerouslySetInnerHTML={{ __html: news }} />;
 };
 
 // Call API
@@ -17,42 +19,46 @@ const newsList = [
 const HotNews = () => {
   const [slide, setSlide] = useState(0);
 
+  // Drag feature later
+
   return (
-    <section>
+    <Section className={style.hotnews}>
       <div className="container">
-        <Heading Tag="h2" extra subcontent="--- WELCOME TO">
-          HOT NEWS
-        </Heading>
-        <div className={style.slideWrapper}>
-          <div
-            style={{
-              transform: `translateX(${(-slide * 100) / newsList.length}%)`,
-              width: `${newsList.length * 100}%`,
-            }}
-          >
-            {newsList.map((news, index) => (
-              <NewsSlide key={index} news={news} />
-            ))}
+        <Heading subcontent="--- WELCOME TO">HOT NEWS</Heading>
+        <Appearance type="left">
+          <div className={style.slideWrapper}>
+            <div
+              style={{
+                transform: `translateX(${(-slide * 100) / newsList.length}%)`,
+                width: `${newsList.length * 100}%`,
+              }}
+            >
+              {newsList.map((news, index) => (
+                <NewsSlide key={index} news={news} />
+              ))}
+            </div>
+            <div>
+              {newsList.map((news, index) => (
+                <i
+                  key={index}
+                  onClick={() => setSlide(index)}
+                  className="bi bi-dash"
+                  style={{
+                    transform: `scale(${index === slide ? 5 : 3}, 5)`,
+                    color: index === slide ? "gray" : "lightgray",
+                  }}
+                ></i>
+              ))}
+            </div>
           </div>
-          <div>
-            {newsList.map((news, index) => (
-              <i
-                key={index}
-                onClick={() => setSlide(index)}
-                className="bi bi-dash"
-                style={{
-                  transform: `scale(${index === slide ? 5 : 3}, 5)`,
-                  color: index === slide ? "gray" : "lightgray",
-                }}
-              ></i>
-            ))}
-          </div>
-        </div>
-        <Button className={style.btn} type="shadow" to="/">
-          See all news
-        </Button>
+        </Appearance>
+        <Appearance type="right">
+          <Button className={style.button} type="shadow" to="/news">
+            See all news
+          </Button>
+        </Appearance>
       </div>
-    </section>
+    </Section>
   );
 };
 
