@@ -26,24 +26,28 @@
     object-fit: cover;
   }
 
-  & h3 {
-    color: $primary-color;
-  }
-
   & > div:last-child {
-    margin-top: 1.5rem;
+    padding: 1rem;
+
+    & h3 {
+      color: $primary-color;
+    }
 
     & > p {
-      overflow: hidden;
+      display: flex;
+      align-items: center;
       height: 6rem;
+      overflow: hidden;
     }
 
     & > div {
-      margin: 0;
+      margin-bottom: 1rem;
+      padding: 0.5rem;
+      background-image: linear-gradient(to bottom, $background-color, transparent);
+      // border-top: gray solid 1px;
 
       & p {
-        padding-top: 1.5rem;
-        border-top: gray solid 1px;
+        margin: 0;
 
         & span {
           color: $primary-color;
@@ -51,6 +55,12 @@
           display: block;
         }
       }
+    }
+
+    & .detailButton {
+      width: 40%;
+      height: 2.5rem;
+      margin: auto;
     }
   }
 }

@@ -1,18 +1,16 @@
 import SiteLayout from "layouts/SiteLayout";
+import Wallpaper from "layouts/partials/Wallpaper";
+import Courses from "./Courses";
+import Timetable from "./Timetable";
+import FooterImages from "components/FooterImages";
 
 const CoursesPage = () => {
   return (
     <SiteLayout>
-      <h1>Courses</h1>
-      <h1>Courses</h1>
-      <h1>Courses</h1>
-      <h1>Courses</h1>
-      <h1>Courses</h1>
-      <h1>Courses</h1>
-      <h1>Courses</h1>
-      <h1>Courses</h1>
-      <h1>Courses</h1>
-      <h1>Courses</h1>
+      <Wallpaper page="COURSES" />
+      <Timetable />
+      <Courses />
+      <FooterImages />
     </SiteLayout>
   )
 }

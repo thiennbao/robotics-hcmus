@@ -1,0 +1,23 @@
+.footerImages {
+  & img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+  }
+}
+
+@media (max-width: 992px) {
+  .footerImages {
+    & img {
+      aspect-ratio: 3 / 2;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .footerImages {
+    & img {
+      aspect-ratio: 2 / 1;
+    }
+  }
+}

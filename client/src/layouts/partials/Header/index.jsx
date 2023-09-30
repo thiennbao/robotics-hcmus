@@ -14,7 +14,7 @@ const links = [
 const icons = ["facebook", "telephone-fill", "envelope-fill"];
 
 const Header = () => {
-  const [isShrink, setIsShrink] = useState(false);
+  const [isShrink, setIsShrink] = useState(window.scrollY !== 0);
 
   useEffect(() => {
     const handleScroll = () => {

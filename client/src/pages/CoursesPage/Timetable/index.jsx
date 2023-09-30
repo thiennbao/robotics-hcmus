@@ -12,7 +12,7 @@ const Timetable = () => {
         <Heading subcontent="--- WELCOME TO">
           TIME TABLE
         </Heading>
-        <Appearance type="right">
+        <Appearance type="up">
           <table>
             <thead>
               <tr>

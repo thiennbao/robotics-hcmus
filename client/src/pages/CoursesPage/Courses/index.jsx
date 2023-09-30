@@ -24,6 +24,7 @@ const Course = ({ image, title, description, yearOlds, classes, hours }) => {
             <span>{hours}</span> 1 Class
           </p>
         </div>
+        <Button type="outline" className={style.detailButton}>See details</Button>
       </div>
     </div>
   );
@@ -92,11 +93,11 @@ const Courses = ({ limit }) => {
   return (
     <Section className={style.courses}>
       <div className="container">
-        <Heading subcontent="--- WELCOME TO">POPULAR COURSES</Heading>
-        <div className="row">
+        <Heading subcontent="--- WELCOME TO">{limit && "POPULAR"} COURSES</Heading>
+        <div className="row gy-5 my-3">
           {courses.map((course, index) => (
-            <div key={index} className="col-lg-4 col-md-6 gy-5">
-              <Appearance type="up" animation={{ delay: `${index * 0.1}s` }}>
+            <div key={index} className="col-lg-4 col-md-6">
+              <Appearance type={index % 2 ? "right" : "left"} animation={{ delay: `${index * 0.1}s` }}>
                 <Course
                   image={course.image}
                   title={course.title}
