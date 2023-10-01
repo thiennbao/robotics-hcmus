@@ -8,6 +8,7 @@ import Courses from "pages/CoursesPage/Courses";
 import Testimonial from "./Testimonial";
 import Team from "pages/AboutPage/Team";
 import Timetable from "pages/CoursesPage/Timetable";
+import Map from "pages/ContactPage/Map";
 
 const HomePage = () => {
   return (
@@ -21,6 +22,7 @@ const HomePage = () => {
       <Testimonial />
       <Team limit={4} />
       <Timetable />
+      <Map />
     </SiteLayout>
   );
 };

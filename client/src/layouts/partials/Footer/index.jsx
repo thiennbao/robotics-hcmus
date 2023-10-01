@@ -2,16 +2,18 @@ import { Link } from "react-router-dom";
 import logo from "assets/general/logo.png";
 import style from "./Footer.module.scss";
 
-const quickLinks = [
+const links = [
   { title: "Home", to: "/" },
-  { title: "About", to: "/about" },
   { title: "Courses", to: "/courses" },
   { title: "News", to: "/news" },
   { title: "Contact", to: "/contact" },
+  { title: "About", to: "/about" },
   { title: "Join us", to: "/joinus" },
+  { title: "Gallery", to: "/gallery" },
+  { title: "FAQ", to: "/faq" },
 ];
 
-const contactInfos = [
+const infos = [
   {
     title: "CLB Robotics & IoT, Room No.86, 8th Floor, I Building, University of Science, VNUHCM",
     icon: "house-fill",
@@ -24,6 +26,8 @@ const contactInfos = [
 ];
 
 const Footer = () => {
+  const path = window.location.pathname;
+   
   return (
     <footer className={style.footer}>
       <div className="container">
@@ -38,9 +42,9 @@ const Footer = () => {
           <div className="col-lg-3 col-md-6">
             <h3>Quick Links</h3>
             <ul className="list-unstyled row">
-              {quickLinks.map((item, index) => (
-                <li key={index} className="col-6 mt-2">
-                  <Link to={item.to}>{item.title}</Link>
+              {links.map((item, index) => (
+                <li key={index} className="col-6 mt-3">
+                  <Link className={path === item.to ? style.current : undefined} to={item.to}>{item.title}</Link>
                 </li>
               ))}
             </ul>
@@ -52,8 +56,8 @@ const Footer = () => {
           <div className="col-lg-3 col-md-6">
             <h3>Contact</h3>
             <ul className="list-unstyled">
-              {contactInfos.map((item, index) => (
-                <li key={index} className="mt-2">
+              {infos.map((item, index) => (
+                <li key={index} className="mt-3">
                   <i className={`bi bi-${item.icon}`}></i> {item.title}
                 </li>
               ))}

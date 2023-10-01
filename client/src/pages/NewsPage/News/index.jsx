@@ -1,4 +1,3 @@
-import clsx from "clsx";
 import style from "./News.module.scss";
 import Section from "layouts/partials/Section";
 import Heading from "components/Heading";

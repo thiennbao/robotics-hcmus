@@ -1,18 +1,14 @@
 import SiteLayout from "layouts/SiteLayout";
+import Wallpaper from "layouts/partials/Wallpaper";
+import ContactForm from "./ContactForm";
+import Map from "./Map";
 
 const ContactPage = () => {
   return (
     <SiteLayout>
-      <h1>Contact</h1>
-      <h1>Contact</h1>
-      <h1>Contact</h1>
-      <h1>Contact</h1>
-      <h1>Contact</h1>
-      <h1>Contact</h1>
-      <h1>Contact</h1>
-      <h1>Contact</h1>
-      <h1>Contact</h1>
-      <h1>Contact</h1>
+      <Wallpaper page="CONTACT" />
+      <ContactForm />
+      <Map />
     </SiteLayout>
   )
 }
