@@ -1,0 +1,49 @@
+@import "scss/variables";
+
+.news {
+  & .search {
+    margin: 2rem auto;
+    background-color: $background-color;
+    text-align: center;
+  }
+
+  & .button {
+    width: 12rem;
+    height: 3rem;
+    margin: 1rem auto;
+  }
+}
+
+.newsItem {
+  cursor: pointer;
+  transition: 0.5s;
+
+  & img {
+    width: 100%;
+    aspect-ratio: 4 / 4;
+    object-fit: cover;
+  }
+
+  & div {
+    width: 100%;
+    height: rem;
+    padding: 1rem 0;
+
+    & h5 {
+      color: $primary-color;
+      font-weight: bold;
+    }
+
+    & p {
+      color: gray;
+    }
+  }
+}
+
+@media (min-width: 993px) {
+  .newsItem {
+    &:not(:hover) {
+      filter: grayscale(1);
+    }
+  }
+}

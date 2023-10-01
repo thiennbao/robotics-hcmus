@@ -2,7 +2,7 @@ import SiteLayout from "layouts/SiteLayout";
 import HomeWall from "./HomeWall";
 import Description from "pages/AboutPage/Description";
 import ImageRow from "./ImageRow";
-import HotNews from "pages/NewsPage/HotNews";
+import Event from "pages/NewsPage/Event";
 import Special from "pages/AboutPage/Special";
 import Courses from "pages/CoursesPage/Courses";
 import Testimonial from "./Testimonial";
@@ -15,7 +15,7 @@ const HomePage = () => {
       <HomeWall />
       <Description />
       <ImageRow />
-      <HotNews />
+      <Event />
       <Special />
       <Courses limit={8} />
       <Testimonial />

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import style from "./HotNews.module.scss";
+import style from "./Event.module.scss";
 import Section from "layouts/partials/Section";
 import Heading from "components/Heading";
 import Button from "components/Button";
@@ -11,21 +11,21 @@ const NewsSlide = ({ news }) => {
 
 // Call API
 const newsList = [
-  `<div style="background-color: #f7f7f7; text-align: center"><h1>Bruh News</h1><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p></div>`,
-  `<div style="background-color: #f7f7f7; text-align: center"><h1>Bruh News</h1><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p></div>`,
-  `<div style="background-color: #f7f7f7; text-align: center"><h1>Bruh News</h1><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p></div>`,
+  `<div style="background-color: #f7f7f7; text-align: center"><h1>Bruh Event</h1><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p></div>`,
+  `<div style="background-color: #f7f7f7; text-align: center"><h1>Bruh Event</h1><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p></div>`,
+  `<div style="background-color: #f7f7f7; text-align: center"><h1>Bruh Event</h1><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p></div>`,
 ];
 
-const HotNews = () => {
+const Event = () => {
   const [slide, setSlide] = useState(0);
 
   // Drag feature later
 
   return (
-    <Section className={style.hotnews}>
+    <Section className={style.event}>
       <div className="container">
-        <Heading subcontent="--- WELCOME TO">HOT NEWS</Heading>
-        <Appearance type="left">
+        <Heading subcontent="--- WELCOME TO">EVENT</Heading>
+        <Appearance type="up">
           <div className={style.slideWrapper}>
             <div
               style={{
@@ -52,14 +52,9 @@ const HotNews = () => {
             </div>
           </div>
         </Appearance>
-        <Appearance type="right">
-          <Button className={style.button} type="shadow" to="/news">
-            See all news
-          </Button>
-        </Appearance>
       </div>
     </Section>
   );
 };
 
-export default HotNews;
+export default Event;
