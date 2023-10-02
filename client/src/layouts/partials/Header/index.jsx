@@ -67,23 +67,25 @@ const Header = () => {
                       More <i className="bi bi-caret-down-fill ps-2"></i>
                     </div>
                     <div className="position-absolute top-100 start-50 translate-middle-x">
-                      {links.map(
-                        (link, index) =>
-                          index > 3 && (
-                            <li key={index} className="py-2">
-                              <Link
-                                className={clsx(
-                                  path === link.to && style.current,
-                                  style.link,
-                                  "position-relative"
-                                )}
-                                to={link.to}
-                              >
-                                {link.title}
-                              </Link>
-                            </li>
-                          )
-                      )}
+                      <ul className="list-unstyled">
+                        {links.map(
+                          (link, index) =>
+                            index > 3 && (
+                              <li key={index} className="py-2">
+                                <Link
+                                  className={clsx(
+                                    path === link.to && style.current,
+                                    style.link,
+                                    "position-relative"
+                                  )}
+                                  to={link.to}
+                                >
+                                  {link.title}
+                                </Link>
+                              </li>
+                            )
+                        )}
+                      </ul>
                     </div>
                   </div>
                 </li>

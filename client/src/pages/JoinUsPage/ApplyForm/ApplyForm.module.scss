@@ -1,0 +1,67 @@
+@import "scss/variables";
+
+.form {
+  width: 45%;
+  margin-left: auto;
+  margin-right: auto;
+
+  form {
+    margin-top: 3rem;
+
+    & label {
+      font-weight: bold;
+    }
+
+    & span {
+      color: crimson;
+    }
+
+    & input,
+    textarea {
+      background-color: $background-color;
+      outline: none;
+      border: none;
+      width: 100%;
+      padding: 1rem;
+      border: transparent solid 2px;
+
+      &:focus {
+        border-color: $primary-color;
+        background-color: transparent;
+        transition: 0.5s;
+      }
+
+      &[aria-invalid="true"] {
+        border-color: crimson;
+        background-color: transparent;
+      }
+    }
+
+    & textarea {
+      height: 8rem;
+    }
+
+    & input[type="submit"] {
+      background-color: $primary-color;
+      color: #fff;
+    }
+  }
+}
+
+@media (max-width: 1200px) {
+  .form {
+    width: 60%;
+  }
+}
+
+@media (max-width: 992px) {
+  .form {
+    width: 75%;
+  }
+}
+
+@media (max-width: 768px) {
+  .form {
+    width: 90%;
+  }
+}
