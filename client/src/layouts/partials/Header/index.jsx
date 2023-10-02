@@ -6,10 +6,13 @@ import { useEffect, useState } from "react";
 
 const links = [
   { title: "Home", to: "/" },
-  { title: "About", to: "/about" },
   { title: "Courses", to: "/courses" },
   { title: "News", to: "/news" },
   { title: "Contact", to: "/contact" },
+  { title: "About", to: "/about" },
+  { title: "Join us", to: "/joinus" },
+  { title: "Gallery", to: "/gallery" },
+  { title: "FAQ", to: "/faq" },
 ];
 const icons = ["facebook", "telephone-fill", "envelope-fill"];
 
@@ -41,20 +44,49 @@ const Header = () => {
           <div className="col-8 d-none d-md-block">
             <nav>
               <ul className="list-unstyled d-flex justify-content-end">
-                {links.map((link, index) => (
-                  <li key={index} className="pe-4">
-                    <Link
-                      className={clsx(
-                        path === link.to && style.current,
-                        style.link,
-                        "p-2 position-relative"
+                {links.map(
+                  (link, index) =>
+                    index <= 3 && (
+                      <li key={index} className="pe-4">
+                        <Link
+                          className={clsx(
+                            path === link.to && style.current,
+                            style.link,
+                            "p-2 position-relative"
+                          )}
+                          to={link.to}
+                        >
+                          {link.title}
+                        </Link>
+                      </li>
+                    )
+                )}
+                <li className={style.more}>
+                  <div className="position-relative">
+                    <div>
+                      More <i className="bi bi-caret-down-fill ps-2"></i>
+                    </div>
+                    <div className="position-absolute top-100 start-50 translate-middle-x">
+                      {links.map(
+                        (link, index) =>
+                          index > 3 && (
+                            <li key={index} className="py-2">
+                              <Link
+                                className={clsx(
+                                  path === link.to && style.current,
+                                  style.link,
+                                  "position-relative"
+                                )}
+                                to={link.to}
+                              >
+                                {link.title}
+                              </Link>
+                            </li>
+                          )
                       )}
-                      to={link.to}
-                    >
-                      {link.title}
-                    </Link>
-                  </li>
-                ))}
+                    </div>
+                  </div>
+                </li>
               </ul>
             </nav>
           </div>

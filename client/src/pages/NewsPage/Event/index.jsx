@@ -2,7 +2,6 @@ import { useState } from "react";
 import style from "./Event.module.scss";
 import Section from "layouts/partials/Section";
 import Heading from "components/Heading";
-import Button from "components/Button";
 import Appearance from "components/Appearance";
 
 const NewsSlide = ({ news }) => {

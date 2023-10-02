@@ -34,6 +34,22 @@
     }
   }
 
+  & .more {
+    color: #fff;
+    cursor: pointer;
+
+    & div div:last-child {
+      padding: 0.5rem 2rem;
+      display: none;
+    }
+
+    &:hover {
+      & div div:last-child {
+        display: block;
+      }
+    }
+  }
+
   & .icon {
     color: #fff;
 
@@ -55,6 +71,12 @@
     background-color: black;
     height: 80px;
     transition: 0.5s;
+
+    & .more {
+      & div div:last-child {
+        background-color: black;
+      }
+    }
   }
 
   & label {
