@@ -11,7 +11,7 @@ const links = [
   { title: "Contact", to: "/contact" },
   { title: "About", to: "/about" },
   { title: "Join us", to: "/joinus" },
-  { title: "Gallery", to: "/gallery" },
+  { title: "Memory", to: "/memory" },
   { title: "FAQ", to: "/faq" },
 ];
 const icons = ["facebook", "telephone-fill", "envelope-fill"];

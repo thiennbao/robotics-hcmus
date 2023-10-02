@@ -7,6 +7,7 @@ import NewsPage from "./pages/NewsPage";
 import ContactPage from "./pages/ContactPage";
 import AboutPage from "./pages/AboutPage";
 import JoinUsPage from "pages/JoinUsPage";
+import MemoryPage from "pages/MemoryPage";
 import FaqPage from "pages/FaqPage";
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/joinus" element={<JoinUsPage />} />
+          <Route path="/memory" element={<MemoryPage />} />
           <Route path="/faq" element={<FaqPage />} />
         </Routes>
       </BrowserRouter>
