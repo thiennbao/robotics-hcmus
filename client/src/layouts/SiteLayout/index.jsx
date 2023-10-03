@@ -1,5 +1,5 @@
-import Header from "layouts/partials/Header";
-import Footer from "layouts/partials/Footer";
+import Header from "./partials/Header";
+import Footer from "./partials/Footer";
 
 const SiteLayout = ({ children }) => {
   return (
