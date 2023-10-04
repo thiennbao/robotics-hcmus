@@ -31,16 +31,16 @@
         top: 50%;
         width: 10px;
         height: 10px;
-        background-color: $primary-color;
-        box-shadow: 0 0 0.5rem $primary-color;
+        background-color: $primary;
+        box-shadow: 0 0 0.5rem $primary;
         border-radius: 50%;
       }
 
       & .time {
         position: absolute;
         top: 50%;
-        background-color: $primary-color;
-        box-shadow: 0 0 1rem $primary-color;
+        background-color: $primary;
+        box-shadow: 0 0 1rem $primary;
         color: #fff;
         border-radius: 1rem;
         padding: 0.25rem 0.5rem;
@@ -81,7 +81,7 @@
       }
 
       & h3 {
-        color: $primary-color;
+        color: $primary;
       }
     }
   }

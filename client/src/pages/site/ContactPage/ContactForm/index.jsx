@@ -14,8 +14,8 @@ const ContactForm = () => {
 
   const onSubmit = (data) => {
     // Wating for backend
-    console.log(data)
-  }
+    console.log(data);
+  };
 
   return (
     <Section className={style.form}>
@@ -23,9 +23,7 @@ const ContactForm = () => {
         <Heading className="text-center fs-2" subcontent="Have other questions?">
           SEND US A MESSAGE
         </Heading>
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-        >
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className="row g-3">
             <div className="col-md-6">
               <label>Name</label>

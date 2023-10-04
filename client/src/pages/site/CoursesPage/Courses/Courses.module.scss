@@ -30,7 +30,7 @@
     padding: 1rem;
 
     & h3 {
-      color: $primary-color;
+      color: $primary;
     }
 
     & > p {
@@ -50,7 +50,7 @@
         margin: 0;
 
         & span {
-          color: $primary-color;
+          color: $primary;
           font-size: 1.25rem;
           display: block;
         }

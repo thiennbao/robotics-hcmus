@@ -24,7 +24,7 @@
       &:nth-child(1) {
         font-size: 1.25rem;
         font-weight: bold;
-        color: $primary-color;
+        color: $primary;
       }
 
       &:nth-child(2) {
@@ -44,7 +44,7 @@
         transition: 0.25s;
 
         &:hover {
-          color: $primary-color;
+          color: $primary;
         }
       }
     }

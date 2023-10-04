@@ -1,0 +1,89 @@
+@import "scss/variables";
+
+.courseList {
+  table {
+    width: 100%;
+    
+    tr {
+      border: lightgray solid 1px;
+
+      th, td {
+        text-align: center;
+        width: 25%;
+      }
+
+      th {
+        padding: 1rem;
+        color: gray;
+        font-size: 0.8rem;
+      }
+
+      td {
+        padding: 0.5rem;
+
+        & img {
+          width: 50%;
+          aspect-ratio: 2 / 1;
+          object-fit: cover;
+          border-radius: 0.5rem;
+        }
+
+        &:last-child {
+          & button {
+            margin: 0 0.5rem;
+            padding: 0.25rem;
+            width: 5rem;
+          }
+
+          & button:last-child {
+            border: $red solid 2px;
+            color: $red;
+
+            &:hover {
+              background-color: $red;
+              color: #fff;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .courseList {
+    table {
+      tr {
+        td:first-child {
+          img {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+
+          }
+        }
+
+        td:last-child {
+          & button {
+            width: 3rem;
+            font-size: 0.6rem;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .courseList {
+    table {
+      tr {
+        td:first-child {
+          img {
+            aspect-ratio: 1 / 1;
+
+          }
+        }
+      }
+    }
+  }
+}

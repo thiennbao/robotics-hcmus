@@ -12,7 +12,7 @@
     }
 
     & span {
-      color: crimson;
+      color: $red;
     }
 
     & input,
@@ -25,13 +25,13 @@
       border: transparent solid 2px;
 
       &:focus {
-        border-color: $primary-color;
+        border-color: $primary;
         background-color: transparent;
         transition: 0.5s;
       }
 
       &[aria-invalid="true"] {
-        border-color: crimson;
+        border-color: $red;
         background-color: transparent;
       }
     }
@@ -41,7 +41,7 @@
     }
 
     & input[type="submit"] {
-      background-color: $primary-color;
+      background-color: $primary;
       color: #fff;
     }
   }

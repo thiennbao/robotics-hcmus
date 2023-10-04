@@ -11,7 +11,7 @@ const Button = (props) => {
           {children}
         </Link>
       ) : (
-        <button className={clsx(style.button, style[type] || style.fill, className)} {...restProps}>
+        <button type="button" className={clsx(style.button, style[type] || style.fill, className)} {...restProps}>
           {children}
         </button>
       )}

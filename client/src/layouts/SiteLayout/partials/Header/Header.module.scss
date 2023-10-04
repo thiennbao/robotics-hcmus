@@ -24,7 +24,7 @@
       width: 0;
       left: 0;
       height: 2px;
-      background: $primary-color;
+      background: $primary;
       transition: 0.4s;
     }
 
@@ -54,13 +54,13 @@
     color: #fff;
 
     &:hover {
-      color: $primary-color;
+      color: $primary;
       transition: 0.2s;
     }
   }
 
   & .current {
-    color: $primary-color;
+    color: $primary;
 
     &::after {
       width: 100%;

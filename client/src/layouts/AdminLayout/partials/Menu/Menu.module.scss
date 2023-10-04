@@ -1,9 +1,8 @@
 @import "scss/variables";
 
 .menu {
-
   // Toggle menu
-  & input:not(:checked) {
+  & input:checked {
     & ~ div {
       width: 0;
 
@@ -33,7 +32,7 @@
       transition: 0.5s;
 
       &:hover {
-        background-color: $background-color;
+        background-color: #fff;
       }
     }
 
@@ -102,7 +101,25 @@
   }
 }
 
+// Dashboard content
 .menu ~ div {
   background-color: $background-color;
   padding: 5rem;
+  min-height: 100vh;
+
+  & > div {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 2rem;
+
+    & h2 {
+      margin: 1.5rem 0;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .menu ~ div {
+    padding: 2rem;
+  }
 }
