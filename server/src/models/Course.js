@@ -1,14 +1,14 @@
 import mongoose from "mongoose";
 
-const Course = mongoose.Schema({
+const courseSchema = mongoose.Schema({
   name: String,
-  thumbnail: Object,
+  thumbnail: String,
   tuition: Number,
   description: String,
   age: String,
   lesson: Number,
   time: Number,
-  images: [Object],
+  images: [String],
 });
 
-export default mongoose.model("Course", Course);
+export default mongoose.model("Course", courseSchema);

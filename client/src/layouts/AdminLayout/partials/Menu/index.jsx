@@ -17,7 +17,7 @@ const Menu = () => {
 
   return (
     <div className={style.menu}>
-      <input type="checkbox" id="toggle" className="d-none" />
+      <input type="checkbox" defaultChecked={window.innerWidth <= 992} id="toggle" className="d-none" />
       <div>
         <label htmlFor="toggle">
           <i className="bi bi-list"></i>

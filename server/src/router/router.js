@@ -1,7 +1,7 @@
-import siteRouter from "./routers/siteRouter.js";
+import courseRouter from "./routers/courseRouter.js";
 
 const router = (app) => {
-  app.use("/api", siteRouter);
+  app.use("/api/course", courseRouter);
 };
 
 export default router;
