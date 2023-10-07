@@ -4,12 +4,12 @@ import Section from "components/Section";
 import Heading from "components/Heading";
 import Appearance from "components/Appearance";
 
-const NewsSlide = ({ news }) => {
-  return <div className={style.newsSlide} dangerouslySetInnerHTML={{ __html: news }} />;
+const EventSlide = ({ event }) => {
+  return <div className={style.eventSlide} dangerouslySetInnerHTML={{ __html: event }} />;
 };
 
 // Call API
-const newsList = [
+const eventList = [
   `<div style="background-color: #f7f7f7; text-align: center"><h1>Bruh Event</h1><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p></div>`,
   `<div style="background-color: #f7f7f7; text-align: center"><h1>Bruh Event</h1><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p></div>`,
   `<div style="background-color: #f7f7f7; text-align: center"><h1>Bruh Event</h1><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p></div>`,
@@ -28,16 +28,16 @@ const Event = () => {
           <div className={style.slideWrapper}>
             <div
               style={{
-                transform: `translateX(${(-slide * 100) / newsList.length}%)`,
-                width: `${newsList.length * 100}%`,
+                transform: `translateX(${(-slide * 100) / eventList.length}%)`,
+                width: `${eventList.length * 100}%`,
               }}
             >
-              {newsList.map((news, index) => (
-                <NewsSlide key={index} news={news} />
+              {eventList.map((event, index) => (
+                <EventSlide key={index} event={event} />
               ))}
             </div>
             <div>
-              {newsList.map((news, index) => (
+              {eventList.map((event, index) => (
                 <i
                   key={index}
                   onClick={() => setSlide(index)}

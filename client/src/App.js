@@ -9,9 +9,10 @@ import AboutPage from "./pages/site/AboutPage";
 import JoinUsPage from "pages/site/JoinUsPage";
 import MemoryPage from "pages/site/MemoryPage";
 import FaqPage from "pages/site/FaqPage";
+import HomeDashboard from "pages/admin/HomeDashboard";
 import ClassDashboard from "pages/admin/ClassDashboard";
 import CourseDashboard from "pages/admin/CourseDashboard";
-import NewsDashboard from "pages/admin/NewsDashboard";
+import EventDashboard from "pages/admin/EventDashboard";
 import MemberDashboard from "pages/admin/MemberDashboard";
 import ContactDashboard from "pages/admin/ContactDashboard";
 import ApplicationDashboard from "pages/admin/ApplicationDashboard";
@@ -32,9 +33,10 @@ function App() {
             <Route path="/faq" element={<FaqPage />} />
           </Route>
           <Route path="/admin">
+            <Route path="/admin/" element={<HomeDashboard />} />
             <Route path="/admin/class" element={<ClassDashboard />} />
             <Route path="/admin/course" element={<CourseDashboard />} />
-            <Route path="/admin/news" element={<NewsDashboard />} />
+            <Route path="/admin/news" element={<EventDashboard />} />
             <Route path="/admin/member" element={<MemberDashboard />} />
             <Route path="/admin/contact" element={<ContactDashboard />} />
             <Route path="/admin/application" element={<ApplicationDashboard />} />

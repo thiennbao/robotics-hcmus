@@ -11,6 +11,7 @@ const links = [
   { title: "Join us", to: "/joinus" },
   { title: "Memory", to: "/memory" },
   { title: "FAQ", to: "/faq" },
+  { title: "Dashboard", to: "/admin" },
 ];
 
 const infos = [
