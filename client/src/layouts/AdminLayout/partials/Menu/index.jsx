@@ -4,11 +4,12 @@ import style from "./Menu.module.scss";
 import logo from "assets/general/logo.png";
 
 const pages = [
-  { title: "Classes", to: "/admin/class", icon: "book" },
-  { title: "Courses", to: "/admin/course", icon: "journal" },
+  { title: "Classes", to: "/admin/class", icon: "book-fill" },
+  { title: "Courses", to: "/admin/course", icon: "journal-album" },
+  { title: "Event", to: "/admin/event", icon: "star-fill" },
   { title: "News", to: "/admin/news", icon: "newspaper" },
-  { title: "Members", to: "/admin/member", icon: "people" },
-  { title: "Contacts", to: "/admin/contact", icon: "chat" },
+  { title: "Members", to: "/admin/member", icon: "people-fill" },
+  { title: "Contacts", to: "/admin/contact", icon: "chat-dots-fill" },
   { title: "Applications", to: "/admin/application", icon: "person-bounding-box" },
 ];
 

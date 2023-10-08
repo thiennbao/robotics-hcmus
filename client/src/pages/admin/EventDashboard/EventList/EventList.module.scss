@@ -62,6 +62,17 @@
       }
     }
   }
+
+  & .upcoming {
+    color: $yellow;
+  }
+  & .ongoing {
+    color: $green;
+  }
+  & .ended {
+    color: $red;
+  }
+
   & .loadButton {
     width: 9rem;
     height: 2.5rem;

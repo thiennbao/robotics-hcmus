@@ -9,7 +9,8 @@
       transition: 1s;
 
       & > div > div {
-        min-height: 300px;
+        overflow: hidden;
+        height: 300px;
       }
     }
 

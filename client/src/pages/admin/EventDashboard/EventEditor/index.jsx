@@ -1,13 +1,13 @@
-import { useDispatch } from "react-redux"
+import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { eventAPI } from "api";
 import { createEvent, editEvent } from "../eventSlice";
-import style from "./EventEditor.module.scss"
+import style from "./EventEditor.module.scss";
 import Button from "components/Button";
 
 const EventEditor = ({ id, setId }) => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const {
     register,
@@ -24,8 +24,8 @@ const EventEditor = ({ id, setId }) => {
         .getEvent(id)
         .then((res) => {
           setValue("title", res.data.title);
-          setValue("start", res.data.start);
-          setValue("end", res.data.end);
+          setValue("start", res.data.start.split("T")[0]);
+          setValue("end", res.data.end.split("T")[0]);
           setValue("banner", res.data.banner);
           setValue("content", res.data.content);
         })
@@ -34,10 +34,12 @@ const EventEditor = ({ id, setId }) => {
   }, [id, setValue]);
 
   const handleSave = (data) => {
+    data.start = new Date(data.start).toISOString();
+    data.end = new Date(data.end).toISOString();
     if (id) {
-      dispatch(editEvent({id, data}));
+      dispatch(editEvent({ id, data }));
     } else {
-      dispatch(createEvent(data))
+      dispatch(createEvent(data));
     }
     setId();
   };
@@ -82,6 +84,14 @@ const EventEditor = ({ id, setId }) => {
               aria-invalid={!!errors.banner}
               onFocus={() => clearErrors("banner")}
             />
+            <div className={style.preview}>
+              <input type="checkbox" id="bannerToggle" />
+              <div className={style.bannerPreview} dangerouslySetInnerHTML={{ __html: watch("banner") }}></div>
+              <label htmlFor="bannerToggle" className={style.overlay}></label>
+              <Button type="outline">
+                <label htmlFor="bannerToggle">Preview</label>
+              </Button>
+            </div>
           </div>
           <div className={style.inputWrapper}>
             <label>Content</label>
@@ -91,6 +101,14 @@ const EventEditor = ({ id, setId }) => {
               aria-invalid={!!errors.content}
               onFocus={() => clearErrors("content")}
             />
+            <div className={style.preview}>
+              <input type="checkbox" id="contentToggle" />
+              <div className={style.contentPreview} dangerouslySetInnerHTML={{ __html: watch("content") }}></div>
+              <label htmlFor="contentToggle" className={style.overlay}></label>
+              <Button type="outline">
+                <label htmlFor="contentToggle">Preview</label>
+              </Button>
+            </div>
           </div>
           <div className={style.buttons}>
             <input type="submit" value="SAVE" />
@@ -106,7 +124,7 @@ const EventEditor = ({ id, setId }) => {
         </h3>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default EventEditor
+export default EventEditor;

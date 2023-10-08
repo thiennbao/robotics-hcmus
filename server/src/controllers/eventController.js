@@ -3,7 +3,7 @@ import Event from "../models/Event.js";
 const eventController = {
   getEvents: async (req, res) => {
     try {
-      const events = await Event.find();
+      const events = await Event.find().skip(req.query.skip).limit(req.query.limit);
       res.status(200).json(events);
     } catch (error) {
       res.status(404).json({ message: error.message });

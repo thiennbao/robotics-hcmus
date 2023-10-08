@@ -14,6 +14,29 @@ const EventList = ({ setId }) => {
     dispatch(deleteEvent(id));
   };
 
+  const Status = ({ start, end }) => {
+    const now = new Date().toISOString();
+    if (now < start) {
+      return (
+        <span className={style.upcoming}>
+          <i className="bi bi-circle-fill"></i> Upcoming
+        </span>
+      );
+    } else if (now < end) {
+      return (
+        <span className={style.ongoing}>
+          <i className="bi bi-circle-fill"></i> Ongoing
+        </span>
+      );
+    } else {
+      return (
+        <span className={style.ended}>
+          <i className="bi bi-circle-fill"></i> Ended
+        </span>
+      );
+    }
+  };
+
   return (
     <div className={style.eventList}>
       <table>
@@ -38,12 +61,16 @@ const EventList = ({ setId }) => {
                 <span>{event.title}</span>
               </td>
               <td>
-                <span>From {(new Date(event.start)).toDateString()} to {(new Date(event.end)).toDateString()}</span>
+                <span>
+                  {event.start.split("T")[0]}{" "}
+                  <i className="bi bi-caret-right-fill text-secondary"></i>{" "}
+                  {event.end.split("T")[0]}
+                </span>
               </td>
               <td>
-                <span>{event.status}</span>
+                <Status start={event.start} end={event.end} />
               </td>
-              <td colSpan={20}>
+              <td>
                 <div className="d-flex justify-content-center">
                   <Button type="outline" onClick={() => setId(event._id)}>
                     Edit

@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { eventAPI } from "api";
 
-const getEvents = createAsyncThunk("event/getEvents", async () => {
-  const res = await eventAPI.getEvents();
+const getEvents = createAsyncThunk("event/getEvents", async ({ skip, limit }) => {
+  const res = await eventAPI.getEvents(skip, limit);
   return res.data;
 });
 const createEvent = createAsyncThunk("event/createEvent", async (data) => {
