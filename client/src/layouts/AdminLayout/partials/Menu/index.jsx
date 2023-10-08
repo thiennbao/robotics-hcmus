@@ -28,7 +28,9 @@ const Menu = () => {
             <i className="bi bi-x-circle"></i>
           </label>
           <div>
-            <img src={logo} alt="Robotics & IoT - HCMUS" />
+            <Link to="/">
+              <img src={logo} alt="Robotics & IoT - HCMUS" />
+            </Link>
           </div>
           <div>
             <h2>DASHBOARDS</h2>

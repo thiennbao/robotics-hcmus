@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getEvents } from "./eventSlice";
 import AdminLayout from "layouts/AdminLayout";
 import EventList from "./EventList";
 import EventEditor from "./EventEditor";
-import { useDispatch, useSelector } from "react-redux";
-import { getEvents } from "./eventSlice";
 
 const EventDashboard = () => {
   const dispatch = useDispatch()
