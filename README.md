@@ -2,9 +2,7 @@
 > Website for Robotics & IoT Club
 
 ## How to run
-To clone and run this application, you'll need Git and Node.js (which comes with npm) installed on your computer.
-
-From your command line:
+To clone and run this application, you'll need Git and Node.js (which comes with npm).
 
 Clone this repository
 ```sh
@@ -14,24 +12,21 @@ Go into the repository
 ```sh
 cd robotics-hcmus
 ```
-Go in to two sides in this project: Client and Server
+There are two sides in this project: Client and Server
 ```sh
 cd client
-```
-or
-```sh
+# and
 cd server
 ```
-In each side, install dependencies
+In each side, install dependencies and then start
 ```sh
 npm install
-```
-and run
-```sh
+# then
 npm start
 ```
-All done, your client is running at `http://localhost:3000` and server is running at `http://localhost:8000`
+All done, your `Client` is running at `http://localhost:3000` and `Server` is running at `http://localhost:8000`
 
 ## Demo
 Client: https://robotics-client.onrender.com
+
 Server: https://robotics-server.onrender.com
