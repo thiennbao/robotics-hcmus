@@ -62,7 +62,7 @@ const EventList = ({ setId }) => {
               </td>
               <td>
                 <span>
-                  {event.start.split("T")[0]}{" "}
+                  {event.start.split("T")[0]}
                   <i className="bi bi-caret-right-fill text-secondary"></i>{" "}
                   {event.end.split("T")[0]}
                 </span>

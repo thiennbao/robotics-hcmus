@@ -69,32 +69,33 @@ const ApplyForm = () => {
               <label>Question 1</label>
               <input
                 placeholder="Question 1"
-                {...register("q1", { required: true })}
-                aria-invalid={!!errors.q1}
-                onFocus={() => clearErrors("q1")}
+                {...register("qn1", { required: true })}
+                aria-invalid={!!errors.qn1}
+                onFocus={() => clearErrors("qn1")}
               />
-              {errors.q1 && <span>Please fill out this field</span>}
+              {errors.qn1 && <span>Please fill out this field</span>}
             </div>
             <div>
               <label>Question 2</label>
               <input
                 placeholder="Question 2"
-                {...register("q2", { required: true })}
-                aria-invalid={!!errors.q2}
-                onFocus={() => clearErrors("q2")}
+                {...register("qn2", { required: true })}
+                aria-invalid={!!errors.qn2}
+                onFocus={() => clearErrors("qn2")}
               />
-              {errors.q2 && <span>Please fill out this field</span>}
+              {errors.qn2 && <span>Please fill out this field</span>}
             </div>
             <div>
               <label>Question 3</label>
               <textarea
                 placeholder="Question 3"
-                {...register("q3", { required: true })}
-                aria-invalid={!!errors.q3}
-                onFocus={() => clearErrors("q3")}
+                {...register("qn3", { required: true })}
+                aria-invalid={!!errors.qn3}
+                onFocus={() => clearErrors("qn3")}
               />
-              {errors.q3 && <span>Please fill out this field</span>}
+              {errors.qn3 && <span>Please fill out this field</span>}
             </div>
+            {/* Add question here if need more */}
             <input type="submit" value="APPLY" />
           </div>
         </form>

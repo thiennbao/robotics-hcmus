@@ -1,41 +1,41 @@
 import { useDispatch, useSelector } from "react-redux";
-import { getContacts, deleteContact } from "../contactSlice";
+import { getApplications, deleteApplication } from "../applicationSlice";
 import Button from "components/Button";
-import style from "./ContactList.module.scss";
+import style from "./ApplicationList.module.scss";
 
-const ContactList = ({ setId }) => {
+const ApplicationList = ({ setId }) => {
   const dispatch = useDispatch();
-  const contacts = useSelector((state) => state.contact);
+  const applications = useSelector((state) => state.application);
 
   const loadHandle = () => {
-    dispatch(getContacts({ skip: contacts.length, limit: 5 }));
+    dispatch(getApplications({ skip: applications.length, limit: 5 }));
   };
   const deleteHandle = (id) => {
-    dispatch(deleteContact(id));
+    dispatch(deleteApplication(id));
   };
 
   return (
-    <div className={style.contactList}>
+    <div className={style.applicationList}>
       <table>
         <thead>
           <tr>
-            <th>Subject</th>
+            <th>Name</th>
             <th>Date</th>
             <th>Status</th>
             <th></th>
           </tr>
         </thead>
         <tbody>
-          {contacts.map((contact) => (
-            <tr key={contact._id}>
+          {applications.map((application) => (
+            <tr key={application._id}>
               <td>
-                <span>{contact.subject}</span>
+                <span>{application.name}</span>
               </td>
               <td>
-                <span>{contact.createdAt.split("T")[0]}</span>
+                <span>{application.createdAt.split("T")[0]}</span>
               </td>
               <td>
-                {contact.status ? (
+                {application.status ? (
                   <span className={style.read}>
                     <i className="bi bi-circle-fill"></i> Read
                   </span>
@@ -47,10 +47,10 @@ const ContactList = ({ setId }) => {
               </td>
               <td>
                 <div className="d-flex justify-content-center">
-                  <Button type="outline" onClick={() => setId(contact._id)}>
+                  <Button type="outline" onClick={() => setId(application._id)}>
                     View
                   </Button>
-                  <Button type="outline" onClick={() => deleteHandle(contact._id)}>
+                  <Button type="outline" onClick={() => deleteHandle(application._id)}>
                     Delete
                   </Button>
                 </div>
@@ -66,4 +66,4 @@ const ContactList = ({ setId }) => {
   );
 };
 
-export default ContactList;
+export default ApplicationList;
