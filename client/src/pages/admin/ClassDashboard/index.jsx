@@ -1,29 +1,26 @@
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getClasses } from "./classSlice";
 import AdminLayout from "layouts/AdminLayout";
+import ClassList from "./ClassList";
+import ClassEditor from "./ClassEditor";
 
-const ClassDashboard = () => {
+const CourseDashboard = () => {
+  const dispatch = useDispatch();
+  const classes = useSelector((state) => state.class);
+  useEffect(() => {
+    if (!classes.length) {
+      dispatch(getClasses({ skip: 0, limit: 5 }));
+    }
+  }, [classes.length, dispatch]);
+
+  const [id, setId] = useState();
+
   return (
-    <AdminLayout>
-      <h1>Class Dashboard</h1>
-      <h1>Class Dashboard</h1>
-      <h1>Class Dashboard</h1>
-      <h1>Class Dashboard</h1>
-      <h1>Class Dashboard</h1>
-      <h1>Class Dashboard</h1>
-      <h1>Class Dashboard</h1>
-      <h1>Class Dashboard</h1>
-      <h1>Class Dashboard</h1>
-      <h1>Class Dashboard</h1>
-      <h1>Class Dashboard</h1>
-      <h1>Class Dashboard</h1>
-      <h1>Class Dashboard</h1>
-      <h1>Class Dashboard</h1>
-      <h1>Class Dashboard</h1>
-      <h1>Class Dashboard</h1>
-      <h1>Class Dashboard</h1>
-      <h1>Class Dashboard</h1>
-      <h1>Class Dashboard</h1>
+    <AdminLayout page="CLASS">
+      {id === undefined ? <ClassList setId={setId} /> : <ClassEditor id={id} setId={setId} />}
     </AdminLayout>
   );
 };
 
-export default ClassDashboard;
+export default CourseDashboard;
