@@ -55,7 +55,7 @@ const Description = ({ full }) => {
                 )}
               </div>
               {!full && (
-                <Button className={clsx("m-md-0 m-auto", style.button)} type="shadow" to="/about">
+                <Button className={clsx("m-md-0 m-auto", style.button)} variant="shadow" to="/about">
                   Learn more
                 </Button>
               )}

@@ -59,10 +59,10 @@ const ApplicationView = ({ id, setId }) => {
           </div>
           {/* Add question here if need more */}
           <div className={style.buttons}>
-            <Button className={application.status ? style.makeAsUnread : style.makeAsRead} type="outline" onClick={() => setStatusHandle(id, !application.status)}>
+            <Button className={application.status ? style.makeAsUnread : style.makeAsRead} variant="outline" onClick={() => setStatusHandle(id, !application.status)}>
               {application.status ? "Make as unread" : "Make as read" }
             </Button>
-            <Button type="outline" onClick={() => setId()}>
+            <Button variant="outline" onClick={() => setId()}>
               Close
             </Button>
           </div>

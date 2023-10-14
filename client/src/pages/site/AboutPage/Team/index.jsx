@@ -87,7 +87,7 @@ const Team = ({ limit }) => {
         </div>
         {limit && (
           <Appearance type="up">
-            <Button className={style.button} type="shadow" to="/about">
+            <Button className={style.button} variant="shadow" to="/about">
               See all members
             </Button>
           </Appearance>

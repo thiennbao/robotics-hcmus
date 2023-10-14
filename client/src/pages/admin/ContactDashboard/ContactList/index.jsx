@@ -47,10 +47,10 @@ const ContactList = ({ setId }) => {
               </td>
               <td>
                 <div className="d-flex justify-content-center">
-                  <Button type="outline" onClick={() => setId(contact._id)}>
+                  <Button variant="outline" onClick={() => setId(contact._id)}>
                     View
                   </Button>
-                  <Button type="outline" onClick={() => deleteHandle(contact._id)}>
+                  <Button variant="outline" onClick={() => deleteHandle(contact._id)}>
                     Delete
                   </Button>
                 </div>
@@ -59,7 +59,7 @@ const ContactList = ({ setId }) => {
           ))}
         </tbody>
       </table>
-      <Button type="outline" className={style.loadButton} onClick={loadHandle}>
+      <Button variant="outline" className={style.loadButton} onClick={loadHandle}>
         Load more
       </Button>
     </div>

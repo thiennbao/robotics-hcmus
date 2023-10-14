@@ -7,29 +7,59 @@
   border: none;
 }
 
-// Type
 .fill {
   color: white;
   background-color: $primary;
+
+  &.green {
+    background-color: $green;
+  }
+  &.yellow {
+    background-color: $yellow;
+  }
+  &.red {
+    background-color: $red;
+  }
 
   &:hover {
     background-color: #333;
     transition: 0.2s;
   }
 }
-
 .outline {
   color: $primary;
   background-color: transparent;
   border: $primary solid 2px;
 
+  &.green {
+    color: $green;
+    border-color: $green;
+  }
+  &.yellow {
+    color: $yellow;
+    border-color: $yellow;
+  }
+  &.red {
+    color: $red;
+    border-color: $red;
+  }
+
   &:hover {
-    background-color: $primary;
     color: white;
+    background-color: $primary;
     transition: 0.2s;
+
+    &.green {
+      background-color: $green;
+    }
+    &.yellow {
+      background-color: $yellow;
+    }
+    &.red {
+      background-color: $red;
+    }
   }
 }
-
 .shadow {
   background-color: transparent;
   border: #333 solid 2px;
@@ -46,6 +76,22 @@
     height: 100%;
     background-color: $primary;
     opacity: 0.4;
+  }
+
+  &.green {
+    &::after {
+      background-color: $green;
+    }
+  }
+  &.yellow {
+    &::after {
+      background-color: $yellow;
+    }
+  }
+  &.red {
+    &::after {
+      background-color: $red;
+    }
   }
 
   &:hover::after {

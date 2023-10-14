@@ -50,10 +50,10 @@ const ContactView = ({ id, setId }) => {
             <textarea value={contact.message} readOnly />
           </div>
           <div className={style.buttons}>
-            <Button className={contact.status ? style.makeAsUnread : style.makeAsRead} type="outline" onClick={() => setStatusHandle(id, !contact.status)}>
+            <Button className={contact.status ? style.makeAsUnread : style.makeAsRead} variant="outline" onClick={() => setStatusHandle(id, !contact.status)}>
               {contact.status ? "Make as unread" : "Make as read" }
             </Button>
-            <Button type="outline" onClick={() => setId()}>
+            <Button variant="outline" onClick={() => setId()}>
               Close
             </Button>
           </div>

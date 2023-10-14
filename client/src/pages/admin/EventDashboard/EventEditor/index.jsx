@@ -88,7 +88,7 @@ const EventEditor = ({ id, setId }) => {
               <input type="checkbox" id="bannerToggle" />
               <div className={style.bannerPreview} dangerouslySetInnerHTML={{ __html: watch("banner") }}></div>
               <label htmlFor="bannerToggle" className={style.overlay}></label>
-              <Button type="outline">
+              <Button variant="outline">
                 <label htmlFor="bannerToggle">Preview</label>
               </Button>
             </div>
@@ -105,14 +105,14 @@ const EventEditor = ({ id, setId }) => {
               <input type="checkbox" id="contentToggle" />
               <div className={style.contentPreview} dangerouslySetInnerHTML={{ __html: watch("content") }}></div>
               <label htmlFor="contentToggle" className={style.overlay}></label>
-              <Button type="outline">
+              <Button variant="outline">
                 <label htmlFor="contentToggle">Preview</label>
               </Button>
             </div>
           </div>
           <div className={style.buttons}>
             <input type="submit" value="SAVE" />
-            <Button type="outline" onClick={() => setId()}>
+            <Button variant="outline" onClick={() => setId()}>
               CANCEL
             </Button>
           </div>

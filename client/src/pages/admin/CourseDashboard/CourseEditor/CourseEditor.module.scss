@@ -11,7 +11,7 @@
     width: 50%;
     margin: auto;
 
-    & .inputWrapper {
+    & > div {
       margin-top: 1rem;
 
       & label {
@@ -40,17 +40,15 @@
       }
 
       & textarea {
-        height: 10rem;
+        height: 15rem;
+        overflow-y: hidden;
       }
-
       & .thumbnail {
-        margin-top: 1rem;
-        width: 50%;
+        width: 100%;
+        aspect-ratio: 3 / 1;
+        object-fit: cover;
       }
-      & .images {
-        margin-top: 1rem;
-      }
-      & img {
+      & .image {
         width: 100%;
         aspect-ratio: 2 / 1;
         object-fit: cover;
@@ -69,28 +67,6 @@
         padding: 0;
         margin: 2rem 0.5rem;
         transition: 0.2s;
-      }
-
-      & button {
-        color: $red;
-        background-color: transparent;
-        border: $red solid 2px;
-
-        &:hover {
-          color: #fff;
-          background-color: $red;
-        }
-      }
-
-      & input[type="submit"] {
-        color: $green;
-        background-color: transparent;
-        border: $green solid 2px;
-
-        &:hover {
-          color: #fff;
-          background-color: $green;
-        }
       }
     }
   }

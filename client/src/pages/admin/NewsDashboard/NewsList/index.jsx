@@ -24,7 +24,7 @@ const NewsList = ({ setId }) => {
             <th>Date</th>
             <th>
               <div className="d-flex justify-content-center">
-                <Button type="outline" onClick={() => setId(0)}>
+                <Button variant="outline" onClick={() => setId(0)}>
                   Add New News
                 </Button>
               </div>
@@ -45,10 +45,10 @@ const NewsList = ({ setId }) => {
               </td>
               <td>
                 <div className="d-flex justify-content-center">
-                  <Button type="outline" onClick={() => setId(news._id)}>
+                  <Button variant="outline" onClick={() => setId(news._id)}>
                     Edit
                   </Button>
-                  <Button type="outline" onClick={() => deleteHandle(news._id)}>
+                  <Button variant="outline" onClick={() => deleteHandle(news._id)}>
                     Delete
                   </Button>
                 </div>
@@ -57,7 +57,7 @@ const NewsList = ({ setId }) => {
           ))}
         </tbody>
       </table>
-      <Button type="outline" className={style.loadButton} onClick={loadHandle}>Load more</Button>
+      <Button variant="outline" className={style.loadButton} onClick={loadHandle}>Load more</Button>
     </div>
   );
 };

@@ -3,92 +3,45 @@ import Section from "components/Section";
 import Heading from "components/Heading";
 import Button from "components/Button";
 import Appearance from "components/Appearance";
+import { useEffect, useState } from "react";
+import { courseAPI } from "api";
 
-const Course = ({ image, title, description, yearOlds, classes, hours }) => {
+const Course = ({ id, thumbnail, name, description, age, lesson, time }) => {
   return (
     <div className={style.course}>
       <div>
-        <img src={image} alt="" />
+        <img src={thumbnail} alt="" />
       </div>
       <div className="container-fluid">
-        <h3>{title}</h3>
+        <h3>{name}</h3>
         <p className="">{description}</p>
         <div className="row d-flex text-center">
           <p className="col-4">
-            <span>{yearOlds}</span> Year olds
+            <span>{age}</span> Year olds
           </p>
           <p className="col-4">
-            <span>{classes}</span> Classes
+            <span>{lesson}</span> Classes
           </p>
           <p className="col-4">
-            <span>{hours}</span> 1 Class
+            <span>{time}</span> 1 Class
           </p>
         </div>
-        <Button type="outline" className={style.detailButton}>See details</Button>
+        <Button variant="outline" className={style.detailButton} to={`./${id}`}>
+          See details
+        </Button>
       </div>
     </div>
   );
 };
 
 const Courses = ({ limit }) => {
-  // Call API
-  const image = require("assets/gallery/about-2.jpg");
-  const courses = [
-    {
-      image: image,
-      title: "Lorem Lmao",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-      yearOlds: "12-21",
-      classes: "8",
-      hours: "2h",
-    },
-    {
-      image: image,
-      title: "Lorem Lmao",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-      yearOlds: "12-21",
-      classes: "8",
-      hours: "2h",
-    },
-    {
-      image: image,
-      title: "Lorem Lmao",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-      yearOlds: "12-21",
-      classes: "8",
-      hours: "2h",
-    },
-    {
-      image: image,
-      title: "Lorem Lmao",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-      yearOlds: "12-21",
-      classes: "8",
-      hours: "2h",
-    },
-    {
-      image: image,
-      title: "Lorem Lmao",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-      yearOlds: "12-21",
-      classes: "8",
-      hours: "2h",
-    },
-    {
-      image: image,
-      title: "Lorem Lmao",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-      yearOlds: "12-21",
-      classes: "8",
-      hours: "2h",
-    },
-  ];
+  const [courses, setCourses] = useState([]);
+  useEffect(() => {
+    courseAPI
+      .getCourses(0, limit)
+      .then((res) => setCourses(res.data))
+      .catch((error) => console.log(error));
+  });
 
   return (
     <Section className={style.courses}>
@@ -97,14 +50,18 @@ const Courses = ({ limit }) => {
         <div className="row gy-5 my-3">
           {courses.map((course, index) => (
             <div key={index} className="col-lg-4 col-md-6">
-              <Appearance type={index % 2 ? "right" : "left"} animation={{ delay: `${index * 0.1}s` }}>
+              <Appearance
+                type={index % 2 ? "right" : "left"}
+                animation={{ delay: `${index * 0.1}s` }}
+              >
                 <Course
-                  image={course.image}
-                  title={course.title}
+                  id={course._id}
+                  thumbnail={course.thumbnail}
+                  name={course.name}
                   description={course.description}
-                  yearOlds={course.yearOlds}
-                  classes={course.classes}
-                  hours={course.hours}
+                  age={course.age}
+                  lesson={course.lesson}
+                  time={course.time}
                 />
               </Appearance>
             </div>
@@ -112,7 +69,7 @@ const Courses = ({ limit }) => {
         </div>
         {limit && (
           <Appearance type="up">
-            <Button className={style.button} type="shadow" to="/courses">
+            <Button className={style.button} variant="shadow" to="/courses">
               See all courses
             </Button>
           </Appearance>

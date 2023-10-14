@@ -57,7 +57,7 @@ const News = () => {
             ))}
         </div>
         <Appearance type="up">
-          <Button type="shadow" className={style.button} onClick={() => setLimit(limit + itemsInRow)}>
+          <Button variant="shadow" className={style.button} onClick={() => setLimit(limit + itemsInRow)}>
             Load more
           </Button>
         </Appearance>

@@ -12,6 +12,7 @@ const CourseEditor = ({ id, setId }) => {
   const {
     register,
     handleSubmit,
+    getValues,
     setValue,
     watch,
     clearErrors,
@@ -38,42 +39,44 @@ const CourseEditor = ({ id, setId }) => {
 
   const handleSave = (data) => {
     if (id) {
-      dispatch(editCourse({id, data}));
+      dispatch(editCourse({ id, data }));
     } else {
-      dispatch(createCourse(data))
+      dispatch(createCourse(data));
     }
     setId();
   };
 
   const handleUploadThumbnail = (file) => {
-    if (file) {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setValue("thumbnail", reader.result);
+    };
+  };
+  const handleUploadImage = (files) => {
+    const images = getValues("images") || [];
+    for (let index = 0; index < files.length; index++) {
       const reader = new FileReader();
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(files[index]);
       reader.onloadend = () => {
-        setValue("thumbnail", reader.result.toString());
+        images.push(reader.result);
+        setValue("images", images);
       };
     }
   };
-  const handleUploadImages = (files) => {
-    if (files) {
-      const images = [];
-      for (let index = 0; index < files.length; index++) {
-        const reader = new FileReader();
-        reader.readAsDataURL(files[index]);
-        reader.onloadend = () => {
-          images.push(reader.result);
-          setValue("images", images);
-        };
-      }
-    }
+  const handleRemoveImage = (removeIndex) => {
+    setValue(
+      "images",
+      getValues("images").filter((image, index) => index !== removeIndex)
+    );
   };
 
   return (
     <div className={style.editor}>
       {!id || watch("name") ? (
         <form onSubmit={handleSubmit(handleSave)}>
-          <h3>{id ? "Edit " + watch("name") : "Add course"}</h3>
-          <div className={style.inputWrapper}>
+          <h3>{id ? `Edit ${watch("name")}` : "Add course"}</h3>
+          <div>
             <label>Name</label>
             <input
               placeholder="Name"
@@ -82,7 +85,7 @@ const CourseEditor = ({ id, setId }) => {
               onFocus={() => clearErrors("name")}
             />
           </div>
-          <div className={style.inputWrapper}>
+          <div>
             <label>Thumbnail</label>
             <input hidden {...register("thumbnail", { required: true })} />
             <input
@@ -93,12 +96,12 @@ const CourseEditor = ({ id, setId }) => {
               onFocus={() => clearErrors("thumbnail")}
             />
             {watch("thumbnail") && (
-              <div className={style.thumbnail}>
-                <img src={watch("thumbnail")} alt="Preview" />
+              <div className="mt-2">
+                <img className={style.thumbnail} src={watch("thumbnail")} alt="Preview" />
               </div>
             )}
           </div>
-          <div className={style.inputWrapper}>
+          <div>
             <label>Tuition</label>
             <input
               type="number"
@@ -108,7 +111,7 @@ const CourseEditor = ({ id, setId }) => {
               onFocus={() => clearErrors("tuition")}
             />
           </div>
-          <div className={style.inputWrapper}>
+          <div>
             <label>Description</label>
             <textarea
               placeholder="Description"
@@ -117,50 +120,60 @@ const CourseEditor = ({ id, setId }) => {
               onFocus={() => clearErrors("description")}
             />
           </div>
-          <div className={style.inputWrapper}>
-            <label>Age</label>
-            <input
-              placeholder="Age"
-              {...register("age", { required: true })}
-              aria-invalid={!!errors.age}
-              onFocus={() => clearErrors("age")}
-            />
+          <div className="row">
+            <div className="col-4">
+              <label>Age</label>
+              <input
+                placeholder="Age"
+                {...register("age", { required: true })}
+                aria-invalid={!!errors.age}
+                onFocus={() => clearErrors("age")}
+              />
+            </div>
+            <div className="col-4">
+              <label>Lesson</label>
+              <input
+                type="number"
+                placeholder="Lesson"
+                {...register("lesson", { required: true })}
+                aria-invalid={!!errors.lesson}
+                onFocus={() => clearErrors("lesson")}
+              />
+            </div>
+            <div className="col-4">
+              <label>Time</label>
+              <input
+                type="number"
+                placeholder="Time"
+                {...register("time", { required: true })}
+                aria-invalid={!!errors.time}
+                onFocus={() => clearErrors("time")}
+              />
+            </div>
           </div>
-          <div className={style.inputWrapper}>
-            <label>Lesson</label>
-            <input
-              type="number"
-              placeholder="Lesson"
-              {...register("lesson", { required: true })}
-              aria-invalid={!!errors.lesson}
-              onFocus={() => clearErrors("lesson")}
-            />
-          </div>
-          <div className={style.inputWrapper}>
-            <label>Time</label>
-            <input
-              type="number"
-              placeholder="Time"
-              {...register("time", { required: true })}
-              aria-invalid={!!errors.time}
-              onFocus={() => clearErrors("time")}
-            />
-          </div>
-          <div className={style.inputWrapper}>
+          <div>
             <label>Images</label>
             <input hidden {...register("images")} />
             <input
               type="file"
               accept="image/*"
               multiple
-              onChange={(e) => handleUploadImages(e.target.files)}
+              onChange={(e) => handleUploadImage(e.target.files)}
             />
             {watch("images") && watch("images")[0] && (
-              <div className={style.images}>
-                <div className="row g-1">
+              <div className="mt-2 container-fluid">
+                <div className="row">
                   {watch("images").map((img, index) => (
-                    <div key={index} className="col-6">
-                      <img src={img} alt="Preview" />
+                    <div key={index} className="p-0 col-6 position-relative overflow-hidden">
+                      <img className={style.image} src={img} alt="Preview" />
+                      <Button
+                        color="red"
+                        type="button"
+                        className="position-absolute top-0 end-0 p-1"
+                        onClick={() => handleRemoveImage(index)}
+                      >
+                        Remove
+                      </Button>
                     </div>
                   ))}
                 </div>
@@ -168,8 +181,10 @@ const CourseEditor = ({ id, setId }) => {
             )}
           </div>
           <div className={style.buttons}>
-            <input type="submit" value="SAVE" />
-            <Button type="outline" onClick={() => setId()}>
+            <Button variant="outline" color="green" type="submit">
+              SAVE
+            </Button>
+            <Button variant="outline" color="red" type="button" onClick={() => setId()}>
               CANCEL
             </Button>
           </div>

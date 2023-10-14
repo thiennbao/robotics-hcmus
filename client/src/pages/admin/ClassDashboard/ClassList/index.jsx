@@ -24,7 +24,7 @@ const ClassList = ({ setId }) => {
             <th>Teacher</th>
             <th>
               <div className="d-flex justify-content-center">
-                <Button type="outline" onClick={() => setId(0)}>
+                <Button variant="outline" onClick={() => setId(0)}>
                   Add New Class
                 </Button>
               </div>
@@ -45,10 +45,10 @@ const ClassList = ({ setId }) => {
               </td>
               <td>
                 <div className="d-flex justify-content-center">
-                  <Button type="outline" onClick={() => setId(item._id)}>
+                  <Button variant="outline" onClick={() => setId(item._id)}>
                     Edit
                   </Button>
-                  <Button type="outline" onClick={() => deleteHandle(item._id)}>
+                  <Button variant="outline" onClick={() => deleteHandle(item._id)}>
                     Delete
                   </Button>
                 </div>
@@ -57,7 +57,7 @@ const ClassList = ({ setId }) => {
           ))}
         </tbody>
       </table>
-      <Button type="outline" className={style.loadButton} onClick={loadHandle}>Load more</Button>
+      <Button variant="outline" className={style.loadButton} onClick={loadHandle}>Load more</Button>
     </div>
   );
 };

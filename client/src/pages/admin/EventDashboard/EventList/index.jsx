@@ -47,7 +47,7 @@ const EventList = ({ setId }) => {
             <th>Status</th>
             <th>
               <div className="d-flex justify-content-center">
-                <Button type="outline" onClick={() => setId(0)}>
+                <Button variant="outline" onClick={() => setId(0)}>
                   Add New Event
                 </Button>
               </div>
@@ -72,10 +72,10 @@ const EventList = ({ setId }) => {
               </td>
               <td>
                 <div className="d-flex justify-content-center">
-                  <Button type="outline" onClick={() => setId(event._id)}>
+                  <Button variant="outline" onClick={() => setId(event._id)}>
                     Edit
                   </Button>
-                  <Button type="outline" onClick={() => deleteHandle(event._id)}>
+                  <Button variant="outline" onClick={() => deleteHandle(event._id)}>
                     Delete
                   </Button>
                 </div>
@@ -84,7 +84,7 @@ const EventList = ({ setId }) => {
           ))}
         </tbody>
       </table>
-      <Button type="outline" className={style.loadButton} onClick={loadHandle}>
+      <Button variant="outline" className={style.loadButton} onClick={loadHandle}>
         Load more
       </Button>
     </div>

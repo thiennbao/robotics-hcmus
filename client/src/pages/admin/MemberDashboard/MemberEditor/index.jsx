@@ -136,7 +136,7 @@ const MemberEditor = ({ id, setId }) => {
           </div>
           <div className={style.buttons}>
             <input type="submit" value="SAVE" />
-            <Button type="outline" onClick={() => setId()}>
+            <Button variant="outline" onClick={() => setId()}>
               CANCEL
             </Button>
           </div>

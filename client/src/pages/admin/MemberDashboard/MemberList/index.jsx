@@ -24,7 +24,7 @@ const MemberList = ({ setId }) => {
             <th>Position</th>
             <th>
               <div className="d-flex justify-content-center">
-                <Button type="outline" onClick={() => setId(0)}>
+                <Button variant="outline" onClick={() => setId(0)}>
                   Add New Member
                 </Button>
               </div>
@@ -45,10 +45,10 @@ const MemberList = ({ setId }) => {
               </td>
               <td>
                 <div className="d-flex justify-content-center">
-                  <Button type="outline" onClick={() => setId(member._id)}>
+                  <Button variant="outline" onClick={() => setId(member._id)}>
                     Edit
                   </Button>
-                  <Button type="outline" onClick={() => deleteHandle(member._id)}>
+                  <Button variant="outline" onClick={() => deleteHandle(member._id)}>
                     Delete
                   </Button>
                 </div>
@@ -57,7 +57,7 @@ const MemberList = ({ setId }) => {
           ))}
         </tbody>
       </table>
-      <Button type="outline" className={style.loadButton} onClick={loadHandle}>Load more</Button>
+      <Button variant="outline" className={style.loadButton} onClick={loadHandle}>Load more</Button>
     </div>
   );
 };

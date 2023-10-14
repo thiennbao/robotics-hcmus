@@ -17,6 +17,7 @@ import NewsDashboard from "pages/admin/NewsDashboard";
 import MemberDashboard from "pages/admin/MemberDashboard";
 import ContactDashboard from "pages/admin/ContactDashboard";
 import ApplicationDashboard from "pages/admin/ApplicationDashboard";
+import SingleCoursePage from "pages/site/CoursesPage/SingleCoursePage";
 
 function App() {
   return (
@@ -25,7 +26,10 @@ function App() {
         <Routes>
           <Route path="/">
             <Route path="/" element={<HomePage />} />
-            <Route path="/courses" element={<CoursesPage />} />
+            <Route path="/courses">
+              <Route path="/courses/" element={<CoursesPage />} />
+              <Route path="/courses/:slug" element={<SingleCoursePage />} />
+            </Route>
             <Route path="/news" element={<NewsPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/about" element={<AboutPage />} />

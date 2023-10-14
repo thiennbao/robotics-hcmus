@@ -109,7 +109,7 @@ const NewsEditor = ({ id, setId }) => {
                 dangerouslySetInnerHTML={{ __html: watch("content") }}
               ></div>
               <label htmlFor="contentToggle" className={style.overlay}></label>
-              <Button type="outline">
+              <Button variant="outline">
                 <label htmlFor="contentToggle">Preview</label>
               </Button>
             </div>
@@ -137,7 +137,7 @@ const NewsEditor = ({ id, setId }) => {
           </div>
           <div className={style.buttons}>
             <input type="submit" value="SAVE" />
-            <Button type="outline" onClick={() => setId()}>
+            <Button variant="outline" onClick={() => setId()}>
               CANCEL
             </Button>
           </div>
