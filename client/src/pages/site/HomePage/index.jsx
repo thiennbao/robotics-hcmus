@@ -7,7 +7,6 @@ import Special from "pages/site/AboutPage/Special";
 import Courses from "pages/site/CoursesPage/Courses";
 import Testimonial from "./Testimonial";
 import Team from "pages/site/AboutPage/Team";
-import Timetable from "pages/site/CoursesPage/Timetable";
 import Map from "pages/site/ContactPage/Map";
 
 const HomePage = () => {
@@ -21,7 +20,6 @@ const HomePage = () => {
       <Courses limit={8} />
       <Testimonial />
       <Team limit={4} />
-      <Timetable />
       <Map />
     </SiteLayout>
   );

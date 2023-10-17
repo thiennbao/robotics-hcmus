@@ -5,7 +5,6 @@ import newsReducer from "pages/admin/NewsDashboard/newsSlice";
 import memberReducer from "pages/admin/MemberDashboard/memberSlice";
 import contactReducer from "pages/admin/ContactDashboard/contactSlice";
 import applicationReducer from "pages/admin/ApplicationDashboard/applicationSlice";
-import classReducer from "pages/admin/ClassDashboard/classSlice";
 
 const store = configureStore({
   reducer: {
@@ -15,7 +14,6 @@ const store = configureStore({
     member: memberReducer,
     contact: contactReducer,
     application: applicationReducer,
-    class: classReducer
   },
 });
 

@@ -3,6 +3,9 @@ import { getCourses, deleteCourse } from "../courseSlice";
 import Button from "components/Button";
 import style from "./CourseList.module.scss";
 import { useEffect } from "react";
+import { courseAPI } from "api";
+import { deleteObject, ref } from "firebase/storage";
+import { storage } from "config/firebase";
 
 const CourseList = ({ setId }) => {
   const dispatch = useDispatch();
@@ -13,7 +16,14 @@ const CourseList = ({ setId }) => {
   };
   const deleteHandle = (id) => {
     if (window.confirm("Are you sure to delete this course")) {
-      dispatch(deleteCourse(id));
+      courseAPI.getCourse(id).then((res) => {
+        res.data.images &&
+          res.data.images.forEach((image) => {
+            const currentRef = ref(storage, image);
+            deleteObject(currentRef);
+          });
+        dispatch(deleteCourse(id));
+      });
     }
   };
 

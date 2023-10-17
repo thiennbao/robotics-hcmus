@@ -1,12 +1,21 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { courseAPI } from "api";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { createCourse, editCourse } from "../courseSlice";
-import Button from "components/Button";
+import { getDownloadURL, ref, uploadBytes, deleteObject } from "firebase/storage";
+import { storage } from "config/firebase";
+import { v4 } from "uuid";
 import style from "./CourseEditor.module.scss";
+import Button from "components/Button";
 
 const CourseEditor = ({ id, setId }) => {
+  const [fileChange, setFileChange] = useState({
+    current: [],
+    add: [],
+    delete: [],
+  });
+
   const dispatch = useDispatch();
 
   const {
@@ -32,12 +41,17 @@ const CourseEditor = ({ id, setId }) => {
           setValue("lesson", res.data.lesson);
           setValue("time", res.data.time);
           setValue("images", res.data.images);
+          setFileChange((fileChange) => ({ ...fileChange, current: res.data.images }));
         })
         .catch((error) => console.log(error));
     }
   }, [id, setValue]);
 
   const handleSave = (data) => {
+    for (let file of fileChange.delete) {
+      const currentRef = ref(storage, file);
+      deleteObject(currentRef);
+    }
     if (id) {
       dispatch(editCourse({ id, data }));
     } else {
@@ -45,29 +59,55 @@ const CourseEditor = ({ id, setId }) => {
     }
     setId();
   };
-
-  const handleUploadThumbnail = (file) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = () => {
-      setValue("thumbnail", reader.result);
-    };
+  const handleCancel = () => {
+    for (let file of fileChange.add) {
+      const currentRef = ref(storage, file);
+      deleteObject(currentRef);
+    }
+    setId();
   };
-  const handleUploadImage = (files) => {
-    const images = getValues("images") || [];
-    for (let index = 0; index < files.length; index++) {
-      const reader = new FileReader();
-      reader.readAsDataURL(files[index]);
-      reader.onloadend = () => {
-        images.push(reader.result);
-        setValue("images", images);
-      };
+
+  const handleUploadThumbnail = (thumbnail) => {
+    if (thumbnail) {
+      if (getValues("thumbnail")) {
+        const currentRef = ref(storage, getValues("thumbnail"));
+        deleteObject(currentRef);
+      }
+      const thumbnailRef = ref(storage, `images/courses/${v4()}`);
+      uploadBytes(thumbnailRef, thumbnail)
+        .then((snapshot) => {
+          return getDownloadURL(snapshot.ref);
+        })
+        .then((downloadURL) => {
+          setValue("thumbnail", downloadURL);
+        });
     }
   };
-  const handleRemoveImage = (removeIndex) => {
+  const handleUploadImage = (images) => {
+    const list = getValues("images") || [];
+    for (let image of images) {
+      const imageRef = ref(storage, `images/courses/${v4()}`);
+      uploadBytes(imageRef, image)
+        .then((snapshot) => {
+          return getDownloadURL(snapshot.ref);
+        })
+        .then((downloadURL) => {
+          list.push(downloadURL);
+          setValue("images", list);
+          setFileChange((fileChange) => ({ ...fileChange, add: [...fileChange.add, downloadURL] }));
+        });
+    }
+  };
+  const handleRemoveImage = (deleteURL) => {
+    if (fileChange.current.includes(deleteURL)) {
+      setFileChange({...fileChange, delete: [...fileChange.delete, deleteURL]})
+    } else {
+      const currentRef = ref(storage, deleteURL);
+      deleteObject(currentRef);
+    }
     setValue(
       "images",
-      getValues("images").filter((image, index) => index !== removeIndex)
+      getValues("images").filter((image) => image !== deleteURL)
     );
   };
 
@@ -170,7 +210,7 @@ const CourseEditor = ({ id, setId }) => {
                         color="red"
                         type="button"
                         className="position-absolute top-0 end-0 p-1"
-                        onClick={() => handleRemoveImage(index)}
+                        onClick={() => handleRemoveImage(img)}
                       >
                         Remove
                       </Button>
@@ -184,7 +224,7 @@ const CourseEditor = ({ id, setId }) => {
             <Button variant="outline" color="green" type="submit">
               SAVE
             </Button>
-            <Button variant="outline" color="red" type="button" onClick={() => setId()}>
+            <Button variant="outline" color="red" type="button" onClick={handleCancel}>
               CANCEL
             </Button>
           </div>

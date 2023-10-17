@@ -4,7 +4,6 @@ import style from "./Menu.module.scss";
 import logo from "assets/general/logo.png";
 
 const pages = [
-  { title: "Classes", to: "/admin/class", icon: "book-fill" },
   { title: "Courses", to: "/admin/course", icon: "journal-album" },
   { title: "Event", to: "/admin/event", icon: "star-fill" },
   { title: "News", to: "/admin/news", icon: "newspaper" },

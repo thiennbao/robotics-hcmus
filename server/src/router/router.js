@@ -4,7 +4,6 @@ import newsRouter from "./routers/newsRouter.js";
 import memberRouter from "./routers/memberRouter.js";
 import contactRouter from "./routers/contactRouter.js";
 import applicationRouter from "./routers/applicationRouter.js";
-import classRouter from "./routers/classRouter.js";
 
 const router = (app) => {
   app.use("/api/course", courseRouter);
@@ -13,7 +12,6 @@ const router = (app) => {
   app.use("/api/member", memberRouter);
   app.use("/api/contact", contactRouter);
   app.use("/api/application", applicationRouter);
-  app.use("/api/class", classRouter);
 };
 
 export default router;

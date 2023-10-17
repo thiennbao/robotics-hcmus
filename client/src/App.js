@@ -10,7 +10,6 @@ import JoinUsPage from "pages/site/JoinUsPage";
 import MemoryPage from "pages/site/MemoryPage";
 import FaqPage from "pages/site/FaqPage";
 import HomeDashboard from "pages/admin/HomeDashboard";
-import ClassDashboard from "pages/admin/ClassDashboard";
 import CourseDashboard from "pages/admin/CourseDashboard";
 import EventDashboard from "pages/admin/EventDashboard";
 import NewsDashboard from "pages/admin/NewsDashboard";
@@ -39,7 +38,6 @@ function App() {
           </Route>
           <Route path="/admin">
             <Route path="/admin/" element={<HomeDashboard />} />
-            <Route path="/admin/class" element={<ClassDashboard />} />
             <Route path="/admin/course" element={<CourseDashboard />} />
             <Route path="/admin/event" element={<EventDashboard />} />
             <Route path="/admin/news" element={<NewsDashboard />} />
