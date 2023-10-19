@@ -11,7 +11,7 @@
     width: 50%;
     margin: auto;
 
-    & .inputWrapper {
+    & > div {
       margin-top: 1rem;
 
       & label {
@@ -22,7 +22,6 @@
       textarea {
         width: 100%;
         outline: none;
-        border: none;
         border: transparent solid 2px;
         padding: 1rem;
         background-color: $background-color;
@@ -40,12 +39,13 @@
       }
 
       & textarea {
-        height: 10rem;
+        height: 15rem;
+        overflow-y: hidden;
       }
-
-      & .thumbnail {
-        margin-top: 1rem;
-        width: 50%;
+      & .image {
+        width: 100%;
+        aspect-ratio: 2 / 1;
+        object-fit: cover;
       }
     }
 
@@ -61,28 +61,6 @@
         padding: 0;
         margin: 2rem 0.5rem;
         transition: 0.2s;
-      }
-
-      & button {
-        color: $red;
-        background-color: transparent;
-        border: $red solid 2px;
-
-        &:hover {
-          color: #fff;
-          background-color: $red;
-        }
-      }
-
-      & input[type="submit"] {
-        color: $green;
-        background-color: transparent;
-        border: $green solid 2px;
-
-        &:hover {
-          color: #fff;
-          background-color: $green;
-        }
       }
     }
   }
@@ -113,7 +91,7 @@
     opacity: 0.8;
   }
 
-  & input ~ div {
+  & input ~ iframe {
     display: none;
     position: fixed;
     top: 50%;
@@ -122,14 +100,7 @@
     z-index: 2;
     width: 100vw;
     background-color: #fff;
-
-    &.bannerPreview {
-      height: 300px;
-    }
-    &.contentPreview {
-      overflow-y: scroll;
-      height: 70vh;
-    }
+    height: 300px;
   }
 
 
@@ -153,7 +124,7 @@
   }
 
   & input:checked {
-    & ~ div {
+    & ~ iframe {
       display: block;
     }
     & ~ label {

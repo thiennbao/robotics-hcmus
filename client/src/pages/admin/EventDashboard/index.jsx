@@ -6,8 +6,8 @@ import EventList from "./EventList";
 import EventEditor from "./EventEditor";
 
 const EventDashboard = () => {
-  const dispatch = useDispatch()
-  const events = useSelector((state) => state.event)
+  const dispatch = useDispatch();
+  const events = useSelector((state) => state.event);
   useEffect(() => {
     if (!events.length) {
       dispatch(getEvents({ skip: 0, limit: 5 }));

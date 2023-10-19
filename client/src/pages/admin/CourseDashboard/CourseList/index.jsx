@@ -1,11 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
 import { getCourses, deleteCourse } from "../courseSlice";
-import Button from "components/Button";
-import style from "./CourseList.module.scss";
-import { useEffect } from "react";
 import { courseAPI } from "api";
 import { deleteObject, ref } from "firebase/storage";
 import { storage } from "config/firebase";
+import style from "./CourseList.module.scss";
+import Button from "components/Button";
 
 const CourseList = ({ setId }) => {
   const dispatch = useDispatch();
@@ -26,12 +25,6 @@ const CourseList = ({ setId }) => {
       });
     }
   };
-
-  useEffect(() => {
-    if (!courses.length) {
-      dispatch(getCourses({ skip: 0, limit: 5 }));
-    }
-  }, [courses.length, dispatch]);
 
   return (
     <div className={style.courseList}>

@@ -4,8 +4,8 @@ const eventSchema = mongoose.Schema({
   title: String,
   start: Date,
   end: Date,
-  banner: String,
   content: String,
+  images: [String],
 });
 
 export default mongoose.model("Event", eventSchema);

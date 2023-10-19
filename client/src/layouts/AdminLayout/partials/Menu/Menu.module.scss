@@ -1,6 +1,8 @@
 @import "scss/variables";
 
 .menu {
+  z-index: 1;
+  
   // Toggle menu
   & input:checked {
     & ~ div {

@@ -1,56 +1,55 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import style from "./Event.module.scss";
 import Section from "components/Section";
 import Heading from "components/Heading";
-import Appearance from "components/Appearance";
+import { eventAPI } from "api";
 
-const EventSlide = ({ event }) => {
-  return <div className={style.eventSlide} dangerouslySetInnerHTML={{ __html: event }} />;
+const EventSlide = ({ content }) => {
+  return (
+    <iframe title="event" srcDoc={"<style>body{overflow: hidden; margin: 0;}</style>" + content}></iframe>
+  );
 };
 
-// Call API
-const eventList = [
-  `<div style="background-color: #f7f7f7; text-align: center"><h1>Bruh Event</h1><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p></div>`,
-  `<div style="background-color: #f7f7f7; text-align: center"><h1>Bruh Event</h1><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p></div>`,
-  `<div style="background-color: #f7f7f7; text-align: center"><h1>Bruh Event</h1><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p><p>HTML here HTML here HTME here</p></div>`,
-];
-
 const Event = () => {
-  const [slide, setSlide] = useState(0);
+  const [events, setEvents] = useState([]);
+  useEffect(() => {
+    eventAPI
+      .getEvents()
+      .then((res) => setEvents(res.data))
+      .catch((error) => console.log(error));
+  });
 
-  // Drag feature later
+  const [slide, setSlide] = useState(0);
 
   return (
     <Section className={style.event}>
       <div className="container">
         <Heading subcontent="--- WELCOME TO">EVENT</Heading>
-        <Appearance type="up">
-          <div className={style.slideWrapper}>
-            <div
+      </div>
+      <div className={style.slideWrapper}>
+        <div
+          style={{
+            transform: `translateX(${(-slide * 100) / events.length}%)`,
+            width: `${events.length * 100}%`,
+          }}
+        >
+          {events.map((event, index) => (
+            <EventSlide key={index} content={event.content} />
+          ))}
+        </div>
+        <div>
+          {events.map((event, index) => (
+            <i
+              key={index}
+              onClick={() => setSlide(index)}
+              className="bi bi-dash"
               style={{
-                transform: `translateX(${(-slide * 100) / eventList.length}%)`,
-                width: `${eventList.length * 100}%`,
+                transform: `scale(${index === slide ? 5 : 3}, 5)`,
+                color: index === slide ? "gray" : "lightgray",
               }}
-            >
-              {eventList.map((event, index) => (
-                <EventSlide key={index} event={event} />
-              ))}
-            </div>
-            <div>
-              {eventList.map((event, index) => (
-                <i
-                  key={index}
-                  onClick={() => setSlide(index)}
-                  className="bi bi-dash"
-                  style={{
-                    transform: `scale(${index === slide ? 5 : 3}, 5)`,
-                    color: index === slide ? "gray" : "lightgray",
-                  }}
-                ></i>
-              ))}
-            </div>
-          </div>
-        </Appearance>
+            ></i>
+          ))}
+        </div>
       </div>
     </Section>
   );
