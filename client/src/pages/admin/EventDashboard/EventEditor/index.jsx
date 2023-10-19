@@ -6,7 +6,7 @@ import { createEvent, editEvent } from "../eventSlice";
 import { getDownloadURL, ref, uploadBytes, deleteObject } from "firebase/storage";
 import { storage } from "config/firebase";
 import { v4 } from "uuid";
-import style from "./EventEditor.module.scss";
+import style from "layouts/AdminLayout/partials/Main/Editor.module.scss";
 import Button from "components/Button";
 
 const EventEditor = ({ id, setId }) => {
@@ -135,7 +135,7 @@ const EventEditor = ({ id, setId }) => {
               aria-invalid={!!errors.content}
               onFocus={() => clearErrors("content")}
             />
-            <div className={style.preview}>
+            <div className={style.htmlPreview}>
               <input type="checkbox" id="contentToggle" />
               <iframe
                 title="content"
@@ -161,7 +161,7 @@ const EventEditor = ({ id, setId }) => {
                 <div className="row">
                   {watch("images").map((img, index) => (
                     <div key={index} className="p-0 col-6 position-relative overflow-hidden">
-                      <img className={style.image} src={img} alt="Preview" />
+                      <img className={style.imagesArea} src={img} alt="Preview" />
                       <div className="position-absolute top-0 end-0 p-1 d-flex">
                         <Button
                           color="green"

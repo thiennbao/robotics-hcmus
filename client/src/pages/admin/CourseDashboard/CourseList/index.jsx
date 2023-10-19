@@ -3,7 +3,7 @@ import { getCourses, deleteCourse } from "../courseSlice";
 import { courseAPI } from "api";
 import { deleteObject, ref } from "firebase/storage";
 import { storage } from "config/firebase";
-import style from "./CourseList.module.scss";
+import style from "layouts/AdminLayout/partials/Main/List.module.scss";
 import Button from "components/Button";
 
 const CourseList = ({ setId }) => {
@@ -27,7 +27,7 @@ const CourseList = ({ setId }) => {
   };
 
   return (
-    <div className={style.courseList}>
+    <div className={style.list}>
       <table>
         <thead>
           <tr>
@@ -36,8 +36,8 @@ const CourseList = ({ setId }) => {
             <th>Tuition</th>
             <th>
               <div className="d-flex justify-content-center">
-                <Button variant="outline" onClick={() => setId(0)}>
-                  Add New Course
+                <Button variant="outline" color="green" onClick={() => setId(0)}>
+                  Add
                 </Button>
               </div>
             </th>
@@ -60,7 +60,7 @@ const CourseList = ({ setId }) => {
                   <Button variant="outline" onClick={() => setId(course._id)}>
                     Edit
                   </Button>
-                  <Button variant="outline" onClick={() => deleteHandle(course._id)}>
+                  <Button variant="outline" color="red" onClick={() => deleteHandle(course._id)}>
                     Delete
                   </Button>
                 </div>

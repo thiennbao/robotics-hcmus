@@ -6,7 +6,7 @@ import { createCourse, editCourse } from "../courseSlice";
 import { getDownloadURL, ref, uploadBytes, deleteObject } from "firebase/storage";
 import { storage } from "config/firebase";
 import { v4 } from "uuid";
-import style from "./CourseEditor.module.scss";
+import style from "layouts/AdminLayout/partials/Main/Editor.module.scss"
 import Button from "components/Button";
 
 const CourseEditor = ({ id, setId }) => {
@@ -137,7 +137,7 @@ const CourseEditor = ({ id, setId }) => {
             />
             {watch("thumbnail") && (
               <div className="mt-2">
-                <img className={style.thumbnail} src={watch("thumbnail")} alt="Preview" />
+                <img className={style.imageArea} src={watch("thumbnail")} alt="Preview" />
               </div>
             )}
           </div>
@@ -205,7 +205,7 @@ const CourseEditor = ({ id, setId }) => {
                 <div className="row">
                   {watch("images").map((img, index) => (
                     <div key={index} className="p-0 col-6 position-relative overflow-hidden">
-                      <img className={style.image} src={img} alt="Preview" />
+                      <img className={style.imagesArea} src={img} alt="Preview" />
                       <Button
                         color="red"
                         type="button"

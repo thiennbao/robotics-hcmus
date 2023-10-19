@@ -11,58 +11,54 @@
     width: 50%;
     margin: auto;
 
-    & > div {
-      margin-top: 1rem;
+    & input,
+    textarea {
+      width: 100%;
+      outline: none;
+      border: transparent solid 2px;
+      padding: 1rem;
+      background-color: $background-color;
 
-      & label {
-        font-weight: bold;
+      &:focus {
+        border-color: $primary;
+        background-color: transparent;
+        transition: 0.5s;
       }
-
-      & input,
-      textarea {
-        width: 100%;
-        outline: none;
-        border: transparent solid 2px;
-        padding: 1rem;
-        background-color: $background-color;
-
-        &:focus {
-          border-color: $primary;
-          background-color: transparent;
-          transition: 0.5s;
-        }
-
-        &[aria-invalid="true"] {
-          border-color: $red;
-          background-color: transparent;
-        }
-      }
-
-      & textarea {
-        height: 15rem;
-        overflow-y: hidden;
-      }
-      & .image {
-        width: 100%;
-        aspect-ratio: 2 / 1;
-        object-fit: cover;
+      &[aria-invalid="true"] {
+        border-color: $red;
+        background-color: transparent;
       }
     }
+  }
 
-    & .buttons {
-      display: flex;
-      justify-content: space-between;
-      margin: 0 -0.5rem;
-
-      & button,
-      input {
-        width: 50%;
-        height: 3rem;
-        padding: 0;
-        margin: 2rem 0.5rem;
-        transition: 0.2s;
-      }
+  & .buttons {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 -0.5rem;
+    
+    & button,
+    input {
+      width: 50%;
+      height: 3rem;
+      padding: 0;
+      margin: 2rem 0.5rem;
+      transition: 0.2s;
     }
+  }
+
+  & textarea {
+    height: 15rem;
+    overflow-y: hidden;
+  }
+  & .imageArea {
+    width: 100%;
+    aspect-ratio: 3 / 1;
+    object-fit: cover;
+  }
+  & .imagesArea {
+    width: 100%;
+    aspect-ratio: 2 / 1;
+    object-fit: cover;
   }
 }
 
@@ -74,7 +70,7 @@
   }
 }
 
-.preview {
+.htmlPreview {
   & input {
     display: none;
   }

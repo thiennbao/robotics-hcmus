@@ -3,7 +3,7 @@ import { getEvents, deleteEvent } from "../eventSlice";
 import { eventAPI } from "api";
 import { deleteObject, ref } from "firebase/storage";
 import { storage } from "config/firebase";
-import style from "./EventList.module.scss";
+import style from "layouts/AdminLayout/partials/Main/List.module.scss";
 import Button from "components/Button";
 
 const Status = ({ start, end }) => {
@@ -50,7 +50,7 @@ const EventList = ({ setId }) => {
   };
 
   return (
-    <div className={style.eventList}>
+    <div className={style.list}>
       <table>
         <thead>
           <tr>
@@ -59,8 +59,8 @@ const EventList = ({ setId }) => {
             <th>Status</th>
             <th>
               <div className="d-flex justify-content-center">
-                <Button variant="outline" onClick={() => setId(0)}>
-                  Add New Event
+                <Button variant="outline" color="green" onClick={() => setId(0)}>
+                  Add
                 </Button>
               </div>
             </th>
@@ -87,7 +87,7 @@ const EventList = ({ setId }) => {
                   <Button variant="outline" onClick={() => setId(event._id)}>
                     Edit
                   </Button>
-                  <Button variant="outline" onClick={() => deleteHandle(event._id)}>
+                  <Button variant="outline" color="red" onClick={() => deleteHandle(event._id)}>
                     Delete
                   </Button>
                 </div>
