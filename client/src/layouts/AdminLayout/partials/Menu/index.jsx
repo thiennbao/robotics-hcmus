@@ -10,6 +10,7 @@ const pages = [
   { title: "Contacts", to: "/admin/contact", icon: "chat-dots-fill" },
   { title: "Members", to: "/admin/member", icon: "people-fill" },
   { title: "Applications", to: "/admin/application", icon: "person-bounding-box" },
+  { title: "Timeline", to: "/admin/timeline", icon: "calendar-heart-fill" },
 ];
 
 const Menu = () => {

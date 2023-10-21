@@ -17,6 +17,7 @@ import ContactDashboard from "pages/admin/ContactDashboard";
 import MemberDashboard from "pages/admin/MemberDashboard";
 import ApplicationDashboard from "pages/admin/ApplicationDashboard";
 import SingleCoursePage from "pages/site/CoursesPage/SingleCoursePage";
+import TimelineDashboard from "pages/admin/TimelineDashboard";
 
 function App() {
   return (
@@ -44,6 +45,7 @@ function App() {
             <Route path="/admin/contact" element={<ContactDashboard />} />
             <Route path="/admin/member" element={<MemberDashboard />} />
             <Route path="/admin/application" element={<ApplicationDashboard />} />
+            <Route path="/admin/timeline" element={<TimelineDashboard />} />
           </Route>
         </Routes>
       </BrowserRouter>

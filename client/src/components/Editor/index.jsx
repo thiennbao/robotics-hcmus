@@ -169,6 +169,11 @@ const Editor = ({ initial, valueHandler, formHandler, viewStatus, children }) =>
         </h3>
       ) : (
         <form onSubmit={handleSubmit(handleSave)}>
+          <h3>
+            {initial
+              ? `${viewStatus === undefined ? "Edit" : "View"} ${initial.name || initial.title}`
+              : "Add event"}
+          </h3>
           {children}
           <div className={style.buttons}>
             <Button
