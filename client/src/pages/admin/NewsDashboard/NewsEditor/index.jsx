@@ -1,38 +1,50 @@
-import { useEffect } from "react";
-import { newsAPI } from "api";
-import { useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { useForm } from "react-hook-form";
+import { newsAPI } from "api";
 import { createNews, editNews } from "../newsSlice";
-import Button from "components/Button";
-import style from "./NewsEditor.module.scss";
+import { ref, deleteObject } from "firebase/storage";
+import { storage } from "config/firebase";
+import Editor, { HtmlField, ImageField, MultipleImageField, TypingFeild } from "components/Editor";
 
 const NewsEditor = ({ id, setId }) => {
   const dispatch = useDispatch();
-
   const {
     register,
     handleSubmit,
+    getValues,
     setValue,
     watch,
     clearErrors,
     formState: { errors },
   } = useForm({ shouldFocusError: false });
 
+  const [fileChange, setFileChange] = useState({
+    current: [],
+    add: [],
+    delete: [],
+  });
+  const [data, setData] = useState(id ? {} : null);
+
+  // Get initial data
   useEffect(() => {
     if (id) {
       newsAPI
         .getOneNews(id)
         .then((res) => {
-          setValue("title", res.data.title);
-          setValue("thumbnail", res.data.thumbnail);
-          setValue("content", res.data.content);
-          setValue("images", res.data.images);
+          setData(res.data);
+          setFileChange((fileChange) => ({ ...fileChange, current: res.data.images }));
         })
         .catch((error) => console.log(error));
     }
   }, [id, setValue]);
 
+  // Form handler
   const handleSave = (data) => {
+    for (let file of fileChange.delete) {
+      const currentRef = ref(storage, file);
+      deleteObject(currentRef);
+    }
     if (id) {
       dispatch(editNews({ id, data }));
     } else {
@@ -40,115 +52,53 @@ const NewsEditor = ({ id, setId }) => {
     }
     setId();
   };
-
-  const handleUploadThumbnail = (file) => {
-    if (file) {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onloadend = () => {
-        setValue("thumbnail", reader.result.toString());
-      };
+  const handleCancel = () => {
+    for (let file of fileChange.add) {
+      const currentRef = ref(storage, file);
+      deleteObject(currentRef);
     }
-  };
-  const handleUploadImages = (files) => {
-    if (files) {
-      const images = [];
-      for (let index = 0; index < files.length; index++) {
-        const reader = new FileReader();
-        reader.readAsDataURL(files[index]);
-        reader.onloadend = () => {
-          images.push(reader.result);
-          setValue("images", images);
-        };
-      }
-    }
+    setId();
   };
 
   return (
-    <div className={style.editor}>
-      {!id || watch("title") ? (
-        <form onSubmit={handleSubmit(handleSave)}>
-          <h3>{id ? "Edit " + watch("title") : "Add news"}</h3>
-          <div className={style.inputWrapper}>
-            <label>Title</label>
-            <input
-              placeholder="Title"
-              {...register("title", { required: true })}
-              aria-invalid={!!errors.title}
-              onFocus={() => clearErrors("title")}
-            />
-          </div>
-          <div className={style.inputWrapper}>
-            <label>Thumbnail</label>
-            <input hidden {...register("thumbnail", { required: true })} />
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(e) => handleUploadThumbnail(e.target.files[0])}
-              aria-invalid={!!errors.thumbnail}
-              onFocus={() => clearErrors("thumbnail")}
-            />
-            {watch("thumbnail") && (
-              <div className={style.thumbnail}>
-                <img src={watch("thumbnail")} alt="Preview" />
-              </div>
-            )}
-          </div>
-          <div className={style.inputWrapper}>
-            <label>Content</label>
-            <textarea
-              placeholder="Content"
-              {...register("content", { required: true })}
-              aria-invalid={!!errors.content}
-              onFocus={() => clearErrors("content")}
-            />
-            <div className={style.preview}>
-              <input type="checkbox" id="contentToggle" />
-              <div
-                className={style.contentPreview}
-                dangerouslySetInnerHTML={{ __html: watch("content") }}
-              ></div>
-              <label htmlFor="contentToggle" className={style.overlay}></label>
-              <Button variant="outline">
-                <label htmlFor="contentToggle">Preview</label>
-              </Button>
-            </div>
-          </div>
-          <div className={style.inputWrapper}>
-            <label>Images</label>
-            <input hidden {...register("images")} />
-            <input
-              type="file"
-              accept="image/*"
-              multiple
-              onChange={(e) => handleUploadImages(e.target.files)}
-            />
-            {watch("images") && watch("images")[0] && (
-              <div className={style.images}>
-                <div className="row g-1">
-                  {watch("images").map((img, index) => (
-                    <div key={index} className="col-6">
-                      <img src={img} alt="Preview" />
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-          <div className={style.buttons}>
-            <input type="submit" value="SAVE" />
-            <Button variant="outline" onClick={() => setId()}>
-              CANCEL
-            </Button>
-          </div>
-        </form>
-      ) : (
-        <h3>
-          <span>Loading</span>
-          <span className="spinner-border mx-3" role="status"></span>
-        </h3>
-      )}
-    </div>
+    <Editor
+      initial={data}
+      valueHandler={setValue}
+      formHandler={[handleSubmit, handleSave, handleCancel]}
+    >
+      <TypingFeild
+        label="Title"
+        placeholder="Title"
+        register={register("title", { required: true })}
+        aria-invalid={!!errors.title}
+        onFocus={() => clearErrors("title")}
+        test={getValues("title")}
+      />
+      <ImageField
+        label="Thumbnail"
+        image={watch("thumbnail")}
+        register={register("thumbnail", { required: true })}
+        aria-invalid={!!errors.thumbnail}
+        onFocus={() => clearErrors("thumbnail")}
+        valueHandler={[getValues, setValue]}
+      />
+      <HtmlField
+        label="Content"
+        content={watch("content")}
+        register={register("content", { required: true })}
+        aria-invalid={!!errors.content}
+        onFocus={() => clearErrors("content")}
+        test={getValues("content")}
+      />
+      <MultipleImageField
+        label="Images"
+        images={watch("images")}
+        register={register("images")}
+        onFocus={() => clearErrors("images")}
+        fileHandler={[fileChange, setFileChange]}
+        valueHandler={[getValues, setValue]}
+      />
+    </Editor>
   );
 };
 

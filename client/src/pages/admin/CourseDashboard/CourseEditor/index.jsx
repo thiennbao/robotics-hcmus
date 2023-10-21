@@ -3,21 +3,12 @@ import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import { courseAPI } from "api";
 import { createCourse, editCourse } from "../courseSlice";
-import { getDownloadURL, ref, uploadBytes, deleteObject } from "firebase/storage";
+import { ref, deleteObject } from "firebase/storage";
 import { storage } from "config/firebase";
-import { v4 } from "uuid";
-import style from "layouts/AdminLayout/partials/Main/Editor.module.scss"
-import Button from "components/Button";
+import Editor, { ImageField, MultipleImageField, TypingFeild } from "components/Editor";
 
 const CourseEditor = ({ id, setId }) => {
-  const [fileChange, setFileChange] = useState({
-    current: [],
-    add: [],
-    delete: [],
-  });
-
   const dispatch = useDispatch();
-
   const {
     register,
     handleSubmit,
@@ -28,25 +19,27 @@ const CourseEditor = ({ id, setId }) => {
     formState: { errors },
   } = useForm({ shouldFocusError: false });
 
+  const [fileChange, setFileChange] = useState({
+    current: [],
+    add: [],
+    delete: [],
+  });
+  const [data, setData] = useState(id ? {} : null);
+
+  // Get initial data
   useEffect(() => {
     if (id) {
       courseAPI
         .getCourse(id)
         .then((res) => {
-          setValue("name", res.data.name);
-          setValue("tuition", res.data.tuition);
-          setValue("thumbnail", res.data.thumbnail);
-          setValue("description", res.data.description);
-          setValue("age", res.data.age);
-          setValue("lesson", res.data.lesson);
-          setValue("time", res.data.time);
-          setValue("images", res.data.images);
+          setData(res.data);
           setFileChange((fileChange) => ({ ...fileChange, current: res.data.images }));
         })
         .catch((error) => console.log(error));
     }
   }, [id, setValue]);
 
+  // Form handler
   const handleSave = (data) => {
     for (let file of fileChange.delete) {
       const currentRef = ref(storage, file);
@@ -67,175 +60,79 @@ const CourseEditor = ({ id, setId }) => {
     setId();
   };
 
-  const handleUploadThumbnail = (thumbnail) => {
-    if (thumbnail) {
-      if (getValues("thumbnail")) {
-        const currentRef = ref(storage, getValues("thumbnail"));
-        deleteObject(currentRef);
-      }
-      const thumbnailRef = ref(storage, `images/courses/${v4()}`);
-      uploadBytes(thumbnailRef, thumbnail)
-        .then((snapshot) => {
-          return getDownloadURL(snapshot.ref);
-        })
-        .then((downloadURL) => {
-          setValue("thumbnail", downloadURL);
-        });
-    }
-  };
-  const handleUploadImage = (images) => {
-    const list = getValues("images") || [];
-    for (let image of images) {
-      const imageRef = ref(storage, `images/courses/${v4()}`);
-      uploadBytes(imageRef, image)
-        .then((snapshot) => {
-          return getDownloadURL(snapshot.ref);
-        })
-        .then((downloadURL) => {
-          list.push(downloadURL);
-          setValue("images", list);
-          setFileChange((fileChange) => ({ ...fileChange, add: [...fileChange.add, downloadURL] }));
-        });
-    }
-  };
-  const handleRemoveImage = (deleteURL) => {
-    if (fileChange.current.includes(deleteURL)) {
-      setFileChange({...fileChange, delete: [...fileChange.delete, deleteURL]})
-    } else {
-      const currentRef = ref(storage, deleteURL);
-      deleteObject(currentRef);
-    }
-    setValue(
-      "images",
-      getValues("images").filter((image) => image !== deleteURL)
-    );
-  };
-
   return (
-    <div className={style.editor}>
-      {!id || watch("name") ? (
-        <form onSubmit={handleSubmit(handleSave)}>
-          <h3>{id ? `Edit ${watch("name")}` : "Add course"}</h3>
-          <div>
-            <label>Name</label>
-            <input
-              placeholder="Name"
-              {...register("name", { required: true })}
-              aria-invalid={!!errors.name}
-              onFocus={() => clearErrors("name")}
-            />
-          </div>
-          <div>
-            <label>Thumbnail</label>
-            <input hidden {...register("thumbnail", { required: true })} />
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(e) => handleUploadThumbnail(e.target.files[0])}
-              aria-invalid={!!errors.thumbnail}
-              onFocus={() => clearErrors("thumbnail")}
-            />
-            {watch("thumbnail") && (
-              <div className="mt-2">
-                <img className={style.imageArea} src={watch("thumbnail")} alt="Preview" />
-              </div>
-            )}
-          </div>
-          <div>
-            <label>Tuition</label>
-            <input
-              type="number"
-              placeholder="Tuition"
-              {...register("tuition", { required: true })}
-              aria-invalid={!!errors.tuition}
-              onFocus={() => clearErrors("tuition")}
-            />
-          </div>
-          <div>
-            <label>Description</label>
-            <textarea
-              placeholder="Description"
-              {...register("description", { required: true })}
-              aria-invalid={!!errors.description}
-              onFocus={() => clearErrors("description")}
-            />
-          </div>
-          <div className="row">
-            <div className="col-4">
-              <label>Age</label>
-              <input
-                placeholder="Age"
-                {...register("age", { required: true })}
-                aria-invalid={!!errors.age}
-                onFocus={() => clearErrors("age")}
-              />
-            </div>
-            <div className="col-4">
-              <label>Lesson</label>
-              <input
-                type="number"
-                placeholder="Lesson"
-                {...register("lesson", { required: true })}
-                aria-invalid={!!errors.lesson}
-                onFocus={() => clearErrors("lesson")}
-              />
-            </div>
-            <div className="col-4">
-              <label>Time</label>
-              <input
-                type="number"
-                placeholder="Time"
-                {...register("time", { required: true })}
-                aria-invalid={!!errors.time}
-                onFocus={() => clearErrors("time")}
-              />
-            </div>
-          </div>
-          <div>
-            <label>Images</label>
-            <input hidden {...register("images")} />
-            <input
-              type="file"
-              accept="image/*"
-              multiple
-              onChange={(e) => handleUploadImage(e.target.files)}
-            />
-            {watch("images") && watch("images")[0] && (
-              <div className="mt-2 container-fluid">
-                <div className="row">
-                  {watch("images").map((img, index) => (
-                    <div key={index} className="p-0 col-6 position-relative overflow-hidden">
-                      <img className={style.imagesArea} src={img} alt="Preview" />
-                      <Button
-                        color="red"
-                        type="button"
-                        className="position-absolute top-0 end-0 p-1"
-                        onClick={() => handleRemoveImage(img)}
-                      >
-                        Remove
-                      </Button>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-          <div className={style.buttons}>
-            <Button variant="outline" color="green" type="submit">
-              SAVE
-            </Button>
-            <Button variant="outline" color="red" type="button" onClick={handleCancel}>
-              CANCEL
-            </Button>
-          </div>
-        </form>
-      ) : (
-        <h3>
-          <span>Loading</span>
-          <span className="spinner-border mx-3" role="status"></span>
-        </h3>
-      )}
-    </div>
+    <Editor
+      initial={data}
+      valueHandler={setValue}
+      formHandler={[handleSubmit, handleSave, handleCancel]}
+    >
+      <TypingFeild
+        label="Name"
+        placeholder="Name"
+        register={register("name", { required: true })}
+        aria-invalid={!!errors.name}
+        onFocus={() => clearErrors("name")}
+        test={getValues("name")}
+      />
+      <ImageField
+        label="Thumbnail"
+        image={watch("thumbnail")}
+        register={register("thumbnail", { required: true })}
+        aria-invalid={!!errors.thumbnail}
+        onFocus={() => clearErrors("thumbnail")}
+        valueHandler={[getValues, setValue]}
+      />
+      <TypingFeild
+        type="number"
+        label="Tuition"
+        placeholder="Tuition"
+        register={register("tuition", { required: true })}
+        aria-invalid={!!errors.tuition}
+        onFocus={() => clearErrors("tuition")}
+      />
+      <TypingFeild
+        textarea
+        label="Description"
+        type="number"
+        placeholder="Description"
+        register={register("description", { required: true })}
+        aria-invalid={!!errors.description}
+        onFocus={() => clearErrors("description")}
+      />
+      <div className="d-flex">
+        <TypingFeild
+          label="Age"
+          placeholder="Age"
+          register={register("age", { required: true })}
+          aria-invalid={!!errors.age}
+          onFocus={() => clearErrors("age")}
+        />
+        <TypingFeild
+          type="number"
+          label="Lesson"
+          placeholder="Lesson"
+          register={register("lesson", { required: true })}
+          aria-invalid={!!errors.lesson}
+          onFocus={() => clearErrors("lesson")}
+        />
+        <TypingFeild
+          type="number"
+          label="Time"
+          placeholder="Time"
+          register={register("time", { required: true })}
+          aria-invalid={!!errors.time}
+          onFocus={() => clearErrors("time")}
+        />
+      </div>
+      <MultipleImageField
+        label="Images"
+        images={watch("images")}
+        register={register("images")}
+        onFocus={() => clearErrors("images")}
+        fileHandler={[fileChange, setFileChange]}
+        valueHandler={[getValues, setValue]}
+      />
+    </Editor>
   );
 };
 

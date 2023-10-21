@@ -1,6 +1,6 @@
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getNews } from "./newsSlice";
-import { useEffect, useState } from "react";
 import AdminLayout from "layouts/AdminLayout";
 import NewsList from "./NewsList";
 import NewsEditor from "./NewsEditor";

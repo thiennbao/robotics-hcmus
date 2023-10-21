@@ -1,6 +1,6 @@
 @import "scss/variables";
 
-.list {
+.dataTable {
   & table {
     table-layout: fixed;
     width: 100%;
@@ -56,13 +56,12 @@
 }
 
 @media (max-width: 768px) {
-  .list {
+  .dataTable {
     & table {
       & tr {
-        font-size: 0.6rem;
-
         & td,
         th {
+          font-size: 0.6rem;
           padding: 0.5rem;
           & img {
             width: 100%;
@@ -81,15 +80,4 @@
       font-size: 0.8rem;
     }
   }
-}
-
-// Status
-.upcoming {
-  color: $yellow;
-}
-.ongoing {
-  color: $green;
-}
-.ended {
-  color: $red;
 }

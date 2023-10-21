@@ -103,15 +103,16 @@
   }
 }
 
-// Dashboard main
+// Dashboard content
 .menu ~ div {
   background-color: $background-color;
+  padding: 5rem;
   min-height: 100vh;
 
   & > div {
     background-color: #fff;
-    padding: 1rem;
-    border-radius: 1rem;
+    padding: 2rem;
+    border-radius: 2rem;
 
     & h2 {
       margin: 1.5rem 0;
@@ -122,5 +123,14 @@
 @media (max-width: 768px) {
   .menu ~ div {
     padding: 1rem;
+
+    & > div {
+      padding: 1rem;
+      border-radius: 1rem;
+  
+      & h2 {
+        margin: 1rem 0;
+      }
+    }
   }
 }

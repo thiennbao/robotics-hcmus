@@ -29,36 +29,10 @@
         background-color: transparent;
       }
     }
-  }
 
-  & .buttons {
-    display: flex;
-    justify-content: space-between;
-    margin: 0 -0.5rem;
-    
-    & button,
-    input {
-      width: 50%;
-      height: 3rem;
-      padding: 0;
-      margin: 2rem 0.5rem;
-      transition: 0.2s;
+    & label {
+      font-weight: bold;
     }
-  }
-
-  & textarea {
-    height: 15rem;
-    overflow-y: hidden;
-  }
-  & .imageArea {
-    width: 100%;
-    aspect-ratio: 3 / 1;
-    object-fit: cover;
-  }
-  & .imagesArea {
-    width: 100%;
-    aspect-ratio: 2 / 1;
-    object-fit: cover;
   }
 }
 
@@ -70,7 +44,54 @@
   }
 }
 
-.htmlPreview {
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 -0.5rem;
+
+  & button {
+    width: 50%;
+    height: 3rem;
+    padding: 0;
+    margin: 2rem 0.5rem;
+    transition: 0.2s;
+  }
+}
+
+.typingFeild {
+  margin-top: 1rem;
+
+  & textarea {
+    height: 15rem;
+    overflow-y: hidden;
+  }
+}
+
+.imageField {
+  margin-top: 1rem;
+
+  & img {
+    width: 100%;
+    aspect-ratio: 3 / 1;
+    object-fit: cover;
+  }
+}
+
+.multipleImageField {
+  margin-top: 1rem;
+
+  & img {
+    width: 100%;
+    aspect-ratio: 2 / 1;
+    object-fit: cover;
+  }
+}
+
+.htmlField {
+  & textarea {
+    height: 20rem;
+  }
+
   & input {
     display: none;
   }
@@ -97,8 +118,11 @@
     width: 100vw;
     background-color: #fff;
     height: 300px;
-  }
 
+    &.full {
+      height: 80vh;
+    }
+  }
 
   & label {
     cursor: pointer;
