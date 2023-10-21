@@ -72,7 +72,6 @@ const CourseEditor = ({ id, setId }) => {
         register={register("name", { required: true })}
         aria-invalid={!!errors.name}
         onFocus={() => clearErrors("name")}
-        test={getValues("name")}
       />
       <ImageField
         label="Thumbnail"
@@ -93,7 +92,6 @@ const CourseEditor = ({ id, setId }) => {
       <TypingFeild
         textarea
         label="Description"
-        type="number"
         placeholder="Description"
         register={register("description", { required: true })}
         aria-invalid={!!errors.description}

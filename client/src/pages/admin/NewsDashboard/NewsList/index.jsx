@@ -8,12 +8,15 @@ import DataTable from "components/DataTable";
 const NewsList = ({ setId }) => {
   const dispatch = useDispatch();
   const news = useSelector((state) => state.news);
+  const data = news.map((item) => {
+    const dataItem = { ...item };
+    dataItem.date = item.createdAt.split("T")[0];
+    return dataItem;
+  });
 
   const deleteHandle = (id) => {
-    if (window.confirm("Are you sure to delete this course")) {
+    if (window.confirm("Are you sure to delete this news")) {
       newsAPI.getOneNews(id).then((res) => {
-        const currentRef = ref(storage, res.data.thumbnail);
-        deleteObject(currentRef);
         res.data.images &&
           res.data.images.forEach((image) => {
             const currentRef = ref(storage, image);
@@ -30,11 +33,7 @@ const NewsList = ({ setId }) => {
   return (
     <DataTable
       fields={["thumbnail", "title", "date"]}
-      data={news.map((item) => {
-        const formatDate = { ...item };
-        formatDate.date = formatDate.createdAt.split("T")[0];
-        return formatDate;
-      })}
+      data={data}
       actionHandler={[setId, deleteHandle, loadHandle]}
     />
   );

@@ -127,7 +127,7 @@ const MultipleImageField = (props) => {
 };
 
 const HtmlField = (props) => {
-  const { register, label, content, ...rest } = props;
+  const { register, label, content, full, ...rest } = props;
 
   return (
     <div className={style.htmlField}>
@@ -136,8 +136,9 @@ const HtmlField = (props) => {
       <div>
         <input type="checkbox" id="contentToggle" />
         <iframe
+          className={full && style.full}
           title="content"
-          srcDoc={"<style>body{overflow: hidden; margin:0;}</style>" + content}
+          srcDoc={(full ? "" : "<style>body{overflow: hidden; margin:0;}</style>") + content}
         ></iframe>
         <label htmlFor="contentToggle" className={style.overlay}></label>
         <Button variant="outline" type="button">
@@ -148,7 +149,7 @@ const HtmlField = (props) => {
   );
 };
 
-const Editor = ({ initial, valueHandler, formHandler, children }) => {
+const Editor = ({ initial, valueHandler, formHandler, viewStatus, children }) => {
   const [handleSubmit, handleSave, handleCancel] = formHandler;
 
   useEffect(() => {
@@ -170,8 +171,12 @@ const Editor = ({ initial, valueHandler, formHandler, children }) => {
         <form onSubmit={handleSubmit(handleSave)}>
           {children}
           <div className={style.buttons}>
-            <Button variant="outline" color="green" type="submit">
-              SAVE
+            <Button
+              variant="outline"
+              color={viewStatus !== undefined && viewStatus ? "yellow" : "green"}
+              type="submit"
+            >
+              {viewStatus === undefined ? "SAVE" : viewStatus ? "MAKE AS UNREAD" : "MAKE AS READ"}
             </Button>
             <Button variant="outline" color="red" type="button" onClick={handleCancel}>
               CANCEL

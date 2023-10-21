@@ -7,8 +7,8 @@ const pages = [
   { title: "Courses", to: "/admin/course", icon: "journal-album" },
   { title: "Event", to: "/admin/event", icon: "star-fill" },
   { title: "News", to: "/admin/news", icon: "newspaper" },
-  { title: "Members", to: "/admin/member", icon: "people-fill" },
   { title: "Contacts", to: "/admin/contact", icon: "chat-dots-fill" },
+  { title: "Members", to: "/admin/member", icon: "people-fill" },
   { title: "Applications", to: "/admin/application", icon: "person-bounding-box" },
 ];
 

@@ -76,7 +76,6 @@ const EventEditor = ({ id, setId }) => {
         register={register("title", { required: true })}
         aria-invalid={!!errors.title}
         onFocus={() => clearErrors("title")}
-        test={getValues("title")}
       />
       <TypingFeild
         label="Start date"
@@ -84,7 +83,6 @@ const EventEditor = ({ id, setId }) => {
         register={register("start", { required: true })}
         aria-invalid={!!errors.start}
         onFocus={() => clearErrors("start")}
-        test={getValues("start")}
       />
       <TypingFeild
         label="End date"
@@ -92,7 +90,6 @@ const EventEditor = ({ id, setId }) => {
         register={register("end", { required: true })}
         aria-invalid={!!errors.end}
         onFocus={() => clearErrors("end")}
-        test={getValues("end")}
       />
       <MultipleImageField
         label="Images"
@@ -108,7 +105,6 @@ const EventEditor = ({ id, setId }) => {
         register={register("content", { required: true })}
         aria-invalid={!!errors.content}
         onFocus={() => clearErrors("content")}
-        test={getValues("content")}
       />
     </Editor>
   );

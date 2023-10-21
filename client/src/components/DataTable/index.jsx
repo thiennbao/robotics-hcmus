@@ -1,7 +1,7 @@
-import style from "./DataTable.module.scss"
+import style from "./DataTable.module.scss";
 import Button from "components/Button";
 
-const DataTable = ({ fields, data, actionHandler }) => {
+const DataTable = ({ fields, data, viewOnly, actionHandler }) => {
   const [pickHandler, deleteHandler, loadHandler] = actionHandler;
 
   const isImage = (url) => {
@@ -21,13 +21,15 @@ const DataTable = ({ fields, data, actionHandler }) => {
             {fields.map((field) => (
               <th key={field}>{field}</th>
             ))}
-            <th>
-              <div className="d-flex justify-content-center">
-                <Button variant="outline" color="green" onClick={() => pickHandler(0)}>
-                  Add
-                </Button>
-              </div>
-            </th>
+            {!viewOnly && (
+              <th>
+                <div className="d-flex justify-content-center">
+                  <Button variant="outline" color="green" onClick={() => pickHandler(0)}>
+                    Add
+                  </Button>
+                </div>
+              </th>
+            )}
           </tr>
         </thead>
         <tbody>
@@ -45,7 +47,7 @@ const DataTable = ({ fields, data, actionHandler }) => {
               <td>
                 <div className="d-flex justify-content-center">
                   <Button variant="outline" onClick={() => pickHandler(item._id)}>
-                    Edit
+                    {viewOnly ? "View" : "Edit"}
                   </Button>
                   <Button variant="outline" color="red" onClick={() => deleteHandler(item._id)}>
                     Delete
@@ -63,4 +65,4 @@ const DataTable = ({ fields, data, actionHandler }) => {
   );
 };
 
-export default DataTable
+export default DataTable;

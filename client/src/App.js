@@ -13,8 +13,8 @@ import HomeDashboard from "pages/admin/HomeDashboard";
 import CourseDashboard from "pages/admin/CourseDashboard";
 import EventDashboard from "pages/admin/EventDashboard";
 import NewsDashboard from "pages/admin/NewsDashboard";
-import MemberDashboard from "pages/admin/MemberDashboard";
 import ContactDashboard from "pages/admin/ContactDashboard";
+import MemberDashboard from "pages/admin/MemberDashboard";
 import ApplicationDashboard from "pages/admin/ApplicationDashboard";
 import SingleCoursePage from "pages/site/CoursesPage/SingleCoursePage";
 
@@ -41,8 +41,8 @@ function App() {
             <Route path="/admin/course" element={<CourseDashboard />} />
             <Route path="/admin/event" element={<EventDashboard />} />
             <Route path="/admin/news" element={<NewsDashboard />} />
-            <Route path="/admin/member" element={<MemberDashboard />} />
             <Route path="/admin/contact" element={<ContactDashboard />} />
+            <Route path="/admin/member" element={<MemberDashboard />} />
             <Route path="/admin/application" element={<ApplicationDashboard />} />
           </Route>
         </Routes>

@@ -17,7 +17,7 @@ const ApplicationDashboard = () => {
   const [id, setId] = useState();
 
   return (
-    <AdminLayout page="CONTACT">
+    <AdminLayout page="APPLICATION">
       {id === undefined ? <ApplicationList setId={setId} /> : <ApplicationView id={id} setId={setId} />}
     </AdminLayout>
   );

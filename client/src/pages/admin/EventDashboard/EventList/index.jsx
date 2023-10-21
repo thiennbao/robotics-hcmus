@@ -8,6 +8,12 @@ import DataTable from "components/DataTable";
 const EventList = ({ setId }) => {
   const dispatch = useDispatch();
   const events = useSelector((state) => state.event);
+  const data = events.map((item) => {
+    const dataItem = { ...item };
+    dataItem.date = item.start.split("T")[0];
+    dataItem.end = item.end.split("T")[0];
+    return dataItem;
+  });
 
   const deleteHandle = (id) => {
     if (window.confirm("Are you sure to delete this event")) {
@@ -27,13 +33,8 @@ const EventList = ({ setId }) => {
 
   return (
     <DataTable
-      fields={["title", "start", "end"]}
-      data={events.map((event) => {
-        const formatDate = { ...event };
-        formatDate.start = formatDate.start.split("T")[0];
-        formatDate.end = formatDate.end.split("T")[0];
-        return formatDate;
-      })}
+      fields={["title", "date", "end"]}
+      data={data}
       actionHandler={[setId, deleteHandle, loadHandle]}
     />
   );

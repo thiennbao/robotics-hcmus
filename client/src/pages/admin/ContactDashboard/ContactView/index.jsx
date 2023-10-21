@@ -1,70 +1,52 @@
 import { useEffect, useState } from "react";
-import { contactAPI } from "api";
-import Button from "components/Button";
-import style from "./ContactView.module.scss";
 import { useDispatch } from "react-redux";
+import { useForm } from "react-hook-form";
+import { contactAPI } from "api";
 import { setStatusContact } from "../contactSlice";
+import Editor, { TypingFeild } from "components/Editor";
 
 const ContactView = ({ id, setId }) => {
   const dispatch = useDispatch();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+  } = useForm({ shouldFocusError: false });
 
-  const [contact, setContact] = useState({});
+  const [data, setData] = useState(id ? {} : null);
 
+  // Get initial data
   useEffect(() => {
     contactAPI
       .getContact(id)
       .then((res) => {
-        setContact(res.data);
+        setData(res.data);
       })
       .catch((error) => console.log(error));
   }, [id]);
 
-  const setStatusHandle = (id, status) => {
-    dispatch(setStatusContact({ id, status }));
+  // Form handler
+  const handleSave = (data) => {
+    dispatch(setStatusContact({ id, status: !data.status }));
+    setId();
+  };
+  const handleCancel = () => {
     setId();
   };
 
   return (
-    <div className={style.editor}>
-      {contact.name ? (
-        <form>
-          <h3>{`Contact from ${contact.name}`}</h3>
-          <div className={style.inputWrapper}>
-            <label>Subject</label>
-            <input value={contact.subject} readOnly />
-          </div>
-          <div className={style.inputWrapper}>
-            <label>Name</label>
-            <input value={contact.name} readOnly />
-          </div>
-          <div className={style.inputWrapper}>
-            <label>Phone</label>
-            <input value={contact.phone} readOnly />
-          </div>
-          <div className={style.inputWrapper}>
-            <label>Email</label>
-            <input value={contact.email} readOnly />
-          </div>
-          <div className={style.inputWrapper}>
-            <label>Message</label>
-            <textarea value={contact.message} readOnly />
-          </div>
-          <div className={style.buttons}>
-            <Button className={contact.status ? style.makeAsUnread : style.makeAsRead} variant="outline" onClick={() => setStatusHandle(id, !contact.status)}>
-              {contact.status ? "Make as unread" : "Make as read" }
-            </Button>
-            <Button variant="outline" onClick={() => setId()}>
-              Close
-            </Button>
-          </div>
-        </form>
-      ) : (
-        <h3>
-          <span>Loading</span>
-          <span className="spinner-border mx-3" role="status"></span>
-        </h3>
-      )}
-    </div>
+    <Editor
+      viewStatus={data.status}
+      initial={data}
+      valueHandler={setValue}
+      formHandler={[handleSubmit, handleSave, handleCancel]}
+    >
+      <TypingFeild label="Subject" readOnly register={register("subject")} />
+      <TypingFeild label="Name" readOnly register={register("name")} />
+      <TypingFeild label="Phone" readOnly register={register("phone")} />
+      <TypingFeild label="Email" readOnly register={register("email")} />
+      <TypingFeild label="Message" readOnly textarea register={register("message")} />
+    </Editor>
   );
 };
 

@@ -1,79 +1,54 @@
 import { useEffect, useState } from "react";
-import { applicationAPI } from "api";
-import Button from "components/Button";
-import style from "./ApplicationView.module.scss";
 import { useDispatch } from "react-redux";
+import { useForm } from "react-hook-form";
+import { applicationAPI } from "api";
 import { setStatusApplication } from "../applicationSlice";
+import Editor, { TypingFeild } from "components/Editor";
 
 const ApplicationView = ({ id, setId }) => {
   const dispatch = useDispatch();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+  } = useForm({ shouldFocusError: false });
 
-  const [application, setApplication] = useState({});
+  const [data, setData] = useState(id ? {} : null);
 
+  // Get initial data
   useEffect(() => {
     applicationAPI
       .getApplication(id)
       .then((res) => {
-        setApplication(res.data);
+        setData(res.data);
       })
       .catch((error) => console.log(error));
   }, [id]);
 
-  const setStatusHandle = (id, status) => {
-    dispatch(setStatusApplication({ id, status }));
+  // Form handler
+  const handleSave = (data) => {
+    dispatch(setStatusApplication({ id, status: !data.status }));
+    setId();
+  };
+  const handleCancel = () => {
     setId();
   };
 
   return (
-    <div className={style.editor}>
-      {application.name ? (
-        <form>
-          <h3>{`Application from ${application.name}`}</h3>
-          <div className={style.inputWrapper}>
-            <label>Name</label>
-            <input value={application.name} readOnly />
-          </div>
-          <div className={style.inputWrapper}>
-            <label>Phone</label>
-            <input value={application.phone} readOnly />
-          </div>
-          <div className={style.inputWrapper}>
-            <label>Email</label>
-            <input value={application.email} readOnly />
-          </div>
-          <div className={style.inputWrapper}>
-            <label>Address</label>
-            <input value={application.address} readOnly />
-          </div>
-          <div className={style.inputWrapper}>
-            <label>Question 1</label>
-            <input value={application.qn1} readOnly />
-          </div>
-          <div className={style.inputWrapper}>
-            <label>Question 2</label>
-            <input value={application.qn2} readOnly />
-          </div>
-          <div className={style.inputWrapper}>
-            <label>Question 3</label>
-            <textarea value={application.qn3} readOnly />
-          </div>
-          {/* Add question here if need more */}
-          <div className={style.buttons}>
-            <Button className={application.status ? style.makeAsUnread : style.makeAsRead} variant="outline" onClick={() => setStatusHandle(id, !application.status)}>
-              {application.status ? "Make as unread" : "Make as read" }
-            </Button>
-            <Button variant="outline" onClick={() => setId()}>
-              Close
-            </Button>
-          </div>
-        </form>
-      ) : (
-        <h3>
-          <span>Loading</span>
-          <span className="spinner-border mx-3" role="status"></span>
-        </h3>
-      )}
-    </div>
+    <Editor
+    viewStatus={data.status}
+    initial={data}
+    valueHandler={setValue}
+    formHandler={[handleSubmit, handleSave, handleCancel]}
+  >
+    <TypingFeild label="Name" readOnly register={register("name")} />
+    <TypingFeild label="Phone" readOnly register={register("phone")} />
+    <TypingFeild label="Email" readOnly register={register("email")} />
+    <TypingFeild label="Address" readOnly register={register("address")} />
+    <TypingFeild label="Question 1" readOnly register={register("qn1")} />
+    <TypingFeild label="Question 2" readOnly register={register("qn2")} />
+    <TypingFeild label="Question 3" readOnly textarea register={register("qn3")} />
+  </Editor>
   );
 };
 

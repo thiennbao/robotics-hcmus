@@ -72,7 +72,6 @@ const NewsEditor = ({ id, setId }) => {
         register={register("title", { required: true })}
         aria-invalid={!!errors.title}
         onFocus={() => clearErrors("title")}
-        test={getValues("title")}
       />
       <ImageField
         label="Thumbnail"
@@ -85,10 +84,10 @@ const NewsEditor = ({ id, setId }) => {
       <HtmlField
         label="Content"
         content={watch("content")}
+        full
         register={register("content", { required: true })}
         aria-invalid={!!errors.content}
         onFocus={() => clearErrors("content")}
-        test={getValues("content")}
       />
       <MultipleImageField
         label="Images"
