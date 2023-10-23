@@ -1,4 +1,4 @@
-import { courseAPI } from "api";
+import { courseAPI, registrationAPI } from "api";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useLocation } from "react-router-dom";
@@ -12,24 +12,31 @@ import { TypingFeild } from "components/Editor";
 const SingleCoursePage = () => {
   const id = useLocation().pathname.split("/")[2];
 
-  const [course, setCourse] = useState({});
-  useEffect(() => {
-    courseAPI
-      .getCourse(id)
-      .then((res) => setCourse(res.data))
-      .catch((error) => console.log(error));
-  }, [id]);
-
   const {
     register,
     handleSubmit,
+    setValue,
+    reset,
     clearErrors,
     formState: { errors },
   } = useForm({ shouldFocusError: false });
 
+  const [course, setCourse] = useState({});
+  useEffect(() => {
+    courseAPI
+      .getCourse(id)
+      .then((res) => {
+        setCourse(res.data);
+        setValue("course", res.data.name);
+      })
+      .catch((error) => console.log(error));
+  }, [id, setValue]);
+
   const onSubmit = (data) => {
-    // Wating for backend
-    console.log(data);
+    registrationAPI.createRegistration(data).then(() => {
+      window.alert("Register successfully !!!");
+      reset()
+    });
   };
 
   return (
@@ -47,13 +54,13 @@ const SingleCoursePage = () => {
                     </Heading>
                     <p>{course.description}</p>
                     <p>
-                      <i class="bi bi-person-circle"></i> Age: {course.age}
+                      <i className="bi bi-person-circle"></i> Age: {course.age}
                     </p>
                     <p>
-                      <i class="bi bi-journals"></i> Lesson: {course.lesson}
+                      <i className="bi bi-journals"></i> Lesson: {course.lesson}
                     </p>
                     <p>
-                      <i class="bi bi-clock-fill"></i> Time: {course.time}m / lesson
+                      <i className="bi bi-clock-fill"></i> Time: {course.time}m / class
                     </p>
                   </Appearance>
                 </div>
@@ -75,6 +82,7 @@ const SingleCoursePage = () => {
               <div className={style.form}>
                 <Heading className="text-center fs-2">Register this course</Heading>
                 <form onSubmit={handleSubmit(onSubmit)}>
+                  <input hidden register={register("course")} />
                   <TypingFeild
                     label="Name"
                     placeholder="Name"

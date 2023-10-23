@@ -2,7 +2,7 @@
 
 .menu {
   z-index: 1;
-  
+
   // Toggle menu
   & input:checked {
     & ~ div {
@@ -88,6 +88,7 @@
 
           & i {
             margin-right: 1rem;
+            color: $primary;
           }
         }
       }
@@ -127,9 +128,10 @@
     & > div {
       padding: 1rem;
       border-radius: 1rem;
-  
+
       & h2 {
         margin: 1rem 0;
+        font-size: 2rem;
       }
     }
   }

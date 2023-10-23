@@ -1,4 +1,5 @@
 import courseRouter from "./routers/courseRouter.js";
+import registrationRouter from "./routers/registrationRouter.js";
 import eventRouter from "./routers/eventRouter.js";
 import newsRouter from "./routers/newsRouter.js";
 import memberRouter from "./routers/memberRouter.js";
@@ -8,6 +9,7 @@ import timelineRouter from "./routers/timelineRouter.js";
 
 const router = (app) => {
   app.use("/api/course", courseRouter);
+  app.use("/api/registration", registrationRouter);
   app.use("/api/event", eventRouter);
   app.use("/api/news", newsRouter);
   app.use("/api/member", memberRouter);

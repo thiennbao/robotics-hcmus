@@ -11,6 +11,7 @@ import MemoryPage from "pages/site/MemoryPage";
 import FaqPage from "pages/site/FaqPage";
 import HomeDashboard from "pages/admin/HomeDashboard";
 import CourseDashboard from "pages/admin/CourseDashboard";
+import RegistrationDashboard from "pages/admin/RegistrationDashboard";
 import EventDashboard from "pages/admin/EventDashboard";
 import NewsDashboard from "pages/admin/NewsDashboard";
 import ContactDashboard from "pages/admin/ContactDashboard";
@@ -40,6 +41,7 @@ function App() {
           <Route path="/admin">
             <Route path="/admin/" element={<HomeDashboard />} />
             <Route path="/admin/course" element={<CourseDashboard />} />
+            <Route path="/admin/registration" element={<RegistrationDashboard />} />
             <Route path="/admin/event" element={<EventDashboard />} />
             <Route path="/admin/news" element={<NewsDashboard />} />
             <Route path="/admin/contact" element={<ContactDashboard />} />

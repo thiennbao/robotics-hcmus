@@ -29,22 +29,16 @@
   & > div:last-child {
     padding: 1rem;
 
-    & h3 {
-      color: $primary;
+    & > div:first-child {
+      & h3 {
+        color: $primary;
+      }
     }
 
-    & > p {
-      display: flex;
-      align-items: center;
-      height: 6rem;
-      overflow: hidden;
-    }
-
-    & > div {
+    & > div:nth-child(2) {
       margin-bottom: 1rem;
       padding: 0.5rem;
       background-image: linear-gradient(to bottom, $background-color, transparent);
-      // border-top: gray solid 1px;
 
       & p {
         margin: 0;
@@ -56,12 +50,12 @@
         }
       }
     }
+  }
 
-    & .detailButton {
-      width: 40%;
-      height: 2.5rem;
-      margin: auto;
-    }
+  & .detailButton {
+    width: 40%;
+    height: 2.5rem;
+    margin: auto;
   }
 }
 

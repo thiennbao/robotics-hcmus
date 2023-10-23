@@ -5,6 +5,7 @@ import logo from "assets/general/logo.png";
 
 const pages = [
   { title: "Courses", to: "/admin/course", icon: "journal-album" },
+  { title: "Registration", to: "/admin/registration", icon: "cart-fill" },
   { title: "Event", to: "/admin/event", icon: "star-fill" },
   { title: "News", to: "/admin/news", icon: "newspaper" },
   { title: "Contacts", to: "/admin/contact", icon: "chat-dots-fill" },

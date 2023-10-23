@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import clsx from "clsx";
 import style from "./Appearance.module.scss";
 
-const Appearance = ({ type, animation = {}, children }) => {
+const Appearance = ({ type, animation = {}, className, children }) => {
   const { duration, timingFunction, delay, iterationCount, direction, fillMode } = animation;
 
   const [animated, setAnimated] = useState(false);
@@ -31,7 +31,7 @@ const Appearance = ({ type, animation = {}, children }) => {
   return (
     <div
       ref={ref}
-      className={clsx(style.container, animated && style[type])}
+      className={clsx(className, style.container, animated && style[type])}
       style={{
         animationDuration: duration || "1s",
         animationTimingFunction: timingFunction,

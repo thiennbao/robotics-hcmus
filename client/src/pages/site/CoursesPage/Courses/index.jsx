@@ -1,32 +1,35 @@
+import { useEffect, useState } from "react";
+import { courseAPI } from "api";
+import clsx from "clsx";
 import style from "./Courses.module.scss";
 import Section from "components/Section";
 import Heading from "components/Heading";
 import Button from "components/Button";
 import Appearance from "components/Appearance";
-import { useEffect, useState } from "react";
-import { courseAPI } from "api";
 
 const Course = ({ id, thumbnail, name, description, age, lesson, time }) => {
   return (
-    <div className={style.course}>
+    <div className={clsx(style.course, "d-flex flex-column")}>
       <div>
         <img src={thumbnail} alt="" />
       </div>
-      <div className="container-fluid">
-        <h3>{name}</h3>
-        <p className="">{description}</p>
+      <div className="container-fluid flex-grow-1 d-flex flex-column">
+        <div className="flex-grow-1 d-flex flex-column">
+          <h3 className="flex-grow-1">{name}</h3>
+          <p className="">{description}</p>
+        </div>
         <div className="row d-flex text-center">
           <p className="col-4">
             <span>{age}</span> Year olds
           </p>
           <p className="col-4">
-            <span>{lesson}</span> Classes
+            <span>{lesson}</span> Lessons
           </p>
           <p className="col-4">
-            <span>{time}</span> 1 Class
+            <span>{time} m</span> 1 Class
           </p>
         </div>
-        <Button variant="outline" className={style.detailButton} to={`./${id}`}>
+        <Button variant="outline" className={style.detailButton} to={`/courses/${id}`}>
           See details
         </Button>
       </div>
@@ -41,7 +44,7 @@ const Courses = ({ limit }) => {
       .getCourses(0, limit)
       .then((res) => setCourses(res.data))
       .catch((error) => console.log(error));
-  });
+  }, [limit]);
 
   return (
     <Section className={style.courses}>
@@ -49,8 +52,9 @@ const Courses = ({ limit }) => {
         <Heading subcontent="--- WELCOME TO">{limit && "POPULAR"} COURSES</Heading>
         <div className="row gy-5 my-3">
           {courses.map((course, index) => (
-            <div key={index} className="col-lg-4 col-md-6">
+            <div key={index} className="col-lg-4 col-md-6 d-flex">
               <Appearance
+                className="d-flex"
                 type={index % 2 ? "right" : "left"}
                 animation={{ delay: `${index * 0.1}s` }}
               >
@@ -58,7 +62,7 @@ const Courses = ({ limit }) => {
                   id={course._id}
                   thumbnail={course.thumbnail}
                   name={course.name}
-                  description={course.description}
+                  description={course.description.slice(0, 200) + "..."}
                   age={course.age}
                   lesson={course.lesson}
                   time={course.time}
