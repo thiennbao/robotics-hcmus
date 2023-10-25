@@ -3,7 +3,9 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.scss";
 import HomePage from "./pages/site/HomePage";
 import CoursesPage from "./pages/site/CoursesPage";
+import SingleCoursePage from "pages/site/CoursesPage/SingleCoursePage";
 import NewsPage from "./pages/site/NewsPage";
+import SingleNewsPage from "pages/site/NewsPage/SingleNewsPage";
 import ContactPage from "./pages/site/ContactPage";
 import AboutPage from "./pages/site/AboutPage";
 import JoinUsPage from "pages/site/JoinUsPage";
@@ -17,7 +19,6 @@ import NewsDashboard from "pages/admin/NewsDashboard";
 import ContactDashboard from "pages/admin/ContactDashboard";
 import MemberDashboard from "pages/admin/MemberDashboard";
 import ApplicationDashboard from "pages/admin/ApplicationDashboard";
-import SingleCoursePage from "pages/site/CoursesPage/SingleCoursePage";
 import TimelineDashboard from "pages/admin/TimelineDashboard";
 
 function App() {
@@ -31,7 +32,10 @@ function App() {
               <Route path="/courses/" element={<CoursesPage />} />
               <Route path="/courses/:slug" element={<SingleCoursePage />} />
             </Route>
-            <Route path="/news" element={<NewsPage />} />
+            <Route path="/news">
+              <Route path="/news/" element={<NewsPage />} />
+              <Route path="/news/:slug" element={<SingleNewsPage />} />
+            </Route>
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/joinus" element={<JoinUsPage />} />

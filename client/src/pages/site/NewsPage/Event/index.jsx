@@ -17,7 +17,7 @@ const Event = () => {
       .getEvents()
       .then((res) => setEvents(res.data))
       .catch((error) => console.log(error));
-  });
+  }, []);
 
   const [slide, setSlide] = useState(0);
 
