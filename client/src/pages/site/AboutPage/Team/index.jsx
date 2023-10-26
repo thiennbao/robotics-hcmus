@@ -4,8 +4,10 @@ import Section from "components/Section";
 import Heading from "components/Heading";
 import Button from "components/Button";
 import Appearance from "components/Appearance";
+import { useEffect, useState } from "react";
+import { memberAPI } from "api";
 
-const Member = ({ image, name, position, qoute, links = {} }) => {
+const Member = ({ image, name, position, quote, links = [] }) => {
   return (
     <div className={style.member}>
       <div className="row g-0">
@@ -16,16 +18,16 @@ const Member = ({ image, name, position, qoute, links = {} }) => {
           <p>{name}</p>
           <p>{position}</p>
           <p>
-            <i className="bi bi-chat-square-quote-fill"></i> {qoute}
+            <i className="bi bi-chat-square-quote-fill"></i> {quote}
           </p>
           <div>
-            <a href={links.facebook}>
+            <a href={`https://facebook.com/${links[0]}`} target="blank">
               <i className="bi bi-facebook"></i>
             </a>
-            <a href={links.instagram}>
+            <a href={`https://instagram.com/${links[1]}`}>
               <i className="bi bi-instagram"></i>
             </a>
-            <a href={links.linkedin}>
+            <a href={`https://linkedin.com/${links[2]}`}>
               <i className="bi bi-linkedin"></i>
             </a>
           </div>
@@ -36,36 +38,13 @@ const Member = ({ image, name, position, qoute, links = {} }) => {
 };
 
 const Team = ({ limit }) => {
-  // Call API
-  const members = [
-    {
-      image: "https://i.insider.com/602ee9ced3ad27001837f2ac?width=1000&format=jpeg&auto=webp",
-      name: "Nguyen Thien Bao",
-      position: "Clown",
-      qoute:
-        "We're no strangers to love, you know the rules and so do I, a full commitment's what I'm thinking of you wouldn't get this from any other guy",
-    },
-    {
-      image: "https://i.insider.com/602ee9ced3ad27001837f2ac?width=1000&format=jpeg&auto=webp",
-      name: "Nguyen Thien Bao",
-      position: "Clown",
-      qoute: "I just wanna tell you how I'm feeling, gotta make you understand",
-    },
-    {
-      image: "https://i.insider.com/602ee9ced3ad27001837f2ac?width=1000&format=jpeg&auto=webp",
-      name: "Nguyen Thien Bao",
-      position: "Clown",
-      qoute:
-        "Never gonna give you up, never gonna let you down, never gonna run around and desert you, never gonna make you cry, never gonna say goodbye, never gonna tell a lie and hurt you",
-    },
-    {
-      image: "https://i.insider.com/602ee9ced3ad27001837f2ac?width=1000&format=jpeg&auto=webp",
-      name: "Nguyen Thien Bao",
-      position: "Clown",
-      qoute:
-        "We've known each other for so long, your heart's been aching, but you're too shy to say it, inside, we both know what's been going on, we know the game and we're gonna play it",
-    },
-  ];
+  const [members, setMembers] = useState([])
+  useEffect(() => {
+    memberAPI
+      .getMembers(0, limit)
+      .then((res) => setMembers(res.data))
+      .catch((error) => console.log(error));
+  }, [limit]);
 
   return (
     <Section className={style.team}>
@@ -75,11 +54,13 @@ const Team = ({ limit }) => {
           {members.map((member, index) => (
             <div key={index} className={clsx(style.wrapper, "col-lg-6")}>
               <Appearance type={index % 2 ? "left" : "right"}>
+                {console.log(member)}
                 <Member
                   image={member.image}
                   name={member.name}
                   position={member.position}
-                  qoute={member.qoute}
+                  quote={member.quote}
+                  links={[member.facebook, member.instagram, member.linkedin]}
                 />
               </Appearance>
             </div>

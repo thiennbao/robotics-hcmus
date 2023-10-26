@@ -11,10 +11,6 @@
       font-weight: bold;
     }
 
-    & span {
-      color: $red;
-    }
-
     & input,
     textarea {
       background-color: $background-color;
@@ -37,7 +33,7 @@
     }
 
     & textarea {
-      height: 8rem;
+      height: 10rem;
     }
 
     & input[type="submit"] {
@@ -62,5 +58,13 @@
 @media (max-width: 768px) {
   .form {
     width: 90%;
+  }
+}
+
+.loading {
+  h3 {
+    color: $primary;
+    text-align: center;
+    text-transform: uppercase;
   }
 }

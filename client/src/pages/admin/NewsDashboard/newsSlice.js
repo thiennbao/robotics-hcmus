@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { newsAPI } from "api";
 
-const getNews = createAsyncThunk("news/getNews", async ({ skip, limit }) => {
-  const res = await newsAPI.getNews(skip, limit);
+const getNews = createAsyncThunk("news/getNews", async ({ skip, limit, key }) => {
+  const res = await newsAPI.getNews(skip, limit, key);
   return res.data;
 });
 const createNews = createAsyncThunk("news/createNews", async (data) => {

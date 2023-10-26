@@ -3,7 +3,10 @@ import News from "../models/News.js";
 const newsController = {
   getNews: async (req, res) => {
     try {
-      const news = await News.find().skip(req.query.skip).limit(req.query.limit);
+      const news = await News.where("title")
+        .regex(new RegExp(req.query.key, "i"))
+        .skip(req.query.skip)
+        .limit(req.query.limit);
       res.status(200).json(news);
     } catch (error) {
       res.status(404).json({ message: error.message });

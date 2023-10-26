@@ -2,12 +2,15 @@ import Heading from "components/Heading";
 import style from "./Timeline.module.scss";
 import Section from "components/Section";
 import Appearance from "components/Appearance";
+import { timelineAPI } from "api";
+import { useEffect, useState } from "react";
 
 const Item = ({ data }) => {
+  console.log(data)
   return (
     <div>
       <div className={style.time}>
-        <h4>{data.time}</h4>
+        <h4>{new Date(data.date).toDateString()}</h4>
       </div>
       <div>
         <h3>{data.title}</h3>
@@ -25,69 +28,13 @@ const Item = ({ data }) => {
 };
 
 const Timeline = () => {
-  // Call API bla bla
-  const timeline = [
-    {
-      title: "Lorem ipsum dolor sit amet",
-      content:
-        "Aptent pretium semper gravida lacinia erat taciti. Consectetur velit sollicitudin eleifend imperdiet consequat tempor natoque augue ridiculus. Mauris mus tempus aptent viverra fermentum nunc eros dictumst dolor pulvinar aliquet.",
-      time: "October 18 2023",
-      images: [
-        "https://fastly.picsum.photos/id/63/5000/2813.jpg?hmac=HvaeSK6WT-G9bYF_CyB2m1ARQirL8UMnygdU9W6PDvM",
-        "https://fastly.picsum.photos/id/63/5000/2813.jpg?hmac=HvaeSK6WT-G9bYF_CyB2m1ARQirL8UMnygdU9W6PDvM",
-        "https://fastly.picsum.photos/id/63/5000/2813.jpg?hmac=HvaeSK6WT-G9bYF_CyB2m1ARQirL8UMnygdU9W6PDvM",
-        "https://fastly.picsum.photos/id/63/5000/2813.jpg?hmac=HvaeSK6WT-G9bYF_CyB2m1ARQirL8UMnygdU9W6PDvM",
-      ],
-    },
-    {
-      title: "Lorem ipsum dolor sit amet",
-      content:
-        "Aptent pretium semper gravida lacinia erat taciti. Consectetur velit sollicitudin eleifend imperdiet consequat tempor natoque augue ridiculus. Mauris mus tempus aptent viverra fermentum nunc eros dictumst dolor pulvinar aliquet.",
-      time: "October 18 2023",
-      images: [
-        "https://fastly.picsum.photos/id/63/5000/2813.jpg?hmac=HvaeSK6WT-G9bYF_CyB2m1ARQirL8UMnygdU9W6PDvM",
-        "https://fastly.picsum.photos/id/63/5000/2813.jpg?hmac=HvaeSK6WT-G9bYF_CyB2m1ARQirL8UMnygdU9W6PDvM",
-        "https://fastly.picsum.photos/id/63/5000/2813.jpg?hmac=HvaeSK6WT-G9bYF_CyB2m1ARQirL8UMnygdU9W6PDvM",
-        "https://fastly.picsum.photos/id/63/5000/2813.jpg?hmac=HvaeSK6WT-G9bYF_CyB2m1ARQirL8UMnygdU9W6PDvM",
-      ],
-    },
-    {
-      title: "Lorem ipsum dolor sit amet",
-      content:
-        "Aptent pretium semper gravida lacinia erat taciti. Consectetur velit sollicitudin eleifend imperdiet consequat tempor natoque augue ridiculus. Mauris mus tempus aptent viverra fermentum nunc eros dictumst dolor pulvinar aliquet.",
-      time: "October 18 2023",
-      images: [
-        "https://fastly.picsum.photos/id/63/5000/2813.jpg?hmac=HvaeSK6WT-G9bYF_CyB2m1ARQirL8UMnygdU9W6PDvM",
-        "https://fastly.picsum.photos/id/63/5000/2813.jpg?hmac=HvaeSK6WT-G9bYF_CyB2m1ARQirL8UMnygdU9W6PDvM",
-        "https://fastly.picsum.photos/id/63/5000/2813.jpg?hmac=HvaeSK6WT-G9bYF_CyB2m1ARQirL8UMnygdU9W6PDvM",
-        "https://fastly.picsum.photos/id/63/5000/2813.jpg?hmac=HvaeSK6WT-G9bYF_CyB2m1ARQirL8UMnygdU9W6PDvM",
-      ],
-    },
-    {
-      title: "Lorem ipsum dolor sit amet",
-      content:
-        "Aptent pretium semper gravida lacinia erat taciti. Consectetur velit sollicitudin eleifend imperdiet consequat tempor natoque augue ridiculus. Mauris mus tempus aptent viverra fermentum nunc eros dictumst dolor pulvinar aliquet.",
-      time: "October 18 2023",
-      images: [
-        "https://fastly.picsum.photos/id/63/5000/2813.jpg?hmac=HvaeSK6WT-G9bYF_CyB2m1ARQirL8UMnygdU9W6PDvM",
-        "https://fastly.picsum.photos/id/63/5000/2813.jpg?hmac=HvaeSK6WT-G9bYF_CyB2m1ARQirL8UMnygdU9W6PDvM",
-        "https://fastly.picsum.photos/id/63/5000/2813.jpg?hmac=HvaeSK6WT-G9bYF_CyB2m1ARQirL8UMnygdU9W6PDvM",
-        "https://fastly.picsum.photos/id/63/5000/2813.jpg?hmac=HvaeSK6WT-G9bYF_CyB2m1ARQirL8UMnygdU9W6PDvM",
-      ],
-    },
-    {
-      title: "Lorem ipsum dolor sit amet",
-      content:
-        "Aptent pretium semper gravida lacinia erat taciti. Consectetur velit sollicitudin eleifend imperdiet consequat tempor natoque augue ridiculus. Mauris mus tempus aptent viverra fermentum nunc eros dictumst dolor pulvinar aliquet.",
-      time: "October 18 2023",
-      images: [
-        "https://fastly.picsum.photos/id/63/5000/2813.jpg?hmac=HvaeSK6WT-G9bYF_CyB2m1ARQirL8UMnygdU9W6PDvM",
-        "https://fastly.picsum.photos/id/63/5000/2813.jpg?hmac=HvaeSK6WT-G9bYF_CyB2m1ARQirL8UMnygdU9W6PDvM",
-        "https://fastly.picsum.photos/id/63/5000/2813.jpg?hmac=HvaeSK6WT-G9bYF_CyB2m1ARQirL8UMnygdU9W6PDvM",
-        "https://fastly.picsum.photos/id/63/5000/2813.jpg?hmac=HvaeSK6WT-G9bYF_CyB2m1ARQirL8UMnygdU9W6PDvM",
-      ],
-    },
-  ];
+  const [timelines, setTimelines] = useState([]);
+  useEffect(() => {
+    timelineAPI
+      .getTimelines()
+      .then((res) => setTimelines(res.data))
+      .catch((error) => console.log(error));
+  }, []);
 
   return (
     <Section>
@@ -96,7 +43,7 @@ const Timeline = () => {
       </Heading>
       <div className={style.timeline}>
         <ul>
-          {timeline.map((item, index) => (
+          {timelines.map((item, index) => (
             <li key={index}>
               <Appearance type={index % 2 || window.innerWidth <= 992 ? "left" : "right"}>
                 <Item data={item} />

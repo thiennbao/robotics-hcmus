@@ -2,7 +2,7 @@ import SiteLayout from "layouts/SiteLayout";
 import HomeWall from "./HomeWall";
 import Description from "pages/site/AboutPage/Description";
 import ImageRow from "./ImageRow";
-import Event from "pages/site/NewsPage/Event";
+import Event from "pages/site/HomePage/Event";
 import Special from "pages/site/AboutPage/Special";
 import Courses from "pages/site/CoursesPage/Courses";
 import Testimonial from "./Testimonial";

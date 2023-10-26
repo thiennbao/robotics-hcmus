@@ -29,6 +29,8 @@ const SingleNewsPage = () => {
       .catch((error) => console.log(error));
   }, [id]);
 
+  const [search, setSearch] = useState("");
+
   return (
     <SiteLayout>
       {news.title ? (
@@ -45,8 +47,8 @@ const SingleNewsPage = () => {
                 </div>
                 <div className="col-xl-4">
                   <div className={style.searchBar}>
-                    <input placeholder="Search..." />
-                    <Button>
+                    <input placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} />
+                    <Button to={`/news/search/?key=${search}`}>
                       <i className="bi bi-search"></i>
                     </Button>
                   </div>

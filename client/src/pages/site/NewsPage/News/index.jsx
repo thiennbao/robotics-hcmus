@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import Button from "components/Button";
 import Appearance from "components/Appearance";
 import { newsAPI } from "api";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const NewsItem = ({ news }) => {
   return (
@@ -22,6 +22,9 @@ const NewsItem = ({ news }) => {
 };
 
 const News = () => {
+  const { search } = useLocation();
+  const key = search.split("=")[1];
+
   const itemsInRow = window.innerWidth > 768 ? 3 : 2;
 
   const [news, setNews] = useState([]);
@@ -29,17 +32,21 @@ const News = () => {
 
   useEffect(() => {
     newsAPI
-      .getNews(0, limit)
+      .getNews(0, limit, key)
       .then((res) => setNews(res.data))
       .catch((error) => console.log(error));
-  }, [limit]);
+  }, [limit, key]);
 
   return (
     <Section className={style.news}>
       <div className="container">
-        <Heading subcontent="--- WELCOME TO">NEWS</Heading>
+        {key ? (
+          <Heading subcontent="--- SEARCH FOR">{key.toUpperCase()}</Heading>
+        ) : (
+          <Heading subcontent="--- WELCOME TO">NEWS</Heading>
+        )}
         <div className="row g-4">
-          {news.length &&
+          {!!news.length &&
             news.map((item, index) => (
               <div key={item._id} className="col-lg-4 col-md-6">
                 <Appearance type="up" animation={{ delay: `${(index % 3) * 0.1}s` }}>

@@ -19,7 +19,8 @@
       border-color: $primary;
     }
   }
-  & button {
+  & a {
+    display: flex;
     width: 3.5rem;
   }
 }
