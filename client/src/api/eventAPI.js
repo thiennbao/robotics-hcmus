@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const url = process.env.REACT_APP_SERVER_API + "/event";
+const url = `${process.env.REACT_APP_SERVER_URL}api/event`;
 
 export const getEvents = (skip, limit) => axios.get(`${url}?skip=${skip || ""}&limit=${limit || ""}`)
 export const getEvent = (id) => axios.get(`${url}/${id}`)

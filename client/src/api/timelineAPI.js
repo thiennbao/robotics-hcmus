@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const url = process.env.REACT_APP_SERVER_API + "/timeline";
+const url = `${process.env.REACT_APP_SERVER_URL}api/timeline`;
 
 export const getTimelines = (skip, limit) => axios.get(`${url}?skip=${skip || ""}&limit=${limit || ""}`)
 export const getTimeline = (id) => axios.get(`${url}/${id}`)

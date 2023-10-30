@@ -15,7 +15,7 @@ app.use(cors());
 router(app);
 
 mongoose
-  .connect(process.env.DB_CONNECT_URI, {
+  .connect(process.env.DB_CONNECT_STRING, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })

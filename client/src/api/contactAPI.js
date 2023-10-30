@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const url = process.env.REACT_APP_SERVER_API + "/contact";
+const url = `${process.env.REACT_APP_SERVER_URL}api/contact`;
 
 export const getContacts = (skip, limit) => axios.get(`${url}?skip=${skip || ""}&limit=${limit || ""}`)
 export const getContact = (id) => axios.get(`${url}/${id}`)

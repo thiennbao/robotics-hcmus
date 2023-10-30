@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const url = process.env.REACT_APP_SERVER_API + "/member";
+const url = `${process.env.REACT_APP_SERVER_URL}api/member`;
 
 export const getMembers = (skip, limit) => axios.get(`${url}?skip=${skip || ""}&limit=${limit || ""}`)
 export const getMember = (id) => axios.get(`${url}/${id}`)

@@ -1,0 +1,36 @@
+services:
+  mongodb:
+    image: mongo
+    restart: always
+    volumes:
+      - ./database/data:/data/db
+      - ./database/config:/data/configdb
+    ports:
+      - "27017:27017"
+    expose:
+      - 27017
+
+  server:
+    build: 
+      context: ./server
+    restart: unless-stopped
+    environment:
+      - PORT=8000
+      - DB_CONNECT_STRING=mongodb://mongodb:27017
+    ports:
+      - "8000:8000"
+    expose:
+      - 8000
+    depends_on:
+      - mongodb
+
+  client:
+    build: 
+      context: ./client
+      args:
+        - SERVER_URL=/
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - server

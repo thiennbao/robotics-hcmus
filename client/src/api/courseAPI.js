@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const url = process.env.REACT_APP_SERVER_API + "/course";
+const url = `${process.env.REACT_APP_SERVER_URL}api/course`;
 
 export const getCourses = (skip, limit) => axios.get(`${url}?skip=${skip || ""}&limit=${limit || ""}`)
 export const getCourse = (id) => axios.get(`${url}/${id}`)
