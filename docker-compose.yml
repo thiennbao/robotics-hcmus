@@ -3,8 +3,8 @@ services:
     image: mongo
     restart: always
     volumes:
-      - ./database/data:/data/db
-      - ./database/config:/data/configdb
+      - mongo-data:/data/db
+      - mongo-data:/data/configdb
     ports:
       - "27017:27017"
     expose:
@@ -34,3 +34,6 @@ services:
       - "80:80"
     depends_on:
       - server
+
+volumes:
+  mongo-data:
