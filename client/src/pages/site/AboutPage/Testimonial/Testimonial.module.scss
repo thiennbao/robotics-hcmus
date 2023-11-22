@@ -1,0 +1,68 @@
+.testimonial {
+  margin: 3rem 0;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)),
+    url("/assets/photo_3.jpg");
+  background-size: cover;
+  background-position: center;
+  height: 80vh;
+  color: lightgray;
+  position: relative;
+}
+
+.container {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  height: fit-content;
+  padding: 2rem 0;
+  overflow-x: hidden;
+  backdrop-filter: blur(4px);
+  text-align: center;
+  user-select: none;
+}
+
+.wrapper {
+  display: flex;
+  transition: 0.2s;
+  margin: 4rem 0;
+}
+
+.item {
+  & > i {
+    display: block;
+    width: 50%;
+    margin: 0 auto 2rem;
+    font-size: 1.25rem;
+  }
+
+  & div {
+    width: fit-content;
+    margin: auto;
+
+    & img {
+      width: 4rem;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      border-radius: 50%;
+      box-shadow: 0 0 5px white;
+      margin-right: 1rem;
+    }
+  }
+}
+
+.control i {
+  font-size: 0.8rem;
+  margin: 0 0.4rem;
+  cursor: pointer;
+}
+
+@media (max-width: 992px) {
+  .item > i {
+    width: 75%;
+  }
+}
+@media (max-width: 768px) {
+  .item > i {
+    font-size: 1.1rem;
+  }
+}

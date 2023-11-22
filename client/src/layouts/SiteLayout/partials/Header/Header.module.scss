@@ -2,122 +2,129 @@
 
 .header {
   opacity: 0.9;
-  height: 150px;
+  height: 9rem;
   transition: 0.5s;
-
-  & > div,
-  & > div > div {
-    height: 100%;
+  color: white;
+  & a {
+    transition: 0.5s;
+    color: white;
   }
 
-  & img {
-    height: 60px;
-  }
-
-  & .link {
-    color: #fff;
-
-    &:after {
-      content: "";
-      position: absolute;
-      bottom: 0;
-      width: 0;
-      left: 0;
-      height: 2px;
-      background: $primary;
-      transition: 0.4s;
+  &.shrink {
+    height: 5rem;
+    background-color: white;
+    box-shadow: 0 0 3px gray;
+    color: black;
+    & a {
+      color: black;
     }
-
-    &:hover:after {
-      width: 100%;
-      transition: 0.4s;
-    }
-  }
-
-  & .more {
-    color: #fff;
-    cursor: pointer;
-
-    & div div:last-child {
-      padding: 0.5rem 2rem;
-      display: none;
-    }
-
-    &:hover {
-      & div div:last-child {
-        display: block;
+    & .more {
+      & ul {
+        background-color: white;
+        box-shadow: 0px 3px 3px -3px gray;
       }
     }
   }
+}
 
-  & .icon {
-    color: #fff;
+.logo {
+  height: 60px;
+}
 
-    &:hover {
-      color: $primary;
-      transition: 0.2s;
-    }
+.link {
+  padding: 0.5rem;
+  position: relative;
+
+  &:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    width: 0;
+    left: 0;
+    height: 2px;
+    background: $primary;
+    transition: 0.4s;
+  }
+  &:hover:after {
+    width: 100%;
+    transition: 0.4s;
   }
 
-  & .current {
+  &.current {
     color: $primary;
 
     &::after {
       width: 100%;
     }
   }
+}
 
-  &.shrink {
-    background-color: black;
-    height: 80px;
-    transition: 0.5s;
+.more {
+  cursor: pointer;
 
-    & .more {
-      & div div:last-child {
-        background-color: black;
+  & ul {
+    display: none;
+
+    & li {
+      padding: 0.5rem 0.5rem 0;
+
+      & a {
+        display: inline-block;
       }
     }
   }
-
-  & label {
-    font-size: 2rem;
-  }
-
-  & .sideMenu {
-    position: fixed;
-    top: 0;
-    right: 0;
-    z-index: 2;
-    width: 70%;
-    height: 100vh;
-    background-color: #fff;
-    transform: translateX(100%);
-    transition: 0.5s;
-
-    & div:nth-child(n + 3) {
-      border-bottom: lightgray solid 1px;
-    }
-  }
-
-  & .overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1;
-    width: 100vw;
-    height: 100vh;
-    background-color: black;
-    opacity: 0.8;
-  }
-
-  & input:checked {
-    & ~ .sideMenu {
-      transform: translateX(0);
-    }
-
-    & + label .overlay {
+  &:hover {
+    & ul {
       display: block;
     }
+  }
+}
+
+.icon:hover {
+  color: $primary;
+  transition: 0.2s;
+}
+
+.sideMenu {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 2;
+  width: 70%;
+  height: 100vh;
+  background-color: white;
+  transform: translateX(100%);
+  transition: 0.5s;
+  color: black;
+
+  & a {
+    color: black;
+  }
+
+  & div:not(:first-child) {
+    padding: 1rem;
+    border-bottom: lightgray solid 1px;
+  }
+}
+
+.overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: 100vw;
+  height: 100vh;
+  background-color: black;
+  opacity: 0.8;
+}
+
+.sideMenuToggle:checked {
+  & ~ .sideMenu {
+    transform: translateX(0);
+  }
+
+  & ~ label .overlay {
+    display: block;
   }
 }

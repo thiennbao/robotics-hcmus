@@ -1,22 +1,28 @@
 @import "scss/variables";
 
 .footer {
-  margin: 50px 0;
-
-  & img {
-    width: 60%;
-    margin-bottom: 1.5rem;
-  }
+  padding: 2rem 0;
 
   & h3 {
     color: $primary;
   }
+}
 
-  & i {
+.logo {
+  width: 60%;
+}
+
+.icon {
+  color: $primary;
+}
+
+.link {
+  transition: 0.25s;
+
+  &:hover {
     color: $primary;
   }
-
-  & .current {
+  &.current {
     color: $primary;
   }
 }

@@ -1,0 +1,18 @@
+@import "scss/animations";
+
+.container {
+  opacity: 0;
+}
+
+.up {
+  animation-name: up;
+}
+.down {
+  animation-name: down;
+}
+.left {
+  animation-name: left;
+}
+.right {
+  animation-name: right;
+}

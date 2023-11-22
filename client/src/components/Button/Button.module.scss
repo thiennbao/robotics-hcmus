@@ -1,0 +1,63 @@
+@import "scss/variables";
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+}
+
+.fill {
+  color: white;
+  background-color: $primary;
+
+  &.green {
+    background-color: $green;
+  }
+  &.yellow {
+    background-color: $yellow;
+  }
+  &.red {
+    background-color: $red;
+  }
+
+  &:hover {
+    background-color: #333;
+    transition: 0.2s;
+  }
+}
+
+.outline {
+  color: $primary;
+  background-color: transparent;
+  border: $primary solid 2px;
+
+  &.green {
+    color: $green;
+    border-color: $green;
+  }
+  &.yellow {
+    color: $yellow;
+    border-color: $yellow;
+  }
+  &.red {
+    color: $red;
+    border-color: $red;
+  }
+
+  &:hover {
+    color: white;
+    background-color: $primary;
+    transition: 0.2s;
+
+    &.green {
+      background-color: $green;
+    }
+    &.yellow {
+      background-color: $yellow;
+    }
+    &.red {
+      background-color: $red;
+    }
+  }
+}
