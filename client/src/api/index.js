@@ -2,8 +2,11 @@ import axios from "axios";
 
 const apiUrl = `${process.env.REACT_APP_SERVER_URL}api`;
 
-// Member API
-const getMembers = ({ skip = "", limit = "" } = {}) => {
-  return axios.get(`${apiUrl}/member?skip=${skip}&limit=${limit}`)
+// Blog API
+const getBlogs = ({ key = "", skip = "", limit = "" } = {}) => {
+  return axios.get(`${apiUrl}/blog?key=${key}&skip=${skip}&limit=${limit}`);
 };
-export const memberApi = { getMembers };
+const getSingleBlog = ({ id = "" } = {}) => {
+  return axios.get(`${apiUrl}/blog/${id}`);
+};
+export const blogApi = { getBlogs, getSingleBlog };

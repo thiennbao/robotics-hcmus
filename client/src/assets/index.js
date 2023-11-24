@@ -1,6 +1,9 @@
 import logo from "./logo.png";
+import logo_min from "./logo_min.png";
+import notFound from "./404.jpg";
 
 import wallpaper_1 from "./wallpaper_1.png";
+import wallpaper_2 from "./wallpaper_2.png";
 
 import photo_1 from "./photo_1.jpg";
 import photo_2 from "./photo_2.jpg";
@@ -12,6 +15,8 @@ import customer_2 from "./customer_2.jpg";
 import customer_3 from "./customer_3.jpg";
 
 export { logo };
-export const wallpapers = [wallpaper_1];
+export { logo_min };
+export { notFound };
+export const wallpapers = [wallpaper_1, wallpaper_2];
 export const photos = [photo_1, photo_2, photo_3, photo_4];
 export const customers = [customer_1, customer_2, customer_3];

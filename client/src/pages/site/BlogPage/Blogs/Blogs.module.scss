@@ -1,0 +1,91 @@
+@import "scss/variables";
+
+.blogs {
+  overflow: hidden;
+  margin-bottom: 3rem;
+
+  & h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+
+    &::before {
+      content: "BLOG";
+      display: block;
+      font-size: 0.6em;
+      color: $primary;
+    }
+
+    & i {
+      color: $red;
+      font-size: 0.5em;
+      margin-left: 0.5rem;
+      cursor: pointer;
+    }
+  }
+}
+
+.searchBar {
+  width: 50%;
+  height: 3.5rem;
+  margin: auto;
+  display: flex;
+  margin-bottom: 3rem;
+
+  & input {
+    flex-grow: 1;
+    padding: 1rem;
+    outline: none;
+    border: transparent solid 1px;
+    background-color: $background-color;
+    transition: 0.25s;
+
+    &:focus {
+      background-color: white;
+      border-color: $primary;
+    }
+  }
+  & .searchBtn {
+    display: flex;
+    width: 3.5rem;
+  }
+}
+
+.item {
+  cursor: pointer;
+  transition: 0.25s;
+
+  & img {
+    width: 100%;
+    aspect-ratio: 4 / 4;
+    object-fit: cover;
+  }
+
+  & div {
+    width: 100%;
+    height: rem;
+    padding: 1rem 0;
+
+    & h5 {
+      color: $primary;
+      font-weight: bold;
+    }
+
+    & p {
+      color: gray;
+    }
+  }
+}
+
+.button {
+  width: 12rem;
+  height: 3rem;
+  margin: 1rem auto;
+}
+
+@media (min-width: 993px) {
+  .item {
+    &:not(:hover) {
+      filter: grayscale(1);
+    }
+  }
+}

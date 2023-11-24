@@ -38,17 +38,8 @@
     transform: translateY(0);
   }
 }
-
-@keyframes wall-zoom {
-  0% {
-    opacity: 1;
-  }
-  98% {
-    opacity: 1;
-    transform: scale(1.1);
-  }
-  100% {
-    opacity: 0;
-    transform: scale(1);
+@keyframes rotateClockwise {
+  to {
+    transform: rotate(360deg);
   }
 }

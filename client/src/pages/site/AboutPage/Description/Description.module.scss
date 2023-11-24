@@ -1,7 +1,16 @@
+@import "scss/variables";
+
 .description {
   min-height: 100vh;
-  padding: 3rem 0;
-  padding-top: 6rem;
+  margin: 0;
+  padding: 6rem 0;
+
+  & h2::before {
+    content: "WHO WE ARE";
+    display: block;
+    font-size: 0.6em;
+    color: $primary;
+  }
 
   & img {
     width: 100%;

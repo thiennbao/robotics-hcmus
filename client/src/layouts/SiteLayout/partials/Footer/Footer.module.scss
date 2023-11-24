@@ -1,7 +1,8 @@
 @import "scss/variables";
 
 .footer {
-  padding: 2rem 0;
+  padding: 3rem 0;
+  background-image: linear-gradient($background-color, white);
 
   & h3 {
     color: $primary;

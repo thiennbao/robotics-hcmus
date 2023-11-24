@@ -2,7 +2,13 @@
 
 .feature {
   min-height: 100vh;
-  padding: 3rem 0;
+
+  & h2::before {
+    content: "OUR SPECIAL";
+    display: block;
+    font-size: 0.6em;
+    color: $primary;
+  }
 
   & img {
     width: 100%;

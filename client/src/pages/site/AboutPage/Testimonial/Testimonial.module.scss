@@ -1,5 +1,6 @@
+@import "scss/variables";
+
 .testimonial {
-  margin: 3rem 0;
   background-image: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)),
     url("/assets/photo_3.jpg");
   background-size: cover;
@@ -19,6 +20,13 @@
   backdrop-filter: blur(4px);
   text-align: center;
   user-select: none;
+
+  & h2::before {
+    content: "CUSTOMER TESTIMONIAL";
+    display: block;
+    font-size: 0.6em;
+    color: $primary;
+  }
 }
 
 .wrapper {

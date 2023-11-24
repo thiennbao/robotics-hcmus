@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import style from "./Testimonial.module.scss";
 import { customers } from "assets";
+import Appear from "components/Appear";
 
 const contents = [
   {
@@ -65,34 +66,40 @@ const Testimonial = () => {
   return (
     <section className={style.testimonial}>
       <div className={style.container}>
-        <h2>What they say about us</h2>
-        <div
-          ref={ref}
-          onMouseDown={(e) => setDragging(e.clientX)}
-          className={style.wrapper}
-          style={{ width: `${contents.length * 100}%` }}
-        >
-          {contents.map((item, index) => (
-            <div key={index} style={{ width: `${100 / contents.length}%` }} className={style.item}>
-              <i>{item.quote}</i>
-              <div>
-                <img draggable="false" src={item.avatar} alt="avatar" />
-                <span>{item.author}</span>
-                <i className="bi bi-dot"></i>
-                <span>{item.position}</span>
+        <Appear variant="left">
+          <h2>What they say about us</h2>
+          <div
+            ref={ref}
+            onMouseDown={(e) => setDragging(e.clientX)}
+            className={style.wrapper}
+            style={{ width: `${contents.length * 100}%` }}
+          >
+            {contents.map((item, index) => (
+              <div
+                key={index}
+                style={{ width: `${100 / contents.length}%` }}
+                className={style.item}
+              >
+                <i>{item.quote}</i>
+                <div>
+                  <img draggable="false" src={item.avatar} alt="avatar" />
+                  <span>{item.author}</span>
+                  <i className="bi bi-dot"></i>
+                  <span>{item.position}</span>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
-        <div className={style.control}>
-          {contents.map((item, index) => (
-            <i
-              key={index}
-              className={`bi bi-${index === slide ? "circle-fill" : "circle"}`}
-              onClick={() => setSlide(index)}
-            ></i>
-          ))}
-        </div>
+            ))}
+          </div>
+          <div className={style.control}>
+            {contents.map((item, index) => (
+              <i
+                key={index}
+                className={`bi bi-${index === slide ? "circle-fill" : "circle"}`}
+                onClick={() => setSlide(index)}
+              ></i>
+            ))}
+          </div>
+        </Appear>
       </div>
     </section>
   );

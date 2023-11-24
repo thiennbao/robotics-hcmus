@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const newsSchema = mongoose.Schema(
+const blogSchema = mongoose.Schema(
   {
     title: String,
     thumbnail: String,
@@ -10,4 +10,4 @@ const newsSchema = mongoose.Schema(
   { timestamps: true }
 );
 
-export default mongoose.model("News", newsSchema);
+export default mongoose.model("Blog", blogSchema);
