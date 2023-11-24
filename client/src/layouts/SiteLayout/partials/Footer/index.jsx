@@ -13,13 +13,31 @@ const pages = [
 
 const contacts = [
   {
-    title: "Robotics & IoT Lab, Room No.86, University of Science, 227 Nguyen Van Cu, Phuong 4, Quan 5, Tp HCM",
+    title:
+      "Robotics & IoT Lab, Room No.86, University of Science, 227 Nguyen Van Cu, Phuong 4, Quan 5, Tp HCM",
     icon: "geo-alt-fill",
+    to: "https://maps.app.goo.gl/zg6WypHivDsz9hzH9",
   },
-  { title: "Phone: (028) 38 325 929", icon: "phone-fill" },
-  { title: "Hotline/Zalo: 0366 399 748", icon: "telephone-fill" },
-  { title: "Email: robotics@hcmus.edu.vn", icon: "envelope-fill" },
-  { title: "Fanpage: RoboticsHCMUS", icon: "facebook" },
+  {
+    title: "Phone: (028) 38 325 929",
+    icon: "phone-fill",
+    to: "tel:(028) 38 325 929",
+  },
+  {
+    title: "Hotline/Zalo: 0366 399 748",
+    icon: "telephone-fill",
+    to: "tel:0366 399 748",
+  },
+  {
+    title: "Email: robotics@hcmus.edu.vn",
+    icon: "envelope-fill",
+    to: "mailto:robotics@hcmus.edu.vn",
+  },
+  {
+    title: "Fanpage: RoboticsHCMUS",
+    icon: "facebook",
+    to: "https://www.facebook.com/RoboticsHCMUS",
+  },
 ];
 
 const Footer = () => {
@@ -56,7 +74,9 @@ const Footer = () => {
             <ul className="list-unstyled">
               {contacts.map((item, index) => (
                 <li key={index} className="mt-2">
-                  <i className={clsx(style.icon, `bi bi-${item.icon}`)}></i> {item.title}
+                  <Link to={item.to} className={style.link}>
+                    <i className={clsx(style.icon, `bi bi-${item.icon}`)}></i> {item.title}
+                  </Link>
                 </li>
               ))}
             </ul>

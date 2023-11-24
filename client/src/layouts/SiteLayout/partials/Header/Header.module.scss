@@ -51,8 +51,6 @@
   }
 
   &.current {
-    color: $primary;
-
     &::after {
       width: 100%;
     }
@@ -104,6 +102,10 @@
   & div:not(:first-child) {
     padding: 1rem;
     border-bottom: lightgray solid 1px;
+  }
+
+  .current {
+    color: $primary;
   }
 }
 

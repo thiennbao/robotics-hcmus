@@ -30,6 +30,7 @@ const Blogs = () => {
   const [limit, setLimit] = useState(2 * itemsInRow);
   const [isOver, setIsOver] = useState(false);
   const [search, setSearch] = useState("");
+  const [error, setError] = useState("");
 
   useEffect(() => {
     blogApi
@@ -38,11 +39,11 @@ const Blogs = () => {
         setBlogs(res.data);
         setLoaded(true);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => setError(error.message));
     blogApi
       .getBlogs({ key, skip: limit })
       .then((res) => setIsOver(!res.data.length))
-      .catch((error) => console.log(error));
+      .catch((error) => setError(error.message));
   }, [limit, key]);
 
   const searchHandle = (e) => {
@@ -80,7 +81,13 @@ const Blogs = () => {
         </form>
         {!blogs.length ? (
           <div className="d-flex justify-content-center">
-            {loaded ? <div className="text-secondary">No result match with your search key</div> : <Loading />}
+            {error || loaded ? (
+              <div className="text-secondary">
+                {error || "No result match with your search key"}
+              </div>
+            ) : (
+              <Loading />
+            )}
           </div>
         ) : (
           <>

@@ -1,0 +1,40 @@
+@import "scss/variables";
+
+.contactInfo {
+  min-height: 100vh;
+  margin: 0;
+  padding: 6rem 0;
+  display: flex;
+
+  & h2::before {
+    content: "GET IN TOUCH";
+    display: block;
+    font-size: 0.6em;
+    color: $primary;
+  }
+}
+
+.icon {
+  color: $primary;
+  font-size: 1.25rem;
+  margin: 0 0.5rem;
+}
+.info:hover {
+  color: $primary;
+  transition: 0.25s;
+}
+
+.map {
+  width: 100%;
+
+  & * {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+@media (max-width: 992px) {
+  .map iframe {
+    height: 50vh;
+  }
+}
