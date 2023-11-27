@@ -1,7 +1,7 @@
-import managerRouter from "./routers/managerRouter.js";
+import resourceRouter from "./routers/resourceRouter.js";
 
 const router = (app) => {
-  app.use("/api", managerRouter);
+  app.use("/resource", resourceRouter);
 };
 
 export default router;

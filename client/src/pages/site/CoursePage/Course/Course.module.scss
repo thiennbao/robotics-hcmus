@@ -1,0 +1,33 @@
+@import "scss/variables";
+
+.course {
+  box-shadow: gray 0 0 0.25rem;
+
+  & img {
+    width: 100%;
+    aspect-ratio: 2 / 1;
+    object-fit: cover;
+  }
+
+  & > div {
+    padding: 1.5rem;
+
+    & h5 {
+      color: $primary;
+      font-weight: bold;
+    }
+
+    & .tuition {
+      background-color: $primary;
+      color: white;
+      margin: 0;
+      padding: 0.25rem 0.5rem;
+      border-radius: 0.5rem;
+    }
+
+    & .detailBtn {
+      width: 8rem;
+      height: 2.5rem;
+    }
+  }
+}

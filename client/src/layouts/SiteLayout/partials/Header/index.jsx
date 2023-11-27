@@ -7,7 +7,7 @@ import { logo } from "assets";
 const pages = [
   { title: "About", to: "/about" },
   { title: "Courses", to: "/courses" },
-  { title: "Blog", to: "/blog" },
+  { title: "Blogs", to: "/blogs" },
   { title: "Contact", to: "/contact" },
   { title: "Robocus", to: "/robocus" },
 ];

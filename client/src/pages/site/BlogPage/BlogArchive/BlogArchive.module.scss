@@ -1,8 +1,7 @@
 @import "scss/variables";
 
-.blogs {
+.blogArchive {
   overflow: hidden;
-  margin-bottom: 3rem;
 
   & h2 {
     text-align: center;
@@ -50,44 +49,10 @@
   }
 }
 
-.item {
-  cursor: pointer;
-  transition: 0.25s;
-
-  & img {
-    width: 100%;
-    aspect-ratio: 4 / 4;
-    object-fit: cover;
-  }
-
-  & div {
-    width: 100%;
-    height: rem;
-    padding: 1rem 0;
-
-    & h5 {
-      color: $primary;
-      font-weight: bold;
-    }
-
-    & p {
-      color: gray;
-    }
-  }
-}
-
 .button {
   width: 12rem;
   height: 3rem;
   margin: 1rem auto;
-}
-
-@media (min-width: 993px) {
-  .item {
-    &:not(:hover) {
-      filter: grayscale(1);
-    }
-  }
 }
 
 @media (max-width: 993px) {

@@ -8,7 +8,7 @@ import { wallpapers } from "assets";
 const ContactPage = () => {
   return (
     <SiteLayout>
-      <Wallpaper title="CONTACT" background={wallpapers[2]} />
+      <Wallpaper title="CONTACT" background={wallpapers[3]} />
       <ContactInfo />
       <ContactForm />
       <Faq />

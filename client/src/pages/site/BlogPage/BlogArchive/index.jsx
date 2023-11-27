@@ -1,32 +1,19 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { blogApi } from "api";
+import style from "./BlogArchive.module.scss";
+import Blog from "../Blog";
 import Appear from "components/Appear";
 import Button from "components/Button";
-import style from "./Blogs.module.scss";
 import Loading from "components/Loading";
 
-const Item = ({ blog }) => {
-  return (
-    <div className={style.item}>
-      <Link to={`/blog/${blog._id}`}>
-        <img src={blog.thumbnail} alt={blog.title} />
-        <div>
-          <h5>{blog.title}</h5>
-          <p>{new Date(blog.updatedAt).toDateString()}</p>
-        </div>
-      </Link>
-    </div>
-  );
-};
-
-const Blogs = () => {
+const BlogArchive = () => {
   const navigate = useNavigate();
   const key = useLocation().search.split("=")[1];
   const itemsInRow = window.innerWidth > 768 ? 3 : 2;
 
-  const [loaded, setLoaded] = useState(false);
   const [blogs, setBlogs] = useState([]);
+  const [loaded, setLoaded] = useState(false);
   const [limit, setLimit] = useState(2 * itemsInRow);
   const [isOver, setIsOver] = useState(false);
   const [search, setSearch] = useState("");
@@ -34,7 +21,7 @@ const Blogs = () => {
 
   useEffect(() => {
     blogApi
-      .getBlogs({ key, skip: 0, limit })
+      .getBlogs({ key, limit })
       .then((res) => {
         setBlogs(res.data);
         setLoaded(true);
@@ -49,16 +36,16 @@ const Blogs = () => {
   const searchHandle = (e) => {
     e.preventDefault();
     if (search) {
-      navigate(`/blog/?key=${search}`);
+      navigate(`/blogs/?key=${search}`);
     }
   };
   const clearHandle = () => {
     setSearch("");
-    navigate("/blog");
+    navigate("/blogs");
   };
 
   return (
-    <section className={style.blogs}>
+    <section className={style.blogArchive}>
       <div className="container">
         {key ? (
           <h2>
@@ -95,7 +82,7 @@ const Blogs = () => {
               {blogs.map((item, index) => (
                 <div key={item._id} className="col-lg-4 col-md-6">
                   <Appear variant="up" animation={{ delay: `${(index % 3) * 0.1}s` }}>
-                    <Item blog={item} />
+                    <Blog content={item} />
                   </Appear>
                 </div>
               ))}
@@ -120,4 +107,4 @@ const Blogs = () => {
   );
 };
 
-export default Blogs;
+export default BlogArchive;

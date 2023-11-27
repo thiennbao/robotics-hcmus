@@ -1,0 +1,34 @@
+@import "scss/variables";
+
+.blog {
+  transition: 0.25s;
+
+  & img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+  }
+
+  & div {
+    width: 100%;
+    height: rem;
+    padding: 1rem 0;
+
+    & h5 {
+      color: $primary;
+      font-weight: bold;
+    }
+
+    & p {
+      color: gray;
+    }
+  }
+}
+
+@media (min-width: 993px) {
+  .blog {
+    &:not(:hover) {
+      filter: grayscale(1);
+    }
+  }
+}

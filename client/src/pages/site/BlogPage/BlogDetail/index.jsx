@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import clsx from "clsx";
-import style from "./SingleBlog.module.scss";
+import style from "./BlogDetail.module.scss";
 import SiteLayout from "layouts/SiteLayout";
 import Wallpaper from "components/Wallpaper";
 import { blogApi } from "api";
 import Button from "components/Button";
 
-const SingleBlog = () => {
+const BlogDetail = () => {
   const id = useLocation().pathname.split("/")[2];
   const navigate = useNavigate();
 
@@ -16,12 +16,8 @@ const SingleBlog = () => {
   useEffect(() => {
     blogApi
       .getSingleBlog({ id })
-      .then((res) => {
-        setBlog(res.data);
-      })
-      .catch(() => {
-        navigate("/404");
-      });
+      .then((res) => setBlog(res.data))
+      .catch(() => navigate("/404"));
     blogApi
       .getBlogs({ skip: 0, limit: 5 })
       .then((res) => {
@@ -35,18 +31,20 @@ const SingleBlog = () => {
   const searchHandle = (e) => {
     e.preventDefault();
     if (search) {
-      navigate(`/blog/?key=${search}`);
+      navigate(`/blogs/?key=${search}`);
     }
   };
 
   return (
     <SiteLayout>
       <Wallpaper title={blog.title} background={blog.thumbnail} />
-      <section className={style.singleBlog}>
+      <section className={style.blogDetail}>
         <div className="container">
           <div className="row">
             <div className="col-xl-8">
-              <h2 subcontent={blog.updatedAt ? new Date(blog.updatedAt).toDateString() : ""}>{blog.title}</h2>
+              <h2 subcontent={blog.updatedAt ? new Date(blog.updatedAt).toDateString() : ""}>
+                {blog.title}
+              </h2>
               <div dangerouslySetInnerHTML={{ __html: blog.content }}></div>
             </div>
             <div className="col-xl-4">
@@ -65,7 +63,7 @@ const SingleBlog = () => {
                   <p className="fs-3">Latest Post</p>
                   {posts.map((post) => (
                     <div key={post._id} className="col-xl-12 col-md-6 col-12 container g-3">
-                      <Link to={`/blog/${post._id}`}>
+                      <Link to={`/blogs/${post._id}`}>
                         <div className={clsx(style.post, "row")}>
                           <div className="col-4">
                             <img src={post.thumbnail} alt={post.title} />
@@ -88,4 +86,4 @@ const SingleBlog = () => {
   );
 };
 
-export default SingleBlog;
+export default BlogDetail;
