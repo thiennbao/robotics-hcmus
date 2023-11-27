@@ -1,14 +1,23 @@
 import { useEffect, useState } from "react";
 import { courseApi } from "api";
+import style from "./CourseSlide.module.scss";
 import Loading from "components/Loading";
-import Appear from "components/Appear";
-import style from "./CourseArchive.module.scss";
-import Course from "../Course";
+import Course from "pages/site/CoursePage/Course";
+import SlideShow from "components/SlideShow";
 
-const CourseArchive = () => {
+const Item = ({ content }) => {
+  return (
+    <div className="p-2">
+      <Course content={content} />
+    </div>
+  );
+};
+
+const CourseSlide = () => {
   const [courses, setCourses] = useState([]);
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState("");
+
   useEffect(() => {
     courseApi
       .getCourses()
@@ -20,22 +29,21 @@ const CourseArchive = () => {
   }, []);
 
   return (
-    <section className={style.courseArchive}>
+    <section className={style.courseSlide}>
       <div className="container">
-        <h2>Courses</h2>
+        <h2>Course at Robotics and IoT</h2>
         {!courses.length ? (
           <div className="d-flex justify-content-center">
             {error || loaded ? <div className="text-secondary">{error}</div> : <Loading />}
           </div>
         ) : (
-          <div className="row g-4">
-            {courses.map((item, index) => (
-              <div key={item._id} className="col-lg-4 col-md-6">
-                <Appear variant="up" animation={{ delay: `${(index % 3) * 0.1}s` }}>
-                  <Course content={item} />
-                </Appear>
-              </div>
-            ))}
+          <div className="overflow-hidden">
+            <SlideShow
+              contents={courses}
+              ContentTag={Item}
+              itemsPerScreen={window.innerWidth > 992 ? 3 : window.innerWidth > 768 ? 2 : 1}
+              prevnext
+            />
           </div>
         )}
       </div>
@@ -43,4 +51,4 @@ const CourseArchive = () => {
   );
 };
 
-export default CourseArchive;
+export default CourseSlide;

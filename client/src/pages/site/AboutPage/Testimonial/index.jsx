@@ -1,7 +1,7 @@
-import { useState, useEffect, useRef } from "react";
 import style from "./Testimonial.module.scss";
 import { customers } from "assets";
 import Appear from "components/Appear";
+import SlideShow from "components/SlideShow";
 
 const contents = [
   {
@@ -27,77 +27,28 @@ const contents = [
   },
 ];
 
+const Item = ({ content }) => {
+  return (
+    <div className={style.item}>
+      <i>{content.quote}</i>
+      <div>
+        <img draggable="false" src={content.avatar} alt="avatar" />
+        <span>{content.author}</span>
+        <i className="bi bi-dot"></i>
+        <span>{content.position}</span>
+      </div>
+    </div>
+  );
+};
+
 const Testimonial = () => {
-  const ref = useRef();
-
-  const [slide, setSlide] = useState(0);
-  const [dragging, setDragging] = useState(0);
-
-  useEffect(() => {
-    if (dragging) {
-      const handleDrag = (e) => {
-        ref.current.style.transform = `translateX(${
-          -slide * window.innerWidth + e.clientX - dragging
-        }px)`;
-      };
-      window.addEventListener("mousemove", handleDrag);
-      const handleDrop = (e) => {
-        if (e.clientX - dragging > 100) {
-          setSlide(slide === 0 ? slide : slide - 1);
-        } else if (e.clientX - dragging < -100) {
-          setSlide(slide === contents.length - 1 ? slide : slide + 1);
-        }
-        setDragging(0);
-      };
-      window.addEventListener("mouseup", handleDrop);
-
-      return () => {
-        window.removeEventListener("mousemove", handleDrag);
-        window.removeEventListener("mouseup", handleDrop);
-      };
-    }
-  }, [dragging, slide]);
-
-  if (ref.current) {
-    ref.current.style.transform = `translateX(${(-slide * 100) / contents.length}%)`;
-    ref.current.style.cursor = dragging ? "grabbing" : "grab";
-  }
-
   return (
     <section className={style.testimonial}>
       <div className={style.container}>
         <Appear variant="left">
           <h2>What they say about us</h2>
-          <div
-            ref={ref}
-            onMouseDown={(e) => setDragging(e.clientX)}
-            className={style.wrapper}
-            style={{ width: `${contents.length * 100}%` }}
-          >
-            {contents.map((item, index) => (
-              <div
-                key={index}
-                style={{ width: `${100 / contents.length}%` }}
-                className={style.item}
-              >
-                <i>{item.quote}</i>
-                <div>
-                  <img draggable="false" src={item.avatar} alt="avatar" />
-                  <span>{item.author}</span>
-                  <i className="bi bi-dot"></i>
-                  <span>{item.position}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className={style.control}>
-            {contents.map((item, index) => (
-              <i
-                key={index}
-                className={`bi bi-${index === slide ? "circle-fill" : "circle"}`}
-                onClick={() => setSlide(index)}
-              ></i>
-            ))}
+          <div className={style.slideShow}>
+            <SlideShow contents={contents} ContentTag={Item} circles />
           </div>
         </Appear>
       </div>

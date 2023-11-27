@@ -4,6 +4,7 @@ import style from "./Footer.module.scss";
 import { logo } from "assets";
 
 const pages = [
+  { title: "Home", to: "/" },
   { title: "About", to: "/about" },
   { title: "Courses", to: "/courses" },
   { title: "Blogs", to: "/blogs" },

@@ -1,0 +1,52 @@
+.slideShow {
+  position: relative;
+  user-select: none;
+
+  a,
+  img {
+    -webkit-user-drag: none;
+  }
+}
+
+.wrapper {
+  display: flex;
+  transition: 0.2s;
+}
+
+.circles {
+  margin-top: 4rem;
+
+  & i {
+    font-size: 0.8rem;
+    margin: 0 0.4rem;
+    cursor: pointer;
+  }
+}
+
+.prevnext i {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 1.25rem;
+  border-radius: 50%;
+  transition: 0.5s;
+  background-color: rgba(0, 0, 0, 0.2);
+  color: white;
+
+  &:first-child {
+    left: 1%;
+  }
+  &:last-child {
+    right: 1%;
+  }
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+}

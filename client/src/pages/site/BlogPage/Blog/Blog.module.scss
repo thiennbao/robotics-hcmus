@@ -24,11 +24,3 @@
     }
   }
 }
-
-@media (min-width: 993px) {
-  .blog {
-    &:not(:hover) {
-      filter: grayscale(1);
-    }
-  }
-}

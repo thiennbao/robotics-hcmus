@@ -3,9 +3,9 @@ import clsx from "clsx";
 import style from "./HomeWall.module.scss";
 import Button from "components/Button";
 
-import wallpaper1 from "assets/general/wallpaper-1.jpg";
-import wallpaper2 from "assets/general/wallpaper-2.jpg";
-import wallpaper3 from "assets/general/wallpaper-3.jpg";
+import wallpaper1 from "assets/wallpaper_1.png";
+import wallpaper2 from "assets/wallpaper_2.png";
+import wallpaper3 from "assets/wallpaper_3.png";
 
 const wallpapers = [wallpaper1, wallpaper2, wallpaper3];
 
@@ -34,19 +34,24 @@ const HomeWall = () => {
       <div className="container position-absolute top-50 start-50 translate-middle text-center text-white">
         <p>VNUHCM - University of Science</p>
         <h1>Robotics & IoT</h1>
-        <p className="mb-5">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec
-          ullamcorper mattis, pulvinar dapibus leo.
-        </p>
+        <p className="mb-5">Temporary home, change to slide show later</p>
         <div className="row justify-content-center">
           <Button
-            className={clsx(style.button, style.buttonLeft, "col-lg-3 col-md-4 col-sm-5 col-11 m-2")}
+            className={clsx(
+              style.button,
+              style.buttonLeft,
+              "col-lg-3 col-md-4 col-sm-5 col-11 m-2"
+            )}
             to="/"
           >
             REGISTER NOW
           </Button>
           <Button
-            className={clsx(style.button, style.buttonRight, "col-lg-3 col-md-4 col-sm-5 col-11 m-2")}
+            className={clsx(
+              style.button,
+              style.buttonRight,
+              "col-lg-3 col-md-4 col-sm-5 col-11 m-2"
+            )}
             variant="outline"
             to="/"
           >
