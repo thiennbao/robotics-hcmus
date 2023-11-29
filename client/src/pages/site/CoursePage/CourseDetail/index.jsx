@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { courseApi } from "api";
+import { resourceApi } from "api";
 import style from "./CourseDetail.module.scss";
 import SiteLayout from "layouts/SiteLayout";
 import Wallpaper from "components/Wallpaper";
@@ -106,8 +106,8 @@ const CourseDetail = () => {
 
   const [course, setCourse] = useState({});
   useEffect(() => {
-    courseApi
-      .getSingleCourse({ id })
+    resourceApi
+      .getSingleResource({ resource: "course", id })
       .then((res) => setCourse(res.data))
       .catch(() => navigate("/404"));
   }, [id, navigate]);

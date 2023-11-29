@@ -1,79 +1,45 @@
-import Course from "../model/Course.js";
-import Blog from "../model/Blog.js";
+import Models from "../models/index.js";
 
 const resourceController = {
-  // Courses
-  getCourses: async (req, res) => {
-    const { key, skip, limit } = req.query;
+  getResources: async (req, res) => {
+    const { resource } = req.params;
+    const { where, key, sort, order, skip, limit } = req.query;
     try {
-      const courses = await Course.where("name")
-        .regex(new RegExp(key, "i"))
-        .sort({ createdAt: "desc" })
-        .skip(skip)
-        .limit(limit); 
-      res.status(200).json(courses);
-    } catch (error) {
-      res.status(404).json({ message: error.message });
-    }
-  },
-  getSingleCourse: async (req, res) => {
-    try {
-      const course = await Course.findOne({ _id: req.params.slug });
-      res.status(200).json(course);
-    } catch (error) {
-      res.status(404).json({ message: error.message });
-    }
-  },
-  postCourse: async (req, res) => {
-    try {
-      const newCourse = await Course.create(req.body);
-      res.status(200).json(newCourse);
-    } catch (error) {
-      res.status(409).json({ message: error.message });
-    }
-  },
-  patchCourse: async (req, res) => {
-    await Course.findByIdAndUpdate(req.params.slug, req.body);
-  },
-  deleteCourse: async (req, res) => {
-    await Course.deleteOne({ _id: req.params.slug });
-  },
-
-  // Blogs
-  getBlogs: async (req, res) => {
-    const { key, skip, limit } = req.query;
-    try {
-      const blogs = await Blog.where("title")
-        .regex(new RegExp(key, "i"))
-        .sort({ createdAt: "desc" })
+      const data = await Models[resource]
+        .find(where ? { [where]: new RegExp(key, "i") } : {})
+        .sort(sort ? { [sort]: order } : {})
         .skip(skip)
         .limit(limit);
-      res.status(200).json(blogs);
+      res.status(200).json(data);
     } catch (error) {
       res.status(404).json({ message: error.message });
     }
   },
-  getSingleBlog: async (req, res) => {
+  getSingleResource: async (req, res) => {
+    const { resource, id } = req.params;
     try {
-      const blog = await Blog.findOne({ _id: req.params.slug });
-      res.status(200).json(blog);
+      const data = await Models[resource].findOne({ _id: id });
+      res.status(200).json(data);
     } catch (error) {
       res.status(404).json({ message: error.message });
     }
   },
-  postBlog: async (req, res) => {
+  postResource: async (req, res) => {
+    const { resource } = req.params;
     try {
-      const newBlog = await Blog.create(req.body);
-      res.status(200).json(newBlog);
+      const newData = await Models[resource].create(req.body);
+      res.status(200).json(newData);
     } catch (error) {
       res.status(409).json({ message: error.message });
     }
   },
-  patchBlog: async (req, res) => {
-    await Blog.findByIdAndUpdate(req.params.slug, req.body);
+  patchResource: async (req, res) => {
+    const { resource, id } = req.params;
+    await Models[resource].findByIdAndUpdate(id, req.body);
   },
-  deleteBlog: async (req, res) => {
-    await Blog.deleteOne({ _id: req.params.slug });
+  deleteResource: async (req, res) => {
+    const { resource, id } = req.params;
+    await Models[resource].deleteOne({ _id: id });
   },
 };
 

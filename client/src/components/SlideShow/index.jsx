@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import style from "./SlideShow.module.scss";
 
-const SlideShow = ({ contents, ContentTag, itemsPerScreen, circles, prevnext }) => {
+const SlideShow = ({ contents, ContentTag, itemsPerScreen = 1, circles, prevnext }) => {
   const ref = useRef();
 
   const [slide, setSlide] = useState(0);

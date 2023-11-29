@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { courseApi } from "api";
+import { resourceApi } from "api";
 import Loading from "components/Loading";
 import Appear from "components/Appear";
 import style from "./CourseArchive.module.scss";
@@ -10,8 +10,8 @@ const CourseArchive = () => {
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState("");
   useEffect(() => {
-    courseApi
-      .getCourses()
+    resourceApi
+      .getResources({ resource: "course" })
       .then((res) => {
         setCourses(res.data);
         setLoaded(true);

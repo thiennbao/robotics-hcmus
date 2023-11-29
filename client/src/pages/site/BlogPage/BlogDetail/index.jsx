@@ -4,7 +4,7 @@ import clsx from "clsx";
 import style from "./BlogDetail.module.scss";
 import SiteLayout from "layouts/SiteLayout";
 import Wallpaper from "components/Wallpaper";
-import { blogApi } from "api";
+import { resourceApi } from "api";
 import Button from "components/Button";
 
 const BlogDetail = () => {
@@ -14,12 +14,12 @@ const BlogDetail = () => {
   const [blog, setBlog] = useState({});
   const [posts, setPosts] = useState([]);
   useEffect(() => {
-    blogApi
-      .getSingleBlog({ id })
+    resourceApi
+      .getSingleResource({ resource: "blog", id })
       .then((res) => setBlog(res.data))
       .catch(() => navigate("/404"));
-    blogApi
-      .getBlogs({ skip: 0, limit: 5 })
+    resourceApi
+      .getResources({ resource: "blog", sort: "createdAt", order: "desc", skip: 0, limit: 5 })
       .then((res) => {
         setPosts(res.data);
       })

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { blogApi } from "api";
+import { resourceApi } from "api";
 import style from "./BlogSlide.module.scss";
 import Loading from "components/Loading";
 import Blog from "pages/site/BlogPage/Blog";
@@ -19,8 +19,8 @@ const BlogSlide = () => {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    blogApi
-      .getBlogs({ limit: 5 })
+    resourceApi
+      .getResources({ resource: "blog", sort: "createdAt", order: "desc", limit: 5 })
       .then((res) => {
         setBlogs(res.data);
         setLoaded(true);

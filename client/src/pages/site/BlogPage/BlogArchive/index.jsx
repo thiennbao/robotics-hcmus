@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { blogApi } from "api";
+import { resourceApi } from "api";
 import style from "./BlogArchive.module.scss";
 import Blog from "../Blog";
 import Appear from "components/Appear";
@@ -20,15 +20,22 @@ const BlogArchive = () => {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    blogApi
-      .getBlogs({ key, limit })
+    resourceApi
+      .getResources({
+        resource: "blog",
+        where: "title",
+        key,
+        sort: "createdAt",
+        order: "desc",
+        limit,
+      })
       .then((res) => {
         setBlogs(res.data);
         setLoaded(true);
       })
       .catch((error) => setError(error.message));
-    blogApi
-      .getBlogs({ key, skip: limit })
+    resourceApi
+      .getResources({ resource: "blog", where: "title", key, skip: limit })
       .then((res) => setIsOver(!res.data.length))
       .catch((error) => setError(error.message));
   }, [limit, key]);

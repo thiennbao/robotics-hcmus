@@ -1,40 +1,28 @@
 import axios from "axios";
 
-const resourceApi = `${process.env.REACT_APP_SERVER_URL}/resource`;
+const resourceApiUrl = `${process.env.REACT_APP_SERVER_URL}/resource`;
 
-// Course API
-const getCourses = ({ key = "", skip = "", limit = "" } = {}) => {
-  return axios.get(`${resourceApi}/course?key=${key}&skip=${skip}&limit=${limit}`);
+// Resource API
+const getResources = ({ resource = "", where = "", key = "", sort = "", order = "", skip = "", limit = "" } = {}) => {
+  return axios.get(`${resourceApiUrl}/${resource}?where=${where}&key=${key}&sort=${sort}&order=${order}&skip=${skip}&limit=${limit}`);
 };
-const getSingleCourse = ({ id = "" } = {}) => {
-  return axios.get(`${resourceApi}/course/${id}`);
+const getSingleResource = ({ resource = "", id = "" } = {}) => {
+  return axios.get(`${resourceApiUrl}/${resource}/${id}`);
 };
-const postCourse = ({ id = "", data = {} } = {}) => {
-  return axios.post(`${resourceApi}/course`, data);
+const postResource = ({ resource = "", data = {} } = {}) => {
+  return axios.post(`${resourceApiUrl}/${resource}`, data);
 };
-const patchCourse = ({ id = "", data = {} } = {}) => {
-  return axios.patch(`${resourceApi}/course/${id}`, data);
+const patchResource = ({ resource = "", id = "", data = {} } = {}) => {
+  return axios.patch(`${resourceApiUrl}/${resource}/${id}`, data);
 };
-const deleteCourse = ({ id = "" } = {}) => {
-  return axios.delete(`${resourceApi}/course/${id}`);
-};
-
-// Blog API
-const getBlogs = ({ key = "", skip = "", limit = "" } = {}) => {
-  return axios.get(`${resourceApi}/blog?key=${key}&skip=${skip}&limit=${limit}`);
-};
-const getSingleBlog = ({ id = "" } = {}) => {
-  return axios.get(`${resourceApi}/blog/${id}`);
-};
-const postBlog = ({ id = "", data = {} } = {}) => {
-  return axios.post(`${resourceApi}/blog`, data);
-};
-const patchBlog = ({ id = "", data = {} } = {}) => {
-  return axios.patch(`${resourceApi}/blog/${id}`, data);
-};
-const deleteBlog = ({ id = "" } = {}) => {
-  return axios.delete(`${resourceApi}/blog/${id}`);
+const deleteResource = ({ resource = "", id = "" } = {}) => {
+  return axios.delete(`${resourceApiUrl}/${resource}/${id}`);
 };
 
-export const courseApi = { getCourses, getSingleCourse, postCourse, patchCourse, deleteCourse };
-export const blogApi = { getBlogs, getSingleBlog, postBlog, patchBlog, deleteBlog };
+export const resourceApi = {
+  getResources,
+  getSingleResource,
+  postResource,
+  patchResource,
+  deleteResource,
+};
