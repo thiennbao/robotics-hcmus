@@ -1,10 +1,20 @@
 import axios from "axios";
 
+// Resource API
 const resourceApiUrl = `${process.env.REACT_APP_SERVER_URL}/resource`;
 
-// Resource API
-const getResources = ({ resource = "", where = "", key = "", sort = "", order = "", skip = "", limit = "" } = {}) => {
-  return axios.get(`${resourceApiUrl}/${resource}?where=${where}&key=${key}&sort=${sort}&order=${order}&skip=${skip}&limit=${limit}`);
+const getResources = ({
+  resource = "",
+  where = "",
+  key = "",
+  sort = "",
+  order = "",
+  skip = "",
+  limit = "",
+} = {}) => {
+  return axios.get(
+    `${resourceApiUrl}/${resource}?where=${where}&key=${key}&sort=${sort}&order=${order}&skip=${skip}&limit=${limit}`
+  );
 };
 const getSingleResource = ({ resource = "", id = "" } = {}) => {
   return axios.get(`${resourceApiUrl}/${resource}/${id}`);
@@ -26,3 +36,15 @@ export const resourceApi = {
   patchResource,
   deleteResource,
 };
+
+// Auth API
+const authApiUrl = `${process.env.REACT_APP_SERVER_URL}/auth`;
+
+const login = ({ data }) => {
+  return axios.post(`${authApiUrl}/login`, data, { withCredentials: true });
+};
+const verify = () => {
+  return axios.get(`${authApiUrl}/verify`, { withCredentials: true });
+};
+
+export const authApi = { login, verify };

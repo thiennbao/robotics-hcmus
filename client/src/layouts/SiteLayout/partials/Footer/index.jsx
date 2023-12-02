@@ -10,6 +10,7 @@ const pages = [
   { title: "Blogs", to: "/blogs" },
   { title: "Contact", to: "/contact" },
   { title: "Robocus", to: "/robocus" },
+  { title: "Auth", to: "/auth" },
 ];
 
 const contacts = [
