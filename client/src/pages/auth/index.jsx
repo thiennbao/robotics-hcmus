@@ -3,13 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { authApi } from "api";
 import style from "./AuthPage.module.scss";
 import Button from "components/Button";
-import { useCookies } from "react-cookie";
 import { useEffect } from "react";
 
 const AuthPage = () => {
   const navigate = useNavigate();
 
-  const [cookies] = useCookies([]);
   useEffect(() => {
     authApi
       .verify()
@@ -19,7 +17,7 @@ const AuthPage = () => {
         }
       })
       .catch((errors) => console.log(errors));
-  }, [cookies.token, navigate]);
+  }, [navigate]);
 
   const {
     register,

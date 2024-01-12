@@ -1,6 +1,22 @@
+import { authApi } from "api";
 import Menu from "./partials/Menu";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const AdminLayout = ({ page, children }) => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    authApi
+      .verify()
+      .then((res) => {
+        if (!res.data.verified) {
+          navigate("/auth");
+        }
+      })
+      .catch((errors) => console.log(errors));
+  }, [navigate]);
+
   return (
     <div className="d-flex">
       <Menu />

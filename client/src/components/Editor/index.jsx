@@ -8,7 +8,7 @@ import { v4 } from "uuid";
 import { storage } from "config/firebase";
 import Loading from "components/Loading";
 
-const InputField = ({ name, options }) => {
+const InputField = ({ name, options, readonly }) => {
   const {
     register,
     clearErrors,
@@ -20,11 +20,12 @@ const InputField = ({ name, options }) => {
       {...register(name, options)}
       aria-invalid={!!errors[name]}
       onFocus={() => clearErrors(name)}
+      readOnly={readonly}
     />
   );
 };
 
-const TextField = ({ name, options }) => {
+const TextField = ({ name, options, readonly }) => {
   const {
     register,
     clearErrors,
@@ -37,11 +38,12 @@ const TextField = ({ name, options }) => {
       {...register(name, options)}
       aria-invalid={!!errors[name]}
       onFocus={() => clearErrors(name)}
+      readOnly={readonly}
     />
   );
 };
 
-const ImageField = ({ name, options }) => {
+const ImageField = ({ name, options, readonly }) => {
   const {
     register,
     setValue,
@@ -73,13 +75,14 @@ const ImageField = ({ name, options }) => {
         onInput={handleUpload}
         aria-invalid={!!errors[name]}
         onFocus={() => clearErrors(name)}
+        readOny={readonly}
       />
       {watch(name) && <img src={watch(name)} alt="" className={style.preview} />}
     </>
   );
 };
 
-const MultiImageField = ({ name, options }) => {
+const MultiImageField = ({ name, options, readonly }) => {
   const {
     register,
     setValue,
@@ -107,6 +110,10 @@ const MultiImageField = ({ name, options }) => {
     );
   };
 
+  const handleCopy = (url) => {
+    navigator.clipboard.writeText(url);
+  };
+
   // Clear URL object when leaving changing to avoid memory leak
   useEffect(() => {
     return () => {
@@ -126,6 +133,7 @@ const MultiImageField = ({ name, options }) => {
         onInput={handleUpload}
         aria-invalid={!!errors[name]}
         onFocus={() => clearErrors(name)}
+        readOny={readonly}
       />
       {watch(name) && (
         <div className="mt-2 container-fluid">
@@ -133,20 +141,58 @@ const MultiImageField = ({ name, options }) => {
             {watch(name).map((image) => (
               <div key={image} className="p-0 col-6 position-relative overflow-hidden">
                 <img src={image} alt="" className={style.multiPreview} />
-                <Button
-                  color="red"
-                  type="button"
-                  className="position-absolute top-0 end-0 p-1"
-                  onClick={() => handleRemove(image)}
-                >
-                  Remove
-                </Button>
+                <div className="position-absolute top-0 end-0 d-flex p-0">
+                  <Button
+                    color="green"
+                    type="button"
+                    className="p-1"
+                    onClick={() => handleCopy(image)}
+                  >
+                    Copy
+                  </Button>
+                  <Button
+                    color="red"
+                    type="button"
+                    className="p-1"
+                    onClick={() => handleRemove(image)}
+                  >
+                    Remove
+                  </Button>
+                </div>
               </div>
             ))}
           </div>
         </div>
       )}
     </>
+  );
+};
+
+const HtmlField = ({ name, options, readonly }) => {
+  const {
+    register,
+    watch,
+    clearErrors,
+    formState: { errors },
+  } = useFormContext();
+
+  return (
+    <div className={style.htmlField}>
+      <textarea
+        {...register(name, options)}
+        aria-invalid={!!errors[name]}
+        onFocus={() => clearErrors(name)}
+        readonly={readonly}
+      />
+      <div>
+        <input type="checkbox" id="contentToggle" />
+        <iframe title="content" srcDoc={watch(name)}></iframe>
+        <label htmlFor="contentToggle" className={style.overlay}></label>
+        <Button variant="outline" type="button">
+          <label htmlFor="contentToggle">Preview</label>
+        </Button>
+      </div>
+    </div>
   );
 };
 
@@ -265,7 +311,7 @@ const Editor = ({ initData, save, cancel, fields }) => {
             {fields.map((field, index) => (
               <div key={index}>
                 <label>{field.name[0].toUpperCase() + field.name.slice(1)}</label>
-                <field.type name={field.name} options={field.options} />
+                <field.type name={field.name} options={field.options} readonly={field.readonly} />
               </div>
             ))}
             <div className={style.buttons}>
@@ -283,5 +329,5 @@ const Editor = ({ initData, save, cancel, fields }) => {
   );
 };
 
-export { InputField, TextField, ImageField, MultiImageField };
+export { InputField, TextField, ImageField, MultiImageField, HtmlField };
 export default Editor;

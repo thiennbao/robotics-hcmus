@@ -1,17 +1,16 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { resourceApi } from "api";
 
-const getCourses = createAsyncThunk(
-  "course/getCourses",
-  async ({ skip, limit }) => {
-    const res = await resourceApi.getResources({
-      resource: "course",
-      skip,
-      limit,
-    });
-    return res.data;
-  }
-);
+const getCourses = createAsyncThunk("course/getCourses", async ({ skip, limit }) => {
+  const res = await resourceApi.getResources({
+    resource: "course",
+    skip,
+    limit,
+    sort: "createdAt",
+    order: "desc",
+  });
+  return res.data;
+});
 const postCourse = createAsyncThunk("course/postCourse", async ({ data }) => {
   const res = await resourceApi.postResource({ resource: "course", data });
   return res.data;
@@ -25,7 +24,7 @@ const courseSlice = createSlice({
       resourceApi.patchResource({ resource: "course", ...action.payload });
       return state.map((course) =>
         course._id === action.payload.id
-          ? { _id: action.payload.id, ...action.payload.data }
+          ? { ...course, _id: action.payload.id, ...action.payload.data }
           : course
       );
     },

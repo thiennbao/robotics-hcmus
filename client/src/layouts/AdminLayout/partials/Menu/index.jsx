@@ -8,6 +8,7 @@ const pages = [
   { title: "Course", to: "/admin/course", icon: "journal-album" },
   { title: "Blog", to: "/admin/blog", icon: "newspaper" },
   { title: "Contact", to: "/admin/contact", icon: "chat-dots-fill" },
+  { title: "Account", to: "/admin/account", icon: "person-fill-gear" },
 ];
 
 const Menu = () => {

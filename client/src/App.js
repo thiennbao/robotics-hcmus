@@ -12,6 +12,8 @@ import AuthPage from "pages/auth";
 
 import HomeDashboard from "pages/admin/HomeDashboard";
 import CourseDashboard from "pages/admin/CourseDashboard";
+import BlogDashboard from "pages/admin/BlogDashboard";
+import ContactDashboard from "pages/admin/ContactDashboard";
 
 function App() {
   return (
@@ -35,6 +37,8 @@ function App() {
           <Route path="/admin">
             <Route path="/admin/" element={<HomeDashboard />} />
             <Route path="/admin/course" element={<CourseDashboard />} />
+            <Route path="/admin/blog" element={<BlogDashboard />} />
+            <Route path="/admin/contact" element={<ContactDashboard />} />
           </Route>
         </Routes>
       </BrowserRouter>

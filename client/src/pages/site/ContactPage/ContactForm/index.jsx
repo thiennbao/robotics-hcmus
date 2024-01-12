@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import style from "./ContactForm.module.scss";
 import Button from "components/Button";
+import { resourceApi } from "api";
 
 const ContactForm = () => {
   const {
@@ -12,7 +13,8 @@ const ContactForm = () => {
   } = useForm({ shouldFocusError: false });
 
   const submit = (data) => {
-    console.log(data);
+    resourceApi.postResource({ resource: "contact", data });
+    window.alert("Send message successfully");
     reset();
   };
 
