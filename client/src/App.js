@@ -7,7 +7,11 @@ import CourseDetail from "pages/site/CoursePage/CourseDetail";
 import BlogPage from "./pages/site/BlogPage";
 import BlogDetail from "pages/site/BlogPage/BlogDetail";
 import ContactPage from "./pages/site/ContactPage";
+
 import AuthPage from "pages/auth";
+
+import HomeDashboard from "pages/admin/HomeDashboard";
+import CourseDashboard from "pages/admin/CourseDashboard";
 
 function App() {
   return (
@@ -28,6 +32,10 @@ function App() {
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/robocus" element={<h1>Robocus page</h1>} />
           <Route path="/auth" element={<AuthPage />} />
+          <Route path="/admin">
+            <Route path="/admin/" element={<HomeDashboard />} />
+            <Route path="/admin/course" element={<CourseDashboard />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </div>
