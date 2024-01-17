@@ -84,7 +84,7 @@
     display: none;
   }
 
-  & input ~ iframe {
+  & .preview {
     display: none;
     position: fixed;
     top: 0;
@@ -126,7 +126,7 @@
       align-items: center;
       margin: 0;
       color: $primary;
-      
+
       &:hover {
         color: white;
       }
@@ -134,7 +134,7 @@
   }
 
   & input:checked {
-    & ~ iframe {
+    & ~ .preview {
       display: block;
     }
     & ~ label {
@@ -148,7 +148,8 @@
   justify-content: center;
   margin: 0 -0.5rem;
 
-  & button, a {
+  & button,
+  a {
     width: 50%;
     height: 3rem;
     padding: 0;

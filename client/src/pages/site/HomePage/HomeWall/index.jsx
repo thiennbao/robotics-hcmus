@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import style from "./HomeWall.module.scss";
 import { resourceApi } from "api";
 import SlideShow from "components/SlideShow";
+import Loading from "components/Loading";
 
 const Item = ({ content }) => {
-  return <iframe title="content" srcDoc={content.content} className={style.item}></iframe>;
+  return <div dangerouslySetInnerHTML={{ __html: content.content }}></div>;
 };
 
 const HomeWall = () => {
@@ -18,7 +19,15 @@ const HomeWall = () => {
 
   return (
     <section className={style.wall}>
-      <SlideShow contents={banners} ContentTag={Item} prevnext />
+      {banners.length ? (
+        <SlideShow contents={banners} ContentTag={Item} prevnext />
+      ) : (
+        <div className={style.loadingScreen}>
+          <div>
+            <Loading />
+          </div>
+        </div>
+      )}
     </section>
   );
 };

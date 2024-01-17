@@ -1,6 +1,6 @@
 @import "scss/variables";
 
-.auth {
+.authPage {
   background-image: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)),
     url("/assets/photo_5.jpg");
   margin: 0;
@@ -10,7 +10,7 @@
 
 .wrapper {
   position: fixed;
-  top: 50%;
+  top: 55%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 30%;

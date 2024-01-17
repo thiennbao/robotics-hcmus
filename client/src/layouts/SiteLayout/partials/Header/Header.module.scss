@@ -3,6 +3,7 @@
 .header {
   opacity: 0.9;
   height: 9rem;
+  z-index: 1;
   transition: 0.5s;
   color: white;
   & a {

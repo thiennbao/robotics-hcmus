@@ -1,13 +1,14 @@
 import { FormProvider, useForm, useFormContext } from "react-hook-form";
 import style from "./Editor.module.scss";
 import Button from "components/Button";
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { createContext, useContext, useEffect, useState } from "react";
 import { deleteObject, getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { v4 } from "uuid";
 import { storage } from "config/firebase";
 import Loading from "components/Loading";
 import { useLocation, useParams } from "react-router-dom";
+
+const FilesContext = createContext();
 
 const InputField = ({ name, options, ...rest }) => {
   const {
@@ -53,27 +54,32 @@ const TextField = ({ name, options, ...rest }) => {
 };
 
 const ImageField = ({ name, options, ...rest }) => {
+  const [files, setFiles] = useContext(FilesContext);
+
   const {
     register,
     setValue,
+    getValues,
     watch,
     clearErrors,
     formState: { errors },
   } = useFormContext();
 
-  const handleUpload = (e) => {
+  const handleUpload = async (e) => {
     const file = e.target.files[0];
+    const newFiles = { ...files };
     if (file) {
-      const url = URL.createObjectURL(file);
-      setValue(name, url);
+      if (getValues(name)) {
+        newFiles.deleted = [...files.deleted, getValues(name)];
+      }
+      const uploadRef = ref(storage, `images/${v4()}`);
+      const snapshot = await uploadBytes(uploadRef, file);
+      const downloadURL = await getDownloadURL(snapshot.ref);
+      newFiles.uploaded.push(downloadURL);
+      setFiles(newFiles);
+      setValue(name, downloadURL);
     }
   };
-
-  // Clear URL object when changing input to avoid memory leak
-  const url = watch(name);
-  useEffect(() => {
-    return () => URL.revokeObjectURL(url);
-  }, [url]);
 
   return (
     <div className={style.imageField}>
@@ -94,6 +100,8 @@ const ImageField = ({ name, options, ...rest }) => {
 };
 
 const MultiImageField = ({ name, options, ...rest }) => {
+  const [files, setFiles] = useContext(FilesContext);
+
   const {
     register,
     setValue,
@@ -103,36 +111,31 @@ const MultiImageField = ({ name, options, ...rest }) => {
     formState: { errors },
   } = useFormContext();
 
-  const handleUpload = (e) => {
-    const { length, ...files } = e.target.files;
-    if (files) {
-      for (let index in files) {
-        const url = URL.createObjectURL(files[index]);
-        setValue(name, [url, ...(getValues(name) || [])]);
-      }
+  const handleUpload = async (e) => {
+    const { length, ...uploadFiles } = e.target.files;
+    const urls = [];
+    const newFiles = { ...files };
+    for (let index in uploadFiles) {
+      const uploadRef = ref(storage, `images/${v4()}`);
+      const snapshot = await uploadBytes(uploadRef, uploadFiles[index]);
+      const downloadURL = await getDownloadURL(snapshot.ref);
+      urls.push(downloadURL);
+      newFiles.uploaded.push(downloadURL);
     }
+    setFiles(newFiles);
+    setValue(name, [...(getValues(name) || []), ...urls]);
   };
-
   const handleRemove = (deletedURL) => {
-    URL.revokeObjectURL(deletedURL);
+    const newFiles = { ...files };
+    newFiles.deleted.push(deletedURL);
     setValue(
       name,
       getValues(name).filter((url) => url !== deletedURL)
     );
   };
-
   const handleCopy = (url) => {
     navigator.clipboard.writeText(url);
   };
-
-  // Clear URL object when leaving changing to avoid memory leak
-  useEffect(() => {
-    return () => {
-      if (getValues(name)) {
-        getValues(name).map((url) => URL.revokeObjectURL(url));
-      }
-    };
-  }, [name, getValues]);
 
   return (
     <div className={style.multiImageField}>
@@ -201,7 +204,7 @@ const HtmlField = ({ name, options, ...rest }) => {
       {errors[name] && errors[name].type === "required" && <span>Please fill out this field</span>}
       <div>
         <input type="checkbox" id="contentToggle" />
-        <iframe title="content" srcDoc={watch(name)}></iframe>
+        <div className={style.preview} dangerouslySetInnerHTML={{ __html: watch(name) }}></div>
         <label htmlFor="contentToggle" className={style.overlay}></label>
         <Button variant="outline" type="button">
           <label htmlFor="contentToggle">Preview</label>
@@ -285,139 +288,82 @@ const SelectField = ({ name, options, select, ...rest }) => {
 };
 
 const Editor = ({ fields, data, handleSave }) => {
-  const methods = useForm({ shouldFocusError: false });
+  const [files, setFiles] = useState({ uploaded: [], deleted: [] });
 
-  const [urls, setUrls] = useState([]);
+  const methods = useForm({ shouldFocusError: false });
 
   // Fill initial data
   useEffect(() => {
     if (data) {
       for (let field of fields) {
         methods.setValue(field.name, data[field.name]);
-        // Mark initial urls in a list
-        if (field.variant === ImageField) {
-          const url = data[field.name];
-          if (url && !urls.includes(url)) {
-            setUrls((urls) => [url, ...urls]);
-          }
-        } else if (field.variant === MultiImageField) {
-          if (data[field.name]) {
-            for (let url of data[field.name]) {
-              if (url && !urls.includes(url)) {
-                setUrls((urls) => [url, ...urls]);
-              }
-            }
-          }
-        }
       }
     }
-  }, [fields, data, methods, urls]);
+  }, [fields, data, methods]);
 
-  // Handle uploading to firebase
-  const handleUpload = async (data) => {
-    // Upload function
-    const upload = async (url) => {
-      try {
-        // Fetch to blob URL
-        const res = await axios.get(url, { responseType: "blob" });
-        // Create file from URL
-        const file = new File([res.data], ".png", {
-          type: "image/png",
-        });
-        // Upload file and return uploaded URL
-        const uploadRef = ref(storage, `images/${v4()}`);
-        const snapshot = await uploadBytes(uploadRef, file);
-        const downloadURL = await getDownloadURL(snapshot.ref);
-        return downloadURL;
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    // Loop through fields and upload files
-    const newUrls = [];
-    for (let field of fields) {
-      if (field.variant === ImageField) {
-        // Upload image fields
-        const url = data[field.name];
-        newUrls.push(url);
-        // Check if file not exist in firebase
-        if (!urls.includes(url)) {
-          // Upload new file
-          const downloadURL = await upload(url);
-          // Replace blob URL with uploaded URL
-          data[field.name] = downloadURL;
-        }
-      } else if (field.variant === MultiImageField) {
-        // Upload multi image fields
-        for (let url of data[field.name] || []) {
-          newUrls.push(url);
-          // Check if file not exist in firebase
-          if (!urls.includes(url)) {
-            // Upload new file
-            const downloadURL = await upload(url);
-            // Replace blob URL with uploaded URL
-            data[field.name][data[field.name].indexOf(url)] = downloadURL;
-          }
-        }
-      }
-    }
-
-    // Delete files from firebase
-    for (let url of urls) {
-      // Check if URL has been deleted
-      if (!newUrls.includes(url)) {
-        // Deleted it from firebase
-        const currentRef = ref(storage, url);
-        deleteObject(currentRef);
-      }
-    }
+  const clearUploadedFiles = () => {
+    files.uploaded.forEach((deletedURL) => {
+      deleteObject(ref(storage, deletedURL));
+    });
+  };
+  const clearDeletedFiles = () => {
+    files.deleted.forEach((deletedURL) => {
+      deleteObject(ref(storage, deletedURL));
+    });
   };
 
   const path = useLocation().pathname.replace(useParams().id, "");
 
   return (
-    <div className={style.editor}>
-      {!data ? (
-        <div>
-          <div className="d-flex justify-content-center my-5">
-            <Loading />
-          </div>
-          <div className={style.buttons}>
-            <Button variant="outline" color="red" type="button" to={path}>
-              Cancel
-            </Button>
-          </div>
-        </div>
-      ) : (
-        <FormProvider {...methods}>
-          <form
-            onSubmit={methods.handleSubmit(async (data) => {
-              await handleUpload(data);
-              handleSave(data);
-            })}
-          >
-            <h3>Editor</h3>
-            {fields.map((field, index) => {
-              const { variant, name, options, ...rest } = field;
-              return (
-                field.variant && (
-                  <field.variant key={index} name={name} options={options} {...rest} />
-                )
-              );
-            })}
+    <FilesContext.Provider value={[files, setFiles]}>
+      <div className={style.editor}>
+        {!data ? (
+          <div>
+            <div className="d-flex justify-content-center my-5">
+              <Loading />
+            </div>
             <div className={style.buttons}>
-              <Button variant="outline" color="green">
-                Save
-              </Button>
               <Button variant="outline" color="red" type="button" to={path}>
                 Cancel
               </Button>
             </div>
-          </form>
-        </FormProvider>
-      )}
-    </div>
+          </div>
+        ) : (
+          <FormProvider {...methods}>
+            <form
+              onSubmit={methods.handleSubmit((data) => {
+                clearDeletedFiles();
+                handleSave(data);
+              })}
+            >
+              <h3>Editor</h3>
+              {fields.map((field, index) => {
+                const { variant, name, options, ...rest } = field;
+                return (
+                  field.variant && (
+                    <field.variant key={index} name={name} options={options} {...rest} />
+                  )
+                );
+              })}
+              <div className={style.buttons}>
+                <Button variant="outline" color="green">
+                  Save
+                </Button>
+                <Button
+                  variant="outline"
+                  color="red"
+                  type="button"
+                  onClick={() => clearUploadedFiles()}
+                  to={path}
+                >
+                  Cancel
+                </Button>
+              </div>
+            </form>
+          </FormProvider>
+        )}
+      </div>
+    </FilesContext.Provider>
   );
 };
 

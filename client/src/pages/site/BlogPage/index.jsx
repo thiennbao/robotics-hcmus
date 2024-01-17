@@ -6,7 +6,7 @@ import { wallpapers } from "assets";
 const BlogPage = () => {
   return (
     <SiteLayout>
-      <Wallpaper title="BLOGS" background={wallpapers[1]} />
+      <Wallpaper title="BLOGS" background={wallpapers[2]} />
       <BlogArchive />
     </SiteLayout>
   )

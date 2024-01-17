@@ -7,9 +7,7 @@ import CourseDetail from "pages/site/CoursePage/CourseDetail";
 import BlogPage from "./pages/site/BlogPage";
 import BlogDetail from "pages/site/BlogPage/BlogDetail";
 import ContactPage from "./pages/site/ContactPage";
-
 import AuthPage from "pages/auth";
-
 import HomeDashboard from "pages/admin/HomeDashboard";
 import BannerList from "pages/admin/BannerDashboard/BannerList";
 import BannerEditor from "pages/admin/BannerDashboard/BannerEditor";
@@ -21,6 +19,7 @@ import ContactList from "pages/admin/ContactDashboard/ContactList";
 import ContactEditor from "pages/admin/ContactDashboard/ContactEditor";
 import AccountList from "pages/admin/AccountDashboard/AccountList";
 import AccountEditor from "pages/admin/AccountDashboard/AccountEditor";
+import ErrorPage from "pages/error";
 
 function App() {
   return (
@@ -47,7 +46,7 @@ function App() {
           <Route path="/admin/contact/:id" element={<ContactEditor />} />
           <Route path="/admin/account" element={<AccountList />} />
           <Route path="/admin/account/:id" element={<AccountEditor />} />
-          <Route path="*" element={<h1>404 Not Found</h1>} />
+          <Route path="*" element={<ErrorPage />} />
         </Routes>
       </BrowserRouter>
     </div>

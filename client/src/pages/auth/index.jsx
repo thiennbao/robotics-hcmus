@@ -4,6 +4,7 @@ import { authApi } from "api";
 import style from "./AuthPage.module.scss";
 import Button from "components/Button";
 import { useEffect } from "react";
+import Header from "layouts/SiteLayout/partials/Header";
 
 const AuthPage = () => {
   const navigate = useNavigate();
@@ -38,7 +39,8 @@ const AuthPage = () => {
   };
 
   return (
-    <section className={style.auth}>
+    <section className={style.authPage}>
+      <Header />
       <div className={style.wrapper}>
         <h2>Log in</h2>
         <form onSubmit={handleSubmit(submit)}>
