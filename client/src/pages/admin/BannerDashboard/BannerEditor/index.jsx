@@ -1,12 +1,12 @@
 import { resourceApi } from "api";
-import Editor, { ImageField, InputField, MultiImageField, TextField } from "components/Editor";
+import Editor, { HtmlField, InputField, MultiImageField } from "components/Editor";
 import AdminLayout from "layouts/AdminLayout";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { patchCourse, postCourse } from "../courseSlice";
+import { patchBanner, postBanner } from "../bannerSlice";
 
-const CourseEditor = () => {
+const BannerEditor = () => {
   const { id } = useParams();
 
   const [data, setData] = useState(id === "add" ? {} : null);
@@ -15,7 +15,7 @@ const CourseEditor = () => {
   useEffect(() => {
     if (id !== "add") {
       resourceApi
-        .getSingleResource({ resource: "course", id })
+        .getSingleResource({ resource: "banner", id })
         .then((res) => setData(res.data))
         .catch((error) => console.log(error));
     }
@@ -26,25 +26,26 @@ const CourseEditor = () => {
   const navigate = useNavigate();
   const handleSave = (data) => {
     if (id === "add") {
-      dispatch(postCourse({ data }));
+      dispatch(postBanner({ data }));
     } else {
-      dispatch(patchCourse({ id, data }));
+      dispatch(patchBanner({ id, data }));
     }
-    navigate("/admin/course");
+    navigate("/admin/banner");
   };
 
   return (
-    <AdminLayout page="COURSE">
+    <AdminLayout page="BANNER">
       <Editor
         fields={[
           { variant: InputField, name: "name", options: { required: true } },
-          { variant: ImageField, name: "thumbnail", options: { required: true } },
-          { variant: InputField, name: "tuition", options: { required: true } },
-          { variant: TextField, name: "description", options: { required: true } },
-          { variant: InputField, name: "age", options: { required: true } },
-          { variant: InputField, name: "lesson", options: { required: true } },
-          { variant: InputField, name: "time", options: { required: true } },
+          { variant: HtmlField, name: "content", options: { required: true } },
           { variant: MultiImageField, name: "images" },
+          {
+            variant: InputField,
+            name: "index",
+            options: { required: true, min: 0 },
+            type: "number",
+          },
         ]}
         data={data}
         handleSave={handleSave}
@@ -53,4 +54,4 @@ const CourseEditor = () => {
   );
 };
 
-export default CourseEditor;
+export default BannerEditor;

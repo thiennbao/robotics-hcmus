@@ -11,6 +11,8 @@ import ContactPage from "./pages/site/ContactPage";
 import AuthPage from "pages/auth";
 
 import HomeDashboard from "pages/admin/HomeDashboard";
+import BannerList from "pages/admin/BannerDashboard/BannerList";
+import BannerEditor from "pages/admin/BannerDashboard/BannerEditor";
 import CourseList from "pages/admin/CourseDashboard/CourseList";
 import CourseEditor from "pages/admin/CourseDashboard/CourseEditor";
 import BlogList from "pages/admin/BlogDashboard/BlogList";
@@ -36,8 +38,8 @@ function App() {
           <Route path="/robocus" element={<h1>Robocus page</h1>} />
           <Route path="/auth" element={<AuthPage />} />
           <Route path="/admin/" element={<HomeDashboard />} />
-          <Route path="/admin/banner" element={<h1>/banner</h1>} />
-          <Route path="/admin/banner/:id" element={<h1>/banner:id</h1>} />
+          <Route path="/admin/banner" element={<BannerList />} />
+          <Route path="/admin/banner/:id" element={<BannerEditor />} />
           <Route path="/admin/course" element={<CourseList />} />
           <Route path="/admin/course/:id" element={<CourseEditor />} />
           <Route path="/admin/blog" element={<BlogList />} />

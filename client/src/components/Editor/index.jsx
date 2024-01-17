@@ -26,6 +26,7 @@ const InputField = ({ name, options, ...rest }) => {
         {...rest}
       />
       {errors[name] && errors[name].type === "required" && <span>Please fill out this field</span>}
+      {errors[name] && errors[name].type === "min" && <span>Please enter a larger number</span>}
     </div>
   );
 };
@@ -294,12 +295,12 @@ const Editor = ({ fields, data, handleSave }) => {
       for (let field of fields) {
         methods.setValue(field.name, data[field.name]);
         // Mark initial urls in a list
-        if (field.type === ImageField) {
+        if (field.variant === ImageField) {
           const url = data[field.name];
           if (url && !urls.includes(url)) {
             setUrls((urls) => [url, ...urls]);
           }
-        } else if (field.type === MultiImageField) {
+        } else if (field.variant === MultiImageField) {
           if (data[field.name]) {
             for (let url of data[field.name]) {
               if (url && !urls.includes(url)) {
@@ -336,7 +337,7 @@ const Editor = ({ fields, data, handleSave }) => {
     // Loop through fields and upload files
     const newUrls = [];
     for (let field of fields) {
-      if (field.type === ImageField) {
+      if (field.variant === ImageField) {
         // Upload image fields
         const url = data[field.name];
         newUrls.push(url);
@@ -347,7 +348,7 @@ const Editor = ({ fields, data, handleSave }) => {
           // Replace blob URL with uploaded URL
           data[field.name] = downloadURL;
         }
-      } else if (field.type === MultiImageField) {
+      } else if (field.variant === MultiImageField) {
         // Upload multi image fields
         for (let url of data[field.name] || []) {
           newUrls.push(url);
@@ -398,9 +399,11 @@ const Editor = ({ fields, data, handleSave }) => {
           >
             <h3>Editor</h3>
             {fields.map((field, index) => {
-              const { type, name, options, ...rest } = field;
+              const { variant, name, options, ...rest } = field;
               return (
-                field.type && <field.type key={index} name={name} options={options} {...rest} />
+                field.variant && (
+                  <field.variant key={index} name={name} options={options} {...rest} />
+                )
               );
             })}
             <div className={style.buttons}>

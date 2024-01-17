@@ -1,64 +1,24 @@
 import { useEffect, useState } from "react";
-import clsx from "clsx";
 import style from "./HomeWall.module.scss";
-import Button from "components/Button";
+import { resourceApi } from "api";
+import SlideShow from "components/SlideShow";
 
-import wallpaper1 from "assets/wallpaper_1.png";
-import wallpaper2 from "assets/wallpaper_2.png";
-import wallpaper3 from "assets/wallpaper_3.png";
-
-const wallpapers = [wallpaper1, wallpaper2, wallpaper3];
-
-const Background = () => {
-  const [animatedWall, setAnimatedWall] = useState(0);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setAnimatedWall(animatedWall + 1);
-    }, 10000);
-  }, [animatedWall]);
-
-  return (
-    <div
-      key={animatedWall}
-      className={style.wallpaper}
-      style={{ backgroundImage: `url(${wallpapers[animatedWall % wallpapers.length]})` }}
-    ></div>
-  );
+const Item = ({ content }) => {
+  return <iframe title="content" srcDoc={content.content} className={style.item}></iframe>;
 };
 
 const HomeWall = () => {
+  const [banners, setBanners] = useState([]);
+  useEffect(() => {
+    resourceApi
+      .getResources({ resource: "banner", sort: "index" })
+      .then((res) => setBanners(res.data))
+      .catch((error) => console.log(error));
+  }, []);
+
   return (
     <section className={style.wall}>
-      <Background />
-      <div className="container position-absolute top-50 start-50 translate-middle text-center text-white">
-        <p>VNUHCM - University of Science</p>
-        <h1>Robotics & IoT</h1>
-        <p className="mb-5">Temporary home, change to slide show later</p>
-        <div className="row justify-content-center">
-          <Button
-            className={clsx(
-              style.button,
-              style.buttonLeft,
-              "col-lg-3 col-md-4 col-sm-5 col-11 m-2"
-            )}
-            to="/"
-          >
-            REGISTER NOW
-          </Button>
-          <Button
-            className={clsx(
-              style.button,
-              style.buttonRight,
-              "col-lg-3 col-md-4 col-sm-5 col-11 m-2"
-            )}
-            variant="outline"
-            to="/"
-          >
-            JOIN US
-          </Button>
-        </div>
-      </div>
+      <SlideShow contents={banners} ContentTag={Item} prevnext />
     </section>
   );
 };

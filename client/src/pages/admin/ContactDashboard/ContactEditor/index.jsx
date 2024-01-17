@@ -27,11 +27,11 @@ const ContactEditor = () => {
     <AdminLayout page="CONTACT">
       <Editor
         fields={[
-          { type: InputField, name: "subject", readOnly: true },
-          { type: InputField, name: "name", readOnly: true },
-          { type: InputField, name: "phone", readOnly: true },
-          { type: InputField, name: "email", readOnly: true },
-          { type: TextField, name: "message", readOnly: true },
+          { variant: InputField, name: "subject", readOnly: true },
+          { variant: InputField, name: "name", readOnly: true },
+          { variant: InputField, name: "phone", readOnly: true },
+          { variant: InputField, name: "email", readOnly: true },
+          { variant: TextField, name: "message", readOnly: true },
         ]}
         data={data}
         handleSave={handleSave}

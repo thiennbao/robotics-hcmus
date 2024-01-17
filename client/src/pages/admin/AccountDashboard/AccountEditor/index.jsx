@@ -39,13 +39,13 @@ const AccountEditor = () => {
       <Editor
         fields={[
           {
-            type: InputField,
+            variant: InputField,
             name: "username",
             options: { required: true },
             disabled: id !== "add",
           },
           {
-            type: SelectField,
+            variant: SelectField,
             name: "role",
             options: { required: true },
             select: [
@@ -57,10 +57,10 @@ const AccountEditor = () => {
           {
             ...(id === "add"
               ? {}
-              : { type: PasswordField, name: "current password", options: { required: true } }),
+              : { variant: PasswordField, name: "current password", options: { required: true } }),
           },
           {
-            type: PasswordField,
+            variant: PasswordField,
             name: id === "add" ? "password" : "new password",
             options: { required: true, minLength: 8, maxLength: 32 },
             confirm: true,

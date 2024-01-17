@@ -37,10 +37,10 @@ const BlogEditor = () => {
     <AdminLayout page="BLOG">
       <Editor
         fields={[
-          { type: InputField, name: "title", options: { required: true } },
-          { type: ImageField, name: "thumbnail", options: { required: true } },
-          { type: HtmlField, name: "content", options: { required: true } },
-          { type: MultiImageField, name: "images" },
+          { variant: InputField, name: "title", options: { required: true } },
+          { variant: ImageField, name: "thumbnail", options: { required: true } },
+          { variant: HtmlField, name: "content", options: { required: true } },
+          { variant: MultiImageField, name: "images" },
         ]}
         data={data}
         handleSave={handleSave}
