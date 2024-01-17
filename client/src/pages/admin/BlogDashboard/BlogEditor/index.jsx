@@ -1,15 +1,19 @@
-import { useDispatch } from "react-redux";
-import { patchBlog, postBlog } from "../blogSlice";
-import { useEffect, useState } from "react";
 import { resourceApi } from "api";
 import Editor, { HtmlField, ImageField, InputField, MultiImageField } from "components/Editor";
+import AdminLayout from "layouts/AdminLayout";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import { patchBlog, postBlog } from "../blogSlice";
 
-const BlogEditor = ({ id, goBack }) => {
-  const [data, setData] = useState(id ? {} : null);
+const BlogEditor = () => {
+  const { id } = useParams();
+
+  const [data, setData] = useState(id === "add" ? {} : null);
 
   // Get initial data
   useEffect(() => {
-    if (id) {
+    if (id !== "add") {
       resourceApi
         .getSingleResource({ resource: "blog", id })
         .then((res) => setData(res.data))
@@ -19,32 +23,29 @@ const BlogEditor = ({ id, goBack }) => {
 
   // Form handler
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const handleSave = (data) => {
-    if (id) {
-      // Edit
-      dispatch(patchBlog({ id, data }));
-    } else {
-      // Create new
+    if (id === "add") {
       dispatch(postBlog({ data }));
+    } else {
+      dispatch(patchBlog({ id, data }));
     }
-    goBack();
-  };
-  const handleCancel = () => {
-    goBack();
+    navigate("/admin/blog");
   };
 
   return (
-    <Editor
-      fields={[
-        { type: InputField, name: "title", options: { required: true } },
-        { type: ImageField, name: "thumbnail", options: { required: true } },
-        { type: HtmlField, name: "content", options: { required: true } },
-        { type: MultiImageField, name: "images" },
-      ]}
-      initData={data}
-      save={handleSave}
-      cancel={handleCancel}
-    />
+    <AdminLayout page="BLOG">
+      <Editor
+        fields={[
+          { type: InputField, name: "title", options: { required: true } },
+          { type: ImageField, name: "thumbnail", options: { required: true } },
+          { type: HtmlField, name: "content", options: { required: true } },
+          { type: MultiImageField, name: "images" },
+        ]}
+        data={data}
+        handleSave={handleSave}
+      />
+    </AdminLayout>
   );
 };
 

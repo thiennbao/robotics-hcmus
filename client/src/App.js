@@ -11,9 +11,14 @@ import ContactPage from "./pages/site/ContactPage";
 import AuthPage from "pages/auth";
 
 import HomeDashboard from "pages/admin/HomeDashboard";
-import CourseDashboard from "pages/admin/CourseDashboard";
-import BlogDashboard from "pages/admin/BlogDashboard";
-import ContactDashboard from "pages/admin/ContactDashboard";
+import CourseList from "pages/admin/CourseDashboard/CourseList";
+import CourseEditor from "pages/admin/CourseDashboard/CourseEditor";
+import BlogList from "pages/admin/BlogDashboard/BlogList";
+import BlogEditor from "pages/admin/BlogDashboard/BlogEditor";
+import ContactList from "pages/admin/ContactDashboard/ContactList";
+import ContactEditor from "pages/admin/ContactDashboard/ContactEditor";
+import AccountList from "pages/admin/AccountDashboard/AccountList";
+import AccountEditor from "pages/admin/AccountDashboard/AccountEditor";
 
 function App() {
   return (
@@ -22,24 +27,26 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />
-          <Route path="/courses">
-            <Route path="/courses/" element={<CoursePage />} />
-            <Route path="/courses/:slug" element={<CourseDetail />} />
-          </Route>
-          <Route path="/blogs">
-            <Route path="/blogs/" element={<BlogPage />} />
-            <Route path="/blogs/search" element={<BlogPage />} />
-            <Route path="/blogs/:slug" element={<BlogDetail />} />
-          </Route>
+          <Route path="/courses/" element={<CoursePage />} />
+          <Route path="/courses/:slug" element={<CourseDetail />} />
+          <Route path="/blogs/" element={<BlogPage />} />
+          <Route path="/blogs/search" element={<BlogPage />} />
+          <Route path="/blogs/:slug" element={<BlogDetail />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/robocus" element={<h1>Robocus page</h1>} />
           <Route path="/auth" element={<AuthPage />} />
-          <Route path="/admin">
-            <Route path="/admin/" element={<HomeDashboard />} />
-            <Route path="/admin/course" element={<CourseDashboard />} />
-            <Route path="/admin/blog" element={<BlogDashboard />} />
-            <Route path="/admin/contact" element={<ContactDashboard />} />
-          </Route>
+          <Route path="/admin/" element={<HomeDashboard />} />
+          <Route path="/admin/banner" element={<h1>/banner</h1>} />
+          <Route path="/admin/banner/:id" element={<h1>/banner:id</h1>} />
+          <Route path="/admin/course" element={<CourseList />} />
+          <Route path="/admin/course/:id" element={<CourseEditor />} />
+          <Route path="/admin/blog" element={<BlogList />} />
+          <Route path="/admin/blog/:id" element={<BlogEditor />} />
+          <Route path="/admin/contact" element={<ContactList />} />
+          <Route path="/admin/contact/:id" element={<ContactEditor />} />
+          <Route path="/admin/account" element={<AccountList />} />
+          <Route path="/admin/account/:id" element={<AccountEditor />} />
+          <Route path="*" element={<h1>404 Not Found</h1>} />
         </Routes>
       </BrowserRouter>
     </div>

@@ -11,47 +11,30 @@ const getContacts = createAsyncThunk("contact/getContacts", async ({ skip, limit
   });
   return res.data;
 });
-const postContact = createAsyncThunk("contact/postContact", async ({ data }) => {
-  const res = await resourceApi.postResource({ resource: "contact", data });
+const deleteContact = createAsyncThunk("contact/deleteContact", async ({ id }) => {
+  const res = await resourceApi.deleteResource({ resource: "contact", id });
   return res.data;
 });
 
 const contactSlice = createSlice({
   name: "contact",
   initialState: [],
-  reducers: {
-    patchContact: (state, action) => {
-      resourceApi.patchResource({ resource: "contact", ...action.payload });
-      return state.map((contact) =>
-        contact._id === action.payload.id
-          ? { ...contact, _id: action.payload.id, ...action.payload.data }
-          : contact
-      );
-    },
-    deleteContact: (state, action) => {
-      resourceApi.deleteResource({ resource: "contact", ...action.payload });
-      return state.filter((contact) => contact._id !== action.payload.id);
-    },
-  },
   extraReducers: (builder) => {
-    builder
-      .addCase(getContacts.fulfilled, (state, action) => {
-        const filter = [];
-        return [...state, ...action.payload].filter((contact) => {
-          if (!filter.includes(contact._id)) {
-            filter.push(contact._id);
-            return true;
-          } else {
-            return false;
-          }
-        });
-      })
-      .addCase(postContact.fulfilled, (state, action) => {
-        return [...state, action.payload];
+    builder.addCase(getContacts.fulfilled, (state, action) => {
+      const filter = []; // Hold items' id
+      state.forEach((contact) => filter.push(contact._id));
+      action.payload.forEach((contact) => {
+        if (!filter.includes(contact._id)) {
+          state.push(contact);
+        }
       });
+      return state;
+    });
+    builder.addCase(deleteContact.fulfilled, (state, action) => {
+      return state.filter((contact) => contact._id !== action.payload._id);
+    });
   },
 });
 
-export { getContacts, postContact };
-export const { patchContact, deleteContact } = contactSlice.actions;
+export { getContacts, deleteContact };
 export default contactSlice.reducer;

@@ -1,7 +1,7 @@
 import Button from "components/Button";
 import style from "./DataTable.module.scss";
 
-const DataTable = ({ fields, data, pick, remove, load, readOnly }) => {
+const DataTable = ({ fields, data, readonly, loadHandle, deleteHandle }) => {
   const isURL = (string) => {
     try {
       new URL(string);
@@ -19,10 +19,10 @@ const DataTable = ({ fields, data, pick, remove, load, readOnly }) => {
             {fields.map((field) => (
               <th key={field}>{field}</th>
             ))}
-            {!readOnly && (
+            {!readonly && (
               <th>
                 <div className="d-flex justify-content-center">
-                  <Button variant="outline" color="green" onClick={() => pick(null)}>
+                  <Button variant="outline" color="green" to="./add">
                     Add
                   </Button>
                 </div>
@@ -44,10 +44,8 @@ const DataTable = ({ fields, data, pick, remove, load, readOnly }) => {
               ))}
               <td>
                 <div className="d-flex justify-content-center">
-                  <Button variant="outline" onClick={() => pick(item._id)}>
-                    Edit
-                  </Button>
-                  <Button variant="outline" color="red" onClick={() => remove(item._id)}>
+                  <Button variant="outline" to={`./${item._id}`}>Edit</Button>
+                  <Button variant="outline" color="red" onClick={() => deleteHandle(item._id)}>
                     Delete
                   </Button>
                 </div>
@@ -56,7 +54,7 @@ const DataTable = ({ fields, data, pick, remove, load, readOnly }) => {
           ))}
         </tbody>
       </table>
-      <Button variant="outline" className={style.loadButton} onClick={load}>
+      <Button variant="outline" className={style.loadButton} onClick={loadHandle}>
         Load more
       </Button>
     </div>

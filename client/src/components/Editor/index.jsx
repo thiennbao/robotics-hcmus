@@ -7,8 +7,9 @@ import { deleteObject, getDownloadURL, ref, uploadBytes } from "firebase/storage
 import { v4 } from "uuid";
 import { storage } from "config/firebase";
 import Loading from "components/Loading";
+import { useLocation, useParams } from "react-router-dom";
 
-const InputField = ({ name, options, readonly }) => {
+const InputField = ({ name, options, ...rest }) => {
   const {
     register,
     clearErrors,
@@ -16,16 +17,20 @@ const InputField = ({ name, options, readonly }) => {
   } = useFormContext();
 
   return (
-    <input
-      {...register(name, options)}
-      aria-invalid={!!errors[name]}
-      onFocus={() => clearErrors(name)}
-      readOnly={readonly}
-    />
+    <div>
+      <label>{name}</label>
+      <input
+        {...register(name, options)}
+        aria-invalid={!!errors[name]}
+        onFocus={() => clearErrors(name)}
+        {...rest}
+      />
+      {errors[name] && errors[name].type === "required" && <span>Please fill out this field</span>}
+    </div>
   );
 };
 
-const TextField = ({ name, options, readonly }) => {
+const TextField = ({ name, options, ...rest }) => {
   const {
     register,
     clearErrors,
@@ -33,17 +38,20 @@ const TextField = ({ name, options, readonly }) => {
   } = useFormContext();
 
   return (
-    <textarea
-      className={style.textField}
-      {...register(name, options)}
-      aria-invalid={!!errors[name]}
-      onFocus={() => clearErrors(name)}
-      readOnly={readonly}
-    />
+    <div className={style.textField}>
+      <label>{name}</label>
+      <textarea
+        {...register(name, options)}
+        aria-invalid={!!errors[name]}
+        onFocus={() => clearErrors(name)}
+        {...rest}
+      />
+      {errors[name] && errors[name].type === "required" && <span>Please fill out this field</span>}
+    </div>
   );
 };
 
-const ImageField = ({ name, options, readonly }) => {
+const ImageField = ({ name, options, ...rest }) => {
   const {
     register,
     setValue,
@@ -67,7 +75,8 @@ const ImageField = ({ name, options, readonly }) => {
   }, [url]);
 
   return (
-    <>
+    <div className={style.imageField}>
+      <label>{name}</label>
       <input hidden {...register(name, options)} />
       <input
         type="file"
@@ -75,14 +84,15 @@ const ImageField = ({ name, options, readonly }) => {
         onInput={handleUpload}
         aria-invalid={!!errors[name]}
         onFocus={() => clearErrors(name)}
-        readOny={readonly}
+        {...rest}
       />
+      {errors[name] && errors[name].type === "required" && <span>Please fill out this field</span>}
       {watch(name) && <img src={watch(name)} alt="" className={style.preview} />}
-    </>
+    </div>
   );
 };
 
-const MultiImageField = ({ name, options, readonly }) => {
+const MultiImageField = ({ name, options, ...rest }) => {
   const {
     register,
     setValue,
@@ -97,7 +107,7 @@ const MultiImageField = ({ name, options, readonly }) => {
     if (files) {
       for (let index in files) {
         const url = URL.createObjectURL(files[index]);
-        setValue(name, [url, ...getValues(name)]);
+        setValue(name, [url, ...(getValues(name) || [])]);
       }
     }
   };
@@ -124,7 +134,8 @@ const MultiImageField = ({ name, options, readonly }) => {
   }, [name, getValues]);
 
   return (
-    <>
+    <div className={style.multiImageField}>
+      <label>{name}</label>
       <input hidden {...register(name, options)} />
       <input
         type="file"
@@ -133,8 +144,9 @@ const MultiImageField = ({ name, options, readonly }) => {
         onInput={handleUpload}
         aria-invalid={!!errors[name]}
         onFocus={() => clearErrors(name)}
-        readOny={readonly}
+        {...rest}
       />
+      {errors[name] && errors[name].type === "required" && <span>Please fill out this field</span>}
       {watch(name) && (
         <div className="mt-2 container-fluid">
           <div className="row">
@@ -164,11 +176,11 @@ const MultiImageField = ({ name, options, readonly }) => {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 };
 
-const HtmlField = ({ name, options, readonly }) => {
+const HtmlField = ({ name, options, ...rest }) => {
   const {
     register,
     watch,
@@ -178,12 +190,14 @@ const HtmlField = ({ name, options, readonly }) => {
 
   return (
     <div className={style.htmlField}>
+      <label>{name}</label>
       <textarea
         {...register(name, options)}
         aria-invalid={!!errors[name]}
         onFocus={() => clearErrors(name)}
-        readonly={readonly}
+        {...rest}
       />
+      {errors[name] && errors[name].type === "required" && <span>Please fill out this field</span>}
       <div>
         <input type="checkbox" id="contentToggle" />
         <iframe title="content" srcDoc={watch(name)}></iframe>
@@ -196,25 +210,98 @@ const HtmlField = ({ name, options, readonly }) => {
   );
 };
 
-const Editor = ({ initData, save, cancel, fields }) => {
+const PasswordField = ({ name, options, confirm, ...rest }) => {
+  const {
+    register,
+    watch,
+    clearErrors,
+    formState: { errors },
+  } = useFormContext();
+
+  const validate = (value) => {
+    if (watch(name) !== value) {
+      return "Confirm password does not match";
+    }
+  };
+
+  return (
+    <div>
+      <label>{name}</label>
+      <input
+        type="password"
+        {...register(name, options)}
+        aria-invalid={!!errors[name]}
+        onFocus={() => clearErrors(name)}
+        {...rest}
+      />
+      {errors[name] && errors[name].type === "minLength" && <span>Password is too week</span>}
+      {errors[name] && errors[name].type === "maxLength" && <span>Password is too long</span>}
+      {errors[name] && errors[name].type === "required" && <span>Please fill out this field</span>}
+      {confirm && (
+        <>
+          <label>Confirm {name}</label>
+          <input
+            type="password"
+            {...register(`confirm ${name}`, { validate })}
+            aria-invalid={!!errors[`confirm ${name}`]}
+            onFocus={() => clearErrors(`confirm ${name}`)}
+            {...rest}
+          />
+          {errors[`confirm ${name}`] && <span>{errors[`confirm ${name}`].message}</span>}
+        </>
+      )}
+    </div>
+  );
+};
+
+const SelectField = ({ name, options, select, ...rest }) => {
+  const {
+    register,
+    clearErrors,
+    formState: { errors },
+  } = useFormContext();
+
+  return (
+    <div>
+      <label>{name}</label>
+      <select
+        {...register(name, options)}
+        aria-invalid={!!errors[name]}
+        onFocus={() => clearErrors(name)}
+        defaultValue=""
+        {...rest}
+      >
+        <option value="" disabled hidden></option>
+        {select.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.title}
+          </option>
+        ))}
+      </select>
+      {errors[name] && errors[name].type === "required" && <span>Please fill out this field</span>}
+    </div>
+  );
+};
+
+const Editor = ({ fields, data, handleSave }) => {
   const methods = useForm({ shouldFocusError: false });
 
   const [urls, setUrls] = useState([]);
 
   // Fill initial data
   useEffect(() => {
-    if (initData) {
+    if (data) {
       for (let field of fields) {
-        methods.setValue(field.name, initData[field.name]);
+        methods.setValue(field.name, data[field.name]);
         // Mark initial urls in a list
         if (field.type === ImageField) {
-          const url = initData[field.name];
+          const url = data[field.name];
           if (url && !urls.includes(url)) {
             setUrls((urls) => [url, ...urls]);
           }
         } else if (field.type === MultiImageField) {
-          if (initData[field.name]) {
-            for (let url of initData[field.name]) {
+          if (data[field.name]) {
+            for (let url of data[field.name]) {
               if (url && !urls.includes(url)) {
                 setUrls((urls) => [url, ...urls]);
               }
@@ -223,7 +310,7 @@ const Editor = ({ initData, save, cancel, fields }) => {
         }
       }
     }
-  }, [initData, fields, methods, urls]);
+  }, [fields, data, methods, urls]);
 
   // Handle uploading to firebase
   const handleUpload = async (data) => {
@@ -262,7 +349,7 @@ const Editor = ({ initData, save, cancel, fields }) => {
         }
       } else if (field.type === MultiImageField) {
         // Upload multi image fields
-        for (let url of data[field.name]) {
+        for (let url of data[field.name] || []) {
           newUrls.push(url);
           // Check if file not exist in firebase
           if (!urls.includes(url)) {
@@ -286,39 +373,41 @@ const Editor = ({ initData, save, cancel, fields }) => {
     }
   };
 
+  const path = useLocation().pathname.replace(useParams().id, "");
+
   return (
     <div className={style.editor}>
-      {initData && !Object.keys(initData).length ? (
-        <>
+      {!data ? (
+        <div>
           <div className="d-flex justify-content-center my-5">
             <Loading />
           </div>
           <div className={style.buttons}>
-            <Button variant="outline" color="red" type="button" onClick={cancel}>
+            <Button variant="outline" color="red" type="button" to={path}>
               Cancel
             </Button>
           </div>
-        </>
+        </div>
       ) : (
         <FormProvider {...methods}>
           <form
             onSubmit={methods.handleSubmit(async (data) => {
               await handleUpload(data);
-              save(data);
+              handleSave(data);
             })}
           >
             <h3>Editor</h3>
-            {fields.map((field, index) => (
-              <div key={index}>
-                <label>{field.name[0].toUpperCase() + field.name.slice(1)}</label>
-                <field.type name={field.name} options={field.options} readonly={field.readonly} />
-              </div>
-            ))}
+            {fields.map((field, index) => {
+              const { type, name, options, ...rest } = field;
+              return (
+                field.type && <field.type key={index} name={name} options={options} {...rest} />
+              );
+            })}
             <div className={style.buttons}>
               <Button variant="outline" color="green">
                 Save
               </Button>
-              <Button variant="outline" color="red" type="button" onClick={cancel}>
+              <Button variant="outline" color="red" type="button" to={path}>
                 Cancel
               </Button>
             </div>
@@ -329,5 +418,13 @@ const Editor = ({ initData, save, cancel, fields }) => {
   );
 };
 
-export { InputField, TextField, ImageField, MultiImageField, HtmlField };
+export {
+  InputField,
+  TextField,
+  ImageField,
+  MultiImageField,
+  HtmlField,
+  PasswordField,
+  SelectField,
+};
 export default Editor;

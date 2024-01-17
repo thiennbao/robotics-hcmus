@@ -7,6 +7,7 @@
 
     & tr {
       border: lightgray solid 1px;
+      height: 5rem;
 
       & th,
       td {
@@ -39,12 +40,11 @@
       }
     }
 
-    & button {
+    & button, a {
       font-size: 1rem;
       margin: 0 0.5rem;
       padding: 0.25rem;
-      width: 50%;
-      max-width: 5rem;
+      width: 100%;
     }
   }
 

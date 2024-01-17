@@ -12,9 +12,9 @@ const Models = {
 
 const resourceController = {
   getResources: async (req, res) => {
-    const { resource } = req.params;
-    const { where, key, sort, order, skip, limit } = req.query;
     try {
+      const { resource } = req.params;
+      const { where, key, sort, order, skip, limit } = req.query;
       const data = await Models[resource]
         .find(where ? { [where]: new RegExp(key, "i") } : {})
         .sort(sort ? { [sort]: order } : {})
@@ -26,8 +26,8 @@ const resourceController = {
     }
   },
   getSingleResource: async (req, res) => {
-    const { resource, id } = req.params;
     try {
+      const { resource, id } = req.params;
       const data = await Models[resource].findOne({ _id: id });
       res.status(200).json(data);
     } catch (error) {
@@ -35,21 +35,33 @@ const resourceController = {
     }
   },
   postResource: async (req, res) => {
-    const { resource } = req.params;
     try {
-      const newData = await Models[resource].create(req.body);
-      res.status(200).json(newData);
+      const { resource } = req.params;
+      const postedData = await Models[resource].create(req.body);
+      res.status(200).json(postedData);
     } catch (error) {
       res.status(409).json({ message: error.message });
     }
   },
   patchResource: async (req, res) => {
-    const { resource, id } = req.params;
-    await Models[resource].findByIdAndUpdate(id, req.body);
+    try {
+      const { resource, id } = req.params;
+      const patchedData = await Models[resource].findByIdAndUpdate(id, req.body, {
+        returnDocument: "after",
+      });
+      res.status(200).json(patchedData);
+    } catch (error) {
+      res.status(409).json({ message: error.message });
+    }
   },
   deleteResource: async (req, res) => {
-    const { resource, id } = req.params;
-    await Models[resource].deleteOne({ _id: id });
+    try {
+      const { resource, id } = req.params;
+      const deletedData = await Models[resource].findByIdAndDelete(id);
+      res.status(200).json(deletedData);
+    } catch (error) {
+      res.status(409).json({ message: error.message });
+    }
   },
 };
 

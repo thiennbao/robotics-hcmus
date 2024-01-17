@@ -14,7 +14,10 @@ const AdminLayout = ({ page, children }) => {
           navigate("/auth");
         }
       })
-      .catch((errors) => console.log(errors));
+      .catch((errors) => {
+        navigate("/auth");
+        console.log(errors);
+      });
   }, [navigate]);
 
   return (

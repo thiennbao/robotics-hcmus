@@ -3,23 +3,25 @@ import jwt from "jsonwebtoken";
 import Account from "../models/Account.js";
 
 const authController = {
-  login: async (req, res) => {
-    const { username, password } = req.body;
-    const foundAccount = await Account.findOne({ username });
-    if (!foundAccount) {
-      res.status(404).json({ message: "Username not found" });
-    } else {
-      const match = await bcrypt.compare(password, foundAccount.password);
-      if (match) {
-        const token = jwt.sign({ username }, process.env.JWT_KEY, { expiresIn: "2h" });
-        res.cookie("token", token, {
-          withCredentials: true,
-          httpOnly: false,
-        });
-        res.status(200).json({ message: "Success" });
-      } else {
-        res.status(401).json({ message: "Wrong password" });
-      }
+  getAccountList: async (req, res) => {
+    try {
+      const { where, key, sort, order, skip, limit } = req.query;
+      const data = await Account.find(where ? { [where]: new RegExp(key, "i") } : {})
+        .sort(sort ? { [sort]: order } : {})
+        .skip(skip)
+        .limit(limit);
+      res.status(200).json(data);
+    } catch (error) {
+      res.status(404).json({ message: error.message });
+    }
+  },
+  getAccountInfo: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const data = await Account.findOne({ _id: id });
+      res.status(200).json(data);
+    } catch (error) {
+      res.status(404).json({ message: error.message });
     }
   },
   register: async (req, res) => {
@@ -29,33 +31,84 @@ const authController = {
       if (takenUsername) {
         res.status(409).json({ message: "Username has already taken" });
       } else {
-        account.password = await bcrypt.hash(req.body.password, 10);
-        await Account.create(account);
-        res.status(200).json({ message: "Success" });
+        account.password = await bcrypt.hash(account.password, 10);
+        const newAccount = await Account.create(account);
+        res.status(200).json(newAccount);
       }
     } catch (error) {
       res.status(409).json({ message: error.message });
     }
   },
   changePassword: async (req, res) => {
-    const { id } = req.params;
-    await Models[resource].findByIdAndUpdate(id, req.body);
+    try {
+      const { id } = req.params;
+      const { currentPassword, password } = req.body;
+      const user = await Account.findById(id);
+      const match = await bcrypt.compare(currentPassword, user.password);
+      if (match) {
+        const newPassword = await bcrypt.hash(password, 10);
+        const updatedAccount = await Account.findByIdAndUpdate(
+          id,
+          { password: newPassword },
+          { returnDocument: "after" }
+        );
+        res.json(updatedAccount);
+      } else {
+        res.json({ message: "Wrong password" });
+      }
+    } catch (error) {
+      res.status(409).json({ message: error.message });
+    }
   },
   deleteAccount: async (req, res) => {
-    const { username } = req.params;
-    await Models[resource].deleteOne({ username });
+    try {
+      const { id } = req.params;
+      const deletedAccount = await Account.findByIdAndDelete(id);
+      res.json(deletedAccount);
+    } catch (error) {
+      res.status(409).json({ message: error.message });
+    }
+  },
+  login: async (req, res) => {
+    try {
+      const { username, password } = req.body;
+      const foundAccount = await Account.findOne({ username });
+      if (!foundAccount) {
+        res.status(404).json({ message: "Username not found" });
+      } else {
+        const match = await bcrypt.compare(password, foundAccount.password);
+        if (match) {
+          const token = jwt.sign({ ...foundAccount._doc }, process.env.JWT_KEY, {
+            expiresIn: "2h",
+          });
+          res.cookie("token", token, {
+            withCredentials: true,
+            httpOnly: false,
+          });
+          res.status(200).json({ message: "Success" });
+        } else {
+          res.status(401).json({ message: "Wrong password" });
+        }
+      }
+    } catch (error) {
+      res.status(409).json({ message: error.message });
+    }
   },
   verifyJWT: (req, res) => {
-    const { token } = req.cookies;
-    if (token) {
-      try {
-        jwt.verify(token, process.env.JWT_KEY);
-        res.status(200).json({ verified: true });
-      } catch (error) {
+    try {
+      const { token } = req.cookies;
+      if (token) {
+        try {
+          const decoded = jwt.verify(token, process.env.JWT_KEY);
+          res.status(200).json({ verified: true, decoded });
+        } catch (error) {
+          res.status(200).json({ verified: false });
+        }
+      } else {
         res.status(200).json({ verified: false });
       }
-    } else {
-      res.status(200).json({ verified: false });
+    } catch (error) {
+      res.status(409).json({ message: error.message });
     }
   },
 };
