@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import clsx from "clsx";
 import style from "./BlogDetail.module.scss";
 import SiteLayout from "layouts/SiteLayout";
@@ -8,7 +8,7 @@ import { resourceApi } from "api";
 import Button from "components/Button";
 
 const BlogDetail = () => {
-  const id = useLocation().pathname.split("/")[2];
+  const { id } = useParams();
   const navigate = useNavigate();
 
   const [blog, setBlog] = useState({});

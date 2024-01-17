@@ -19,7 +19,7 @@ const SlideShow = ({ contents, ContentTag, itemsPerScreen = 1, circles, prevnext
         if (e.clientX - dragging > 100) {
           setSlide(slide === 0 ? slide : slide - 1);
         } else if (e.clientX - dragging < -100) {
-          setSlide(slide === contents.length - itemsPerScreen ? slide : slide + 1);
+          setSlide(slide >= contents.length - itemsPerScreen ? slide : slide + 1);
         }
         setDragging(0);
       };
@@ -69,7 +69,7 @@ const SlideShow = ({ contents, ContentTag, itemsPerScreen = 1, circles, prevnext
             className="bi bi-caret-left-fill"
           ></i>
           <i
-            onClick={() => setSlide(slide === contents.length - itemsPerScreen ? slide : slide + 1)}
+            onClick={() => setSlide(slide >= contents.length - itemsPerScreen ? slide : slide + 1)}
             className="bi bi-caret-right-fill"
           ></i>
         </div>

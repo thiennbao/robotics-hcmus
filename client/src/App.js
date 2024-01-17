@@ -29,15 +29,14 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />
-          <Route path="/courses/" element={<CoursePage />} />
-          <Route path="/courses/:slug" element={<CourseDetail />} />
-          <Route path="/blogs/" element={<BlogPage />} />
+          <Route path="/courses" element={<CoursePage />} />
+          <Route path="/courses/:id" element={<CourseDetail />} />
+          <Route path="/blogs" element={<BlogPage />} />
           <Route path="/blogs/search" element={<BlogPage />} />
-          <Route path="/blogs/:slug" element={<BlogDetail />} />
+          <Route path="/blogs/:id" element={<BlogDetail />} />
           <Route path="/contact" element={<ContactPage />} />
-          <Route path="/robocus" element={<h1>Robocus page</h1>} />
           <Route path="/auth" element={<AuthPage />} />
-          <Route path="/admin/" element={<HomeDashboard />} />
+          <Route path="/admin" element={<HomeDashboard />} />
           <Route path="/admin/banner" element={<BannerList />} />
           <Route path="/admin/banner/:id" element={<BannerEditor />} />
           <Route path="/admin/course" element={<CourseList />} />

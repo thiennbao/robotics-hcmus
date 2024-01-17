@@ -43,7 +43,7 @@ const BlogArchive = () => {
   const searchHandle = (e) => {
     e.preventDefault();
     if (search) {
-      navigate(`/blogs/?key=${search}`);
+      navigate(`/blogs?key=${search}`);
     }
   };
   const clearHandle = () => {
