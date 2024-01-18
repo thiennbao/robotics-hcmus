@@ -11,12 +11,14 @@ services:
       - 27017
 
   server:
-    build: 
+    build:
       context: ./server
-    restart: unless-stopped
+    restart: always
     environment:
       - PORT=8000
       - DB_CONNECT_STRING=mongodb://mongodb:27017
+      - CLIENT_URL=http://localhost
+      - JWT_KEY=お前はもう死んでいる
     ports:
       - "8000:8000"
     expose:
@@ -25,13 +27,16 @@ services:
       - mongodb
 
   client:
-    build: 
+    build:
       context: ./client
       args:
         - SERVER_URL=/
-    restart: unless-stopped
+        - FIREBASE_STORAGE=robotics-hcmus-storage.appspot.com
+    restart: always
     ports:
       - "80:80"
+    expose:
+      - 80
     depends_on:
       - server
 

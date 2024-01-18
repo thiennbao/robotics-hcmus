@@ -70,27 +70,6 @@
 
       & li {
         margin: 0.5rem 1rem;
-
-        & a {
-          display: block;
-          width: 100%;
-          padding: 0.75rem 1.25rem;
-          border-radius: 0.5rem;
-          transition: 0.5s;
-
-          &:hover {
-            background-color: lightgray;
-          }
-
-          &.current {
-            background-color: lightblue;
-          }
-
-          & i {
-            margin-right: 1rem;
-            color: $primary;
-          }
-        }
       }
     }
   }
@@ -134,5 +113,27 @@
         font-size: 2rem;
       }
     }
+  }
+}
+
+.button {
+  display: block;
+  width: 100%;
+  padding: 0.75rem 1.25rem;
+  border-radius: 0.5rem;
+  transition: 0.5s;
+  cursor: pointer;
+
+  &:hover {
+    background-color: lightgray;
+  }
+
+  &.current {
+    background-color: lightblue;
+  }
+
+  & i {
+    margin-right: 1rem;
+    color: $primary;
   }
 }

@@ -22,7 +22,7 @@ const resourceController = {
         .limit(limit);
       res.status(200).json(data);
     } catch (error) {
-      res.status(404).json({ message: error.message });
+      res.status(500).json({ message: error.message });
     }
   },
   getSingleResource: async (req, res) => {
@@ -40,7 +40,7 @@ const resourceController = {
       const postedData = await Models[resource].create(req.body);
       res.status(200).json(postedData);
     } catch (error) {
-      res.status(409).json({ message: error.message });
+      res.status(500).json({ message: error.message });
     }
   },
   patchResource: async (req, res) => {
@@ -51,7 +51,7 @@ const resourceController = {
       });
       res.status(200).json(patchedData);
     } catch (error) {
-      res.status(409).json({ message: error.message });
+      res.status(500).json({ message: error.message });
     }
   },
   deleteResource: async (req, res) => {
@@ -60,7 +60,7 @@ const resourceController = {
       const deletedData = await Models[resource].findByIdAndDelete(id);
       res.status(200).json(deletedData);
     } catch (error) {
-      res.status(409).json({ message: error.message });
+      res.status(500).json({ message: error.message });
     }
   },
 };

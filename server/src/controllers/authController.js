@@ -12,7 +12,7 @@ const authController = {
         .limit(limit);
       res.status(200).json(data);
     } catch (error) {
-      res.status(404).json({ message: error.message });
+      res.status(500).json({ message: error.message });
     }
   },
   getAccountInfo: async (req, res) => {
@@ -36,7 +36,7 @@ const authController = {
         res.status(200).json(newAccount);
       }
     } catch (error) {
-      res.status(409).json({ message: error.message });
+      res.status(500).json({ message: error.message });
     }
   },
   changePassword: async (req, res) => {
@@ -52,19 +52,19 @@ const authController = {
           { password: newPassword },
           { returnDocument: "after" }
         );
-        res.json(updatedAccount);
+        res.status(200).json(updatedAccount);
       } else {
-        res.json({ message: "Wrong password" });
+        res.status(401).json({ message: "Wrong password" });
       }
     } catch (error) {
-      res.status(409).json({ message: error.message });
+      res.status(500).json({ message: error.message });
     }
   },
   deleteAccount: async (req, res) => {
     try {
       const { id } = req.params;
       const deletedAccount = await Account.findByIdAndDelete(id);
-      res.json(deletedAccount);
+      res.status(200).json(deletedAccount);
     } catch (error) {
       res.status(409).json({ message: error.message });
     }
@@ -81,17 +81,13 @@ const authController = {
           const token = jwt.sign({ ...foundAccount._doc }, process.env.JWT_KEY, {
             expiresIn: "2h",
           });
-          res.cookie("token", token, {
-            withCredentials: true,
-            httpOnly: false,
-          });
-          res.status(200).json({ message: "Success" });
+          res.status(200).json(token);
         } else {
           res.status(401).json({ message: "Wrong password" });
         }
       }
     } catch (error) {
-      res.status(409).json({ message: error.message });
+      res.status(500).json({ message: error.message });
     }
   },
   verifyJWT: (req, res) => {

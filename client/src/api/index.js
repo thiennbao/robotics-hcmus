@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // Resource API
-const resourceApiUrl = `${process.env.REACT_APP_SERVER_URL}/resource`;
+const resourceApiUrl = `${process.env.REACT_APP_SERVER_URL}api/resource`;
 
 const getResources = ({
   resource = "",
@@ -38,7 +38,7 @@ export const resourceApi = {
 };
 
 // Auth API
-const authApiUrl = `${process.env.REACT_APP_SERVER_URL}/auth`;
+const authApiUrl = `${process.env.REACT_APP_SERVER_URL}api/auth`;
 
 const getAccountList = ({ where = "", key = "", sort = "", order = "", skip = "", limit = "" }) => {
   return axios.get(

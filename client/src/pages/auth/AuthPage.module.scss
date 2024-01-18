@@ -55,6 +55,11 @@
       }
     }
 
+    .error {
+      color: $red;
+      font-size: 0.9rem;
+    }
+
     & .button {
       width: 100%;
       padding: 1rem;

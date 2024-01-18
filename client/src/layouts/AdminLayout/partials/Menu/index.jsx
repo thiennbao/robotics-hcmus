@@ -1,7 +1,8 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import clsx from "clsx";
 import style from "./Menu.module.scss";
 import { logo } from "assets";
+import { useCookies } from "react-cookie";
 
 const pages = [
   { title: "Banner", to: "/admin/banner", icon: "star-fill" },
@@ -12,7 +13,15 @@ const pages = [
 ];
 
 const Menu = () => {
-  const path = window.location.pathname;
+  const [, , removeCookie] = useCookies();
+  const navigate = useNavigate();
+
+  const logoutHandle = () => {
+    removeCookie("token");
+    navigate("/auth");
+  };
+
+  const path = useLocation().pathname;
 
   return (
     <div className={style.menu}>
@@ -43,13 +52,18 @@ const Menu = () => {
                   <li key={index}>
                     <Link
                       to={page.to}
-                      className={clsx(path === page.to && style.current)}
+                      className={clsx(path === page.to && style.current, style.button)}
                     >
                       <i className={`bi bi-${page.icon}`}></i>
                       {page.title}
                     </Link>
                   </li>
                 ))}
+                <li>
+                  <span className={style.button} onClick={logoutHandle}>
+                    <i className="bi bi-box-arrow-left"></i> Log out
+                  </span>
+                </li>
               </ul>
             </nav>
           </div>

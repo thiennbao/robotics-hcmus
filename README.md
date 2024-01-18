@@ -26,6 +26,14 @@ npm start
 ```
 All done, your `Client` is running at `http://localhost:3000` and `Server` is running at `http://localhost:8000`
 
+## Run with Docker
+First, clone and go into this repository
+
+Compose Docker container
+```sh
+docker compose up -d
+```
+
 ## Demo
 Client: https://robotics-client.onrender.com
 

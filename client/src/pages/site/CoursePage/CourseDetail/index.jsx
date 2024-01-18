@@ -35,9 +35,15 @@ const CourseDetail = () => {
 
   const submit = (data) => {
     data.subject = `[Register] ${course.name}`;
-    resourceApi.postResource({ resource: "contact", data });
-    window.alert("Register successfully");
-    reset();
+    resourceApi
+      .postResource({ resource: "contact", data })
+      .then(() => {
+        window.alert("Register successfully");
+        reset();
+      })
+      .catch((error) => {
+        window.alert(`An unexpected error has occurred (${error.message}). Please try again`);
+      });
   };
 
   return !course.name ? (

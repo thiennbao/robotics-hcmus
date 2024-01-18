@@ -13,9 +13,15 @@ const ContactForm = () => {
   } = useForm({ shouldFocusError: false });
 
   const submit = (data) => {
-    resourceApi.postResource({ resource: "contact", data });
-    window.alert("Send message successfully");
-    reset();
+    resourceApi
+      .postResource({ resource: "contact", data })
+      .then(() => {
+        window.alert("Send message successfully");
+        reset();
+      })
+      .catch((error) => {
+        window.alert(`An unexpected error has occurred (${error.message}). Please try again`);
+      });
   };
 
   return (

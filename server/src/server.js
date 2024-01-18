@@ -8,6 +8,8 @@ import "dotenv/config";
 import resourceRouter from "./routers/resourceRouter.js";
 import authRouter from "./routers/authRouter.js";
 
+import authSetup from "./utils/authSetup.js";
+
 const app = express();
 
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
@@ -20,13 +22,18 @@ app.use(
 );
 app.use(cookieParser());
 
-app.use("/resource", resourceRouter);
-app.use("/auth", authRouter);
+app.use("/api/resource", resourceRouter);
+app.use("/api/auth", authRouter);
 
 mongoose
   .connect(process.env.DB_CONNECT_STRING, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  .then(() => app.listen(process.env.PORT, () => console.log("Server is running ...")))
+  .then(() =>
+    app.listen(process.env.PORT, async () => {
+      await authSetup();
+      console.log("Server is running ...");
+    })
+  )
   .catch((error) => console.log(error));

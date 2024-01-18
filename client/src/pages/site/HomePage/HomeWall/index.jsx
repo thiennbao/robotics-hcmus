@@ -10,23 +10,35 @@ const Item = ({ content }) => {
 
 const HomeWall = () => {
   const [banners, setBanners] = useState([]);
+  const [loaded, setLoaded] = useState(false);
+  const [error, setError] = useState("");
+
   useEffect(() => {
     resourceApi
       .getResources({ resource: "banner", sort: "index" })
-      .then((res) => setBanners(res.data))
-      .catch((error) => console.log(error));
+      .then((res) => {
+        setBanners(res.data);
+        setLoaded(true);
+      })
+      .catch((error) => setError(error.message));
   }, []);
 
   return (
     <section className={style.wall}>
-      {banners.length ? (
-        <SlideShow contents={banners} ContentTag={Item} prevnext />
+      {!banners.length ? (
+        <>
+          {error || loaded ? (
+            <div className="position-absolute top-50 start-50 translate-middle text-secondary">{error}</div>
+          ) : (
+            <div className={style.loadingScreen}>
+              <div>
+                <Loading />
+              </div>
+            </div>
+          )}
+        </>
       ) : (
-        <div className={style.loadingScreen}>
-          <div>
-            <Loading />
-          </div>
-        </div>
+        <SlideShow contents={banners} ContentTag={Item} prevnext />
       )}
     </section>
   );

@@ -3,11 +3,22 @@ import { useNavigate } from "react-router-dom";
 import { authApi } from "api";
 import style from "./AuthPage.module.scss";
 import Button from "components/Button";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Header from "layouts/SiteLayout/partials/Header";
+import { useCookies } from "react-cookie";
 
 const AuthPage = () => {
   const navigate = useNavigate();
+  const [, setCookie] = useCookies();
+
+  const {
+    register,
+    handleSubmit,
+    clearErrors,
+    formState: { errors },
+  } = useForm({ shouldFocusError: false });
+
+  const [error, setError] = useState("");
 
   useEffect(() => {
     authApi
@@ -17,25 +28,23 @@ const AuthPage = () => {
           navigate("/admin");
         }
       })
-      .catch((errors) => console.log(errors));
+      .catch(() => {});
   }, [navigate]);
-
-  const {
-    register,
-    handleSubmit,
-    reset,
-    clearErrors,
-    formState: { errors },
-  } = useForm({ shouldFocusError: false });
 
   const submit = (data) => {
     authApi
       .login({ data })
-      .then(() => {
+      .then((res) => {
+        setCookie("token", res.data);
         navigate("/admin");
       })
-      .catch((error) => console.log(error.response.data.message));
-    reset();
+      .catch((error) => {
+        if (error.response.data) {
+          setError(error.response.data.message);
+        } else {
+          setError(error.message);
+        }
+      });
   };
 
   return (
@@ -57,6 +66,7 @@ const AuthPage = () => {
             onFocus={() => clearErrors("password")}
             placeholder="Password"
           />
+          <span className={style.error}>{error}</span>
           <Button className={style.button} variant="outline">
             LOG IN
           </Button>
