@@ -36,7 +36,7 @@ const BlogList = () => {
   return (
     <AdminLayout page="BLOG">
       <DataTable
-        fields={["thumbnail", "title", "data"]}
+        fields={["thumbnail", "title", "date"]}
         data={blogs}
         loadHandle={loadHandle}
         deleteHandle={deleteHandle}

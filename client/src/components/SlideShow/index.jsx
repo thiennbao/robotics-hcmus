@@ -9,12 +9,13 @@ const SlideShow = ({ contents, ContentTag, itemsPerScreen = 1, circles, prevnext
 
   useEffect(() => {
     if (dragging) {
+      const wrapperRect = ref.current?.getBoundingClientRect();
+      console.log()
       const handleDrag = (e) => {
         ref.current.style.transform = `translateX(${
-          -slide * (window.innerWidth / itemsPerScreen) + e.clientX - dragging
+          -slide * wrapperRect.width / contents.length + e.clientX - dragging
         }px)`;
       };
-      window.addEventListener("mousemove", handleDrag);
       const handleDrop = (e) => {
         if (e.clientX - dragging > 100) {
           setSlide(slide === 0 ? slide : slide - 1);
@@ -23,6 +24,7 @@ const SlideShow = ({ contents, ContentTag, itemsPerScreen = 1, circles, prevnext
         }
         setDragging(0);
       };
+      window.addEventListener("mousemove", handleDrag);
       window.addEventListener("mouseup", handleDrop);
 
       return () => {

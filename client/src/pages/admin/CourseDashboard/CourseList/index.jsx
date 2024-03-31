@@ -10,7 +10,8 @@ import { useEffect } from "react";
 const CourseList = () => {
   const dispatch = useDispatch();
 
-  const courses = useSelector((state) => state.course);
+  const rawCourses = useSelector((state) => state.course);
+  const courses = rawCourses.map((rawCourse) => ({ date: rawCourse.createdAt.split("T")[0], ...rawCourse }));
 
   useEffect(() => {
     if (courses.length === 0) {
@@ -35,7 +36,7 @@ const CourseList = () => {
   return (
     <AdminLayout page="COURSE">
       <DataTable
-        fields={["thumbnail", "name", "tuition"]}
+        fields={["thumbnail", "name", "date"]}
         data={courses}
         loadHandle={loadHandle}
         deleteHandle={deleteHandle}

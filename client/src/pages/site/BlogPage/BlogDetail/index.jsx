@@ -6,6 +6,7 @@ import SiteLayout from "layouts/SiteLayout";
 import Wallpaper from "components/Wallpaper";
 import { resourceApi } from "api";
 import Button from "components/Button";
+import Appear from "components/Appear";
 
 const BlogDetail = () => {
   const { id } = useParams();
@@ -60,20 +61,24 @@ const BlogDetail = () => {
               </form>
               <div className={clsx(style.postsWrapper, "container")}>
                 <div className="row">
-                  <p className="fs-3">Latest Post</p>
+                  <Appear variant="up">
+                    <p className="fs-3">Latest Post</p>
+                  </Appear>
                   {posts.map((post) => (
                     <div key={post._id} className="col-xl-12 col-md-6 col-12 container g-3">
-                      <Link to={`/blogs/${post._id}`}>
-                        <div className={clsx(style.post, "row")}>
-                          <div className="col-4">
-                            <img src={post.thumbnail} alt={post.title} />
+                      <Appear variant="left">
+                        <Link to={`/blogs/${post._id}`}>
+                          <div className={clsx(style.post, "row")}>
+                            <div className="col-4">
+                              <img src={post.thumbnail} alt={post.title} />
+                            </div>
+                            <div className="col-8">
+                              <p>{post.title}</p>
+                              <p>{new Date(blog.updatedAt).toDateString()}</p>
+                            </div>
                           </div>
-                          <div className="col-8">
-                            <p>{post.title}</p>
-                            <p>{new Date(blog.updatedAt).toDateString()}</p>
-                          </div>
-                        </div>
-                      </Link>
+                        </Link>
+                      </Appear>
                     </div>
                   ))}
                 </div>

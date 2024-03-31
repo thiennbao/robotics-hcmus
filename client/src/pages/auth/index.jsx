@@ -10,6 +10,7 @@ import { useCookies } from "react-cookie";
 const AuthPage = () => {
   const navigate = useNavigate();
   const [, setCookie] = useCookies();
+  const [isNotVerified, setIsNotVerified] = useState(false);
 
   const {
     register,
@@ -26,6 +27,8 @@ const AuthPage = () => {
       .then((res) => {
         if (res.data.verified) {
           navigate("/admin");
+        } else {
+          setIsNotVerified(true);
         }
       })
       .catch(() => {});
@@ -48,31 +51,33 @@ const AuthPage = () => {
   };
 
   return (
-    <section className={style.authPage}>
-      <Header />
-      <div className={style.wrapper}>
-        <h2>Log in</h2>
-        <form onSubmit={handleSubmit(submit)}>
-          <input
-            {...register("username", { required: true })}
-            aria-invalid={!!errors.username}
-            onFocus={() => clearErrors("username")}
-            placeholder="Username"
-          />
-          <input
-            type="password"
-            {...register("password", { required: true })}
-            aria-invalid={!!errors.password}
-            onFocus={() => clearErrors("password")}
-            placeholder="Password"
-          />
-          <span className={style.error}>{error}</span>
-          <Button className={style.button} variant="outline">
-            LOG IN
-          </Button>
-        </form>
-      </div>
-    </section>
+    isNotVerified && (
+      <section className={style.authPage}>
+        <Header />
+        <div className={style.wrapper}>
+          <h2>Log in</h2>
+          <form onSubmit={handleSubmit(submit)}>
+            <input
+              {...register("username", { required: true })}
+              aria-invalid={!!errors.username}
+              onFocus={() => clearErrors("username")}
+              placeholder="Username"
+            />
+            <input
+              type="password"
+              {...register("password", { required: true })}
+              aria-invalid={!!errors.password}
+              onFocus={() => clearErrors("password")}
+              placeholder="Password"
+            />
+            <span className={style.error}>{error}</span>
+            <Button className={style.button} variant="outline">
+              LOG IN
+            </Button>
+          </form>
+        </div>
+      </section>
+    )
   );
 };
 

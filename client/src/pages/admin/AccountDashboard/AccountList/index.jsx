@@ -33,6 +33,7 @@ const AccountList = () => {
     } else if (rawAccount.role === 0) {
       account.role = "manager";
     }
+    account.date = rawAccount.createdAt.split("T")[0];
     return account;
   });
 
@@ -54,7 +55,7 @@ const AccountList = () => {
   return (
     <AdminLayout page="ACCOUNT">
       <DataTable
-        fields={["username", "role"]}
+        fields={["username", "role", "date"]}
         data={accounts}
         loadHandle={loadHandle}
         deleteHandle={deleteHandle}

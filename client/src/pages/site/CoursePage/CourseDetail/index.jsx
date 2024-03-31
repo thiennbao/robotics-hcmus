@@ -8,6 +8,7 @@ import Wallpaper from "components/Wallpaper";
 import Button from "components/Button";
 import Loading from "components/Loading";
 import SlideShow from "components/SlideShow";
+import Appear from "components/Appear";
 
 const Item = ({ content }) => {
   return <img src={content} alt="" />;
@@ -55,36 +56,70 @@ const CourseDetail = () => {
       <Wallpaper title={course.name} background={course.thumbnail} />
       <section className={style.courseDetail}>
         <div className="container">
-          <div className="row gy-md-0 gy-4 justify-content-between">
-            <div className="col-lg-6 col-md-8 my-auto">
-              <h2>{course.name}</h2>
-              <p>{course.description}</p>
-            </div>
-            <div className="col-lg-5 col-md-4 my-auto">
+          <div className="row justify-content-between">
+            <div className="col-lg-6 my-auto">
+              <Appear variant="right">
+                <h2 className="mb-5">{course.name}</h2>
+              </Appear>
               <ul className="list-unstyled">
                 <li>
-                  <i className="bi bi-coin"></i> Tuition: {course.tuition}
+                  <Appear variant="right">
+                    <div className="d-flex mb-3">
+                      <i className="bi bi-info-circle me-4 my-auto"></i>
+                      <span className="py-1">Description: {course.description}</span>
+                    </div>
+                  </Appear>
                 </li>
                 <li>
-                  <i className="bi bi-person"></i> Age: {course.age}
+                  <Appear variant="right">
+                    <div className="d-flex mb-3">
+                      <i className="bi bi-check2-all me-4 my-auto"></i>
+                      <span className="py-1">Aim: {course.aim}</span>
+                    </div>
+                  </Appear>
                 </li>
                 <li>
-                  <i className="bi bi-journals"></i> Lessons: {course.lesson}
+                  <Appear variant="right">
+                    <div className="d-flex mb-3">
+                      <i className="bi bi-person me-4 my-auto"></i>
+                      <span className="py-1">Age: {course.age}</span>
+                    </div>
+                  </Appear>
                 </li>
                 <li>
-                  <i className="bi bi-clock"></i> Time: {course.time}
+                  <Appear variant="right">
+                    <div className="d-flex mb-3">
+                      <i className="bi bi-journals me-4 my-auto"></i>
+                      <span className="py-1">Lessons: {course.lesson}</span>
+                    </div>
+                  </Appear>
+                </li>
+                <li>
+                  <Appear variant="right">
+                    <div className="d-flex mb-3">
+                      <i className="bi bi-clock me-4 my-auto"></i>
+                      <span className="py-1">Duration: {course.duration}</span>
+                    </div>
+                  </Appear>
+                </li>
+                <li>
+                  <Appear variant="right">
+                    <div className="d-flex mb-3">
+                      <i className="bi bi-exclamation-circle me-4 my-auto"></i>
+                      <span className="py-1">Requirement: {course.requirement}</span>
+                    </div>
+                  </Appear>
                 </li>
               </ul>
             </div>
+            <div className="col-lg-5 overflow-hidden">
+              {!!course.images.length && (
+                <Appear variant="left">
+                  <SlideShow contents={course.images} ContentTag={Item} prevnext />
+                </Appear>
+              )}
+            </div>
           </div>
-        </div>
-        <div className="container mt-5 overflow-hidden p-0">
-          <SlideShow
-            contents={course.images}
-            ContentTag={Item}
-            prevnext
-            itemsPerScreen={window.innerWidth > 992 ? 4 : window.innerWidth > 768 ? 2 : 1}
-          />
         </div>
       </section>
       <section className={style.registerForm}>

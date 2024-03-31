@@ -11,12 +11,12 @@ const Appear = ({ variant, animation = {}, children }) => {
 
   useEffect(() => {
     if (!animate) {
-      if (!!ref.current && ref.current.getBoundingClientRect().y < window.innerHeight - 100) {
+      if (!!ref.current && 0 < ref.current.getBoundingClientRect().y && ref.current.getBoundingClientRect().y < window.innerHeight - 100) {
         setAnimate(true);
       } else {
         const handleScroll = () => {
           setAnimate(
-            !!ref.current && ref.current.getBoundingClientRect().y < window.innerHeight - 100
+            !!ref.current && 0 < ref.current.getBoundingClientRect().y && ref.current.getBoundingClientRect().y < window.innerHeight - 100
           );
         };
         window.addEventListener("scroll", handleScroll);

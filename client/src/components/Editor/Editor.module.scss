@@ -31,6 +31,10 @@
       }
     }
 
+    & textarea {
+      height: 16rem;
+    }
+
     & label {
       display: block;
       font-weight: bold;
@@ -38,6 +42,11 @@
       margin-bottom: 0.5rem;
       color: gray;
       text-transform: capitalize;
+
+      &.required::after {
+        content: " (*)";
+        color: $red;
+      }
     }
     & span {
       color: $red;
@@ -50,12 +59,6 @@
     & form {
       width: 100%;
     }
-  }
-}
-
-.textField {
-  & textarea {
-    height: 20rem;
   }
 }
 
@@ -76,10 +79,6 @@
 }
 
 .htmlField {
-  & textarea {
-    height: 20rem;
-  }
-
   & input {
     display: none;
   }

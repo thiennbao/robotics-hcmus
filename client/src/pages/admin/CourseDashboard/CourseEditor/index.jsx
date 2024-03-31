@@ -39,11 +39,12 @@ const CourseEditor = () => {
         fields={[
           { variant: InputField, name: "name", options: { required: true } },
           { variant: ImageField, name: "thumbnail", options: { required: true } },
-          { variant: InputField, name: "tuition", options: { required: true } },
           { variant: TextField, name: "description", options: { required: true } },
+          { variant: TextField, name: "aim", options: { required: true } },
+          { variant: InputField, name: "requirement", options: { required: true } },
           { variant: InputField, name: "age", options: { required: true } },
           { variant: InputField, name: "lesson", options: { required: true } },
-          { variant: InputField, name: "time", options: { required: true } },
+          { variant: InputField, name: "duration", options: { required: true } },
           { variant: MultiImageField, name: "images" },
         ]}
         data={data}

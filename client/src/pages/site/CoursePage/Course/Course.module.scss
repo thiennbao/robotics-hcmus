@@ -2,6 +2,9 @@
 
 .course {
   box-shadow: gray 0 0 0.25rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 
   & img {
     width: 100%;
@@ -10,19 +13,12 @@
   }
 
   & > div {
+    flex-grow: 1;
     padding: 1.5rem;
 
     & h5 {
       color: $primary;
       font-weight: bold;
-    }
-
-    & .tuition {
-      background-color: $primary;
-      color: white;
-      margin: 0;
-      padding: 0.25rem 0.5rem;
-      border-radius: 0.5rem;
     }
 
     & .detailBtn {

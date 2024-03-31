@@ -7,6 +7,7 @@ import { v4 } from "uuid";
 import { storage } from "config/firebase";
 import Loading from "components/Loading";
 import { useLocation, useParams } from "react-router-dom";
+import clsx from "clsx";
 
 const FilesContext = createContext();
 
@@ -19,7 +20,7 @@ const InputField = ({ name, options, ...rest }) => {
 
   return (
     <div>
-      <label>{name}</label>
+      <label className={clsx(options && options.required && style.required)}>{name}</label>
       <input
         {...register(name, options)}
         aria-invalid={!!errors[name]}
@@ -41,7 +42,7 @@ const TextField = ({ name, options, ...rest }) => {
 
   return (
     <div className={style.textField}>
-      <label>{name}</label>
+      <label className={clsx(options && options.required && style.required)}>{name}</label>
       <textarea
         {...register(name, options)}
         aria-invalid={!!errors[name]}
@@ -83,7 +84,7 @@ const ImageField = ({ name, options, ...rest }) => {
 
   return (
     <div className={style.imageField}>
-      <label>{name}</label>
+      <label className={clsx(options && options.required && style.required)}>{name}</label>
       <input hidden {...register(name, options)} />
       <input
         type="file"
@@ -139,7 +140,7 @@ const MultiImageField = ({ name, options, ...rest }) => {
 
   return (
     <div className={style.multiImageField}>
-      <label>{name}</label>
+      <label className={clsx(options && options.required && style.required)}>{name}</label>
       <input hidden {...register(name, options)} />
       <input
         type="file"
@@ -194,7 +195,7 @@ const HtmlField = ({ name, options, ...rest }) => {
 
   return (
     <div className={style.htmlField}>
-      <label>{name}</label>
+      <label className={clsx(options && options.required && style.required)}>{name}</label>
       <textarea
         {...register(name, options)}
         aria-invalid={!!errors[name]}
@@ -230,7 +231,7 @@ const PasswordField = ({ name, options, confirm, ...rest }) => {
 
   return (
     <div>
-      <label>{name}</label>
+      <label className={clsx(options && options.required && style.required)}>{name}</label>
       <input
         type="password"
         {...register(name, options)}
@@ -243,7 +244,7 @@ const PasswordField = ({ name, options, confirm, ...rest }) => {
       {errors[name] && errors[name].type === "required" && <span>Please fill out this field</span>}
       {confirm && (
         <>
-          <label>Confirm {name}</label>
+          <label className={clsx(options && options.required && style.required)}>Confirm {name}</label>
           <input
             type="password"
             {...register(`confirm ${name}`, { validate })}
@@ -267,7 +268,7 @@ const SelectField = ({ name, options, select, ...rest }) => {
 
   return (
     <div>
-      <label>{name}</label>
+      <label className={clsx(options && options.required && style.required)}>{name}</label>
       <select
         {...register(name, options)}
         aria-invalid={!!errors[name]}

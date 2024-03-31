@@ -87,7 +87,7 @@ const CourseArchive = () => {
           <>
             <div className="row g-4 mb-5">
               {courses.map((item, index) => (
-                <div key={item._id} className="col-lg-4 col-md-6">
+                <div key={item._id} className="col-lg-4 col-md-6 d-flex">
                   <Appear variant="up" animation={{ delay: `${(index % 3) * 0.1}s` }}>
                     <Course content={item} />
                   </Appear>

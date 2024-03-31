@@ -8,8 +8,6 @@ import "dotenv/config";
 import resourceRouter from "./routers/resourceRouter.js";
 import authRouter from "./routers/authRouter.js";
 
-import authSetup from "./utils/authSetup.js";
-
 const app = express();
 
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
@@ -21,7 +19,6 @@ app.use(
   })
 );
 app.use(cookieParser());
-
 app.use("/api/resource", resourceRouter);
 app.use("/api/auth", authRouter);
 
@@ -32,7 +29,6 @@ mongoose
   })
   .then(() =>
     app.listen(process.env.PORT, async () => {
-      await authSetup();
       console.log("Server is running ...");
     })
   )

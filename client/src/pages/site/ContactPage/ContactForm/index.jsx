@@ -13,6 +13,7 @@ const ContactForm = () => {
   } = useForm({ shouldFocusError: false });
 
   const submit = (data) => {
+    data.subject = `[Contact] ${data.subject}`;
     resourceApi
       .postResource({ resource: "contact", data })
       .then(() => {

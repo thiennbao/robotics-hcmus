@@ -1,10 +1,11 @@
 import { authApi } from "api";
 import Menu from "./partials/Menu";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const AdminLayout = ({ page, children }) => {
   const navigate = useNavigate();
+  const [isVerified, setIsVerified] = useState(false);
 
   useEffect(() => {
     authApi
@@ -12,6 +13,8 @@ const AdminLayout = ({ page, children }) => {
       .then((res) => {
         if (!res.data.verified) {
           navigate("/auth");
+        } else {
+          setIsVerified(true);
         }
       })
       .catch((errors) => {
@@ -21,15 +24,17 @@ const AdminLayout = ({ page, children }) => {
   }, [navigate]);
 
   return (
-    <div className="d-flex">
-      <Menu />
-      <div className="flex-grow-1">
-        <div>
-          <h2 subcontent="Dashboard">{page}</h2>
-          {children}
+    isVerified && (
+      <div className="d-flex">
+        <Menu />
+        <div className="flex-grow-1">
+          <div>
+            <h2 subcontent="Dashboard">{page}</h2>
+            {children}
+          </div>
         </div>
       </div>
-    </div>
+    )
   );
 };
 
