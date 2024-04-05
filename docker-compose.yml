@@ -1,10 +1,11 @@
 services:
-  mongodb:
-    image: mongo
+  database:
+    build:
+      context: ./database
     restart: always
     volumes:
-      - mongo-data:/data/db
-      - mongo-data:/data/configdb
+      - data:/data/db
+      - data:/data/configdb
     ports:
       - "27017:27017"
     expose:
@@ -16,7 +17,7 @@ services:
     restart: always
     environment:
       - PORT=8000
-      - DB_CONNECT_STRING=mongodb://mongodb:27017
+      - DB_CONNECT_STRING=mongodb://database:27017
       - CLIENT_URL=http://localhost
       - JWT_KEY=お前はもう死んでいる
     ports:
@@ -24,7 +25,7 @@ services:
     expose:
       - 8000
     depends_on:
-      - mongodb
+      - database
 
   client:
     build:
@@ -41,4 +42,4 @@ services:
       - server
 
 volumes:
-  mongo-data:
+  data:

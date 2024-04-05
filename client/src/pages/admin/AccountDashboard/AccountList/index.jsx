@@ -33,7 +33,7 @@ const AccountList = () => {
     } else if (rawAccount.role === 0) {
       account.role = "manager";
     }
-    account.date = rawAccount.createdAt.split("T")[0];
+    account.date = rawAccount.createdAt?.split("T")[0];
     return account;
   });
 
