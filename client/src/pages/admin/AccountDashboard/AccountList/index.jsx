@@ -31,11 +31,7 @@ const AccountList = () => {
   const dispatch = useDispatch();
 
   const rawAccounts = useSelector((state) => state.account);
-  const accounts = rawAccounts.map((rawAccount) => {
-    const account = { ...rawAccount };
-    account.date = rawAccount.createdAt?.split("T")[0];
-    return account;
-  });
+  const accounts = rawAccounts.map((rawAccount) => ({ date: rawAccount.createdAt.split("T")[0], ...rawAccount }));
 
   useEffect(() => {
     if (accounts.length === 0) {

@@ -37,14 +37,22 @@ const accountSlice = createSlice({
       });
       return state;
     });
-    builder.addCase(register.fulfilled, (state, action) => {
-      return [...state, action.payload];
-    });
-    builder.addCase(changePassword.fulfilled, (state, action) => {
-      return state.map((account) =>
-        account._id === action.payload._id ? action.payload : account
-      );
-    });
+    builder
+      .addCase(register.fulfilled, (state, action) => {
+        return [...state, action.payload];
+      })
+      .addCase(register.rejected, () => {
+        window.alert("Username is already taken");
+      });
+    builder
+      .addCase(changePassword.fulfilled, (state, action) => {
+        return state.map((account) =>
+          account._id === action.payload._id ? action.payload : account
+        );
+      })
+      .addCase(changePassword.rejected, () => {
+        window.alert("Wrong password");
+      });
     builder.addCase(deleteAccount.fulfilled, (state, action) => {
       return state.filter((account) => account._id !== action.payload._id);
     });

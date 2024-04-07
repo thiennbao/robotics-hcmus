@@ -1,12 +1,34 @@
-import { resourceApi } from "api";
+import { authApi, resourceApi } from "api";
 import Editor, { HtmlField, ImageField, InputField, MultiImageField } from "components/Editor";
 import AdminLayout from "layouts/AdminLayout";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { patchBlog, postBlog } from "../blogSlice";
+import Loading from "components/Loading";
 
 const BlogEditor = () => {
+  const navigate = useNavigate();
+
+  // Verify auth
+  const [isVerified, setIsVerified] = useState(false);
+  useEffect(() => {
+    authApi
+      .verify()
+      .then((res) => {
+        const { role } = res.data.decoded;
+        if (role === "root" || role === "admin") {
+          setIsVerified(true);
+        } else {
+          navigate("/admin/blog");
+        }
+      })
+      .catch((errors) => {
+        navigate("/admin/blog");
+        console.log(errors);
+      });
+  }, [navigate]);
+
   const { id } = useParams();
 
   const [data, setData] = useState(id === "add" ? {} : null);
@@ -23,7 +45,6 @@ const BlogEditor = () => {
 
   // Form handler
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const handleSave = (data) => {
     if (id === "add") {
       dispatch(postBlog({ data }));
@@ -33,7 +54,7 @@ const BlogEditor = () => {
     navigate("/admin/blog");
   };
 
-  return (
+  return isVerified ? (
     <AdminLayout page="BLOG">
       <Editor
         fields={[
@@ -46,6 +67,8 @@ const BlogEditor = () => {
         handleSave={handleSave}
       />
     </AdminLayout>
+  ) : (
+    <Loading fullscreen />
   );
 };
 

@@ -35,7 +35,7 @@ const ContactList = () => {
         data={contacts}
         loadHandle={loadHandle}
         deleteHandle={deleteHandle}
-        readonly
+        addDisable={true}
       />
     </AdminLayout>
   );

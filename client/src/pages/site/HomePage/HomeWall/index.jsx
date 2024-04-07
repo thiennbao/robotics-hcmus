@@ -5,7 +5,7 @@ import SlideShow from "components/SlideShow";
 import Loading from "components/Loading";
 
 const Item = ({ content }) => {
-  return <div dangerouslySetInnerHTML={{ __html: content.content }}></div>;
+  return <img src={content.image} alt="banner" className={style.bannerItem} />;
 };
 
 const HomeWall = () => {
@@ -28,13 +28,11 @@ const HomeWall = () => {
       {!banners.length ? (
         <>
           {error || loaded ? (
-            <div className="position-absolute top-50 start-50 translate-middle text-secondary">{error}</div>
-          ) : (
-            <div className={style.loadingScreen}>
-              <div>
-                <Loading />
-              </div>
+            <div className="position-absolute top-50 start-50 translate-middle text-secondary">
+              {error}
             </div>
+          ) : (
+            <Loading fullscreen />
           )}
         </>
       ) : (

@@ -1,13 +1,27 @@
 import AdminLayout from "layouts/AdminLayout";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteCourse, getCourses } from "../courseSlice";
-import { resourceApi } from "api";
+import { authApi, resourceApi } from "api";
 import DataTable from "components/DataTable";
 import { storage } from "config/firebase";
 import { deleteObject, ref } from "firebase/storage";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const CourseList = () => {
+  // Verify auth
+  const [actionDisable, setActionDisable] = useState(true);
+  useEffect(() => {
+    authApi
+      .verify()
+      .then((res) => {
+        const { role } = res.data.decoded;
+        if (role === "root" || role === "admin") {
+          setActionDisable(false);
+        }
+      })
+      .catch((error) => console.log(error));
+  }, []);
+
   const dispatch = useDispatch();
 
   const rawCourses = useSelector((state) => state.course);
@@ -40,6 +54,9 @@ const CourseList = () => {
         data={courses}
         loadHandle={loadHandle}
         deleteHandle={deleteHandle}
+        addDisable={actionDisable}
+        editDisable={actionDisable}
+        deleteDisable={actionDisable}
       />
     </AdminLayout>
   );

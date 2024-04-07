@@ -1,12 +1,34 @@
-import { resourceApi } from "api";
-import Editor, { HtmlField, InputField, MultiImageField } from "components/Editor";
+import { authApi, resourceApi } from "api";
+import Editor, { ImageField, InputField } from "components/Editor";
 import AdminLayout from "layouts/AdminLayout";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { patchBanner, postBanner } from "../bannerSlice";
+import Loading from "components/Loading";
 
 const BannerEditor = () => {
+  const navigate = useNavigate();
+
+  // Verify auth
+  const [isVerified, setIsVerified] = useState(false);
+  useEffect(() => {
+    authApi
+      .verify()
+      .then((res) => {
+        const { role } = res.data.decoded;
+        if (role === "root" || role === "admin") {
+          setIsVerified(true);
+        } else {
+          navigate("/admin/banner");
+        }
+      })
+      .catch((errors) => {
+        navigate("/admin/banner");
+        console.log(errors);
+      });
+  }, [navigate]);
+
   const { id } = useParams();
 
   const [data, setData] = useState(id === "add" ? {} : null);
@@ -23,7 +45,6 @@ const BannerEditor = () => {
 
   // Form handler
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const handleSave = (data) => {
     if (id === "add") {
       dispatch(postBanner({ data }));
@@ -33,13 +54,11 @@ const BannerEditor = () => {
     navigate("/admin/banner");
   };
 
-  return (
+  return isVerified ? (
     <AdminLayout page="BANNER">
       <Editor
         fields={[
-          { variant: InputField, name: "name", options: { required: true } },
-          { variant: HtmlField, name: "content", options: { required: true } },
-          { variant: MultiImageField, name: "images" },
+          { variant: ImageField, name: "image", options: { required: true } },
           {
             variant: InputField,
             name: "index",
@@ -51,6 +70,8 @@ const BannerEditor = () => {
         handleSave={handleSave}
       />
     </AdminLayout>
+  ) : (
+    <Loading fullscreen />
   );
 };
 

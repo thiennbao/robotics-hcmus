@@ -40,11 +40,17 @@
       }
     }
 
-    & button, a {
+    & button,
+    a {
       font-size: 1rem;
       margin: 0 0.5rem;
       padding: 0.25rem;
       width: 100%;
+
+      &.disable {
+        filter: grayscale(0.5);
+        cursor: not-allowed;
+      }
     }
   }
 

@@ -2,9 +2,7 @@ import mongoose from "mongoose";
 
 const bannerSchema = mongoose.Schema(
   {
-    name: String,
-    content: String,
-    images: [String],
+    image: String,
     index: Number,
   },
   { timestamps: true }

@@ -1,7 +1,15 @@
 import Button from "components/Button";
 import style from "./DataTable.module.scss";
 
-const DataTable = ({ fields, data, readonly, loadHandle, deleteHandle }) => {
+const DataTable = ({
+  fields,
+  data,
+  loadHandle,
+  deleteHandle,
+  addDisable,
+  editDisable,
+  deleteDisable,
+}) => {
   const isURL = (string) => {
     try {
       new URL(string);
@@ -19,15 +27,13 @@ const DataTable = ({ fields, data, readonly, loadHandle, deleteHandle }) => {
             {fields.map((field) => (
               <th key={field}>{field}</th>
             ))}
-            {!readonly && (
-              <th>
-                <div className="d-flex justify-content-center">
-                  <Button variant="outline" color="green" to="./add">
-                    Add
-                  </Button>
-                </div>
-              </th>
-            )}
+            <th>
+              <div className="d-flex justify-content-center">
+                <Button variant="outline" color="green" to={!addDisable && "./add"} className={addDisable && style.disable}>
+                  Add
+                </Button>
+              </div>
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -44,8 +50,15 @@ const DataTable = ({ fields, data, readonly, loadHandle, deleteHandle }) => {
               ))}
               <td>
                 <div className="d-flex justify-content-center">
-                  <Button variant="outline" to={`./${item._id}`}>Edit</Button>
-                  <Button variant="outline" color="red" onClick={() => deleteHandle(item._id)}>
+                  <Button variant="outline" to={!editDisable && `./${item._id}`} className={editDisable && style.disable}>
+                    Edit
+                  </Button>
+                  <Button
+                    variant="outline"
+                    color="red"
+                    onClick={deleteDisable ? (() => {}) : (() => deleteHandle(item._id))}
+                    className={deleteDisable && style.disable}
+                  >
                     Delete
                   </Button>
                 </div>
