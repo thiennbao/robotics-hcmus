@@ -49,8 +49,8 @@ const AccountEditor = () => {
             name: "role",
             options: { required: true },
             select: [
-              { title: "Manager", value: 0 },
-              { title: "Administrator", value: 1 },
+              { title: "Manager", value: "manager" },
+              { title: "Administrator", value: "admin" },
             ],
             disabled: id !== "add",
           },

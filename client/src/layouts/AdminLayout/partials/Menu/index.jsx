@@ -17,8 +17,8 @@ const Menu = () => {
   const navigate = useNavigate();
 
   const logoutHandle = () => {
-    removeCookie("token");
-    navigate("/auth");
+      removeCookie("token");
+      navigate("/auth");
   };
 
   const path = useLocation().pathname;

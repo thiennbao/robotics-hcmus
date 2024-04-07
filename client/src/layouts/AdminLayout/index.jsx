@@ -2,6 +2,7 @@ import { authApi } from "api";
 import Menu from "./partials/Menu";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import Loading from "components/Loading";
 
 const AdminLayout = ({ page, children }) => {
   const navigate = useNavigate();
@@ -23,18 +24,18 @@ const AdminLayout = ({ page, children }) => {
       });
   }, [navigate]);
 
-  return (
-    isVerified && (
-      <div className="d-flex">
-        <Menu />
-        <div className="flex-grow-1">
-          <div>
-            <h2 subcontent="Dashboard">{page}</h2>
-            {children}
-          </div>
+  return isVerified ? (
+    <div className="d-flex">
+      <Menu />
+      <div className="flex-grow-1">
+        <div>
+          <h2 subcontent="Dashboard">{page}</h2>
+          {children}
         </div>
       </div>
-    )
+    </div>
+  ) : (
+    <Loading fullscreen />
   );
 };
 

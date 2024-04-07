@@ -4,7 +4,7 @@ const accountSchema = mongoose.Schema(
   {
     username: String,
     password: String,
-    role: Number,
+    role: String,
   },
   { timestamps: true }
 );

@@ -6,6 +6,7 @@ import Button from "components/Button";
 import { useEffect, useState } from "react";
 import Header from "layouts/SiteLayout/partials/Header";
 import { useCookies } from "react-cookie";
+import Loading from "components/Loading";
 
 const AuthPage = () => {
   const navigate = useNavigate();
@@ -31,7 +32,10 @@ const AuthPage = () => {
           setIsNotVerified(true);
         }
       })
-      .catch(() => {});
+      .catch((error) => {
+        console.log(error);
+        setIsNotVerified(true);
+      });
   }, [navigate]);
 
   const submit = (data) => {
@@ -50,34 +54,34 @@ const AuthPage = () => {
       });
   };
 
-  return (
-    isNotVerified && (
-      <section className={style.authPage}>
-        <Header />
-        <div className={style.wrapper}>
-          <h2>Log in</h2>
-          <form onSubmit={handleSubmit(submit)}>
-            <input
-              {...register("username", { required: true })}
-              aria-invalid={!!errors.username}
-              onFocus={() => clearErrors("username")}
-              placeholder="Username"
-            />
-            <input
-              type="password"
-              {...register("password", { required: true })}
-              aria-invalid={!!errors.password}
-              onFocus={() => clearErrors("password")}
-              placeholder="Password"
-            />
-            <span className={style.error}>{error}</span>
-            <Button className={style.button} variant="outline">
-              LOG IN
-            </Button>
-          </form>
-        </div>
-      </section>
-    )
+  return isNotVerified ? (
+    <section className={style.authPage}>
+      <Header />
+      <div className={style.wrapper}>
+        <h2>Log in</h2>
+        <form onSubmit={handleSubmit(submit)}>
+          <input
+            {...register("username", { required: true })}
+            aria-invalid={!!errors.username}
+            onFocus={() => clearErrors("username")}
+            placeholder="Username"
+          />
+          <input
+            type="password"
+            {...register("password", { required: true })}
+            aria-invalid={!!errors.password}
+            onFocus={() => clearErrors("password")}
+            placeholder="Password"
+          />
+          <span className={style.error}>{error}</span>
+          <Button className={style.button} variant="outline">
+            LOG IN
+          </Button>
+        </form>
+      </div>
+    </section>
+  ) : (
+    <Loading fullscreen />
   );
 };
 

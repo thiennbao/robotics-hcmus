@@ -1,6 +1,6 @@
 import logo from "./logo.png";
 import logo_min from "./logo_min.png";
-import notFound from "./404.jpg";
+import notFound from "./not-found.png";
 
 import wallpaper_1 from "./wallpaper_1.png";
 import wallpaper_2 from "./wallpaper_2.png";

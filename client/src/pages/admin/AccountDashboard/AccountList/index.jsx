@@ -2,23 +2,28 @@ import AdminLayout from "layouts/AdminLayout";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteAccount, getAccountList } from "../accountSlice";
 import DataTable from "components/DataTable";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { authApi } from "api";
 import { useNavigate } from "react-router-dom";
+import Loading from "components/Loading";
 
 const AccountList = () => {
   const navigate = useNavigate();
+  const [isVerified, setIsVerified] = useState(false);
+
   useEffect(() => {
     authApi
       .verify()
       .then((res) => {
         const { decoded } = res.data;
-        if (decoded.role !== 1) {
+        if (decoded.role !== "root") {
           navigate(`./${decoded._id}`);
+        } else {
+          setIsVerified(true);
         }
       })
       .catch((errors) => {
-        navigate(`/admin`);
+        navigate(`/auth`);
         console.log(errors);
       });
   }, [navigate]);
@@ -28,11 +33,6 @@ const AccountList = () => {
   const rawAccounts = useSelector((state) => state.account);
   const accounts = rawAccounts.map((rawAccount) => {
     const account = { ...rawAccount };
-    if (rawAccount.role === 1) {
-      account.role = "administrator";
-    } else if (rawAccount.role === 0) {
-      account.role = "manager";
-    }
     account.date = rawAccount.createdAt?.split("T")[0];
     return account;
   });
@@ -52,7 +52,7 @@ const AccountList = () => {
     }
   };
 
-  return (
+  return isVerified ? (
     <AdminLayout page="ACCOUNT">
       <DataTable
         fields={["username", "role", "date"]}
@@ -61,6 +61,8 @@ const AccountList = () => {
         deleteHandle={deleteHandle}
       />
     </AdminLayout>
+  ) : (
+    <Loading fullscreen />
   );
 };
 

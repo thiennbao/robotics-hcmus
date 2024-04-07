@@ -7,14 +7,27 @@
 }
 
 .wrapper {
+  backdrop-filter: blur(0.5rem);
+  box-shadow: 0 0 0.5px white;
   position: fixed;
   top: 55%;
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
+  padding: 4rem;
 
   & img {
     width: 40%;
     margin: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .wrapper {
+    padding: 1rem;
+
+    & img {
+      width: 80%;
+    }
   }
 }
