@@ -5,11 +5,15 @@ import { logo } from "assets";
 import { useCookies } from "react-cookie";
 
 const pages = [
-  { title: "Banner", to: "/admin/banner", icon: "star-fill" },
+  { title: "Account", to: "/admin/account", icon: "person-fill-gear" },
   { title: "Course", to: "/admin/course", icon: "journal-album" },
   { title: "Blog", to: "/admin/blog", icon: "newspaper" },
   { title: "Contact", to: "/admin/contact", icon: "chat-dots-fill" },
-  { title: "Account", to: "/admin/account", icon: "person-fill-gear" },
+  { title: "Link", to: "/admin/link", icon: "link-45deg" },
+  { title: "Banner", to: "/admin/banner", icon: "star-fill" },
+  { title: "Testimonial", to: "/admin/testimonial", icon: "yelp" },
+  { title: "Contact Info", to: "/admin/contactinfo", icon: "info-circle-fill" },
+  { title: "FAQ", to: "/admin/faq", icon: "question-circle-fill" },
 ];
 
 const Menu = () => {

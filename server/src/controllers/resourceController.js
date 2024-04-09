@@ -1,13 +1,21 @@
+import Link from "../models/Link.js";
 import Banner from "../models/Banner.js";
+import Testimonial from "../models/Testimonial.js";
+import Course from "../models/Course.js";
 import Blog from "../models/Blog.js";
 import Contact from "../models/Contact.js";
-import Course from "../models/Course.js";
+import ContactInfo from "../models/ContactInfo.js";
+import Faq from "../models/Faq.js";
 
 const Models = {
+  link: Link,
   banner: Banner,
+  testimonial: Testimonial,
+  course: Course,
   blog: Blog,
   contact: Contact,
-  course: Course,
+  contactInfo: ContactInfo,
+  faq: Faq,
 };
 
 const resourceController = {

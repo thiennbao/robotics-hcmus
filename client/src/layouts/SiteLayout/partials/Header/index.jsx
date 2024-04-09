@@ -3,21 +3,30 @@ import { Link, useLocation } from "react-router-dom";
 import clsx from "clsx";
 import style from "./Header.module.scss";
 import { logo } from "assets";
-
-const pages = [
-  { title: "About", to: "/about" },
-  { title: "Courses", to: "/courses" },
-  { title: "Blogs", to: "/blogs" },
-  { title: "Contact", to: "/contact" },
-  { title: "Robocus", to: "/robocus" },
-];
-const contacts = [
-  { icon: "facebook", to: "https://www.facebook.com/RoboticsHCMUS" },
-  { icon: "telephone-fill", to: "tel:0366 399 748" },
-  { icon: "envelope-fill", to: "mailto:robotics@hcmus.edu.vn" },
-];
+import { resourceApi } from "api";
 
 const Header = () => {
+  const [links, setLinks] = useState([]);
+  useEffect(() => {
+    resourceApi
+      .getResources({ resource: "link" })
+      .then((res) => setLinks(res.data))
+      .catch((error) => console.log(error));
+  }, []);
+
+  const [contacts, setContacts] = useState([]);
+  useEffect(() => {
+    resourceApi
+      .getResources({ resource: "contactInfo" })
+      .then((res) => {
+        const contacts = res.data.filter((contact) =>
+          ["facebook", "email", "phone"].includes(contact.key)
+        );
+        setContacts(contacts);
+      })
+      .catch((error) => console.log(error));
+  }, []);
+
   const [isShrink, setIsShrink] = useState(window.scrollY !== 0);
 
   useEffect(() => {
@@ -47,37 +56,16 @@ const Header = () => {
           <div className="col-8 d-none d-md-block">
             <nav>
               <ul className="list-unstyled d-flex justify-content-end">
-                {/* First 4 pages */}
-                {pages.slice(0, 4).map((link, index) => (
+                {links.map((link, index) => (
                   <li key={index} className="pe-4">
                     <Link
-                      className={clsx(style.link, path === link.to && style.current)}
-                      to={link.to}
+                      className={clsx(style.link, path === link.content && style.current)}
+                      to={link.content}
                     >
                       {link.title}
                     </Link>
                   </li>
                 ))}
-                {/* Remaining pages go to More */}
-                <li className={style.more}>
-                  <div className="position-relative">
-                    <span>
-                      More <i className="bi bi-caret-down-fill ps-2"></i>
-                    </span>
-                    <ul className="list-unstyled position-absolute start-50 translate-middle-x px-3 pb-3">
-                      {pages.slice(4).map((link, index) => (
-                        <li key={index}>
-                          <Link
-                            className={clsx(style.link, path === link.to && style.current)}
-                            to={link.to}
-                          >
-                            {link.title}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </li>
               </ul>
             </nav>
           </div>
@@ -86,7 +74,7 @@ const Header = () => {
             <ul className="list-unstyled d-flex justify-content-end">
               {contacts.map((contact, index) => (
                 <li key={index} className="ps-4">
-                  <a href={contact.to} target="_blank" rel="noreferrer">
+                  <a href={contact.content} target="_blank" rel="noreferrer">
                     <i className={clsx(style.icon, `bi bi-${contact.icon}`)}></i>
                   </a>
                 </li>
@@ -114,7 +102,7 @@ const Header = () => {
               <div className={style.sideLinkWrapper}>
                 <nav>
                   <ul className="list-unstyled">
-                    {pages.map((link, index) => (
+                    {links.map((link, index) => (
                       <li key={index} className="my-3">
                         <Link to={link.to} className={clsx(path === link.to && style.current)}>
                           {link.title}

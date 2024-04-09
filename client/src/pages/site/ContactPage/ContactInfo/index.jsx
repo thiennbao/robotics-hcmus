@@ -2,37 +2,18 @@ import { Link } from "react-router-dom";
 import clsx from "clsx";
 import Appear from "components/Appear";
 import style from "./ContactInfo.module.scss";
-
-const contacts = [
-  {
-    title:
-      "Robotics & IoT Lab, Room No.86, University of Science, 227 Nguyen Van Cu, Phuong 4, Quan 5, Tp HCM",
-    icon: "geo-alt-fill",
-    to: "https://maps.app.goo.gl/zg6WypHivDsz9hzH9",
-  },
-  {
-    title: "Phone: (028) 38 325 929",
-    icon: "phone-fill",
-    to: "tel:(028) 38 325 929",
-  },
-  {
-    title: "Hotline/Zalo: 0366 399 748",
-    icon: "telephone-fill",
-    to: "tel:0366 399 748",
-  },
-  {
-    title: "Email: robotics@hcmus.edu.vn",
-    icon: "envelope-fill",
-    to: "mailto:robotics@hcmus.edu.vn",
-  },
-  {
-    title: "Fanpage: RoboticsHCMUS",
-    icon: "facebook",
-    to: "https://www.facebook.com/RoboticsHCMUS",
-  },
-];
+import { useEffect, useState } from "react";
+import { resourceApi } from "api";
 
 const ContactInfo = () => {
+  const [contactInfos, setContactInfos] = useState([]);
+  useEffect(() => {
+    resourceApi
+      .getResources({ resource: "contactInfo" })
+      .then((res) => setContactInfos(res.data))
+      .catch((error) => console.log(error));
+  }, []);
+
   return (
     <section className={style.contactInfo}>
       <div className="container d-flex">
@@ -44,13 +25,13 @@ const ContactInfo = () => {
               ullamcorper mattis, pulvinar dapibus leo.
             </p>
             <ul className="list-unstyled">
-              {contacts.map((item, index) => (
+              {contactInfos.map((item, index) => (
                 <li key={index} className="mt-2">
                   <Appear variant="right">
-                    <Link to={item.to}>
+                    <Link to={item.content}>
                       <div className="d-flex align-items-center">
                         <i className={clsx(style.icon, `bi bi-${item.icon}`)}></i>
-                        <span className={style.info}>{item.title}</span>
+                        <span className={style.info}>{item.key[0].toUpperCase() + item.key.slice(1)}: {item.title}</span>
                       </div>
                     </Link>
                   </Appear>

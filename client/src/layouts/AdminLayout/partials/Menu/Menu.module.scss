@@ -49,6 +49,16 @@
       background-color: #fff;
       transition: 0.5s;
 
+      & > div:last-child {
+        // Buttons wrapper
+        height: 75%;
+        overflow-y: scroll;
+
+        &::-webkit-scrollbar {
+          display: none;
+        }
+      }
+
       // Menu close
       & > label {
         float: right;

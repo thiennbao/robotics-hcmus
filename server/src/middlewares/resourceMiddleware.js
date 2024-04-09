@@ -4,7 +4,7 @@ const resourceMiddleware = {
   checkResourceAuth: (req, res, next) => {
     const { resource } = req.params;
 
-    if (resource === "banner" || resource === "course" || resource === "blog") {
+    if (["link", "banner", "testimonial", "course", "blog", "contactInfo", "faq"].includes(resource)) {
       const method = req.method;
       if (method === "GET") {
         // Anyone can GET banner, course and blog
