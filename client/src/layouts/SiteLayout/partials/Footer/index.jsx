@@ -9,7 +9,7 @@ const Footer = () => {
   const [links, setLinks] = useState([]);
   useEffect(() => {
     resourceApi
-      .getResources({ resource: "link" })
+      .getResources({ resource: "link", sort: "index" })
       .then((res) => setLinks([{ title: "Home", content: "/" }, ...res.data]))
       .catch((error) => console.log(error));
   }, []);

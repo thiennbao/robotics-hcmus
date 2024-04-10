@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import style from "./Feature.module.scss";
 import Appear from "components/Appear";
-import { photos } from "assets";
+import { about_feature } from "assets";
 
 const Item = ({ title, content }) => {
   return (
@@ -59,7 +59,7 @@ const Feature = () => {
           {/* Image */}
           <div className="col-lg-6 col-md-4 d-flex">
             <Appear variant="left">
-              <img src={photos[3]} alt="" />
+              <img src={about_feature} alt="" />
             </Appear>
           </div>
         </div>

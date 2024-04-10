@@ -9,7 +9,7 @@ const Header = () => {
   const [links, setLinks] = useState([]);
   useEffect(() => {
     resourceApi
-      .getResources({ resource: "link" })
+      .getResources({ resource: "link", sort: "index" })
       .then((res) => setLinks(res.data))
       .catch((error) => console.log(error));
   }, []);

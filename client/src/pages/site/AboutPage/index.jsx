@@ -4,12 +4,12 @@ import Description from "./Description";
 import Feature from "./Feature";
 import Quote from "./Quote";
 import Testimonial from "./Testimonial";
-import { wallpapers } from "assets";
+import { wallpaper_about } from "assets";
 
 const AboutPage = () => {
   return (
     <SiteLayout>
-      <Wallpaper title="ABOUT US" background={wallpapers[0]} />
+      <Wallpaper title="ABOUT US" background={wallpaper_about} />
       <Description />
       <Quote />
       <Feature />

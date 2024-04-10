@@ -2,7 +2,7 @@ import clsx from "clsx";
 import style from "./Description.module.scss";
 import Button from "components/Button";
 import Appear from "components/Appear";
-import { photos } from "assets";
+import { about_description_left, about_description_right } from "assets";
 
 const Description = () => {
   return (
@@ -44,12 +44,12 @@ const Description = () => {
             <div className="row gy-lg-0 gy-3">
               <div className="col-lg-6 col-md-12 col-sm-6 col-12 d-flex">
                 <Appear variant="up">
-                  <img src={photos[0]} alt="" />
+                  <img src={about_description_left} alt="" />
                 </Appear>
               </div>
               <div className="col-lg-6 col-md-12 col-sm-6 col-12 d-flex">
                 <Appear variant="down">
-                  <img src={photos[1]} alt="" />
+                  <img src={about_description_right} alt="" />
                 </Appear>
               </div>
             </div>

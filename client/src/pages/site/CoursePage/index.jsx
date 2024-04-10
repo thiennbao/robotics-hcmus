@@ -1,15 +1,15 @@
 import SiteLayout from "layouts/SiteLayout";
 import Wallpaper from "components/Wallpaper";
 import CourseArchive from "./CourseArchive";
-import { wallpapers } from "assets";
+import { wallpaper_courses } from "assets";
 
 const CoursePage = () => {
   return (
     <SiteLayout>
-      <Wallpaper title="COURSES" background={wallpapers[1]} />
+      <Wallpaper title="COURSES" background={wallpaper_courses} />
       <CourseArchive />
     </SiteLayout>
-  )
-}
+  );
+};
 
-export default CoursePage
+export default CoursePage;

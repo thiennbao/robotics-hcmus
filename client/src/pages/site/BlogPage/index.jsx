@@ -1,12 +1,12 @@
 import SiteLayout from "layouts/SiteLayout";
 import Wallpaper from "components/Wallpaper";
 import BlogArchive from "./BlogArchive";
-import { wallpapers } from "assets";
+import { wallpaper_blogs } from "assets";
 
 const BlogPage = () => {
   return (
     <SiteLayout>
-      <Wallpaper title="BLOGS" background={wallpapers[2]} />
+      <Wallpaper title="BLOGS" background={wallpaper_blogs} />
       <BlogArchive />
     </SiteLayout>
   )

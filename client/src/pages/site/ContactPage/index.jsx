@@ -3,12 +3,12 @@ import Wallpaper from "components/Wallpaper";
 import ContactInfo from "./ContactInfo";
 import ContactForm from "./ContactForm";
 import Faq from "./Faq";
-import { wallpapers } from "assets";
+import { wallpaper_contact } from "assets";
 
 const ContactPage = () => {
   return (
     <SiteLayout>
-      <Wallpaper title="CONTACT" background={wallpapers[3]} />
+      <Wallpaper title="CONTACT" background={wallpaper_contact} />
       <ContactInfo />
       <ContactForm />
       <Faq />
