@@ -33,7 +33,7 @@ const AccountList = () => {
 
   const rawAccounts = useSelector((state) => state.account);
   const accounts = rawAccounts.map((rawAccount) => ({
-    date: rawAccount.createdAt.split("T")[0],
+    date: rawAccount.createdAt?.split("T")[0],
     ...rawAccount,
   }));
 
