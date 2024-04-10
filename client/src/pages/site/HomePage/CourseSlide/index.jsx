@@ -7,7 +7,7 @@ import SlideShow from "components/SlideShow";
 
 const Item = ({ content }) => {
   return (
-    <div className="p-2">
+    <div className="p-2 h-100">
       <Course content={content} />
     </div>
   );

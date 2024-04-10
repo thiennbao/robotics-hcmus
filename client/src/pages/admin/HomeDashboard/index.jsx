@@ -1,9 +1,7 @@
-const { default: AdminLayout } = require("layouts/AdminLayout")
+import AdminLayout from "layouts/AdminLayout";
 
 const HomeDashboard = () => {
-  return (
-    <AdminLayout page="ADMIN DASHBOARD"></AdminLayout>
-  )
-}
+  return <AdminLayout page="ADMIN DASHBOARD"></AdminLayout>;
+};
 
-export default HomeDashboard
+export default HomeDashboard;

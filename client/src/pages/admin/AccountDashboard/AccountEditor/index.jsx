@@ -5,9 +5,30 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { changePassword, register } from "../accountSlice";
+import Loading from "components/Loading";
 
 const AccountEditor = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
+
+  // Verify auth
+  const [isVerified, setIsVerified] = useState(false);
+  useEffect(() => {
+    authApi
+      .verify()
+      .then((res) => {
+        const { _id, role } = res.data.decoded;
+        if (_id === id || role === "root") {
+          setIsVerified(true);
+        } else {
+          navigate("/admin/account");
+        }
+      })
+      .catch((errors) => {
+        navigate("/admin/account");
+        console.log(errors);
+      });
+  }, [navigate, id]);
 
   const [data, setData] = useState(id === "add" ? {} : null);
 
@@ -23,7 +44,6 @@ const AccountEditor = () => {
 
   // Form handler
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const handleSave = (data) => {
     if (id === "add") {
       dispatch(register({ data }));
@@ -34,7 +54,7 @@ const AccountEditor = () => {
     navigate("/admin/account");
   };
 
-  return (
+  return isVerified ? (
     <AdminLayout page="ACCOUNT">
       <Editor
         fields={[
@@ -49,6 +69,7 @@ const AccountEditor = () => {
             name: "role",
             options: { required: true },
             select: [
+              { title: "Root", value: "root" },
               { title: "Manager", value: "manager" },
               { title: "Administrator", value: "admin" },
             ],
@@ -70,6 +91,8 @@ const AccountEditor = () => {
         handleSave={handleSave}
       />
     </AdminLayout>
+  ) : (
+    <Loading fullscreen />
   );
 };
 

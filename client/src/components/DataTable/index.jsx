@@ -67,9 +67,6 @@ const DataTable = ({
           ))}
         </tbody>
       </table>
-      <Button variant="outline" className={style.loadButton} onClick={loadHandle}>
-        Load more
-      </Button>
     </div>
   );
 };
