@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
 
 const linkSchema = mongoose.Schema({
-  title: String,
-  content: String,
-  index: Number,
+  title: { type: String, required: true },
+  content: { type: String, required: true },
+  index: { type: Number, required: true },
 });
 
 export default mongoose.model("Link", linkSchema);

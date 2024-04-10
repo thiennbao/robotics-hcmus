@@ -2,9 +2,9 @@ import mongoose from "mongoose";
 
 const blogSchema = mongoose.Schema(
   {
-    title: String,
-    thumbnail: String,
-    content: String,
+    title: { type: String, required: true },
+    thumbnail: { type: String, required: true },
+    content: { type: String, required: true },
     images: [String],
   },
   { timestamps: true }

@@ -8,7 +8,7 @@ authRouter.get("/account", authMiddleware.checkIsRoot, authController.getAccount
 authRouter.get("/account/:id", authMiddleware.checkIsRightUser, authController.getAccountInfo);
 authRouter.post("/account", authMiddleware.checkIsRoot, authController.register);
 authRouter.patch("/account/:id", authMiddleware.checkIsRightUser, authController.changePassword);
-authRouter.delete("/account/:id", authMiddleware.checkIsRoot, authController.deleteAccount);
+authRouter.delete("/account/:id", authMiddleware.checkIsRoot, authMiddleware.checkNotLastRoot, authController.deleteAccount);
 authRouter.post("/login", authController.login);
 authRouter.get("/verify", authController.verifyJWT);
 

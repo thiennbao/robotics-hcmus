@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import Account from "../models/Account.js";
 
 const authMiddleware = {
   checkIsRoot: (req, res, next) => {
@@ -36,6 +37,18 @@ const authMiddleware = {
         next();
       } else {
         res.status(401).json({ message: "Fail to authentication" });
+      }
+    } catch (error) {
+      res.status(401).json({ message: error.message });
+    }
+  },
+  checkNotLastRoot: async (req, res, next) => {
+    try {
+      const count = await Account.countDocuments({ role: "root" });
+      if (count > 1) {
+        next();
+      } else {
+        res.status(400).json({ message: "Last root account cannot be deleted" });
       }
     } catch (error) {
       res.status(401).json({ message: error.message });

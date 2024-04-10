@@ -2,8 +2,8 @@ import mongoose from "mongoose";
 
 const bannerSchema = mongoose.Schema(
   {
-    image: String,
-    index: Number,
+    image: { type: String, required: true },
+    index: { type: Number, required: true },
   },
   { timestamps: true }
 );

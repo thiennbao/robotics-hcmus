@@ -2,8 +2,8 @@ import mongoose from "mongoose";
 
 const faqSchema = mongoose.Schema(
   {
-    question: String,
-    answer: String,
+    question: { type: String, required: true },
+    answer: { type: String, required: true },
   },
   { timestamps: true }
 );
