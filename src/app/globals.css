@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 :root {
+  --primary-rgb: 96, 144, 224;
   --foreground-rgb: 211, 211, 211;
   --background-start-rgb: 2, 8, 32;
   --background-end-rgb: 2, 8, 24;
@@ -12,6 +13,11 @@ body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb)))
     rgb(var(--background-start-rgb));
+}
+
+::selection {
+  background-color: rgb(var(--primary-rgb));
+  color: black;
 }
 
 @layer utilities {

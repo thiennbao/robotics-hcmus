@@ -15,7 +15,7 @@ const Footer = () => {
   const pathname = usePathname();
 
   return (
-    <footer className="bg-gradient-to-b from-[#020820] to-bg_primary text-slate-300 py-12">
+    <footer className="bg-gradient-to-b from-[#020820] to-bg-primary text-slate-300 py-12">
       <div className="container lg:flex gap-16 *:flex-1 *:mb-8 *:lg:mb-0">
         <div>
           <Link href="#">
@@ -61,12 +61,12 @@ const Footer = () => {
             </li>
             <li>
               <Link
-                href="/blogs"
+                href="/news"
                 className={`hover:text-primary transition ${
-                  pathname === "/blogs" ? "text-primary font-bold" : ""
+                  pathname === "/news" ? "text-primary font-bold" : ""
                 }`}
               >
-                Blogs
+                News
               </Link>
             </li>
             <li>

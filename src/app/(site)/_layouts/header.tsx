@@ -1,9 +1,10 @@
 "use client";
 
+import { useMotionValueEvent, useScroll } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   BsFacebook,
   BsTelephoneFill,
@@ -16,64 +17,61 @@ import { GiChatBubble, GiSpellBook } from "react-icons/gi";
 
 const Header = () => {
   const pathname = usePathname();
-
-  // Header shrink when scroll down
   const [isOnTop, setIsOnTop] = useState(true);
-  useEffect(() => {
-    const detectOnTop = () => setIsOnTop(window.scrollY === 0);
-    window.addEventListener("scroll", detectOnTop);
-    // Clear event when header change state
-    return () => window.removeEventListener("scroll", detectOnTop);
-  }, [isOnTop]);
+  const { scrollY } = useScroll();
+
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    setIsOnTop(latest === 0);
+  });
 
   return (
     <header
-      className={`fixed top-0 w-full font-bold text-slate-300 transition-all duration-500 ${
-        isOnTop ? "h-36 opacity-90" : "h-20 shadow-[white_0_0_1px] bg-bg_primary bg-opacity-95"
+      className={`fixed top-0 w-full font-bold text-slate-300 transition-all duration-500 z-10 ${
+        isOnTop ? "h-32 opacity-90" : "h-20 shadow-[white_0_0_1px] bg-bg-primary bg-opacity-95"
       }`}
     >
       <div className="container h-full flex items-center justify-between">
-        <aside>
+        <div>
           <Link href="/">
             <Image src="/logo.svg" alt="Robotics and IoT HCMUS" width={160} height={100} />
           </Link>
-        </aside>
+        </div>
         <nav className="hidden md:block">
-          <ul className="flex gap-8 lg:gap-12">
-            <li>
+          <ul className="flex gap-4 lg:gap-8">
+            <li className="px-2 py-1 relative">
               <Link
                 href="/about"
-                className={`hover:text-primary transition py-4 ${
+                className={`transition after:transition-all py-4 after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-primary hover:after:w-full ${
                   pathname === "/about" ? "text-primary" : ""
                 }`}
               >
                 About
               </Link>
             </li>
-            <li>
+            <li className="px-2 py-1 relative">
               <Link
                 href="/courses"
-                className={`hover:text-primary transition py-4 ${
+                className={`transition after:transition-all py-4 after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-primary hover:after:w-full ${
                   pathname === "/courses" ? "text-primary" : ""
                 }`}
               >
                 Courses
               </Link>
             </li>
-            <li>
+            <li className="px-2 py-1 relative">
               <Link
-                href="/blogs"
-                className={`hover:text-primary transition py-4 ${
-                  pathname === "/blogs" ? "text-primary" : ""
+                href="/news"
+                className={`transition after:transition-all py-4 after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-primary hover:after:w-full ${
+                  pathname === "/news" ? "text-primary" : ""
                 }`}
               >
-                Blogs
+                News
               </Link>
             </li>
-            <li>
+            <li className="px-2 py-1 relative">
               <Link
                 href="/contact"
-                className={`hover:text-primary transition py-4 ${
+                className={`transition after:transition-all py-4 after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-primary hover:after:w-full ${
                   pathname === "/contact" ? "text-primary" : ""
                 }`}
               >
@@ -82,7 +80,7 @@ const Header = () => {
             </li>
           </ul>
         </nav>
-        <aside className="hidden md:block">
+        <div className="hidden md:block">
           <ul className="flex justify-center gap-8">
             <li>
               <Link
@@ -104,8 +102,8 @@ const Header = () => {
               </Link>
             </li>
           </ul>
-        </aside>
-        <aside className="md:hidden flex items-center">
+        </div>
+        <div className="md:hidden flex items-center">
           {/* Mobile sidemenu */}
           <input type="checkbox" id="side-menu" defaultChecked className="peer hidden" />
           <label htmlFor="side-menu">
@@ -148,8 +146,8 @@ const Header = () => {
                 </li>
                 <li>
                   <FaNewspaper className="me-2 text-primary" />
-                  <Link href="/blogs" className={`${pathname === "/blogs" ? "text-primary" : ""}`}>
-                    Blogs
+                  <Link href="/news" className={`${pathname === "/news" ? "text-primary" : ""}`}>
+                    News
                   </Link>
                 </li>
                 <li>
@@ -184,7 +182,7 @@ const Header = () => {
               </ul>
             </div>
           </div>
-        </aside>
+        </div>
       </div>
     </header>
   );
