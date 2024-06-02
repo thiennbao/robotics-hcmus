@@ -1,5 +1,4 @@
 import Appear from "@/components/appear";
-import Image from "next/image";
 import { HTMLAttributes } from "react";
 import { FaCheckCircle } from "react-icons/fa";
 
@@ -27,9 +26,8 @@ const Features = (props: HTMLAttributes<HTMLDivElement>) => {
               Features
             </h2>
             <p className="mb-8">
-              Des yeux qui font baisser les miens un rire qui se perd sur sa
-              bouche voilà le portrait sans retouche de l&apos;homme auquel
-              j&apos;appartiens.
+              Des yeux qui font baisser les miens un rire qui se perd sur sa bouche voilà le
+              portrait sans retouche de l&apos;homme auquel j&apos;appartiens.
             </p>
             <div>
               <Appear variant="right">
@@ -60,18 +58,8 @@ const Features = (props: HTMLAttributes<HTMLDivElement>) => {
           </div>
         </div>
         <div className="lg:w-2/5 xl:w-1/2 overflow-hidden">
-          <Appear
-            variant="left"
-            viewOption={{ amount: 0.4 }}
-            className="h-72 lg:h-full"
-          >
-            <Image
-              src="/picsum-1.png"
-              alt="Feature image"
-              width={1600}
-              height={900}
-              className="h-full object-cover"
-            />
+          <Appear variant="left" viewOption={{ amount: 0.4 }} className="h-72 lg:h-full">
+            <img src="/picsum-1.png" alt="Feature image" className="h-full object-cover" />
           </Appear>
         </div>
       </div>

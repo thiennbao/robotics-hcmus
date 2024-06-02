@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
 import { HTMLAttributes } from "react";
@@ -13,12 +14,18 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
 
 const News = ({ newsContent, className, ...props }: Props) => {
   return (
-    <div className={`${className} h-full flex flex-col`} {...props}>
+    <div className={clsx(className, "h-full flex flex-col")} {...props}>
       <Link href={`/news/${newsContent._id}`}>
-        <Image src={newsContent.thumbnail} alt={newsContent.title} width={1600} height={900} className="aspect-square object-cover" />
+        <Image
+          src={newsContent.thumbnail}
+          alt={newsContent.title}
+          width={800}
+          height={800}
+          className="aspect-square object-cover"
+        />
         <div className="py-4">
           <p className="text-xl text-primary font-bold mb-2">{newsContent.title}</p>
-          <p className="text-slate-400">{new Date(newsContent.date).toDateString()}</p>
+          <p className="text-gray-600">{new Date(newsContent.date).toDateString()}</p>
         </div>
       </Link>
     </div>

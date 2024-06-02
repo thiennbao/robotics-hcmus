@@ -21,7 +21,7 @@ const NewsArchive = (props: HTMLAttributes<HTMLDivElement>) => {
           <div className="lg:w-3/4 xl:w-1/2 mx-auto mt-12 mb-16">
             <input
               placeholder="Search ..."
-              className="w-full h-12 px-4 bg-bg-primary outline-none border-[0.5px] border-slate-500 focus:border-primary"
+              className="w-full h-12 px-4 outline-none bg-gray-100 border transition focus:border-primary"
             />
           </div>
         </div>

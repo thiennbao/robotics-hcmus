@@ -1,5 +1,4 @@
 import Appear from "@/components/appear";
-import Image from "next/image";
 import Link from "next/link";
 import { HTMLAttributes } from "react";
 
@@ -25,39 +24,35 @@ const NewsDetail = ({ news, ...props }: Props) => {
         <div>
           <input
             placeholder="Search ..."
-            className="w-full h-12 px-4 bg-bg-primary outline-none border-[0.5px] border-slate-500 focus:border-primary"
+            className="w-full h-12 px-4 outline-none bg-gray-100 border transition focus:border-primary"
           />
           <div className="grid md:grid-cols-2 lg:grid-cols-1 gap-8 mt-8 overflow-hidden">
             <Appear variant="left">
-              <Link href="/news/${id}" className="flex h-20 items-center gap-4">
-                <div className="w-20">
-                  <Image
+              <Link href="/news/${id}" className="flex items-center gap-4">
+                <div className="w-16">
+                  <img
                     src="/picsum-3.png"
                     alt="{title}"
-                    width={900}
-                    height={900}
                     className="w-full aspect-square object-cover"
                   />
                 </div>
                 <div>
-                  <p className="text-primary text-xl mb-2">Lorem ipsum</p>
+                  <p className="text-primary text-lg mb-2">Lorem ipsum</p>
                   <p>{new Date().toDateString()}</p>
                 </div>
               </Link>
             </Appear>
             <Appear variant="left">
-              <Link href="/news/${id}" className="flex h-20 items-center gap-4">
-                <div className="w-20">
-                  <Image
+              <Link href="/news/${id}" className="flex items-center gap-4">
+                <div className="w-16">
+                  <img
                     src="/picsum-3.png"
                     alt="{title}"
-                    width={900}
-                    height={900}
                     className="w-full aspect-square object-cover"
                   />
                 </div>
                 <div>
-                  <p className="text-primary text-xl mb-2">Lorem ipsum</p>
+                  <p className="text-primary text-lg mb-2">Lorem ipsum</p>
                   <p>{new Date().toDateString()}</p>
                 </div>
               </Link>

@@ -1,6 +1,5 @@
 import Appear from "@/components/appear";
 import Carousel from "@/components/carousel";
-import Image from "next/image";
 import { HTMLAttributes } from "react";
 import { BsDot } from "react-icons/bs";
 
@@ -22,11 +21,9 @@ const Slide = ({
       </h2>
       <i className="block mx-auto mb-8 text-xl">{content}</i>
       <div className="flex items-center justify-center">
-        <Image
+        <img
           src={photo}
           alt="Customer photo"
-          width={1600}
-          height={900}
           className="w-16 aspect-square object-cover rounded-full mr-4"
         />
         <span>{name}</span>
@@ -40,7 +37,7 @@ const Slide = ({
 const Testimonial = (props: HTMLAttributes<HTMLDivElement>) => {
   return (
     <section {...props}>
-      <div className="bg-[linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url(/picsum-1.png)] bg-cover bg-center overflow-hidden">
+      <div className="text-light bg-[linear-gradient(rgba(0,0,0,0.8),rgba(0,0,0,0.8)),url(/picsum-1.png)] bg-cover bg-center overflow-hidden">
         <Appear
           variant="left"
           viewOption={{ amount: 0.4 }}

@@ -1,11 +1,6 @@
 import Appear from "@/components/appear";
 import { HTMLAttributes } from "react";
-import {
-  BsEnvelopeFill,
-  BsFacebook,
-  BsGeoAltFill,
-  BsTelephoneFill,
-} from "react-icons/bs";
+import { BsEnvelopeFill, BsFacebook, BsGeoAltFill, BsTelephoneFill } from "react-icons/bs";
 
 const ContactInfo = (props: HTMLAttributes<HTMLDivElement>) => {
   return (
@@ -21,8 +16,8 @@ const ContactInfo = (props: HTMLAttributes<HTMLDivElement>) => {
                 <BsGeoAltFill className="text-2xl text-primary" />
               </div>
               <div>
-                Location: Robotics & IoT Lab, Room No.86, University of Science,
-                227 Nguyen Van Cu, Phuong 4, Quan 5, Tp HCM
+                Location: Robotics & IoT Lab, Room No.86, University of Science, 227 Nguyen Van Cu,
+                Phuong 4, Quan 5, Tp HCM
               </div>
             </Appear>
             <Appear variant="right" className="flex items-center gap-6 my-6">

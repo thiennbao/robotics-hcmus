@@ -2,15 +2,9 @@ import Appear from "@/components/appear";
 import { HTMLAttributes } from "react";
 import { BsQuestionCircle } from "react-icons/bs";
 
-const Question = ({
-  question,
-  answer,
-}: {
-  question: string;
-  answer: string;
-}) => {
+const Question = ({ question, answer }: { question: string; answer: string }) => {
   return (
-    <div className="bg-bg-primary p-6 flex items-center">
+    <div className="bg-gray-100 p-6 flex items-center">
       <div className="mr-6">
         <BsQuestionCircle className="text-2xl text-primary" />
       </div>

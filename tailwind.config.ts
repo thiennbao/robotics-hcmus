@@ -18,8 +18,10 @@ const config: Config = {
     },
     extend: {
       colors: {
-        primary: "#6090E0",
-        "bg-primary": "#020818",
+        primary: "#305080",
+        light: "#D3D3D3",
+        dark: "#000000",
+        "bg-light": "#FBFBFB",
       },
     },
   },

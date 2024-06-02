@@ -18,35 +18,13 @@ const CourseCarousel = (props: HTMLAttributes<HTMLDivElement>) => {
         <h2 className="mb-4 text-3xl font-bold before:content-['OUR_HOT'] before:block before:text-primary before:text-[0.6em] before:font-normal">
           COURSES
         </h2>
-        <Carousel
-          withPrevNext
-          itemsOnScreen={{ df: 1, md: 2, xl: 3 }}
-          className="-mx-4"
-        >
-          <Course
-            courseContent={courseContent}
-            className="shadow-[lightgray_0_0_2px] m-4"
-          />
-          <Course
-            courseContent={courseContent}
-            className="shadow-[lightgray_0_0_2px] m-4"
-          />
-          <Course
-            courseContent={courseContent}
-            className="shadow-[lightgray_0_0_2px] m-4"
-          />
-          <Course
-            courseContent={courseContent}
-            className="shadow-[lightgray_0_0_2px] m-4"
-          />
-          <Course
-            courseContent={courseContent}
-            className="shadow-[lightgray_0_0_2px] m-4"
-          />
-          <Course
-            courseContent={courseContent}
-            className="shadow-[lightgray_0_0_2px] m-4"
-          />
+        <Carousel withPrevNext itemsOnScreen={{ df: 1, md: 2, xl: 3 }} className="-mx-4">
+          <Course courseContent={courseContent} className="shadow-[gray_0_0_4px] m-4" />
+          <Course courseContent={courseContent} className="shadow-[gray_0_0_4px] m-4" />
+          <Course courseContent={courseContent} className="shadow-[gray_0_0_4px] m-4" />
+          <Course courseContent={courseContent} className="shadow-[gray_0_0_4px] m-4" />
+          <Course courseContent={courseContent} className="shadow-[gray_0_0_4px] m-4" />
+          <Course courseContent={courseContent} className="shadow-[gray_0_0_4px] m-4" />
         </Carousel>
       </div>
     </section>

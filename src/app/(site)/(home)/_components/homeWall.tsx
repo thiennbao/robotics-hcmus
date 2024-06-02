@@ -1,36 +1,27 @@
 import Carousel from "@/components/carousel";
-import Image from "next/image";
 
 const HomeWall = () => {
   return (
     <section className="h-screen">
       <Carousel withPrevNext withCircle className="h-full">
-        <Image
+        <img
           src="/picsum-1.png"
-          alt="Banner"
-          width={1600}
-          height={900}
+          alt="Banner 1"
           className="h-full w-full object-cover brightness-50"
         />
-        <Image
+        <img
           src="/picsum-2.png"
-          alt="Banner"
-          width={1600}
-          height={900}
+          alt="Banner 2"
           className="h-full w-full object-cover brightness-50"
         />
-        <Image
+        <img
           src="/picsum-3.png"
-          alt="Banner"
-          width={1600}
-          height={900}
+          alt="Banner 3"
           className="h-full w-full object-cover brightness-50"
         />
-        <Image
+        <img
           src="/picsum-4.png"
-          alt="Banner"
-          width={1600}
-          height={900}
+          alt="Banner 4"
           className="h-full w-full object-cover brightness-50"
         />
       </Carousel>

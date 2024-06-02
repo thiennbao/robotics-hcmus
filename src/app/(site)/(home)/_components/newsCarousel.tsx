@@ -16,11 +16,7 @@ const NewsCarousel = (props: HTMLAttributes<HTMLDivElement>) => {
         <h2 className="mb-4 text-3xl font-bold before:content-['HOTEST'] before:block before:text-primary before:text-[0.6em] before:font-normal">
           NEWS AND BLOGS
         </h2>
-        <Carousel
-          withPrevNext
-          itemsOnScreen={{ df: 1, md: 2, xl: 3 }}
-          className="-mx-4"
-        >
+        <Carousel withPrevNext itemsOnScreen={{ df: 1, md: 2, xl: 3 }} className="-mx-4">
           <News newsContent={newsContent} className="m-4" />
           <News newsContent={newsContent} className="m-4" />
           <News newsContent={newsContent} className="m-4" />

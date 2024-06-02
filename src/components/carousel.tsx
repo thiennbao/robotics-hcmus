@@ -1,17 +1,11 @@
 "use client";
 
+import clsx from "clsx";
 import { Children, HTMLAttributes, useEffect, useState } from "react";
-import {
-  FaCaretLeft,
-  FaCaretRight,
-  FaCircle,
-  FaRegCircle,
-} from "react-icons/fa";
+import { FaCaretLeft, FaCaretRight, FaCircle, FaRegCircle } from "react-icons/fa";
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
-  itemsOnScreen?:
-    | number
-    | { df: number; sm?: number; md?: number; lg?: number; xl?: number };
+  itemsOnScreen?: number | { df: number; sm?: number; md?: number; lg?: number; xl?: number };
   withPrevNext?: boolean;
   withCircle?: boolean;
 }
@@ -60,7 +54,7 @@ const Carousel = ({
   }, [itemsOnScreen, setItems]);
 
   return (
-    <div className={`${className} relative overflow-hidden`} {...props}>
+    <div className={clsx(className, "relative overflow-hidden")} {...props}>
       {!!items && (
         <div
           className="h-full flex transition duration-300"
@@ -70,37 +64,30 @@ const Carousel = ({
           }}
         >
           {Children.map(children, (child) => (
-            <div
-              className="h-full"
-              style={{ width: `${100 / childrenLength}%` }}
-            >
+            <div className="h-full" style={{ width: `${100 / childrenLength}%` }}>
               {child}
             </div>
           ))}
         </div>
       )}
       {withPrevNext && (
-        <div>
+        <div className="*:absolute *:top-1/2 *:-translate-y-1/2 *:p-2 *:rounded-full *:text-light hover:*:bg-light hover:*:bg-opacity-20 *:transition *:cursor-pointer">
           <div
-            className="absolute top-1/2 left-2 md:left-8 -translate-y-1/2 p-2 rounded-full hover:bg-black hover:bg-opacity-20 transition cursor-pointer"
-            onClick={() =>
-              setSlide(slide === 0 ? childrenLength - items : slide - 1)
-            }
+            className="left-2 md:left-8"
+            onClick={() => setSlide(slide === 0 ? childrenLength - items : slide - 1)}
           >
             <FaCaretLeft className="text-2xl -translate-x-0.5" />
           </div>
           <div
-            className="absolute top-1/2 right-2 md:right-8 -translate-y-1/2 p-2 rounded-full hover:bg-black hover:bg-opacity-20 transition cursor-pointer"
-            onClick={() =>
-              setSlide(slide === childrenLength - items ? 0 : slide + 1)
-            }
+            className="right-2 md:right-8"
+            onClick={() => setSlide(slide === childrenLength - items ? 0 : slide + 1)}
           >
             <FaCaretRight className="text-2xl translate-x-0.5" />
           </div>
         </div>
       )}
       {withCircle && (
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex *:mx-1 *:cursor-pointer text-sm">
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex text-light text-sm *:mx-1 *:cursor-pointer">
           {Children.map(children, (child, index) =>
             slide <= index && index <= slide + items - 1 ? (
               <FaCircle />
