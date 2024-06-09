@@ -1,4 +1,4 @@
-import { ImageField, InputField, RichTextField } from "@/components/editor";
+import { ImageField, InputField, RichTextField } from "../../_components/editor";
 
 export default function NewsEditorPage() {
   return (

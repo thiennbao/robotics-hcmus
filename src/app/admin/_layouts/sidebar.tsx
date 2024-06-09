@@ -17,7 +17,7 @@ const Sidebar = () => {
   return (
     <div
       className={clsx(
-        "bg-gray-800 flex-shrink-0 text-gray-400 transition-[width] duration-700 w-0",
+        "bg-gray-800 flex-shrink-0 text-gray-400 transition-[width] duration-700 w-0 z-10",
         isOpen ? "md:w-16 lg:w-72" : "md:w-16"
       )}
     >

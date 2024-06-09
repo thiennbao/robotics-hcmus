@@ -1,6 +1,6 @@
 "use client";
 
-import { ImageField, InputField, MultiImageField, TextField } from "@/components/editor";
+import { ImageField, InputField, MultiImageField, TextField } from "../_components/editor";
 import { useState } from "react";
 import { BsChatQuote, BsInfoCircle } from "react-icons/bs";
 import { FaLink, FaRegImages } from "react-icons/fa6";

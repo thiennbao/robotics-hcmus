@@ -12,7 +12,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   errorMsg?: string;
 }
 
-export const InputField = ({
+export const InputFieldOld = ({
   label,
   required = false,
   readonly = false,

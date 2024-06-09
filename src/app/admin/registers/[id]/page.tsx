@@ -1,4 +1,4 @@
-import { InputField, TextField } from "@/components/editor";
+import { InputField, TextField } from "../../_components/editor";
 
 export default function RegisterViewerPage() {
   return (

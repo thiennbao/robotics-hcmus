@@ -1,4 +1,4 @@
-import { InputField } from "@/components/editor";
+import { InputField } from "../../_components/editor";
 
 export default function AccountDashboardPage() {
   return (
