@@ -2,10 +2,10 @@ import { ItemsPerPage, Pagination, SearchBar } from "../_components/tableUtils";
 import Link from "next/link";
 import { Suspense } from "react";
 import { FaPlus } from "react-icons/fa6";
-import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { RiDeleteBin2Fill, RiEdit2Fill } from "react-icons/ri";
 import Confirm from "../_components/confirm";
+import { countCourses, deleteCourseById, getCourses } from "@/lib/query";
 
 export default async function CoursesDashboardPage({
   searchParams,
@@ -15,25 +15,19 @@ export default async function CoursesDashboardPage({
   const { key, page, items } = searchParams;
 
   // Validate range of items and pages
-  const totalItems: number = await prisma.course.count({
-    where: { name: { contains: key, mode: "insensitive" } },
-  });
+  const totalItems: number = await countCourses(key);
   const itemsNum = Number(items) > 0 ? Number(items) : 5;
   const totalPages = Math.ceil(totalItems / itemsNum);
   const pagesNum = Number(page) > 1 ? (Number(page) < totalPages ? Number(page) : totalPages) : 1;
 
   // Get courses
-  const courses = await prisma.course.findMany({
-    where: { name: { contains: key, mode: "insensitive" } },
-    orderBy: { name: "asc" },
-    skip: (pagesNum - 1) * itemsNum,
-    take: itemsNum,
-  });
+  const courses = await getCourses(key, (pagesNum - 1) * itemsNum, itemsNum);
 
   // Delete course
   const handleDelete = async (id: string) => {
     "use server";
-    await prisma.course.delete({ where: { id } });
+
+    await deleteCourseById(id);
     revalidatePath("/admin/courses");
   };
 
@@ -130,9 +124,12 @@ export default async function CoursesDashboardPage({
                           </label>
                           <label
                             htmlFor={`confirm-${item.id}`}
-                            className="hidden peer-checked:block w-screen h-screen fixed top-0 left-0 bg-black bg-opacity-80 cursor-pointer"
+                            className="hidden peer-checked:block w-screen h-screen fixed top-0 left-0 bg-black bg-opacity-80 cursor-pointer z-10"
                           />
-                          <Confirm title="Delete course" className="hidden peer-checked:block">
+                          <Confirm
+                            title="Delete course"
+                            className="hidden peer-checked:block fixed z-20"
+                          >
                             This will permanently delete the course <b>{item.name}</b>. Your action
                             cannot be undone.
                           </Confirm>

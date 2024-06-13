@@ -1,10 +1,11 @@
 "use client";
 
 import clsx from "clsx";
-import { HTMLProps, useEffect, useState } from "react";
-import { CiCirclePlus } from "react-icons/ci";
+import dynamic from "next/dynamic";
+import { HTMLProps, useMemo, useState } from "react";
 import { LuImagePlus } from "react-icons/lu";
 import { RiDeleteBin2Fill } from "react-icons/ri";
+import "react-quill/dist/quill.snow.css";
 
 interface Props<InputType> extends HTMLProps<HTMLDivElement> {
   label: string;
@@ -49,10 +50,72 @@ export const TextField = ({ label, errorMsg, inputOpt, ...props }: Props<HTMLTex
         {...inputOpt}
         onClick={() => setHasFocused(true)}
         className={clsx(
-          "peer w-full h-60 p-2 rounded-lg bg-gray-800 outline-none border border-transparent focus:border-sky-500",
+          "peer w-full h-60 p-2 rounded-lg bg-gray-800 outline-none border border-transparent focus:border-sky-500 [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:bg-gray-600",
           hasFocused && "invalid:border-red-400"
         )}
       />
+      <span className="hidden peer-invalid:block mt-1 text-red-400 text-sm">
+        {hasFocused && errorMsg}
+      </span>
+    </div>
+  );
+};
+
+export const RichTextField = ({ label, errorMsg, inputOpt, ...props }: Props<HTMLInputElement>) => {
+  const ReactQuill = useMemo(() => dynamic(() => import("react-quill"), { ssr: false }), []);
+  const [content, setContent] = useState<string>(inputOpt?.defaultValue as string);
+  const [hasFocused, setHasFocused] = useState(false);
+
+  // Quill library issue (value is "<p><br></p>" when all input's deleted)
+  const handleChange = (value: string) => {
+    setContent(value === "<p><br></p>" ? "" : value);
+  };
+
+  return (
+    <div {...props}>
+      <label className="block mb-2 font-bold">
+        {label}
+        {inputOpt?.required && <span className="ml-1 text-red-400">*</span>}
+      </label>
+      <input {...inputOpt} defaultValue={content} key={content} hidden className="peer" />
+      <div
+        onClick={() => setHasFocused(true)}
+        className={clsx(
+          "rounded-lg border border-transparent focus-within:border-sky-500",
+          hasFocused && "peer-invalid:border-red-400"
+        )}
+      >
+        <ReactQuill
+          className={clsx(
+            "rounded-lg h-[40rem] bg-gray-800 overflow-hidden",
+            "[&_.ql-toolbar]:!border-transparent [&_.ql-container]:!border-transparent",
+            "[&_.ql-toolbar_.ql-stroke]:fill-none [&_.ql-toolbar_.ql-stroke]:stroke-gray-300",
+            "[&_.ql-toolbar_.ql-fill]:fill-gray-300 [&_.ql-toolbar_.ql-fill]:stroke-none",
+            "[&_.ql-toolbar_.ql-picker-options]:bg-gray-800 [&_.ql-toolbar_.ql-picker]:text-gray-300",
+            "[&_.ql-editor]:text-base [&_.ql-editor]:pb-16 [&_.ql-editor::-webkit-scrollbar]:w-1 [&_.ql-editor::-webkit-scrollbar-thumb]:bg-gray-600"
+          )}
+          theme="snow"
+          value={content}
+          onChange={handleChange}
+          modules={{
+            toolbar: {
+              container: [
+                [{ header: [1, 2, 3, 4, 5, 6, false] }],
+                [{ size: ["small", false, "large", "huge"] }],
+                ["bold", "italic", "underline", "strike"],
+                ["blockquote", "code-block"],
+                ["link", "image", "video"],
+                [{ list: "ordered" }, { list: "bullet" }, { list: "check" }],
+                [{ indent: "-1" }, { indent: "+1" }],
+                [{ script: "sub" }, { script: "super" }],
+                [{ color: [] }, { background: [] }],
+                [{ align: [] }],
+                ["clean"],
+              ],
+            },
+          }}
+        />
+      </div>
       <span className="hidden peer-invalid:block mt-1 text-red-400 text-sm">
         {hasFocused && errorMsg}
       </span>
@@ -80,7 +143,7 @@ export const ImageField = ({ label, errorMsg, inputOpt, ...props }: Props<HTMLIn
         {label}
         {inputOpt?.required && <span className="ml-1 text-red-400">*</span>}
       </label>
-      <input {...inputOpt} defaultValue={image} hidden className="peer" />
+      <input {...inputOpt} defaultValue={image} key={image} hidden className="peer" />
       <input
         type="file"
         accept="image/*"
@@ -129,7 +192,7 @@ export const MultiImageField = ({
   ...props
 }: Props<HTMLInputElement>) => {
   const [hasFocused, setHasFocused] = useState(false);
-  const [images, setImages] = useState<string[]>((inputOpt?.defaultValue as string[]) || []);
+  const [images, setImages] = useState<string[]>(inputOpt?.defaultValue as string[]);
 
   const handleUpload = (fileList: FileList | null) => {
     if (fileList) {
@@ -153,7 +216,13 @@ export const MultiImageField = ({
         {label}
         {inputOpt?.required && <span className="ml-1 text-red-400">*</span>}
       </label>
-      <input {...inputOpt} defaultValue={JSON.stringify(images)} hidden className="peer" />
+      <input
+        {...inputOpt}
+        defaultValue={JSON.stringify(images)}
+        key={JSON.stringify(images)}
+        hidden
+        className="peer"
+      />
       <input
         type="file"
         accept="image/*"

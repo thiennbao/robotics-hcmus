@@ -1,15 +1,18 @@
 import { revalidatePath } from "next/cache";
 import { ImageField, InputField, MultiImageField, TextField } from "../../_components/editorUtils";
-import prisma from "@/lib/prisma";
 import { notFound, redirect } from "next/navigation";
-import { deleteFile, uploadFile } from "@/lib/storage";
+import Link from "next/link";
+import { FaAnglesRight } from "react-icons/fa6";
+import { createCourse, getCourseById, updateCourseById } from "@/lib/query";
 
 export default async function CourseEditorPage({ params }: { params: { id: string } }) {
+  const { id } = params;
+
   // Fetch data
-  const data = await prisma.course.findFirst({ where: { id: params.id } });
+  const data = await getCourseById(id);
 
   // Redirect to 404 page if not add page and data not found
-  if (params.id !== "add" && !data) {
+  if (id !== "add" && !data) {
     notFound();
   }
 
@@ -17,49 +20,23 @@ export default async function CourseEditorPage({ params }: { params: { id: strin
   const handleSubmit = async (formData: FormData) => {
     "use server";
 
-    // Files handle
-    const thumbnailData: string = formData.get("thumbnail") as string;
-    const galleryData: string[] = JSON.parse(formData.get("gallery") as string);
-
-    // Delete files from image storage
-    if (data && data?.thumbnail !== thumbnailData) {
-      deleteFile(data?.thumbnail);
-    }
-    for (let image of data?.gallery || []) {
-      if (!galleryData.includes(image)) {
-        deleteFile(image);
-      }
-    }
-
-    // Upload new files to image storage and get urls back
-    const thumbnail = thumbnailData.startsWith("data:")
-      ? await uploadFile(thumbnailData)
-      : thumbnailData;
-    const gallery = await Promise.all(
-      galleryData.map(async (image: string) =>
-        image.startsWith("data:") ? await uploadFile(image) : image
-      )
-    );
-
-    // Get full data
-    const saveData = {
+    const data = {
       name: formData.get("name") as string,
-      thumbnail,
+      thumbnail: formData.get("thumbnail") as string,
       description: formData.get("description") as string,
       objective: formData.get("objective") as string,
       age: formData.get("age") as string,
       lesson: formData.get("lesson") as string,
       duration: formData.get("duration") as string,
       requirement: formData.get("requirement") as string,
-      gallery,
+      gallery: JSON.parse(formData.get("gallery") as string),
     };
 
     // Save to database
-    if (params.id === "add") {
-      await prisma.course.create({ data: saveData });
+    if (id === "add") {
+      await createCourse(data);
     } else {
-      console.log(saveData);
-      await prisma.course.update({ where: { id: params.id }, data: saveData });
+      await updateCourseById(id, data);
     }
 
     // Redirect
@@ -71,10 +48,16 @@ export default async function CourseEditorPage({ params }: { params: { id: strin
     <div className="min-h-screen text-light">
       <h2 className="text-3xl mb-6">COURSES DASHBOARD</h2>
       <div className="bg-gray-700 rounded-xl *:px-12 *:py-6">
-        <div className="font-bold border-b border-gray-500">Add new course</div>
-        <form action={handleSubmit} noValidate className="*:mb-4">
+        <div className="border-b border-gray-500 flex items-center">
+          <Link href="/admin/courses" className="font-bold hover:text-sky-500 transition">
+            Courses
+          </Link>
+          <FaAnglesRight className="mx-2 text-sm" />
+          <span className="text-nowrap overflow-hidden text-ellipsis">{data?.name || "Add"}</span>
+        </div>
+        <form action={handleSubmit} className="*:mb-4">
           <InputField
-            label="Course Name"
+            label="Course name"
             errorMsg="Course name is required"
             inputOpt={{
               name: "name",
@@ -92,7 +75,6 @@ export default async function CourseEditorPage({ params }: { params: { id: strin
               defaultValue: data?.thumbnail,
             }}
           />
-
           <div className="grid lg:grid-cols-2 gap-4">
             <TextField
               label="Description"

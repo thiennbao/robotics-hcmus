@@ -32,37 +32,38 @@ model Course {
 }
 
 model News {
-    id        String @id @default(uuid())
+    id        String   @id @default(uuid())
     title     String
     thumbnail String
     content   String
+    date      DateTime @default(now())
 }
 
 model Contact {
-    id        String   @id @default(uuid())
-    subject   String
-    email     String
-    phone     String
-    message   String
-    read      Boolean  @default(false)
-    createdAt DateTime @default(now())
+    id      String   @id @default(uuid())
+    subject String
+    email   String
+    phone   String
+    message String
+    read    Boolean  @default(false)
+    date    DateTime @default(now())
 }
 
 model Register {
-    id        String   @id @default(uuid())
-    courseId  String
-    course    Course   @relation(fields: [courseId], references: [id])
-    name      String
-    email     String
-    phone     String
-    message   String
-    read      Boolean  @default(false)
-    createdAt DateTime @default(now())
+    id       String   @id @default(uuid())
+    courseId String
+    course   Course   @relation(fields: [courseId], references: [id])
+    name     String
+    email    String
+    phone    String
+    message  String
+    read     Boolean  @default(false)
+    date     DateTime @default(now())
 }
 
 model User {
-    id        String   @id @default(uuid())
-    username  String   @unique
-    role      Role     @default(ADMIN)
-    createdAt DateTime @default(now())
+    id       String   @id @default(uuid())
+    username String   @unique
+    role     Role     @default(ADMIN)
+    date     DateTime @default(now())
 }

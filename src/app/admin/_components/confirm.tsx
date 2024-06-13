@@ -8,7 +8,7 @@ const Confirm = ({
 }: { title: string } & HTMLAttributes<HTMLDivElement>) => {
   return (
     <div {...props}>
-      <div className="w-[28rem] fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gray-800 rounded-lg divide-y divide-gray-700 text-sm *:p-4">
+      <div className="max-w-[80vw] w-[28rem] fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gray-800 rounded-lg divide-y divide-gray-700 text-sm *:p-4">
         <div className="font-bold">
           <p>{title}</p>
         </div>
