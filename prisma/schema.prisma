@@ -41,9 +41,10 @@ model News {
 
 model Contact {
     id      String   @id @default(uuid())
-    subject String
+    name    String
     email   String
     phone   String
+    subject String
     message String
     read    Boolean  @default(false)
     date    DateTime @default(now())
@@ -64,6 +65,7 @@ model Register {
 model User {
     id       String   @id @default(uuid())
     username String   @unique
+    password String
     role     Role     @default(ADMIN)
     date     DateTime @default(now())
 }

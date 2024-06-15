@@ -1,4 +1,4 @@
-import { Course, News, PrismaClient } from "@prisma/client";
+import { Contact, Course, News, PrismaClient, Register, User } from "@prisma/client";
 import { deleteFile, uploadFile } from "./storage";
 
 // Prisma config
@@ -20,8 +20,21 @@ if (process.env.NODE_ENV === "production") {
 
 // export const createContent = async () => {};
 // export const getContents = async () => {};
-// export const getContentById = async () => {};
-// export const updateContentById = async () => {};
+export const getContentByKey = async (key: string) => {
+  try {
+    return await prisma.content.findUnique({ where: { key } });
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
+export const updateContentByKey = async (key: string, content: string) => {
+  try {
+    await prisma.content.update({ where: { key }, data: { content } });
+  } catch (error) {
+    console.log(error);
+  }
+};
 // export const deleteContentById = async () => {};
 
 // Course
@@ -120,7 +133,7 @@ export const getNews = async (key?: string, skip?: number, take?: number) => {
   try {
     return await prisma.news.findMany({
       where: { title: { contains: key, mode: "insensitive" } },
-      orderBy: { title: "asc" },
+      orderBy: { date: "asc" },
       skip,
       take,
     });
@@ -176,20 +189,194 @@ export const countNews = async (key?: string) => {
   }
 };
 
-// export const createContact = async () => {};
-// export const getContacts = async () => {};
-// export const getContactById = async () => {};
-// export const updateContactById = async () => {};
-// export const deleteContactById = async () => {};
+export const createContact = async (data: Omit<Contact, "id" | "read" | "date">) => {
+  try {
+    await prisma.contact.create({ data });
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const getContacts = async (key: string = "", skip?: number, take?: number) => {
+  try {
+    return await prisma.contact.findMany({
+      where: {
+        OR: [
+          { subject: { contains: key, mode: "insensitive" } },
+          { name: { contains: key, mode: "insensitive" } },
+          { email: { contains: key, mode: "insensitive" } },
+          { phone: { contains: key, mode: "insensitive" } },
+          { message: { contains: key, mode: "insensitive" } },
+        ],
+      },
+      orderBy: { date: "asc" },
+      skip,
+      take,
+    });
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+};
+export const getContactById = async (id: string) => {
+  try {
+    return await prisma.contact.findUnique({ where: { id } });
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
+export const readContactById = async (id: string, read: boolean) => {
+  try {
+    await prisma.contact.update({ where: { id }, data: { read } });
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const deleteContactById = async (id: string) => {
+  try {
+    await prisma.contact.delete({ where: { id } });
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const countContacts = async (key: string = "") => {
+  try {
+    return await prisma.contact.count({
+      where: {
+        OR: [
+          { subject: { contains: key, mode: "insensitive" } },
+          { name: { contains: key, mode: "insensitive" } },
+          { email: { contains: key, mode: "insensitive" } },
+          { phone: { contains: key, mode: "insensitive" } },
+          { message: { contains: key, mode: "insensitive" } },
+        ],
+      },
+    });
+  } catch (error) {
+    console.log(error);
+    return 0;
+  }
+};
 
-// export const createRegister = async () => {};
-// export const getRegisters = async () => {};
-// export const getRegisterById = async () => {};
-// export const updateRegisterById = async () => {};
-// export const deleteRegisterById = async () => {};
+export const createRegister = async (data: Omit<Register, "id" | "read" | "date">) => {
+  try {
+    await prisma.register.create({ data });
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const getRegisters = async (key: string = "", skip?: number, take?: number) => {
+  try {
+    return await prisma.register.findMany({
+      where: {
+        OR: [
+          { course: { name: { contains: key, mode: "insensitive" } } },
+          { name: { contains: key, mode: "insensitive" } },
+          { email: { contains: key, mode: "insensitive" } },
+          { phone: { contains: key, mode: "insensitive" } },
+          { message: { contains: key, mode: "insensitive" } },
+        ],
+      },
+      include: { course: { select: { name: true, thumbnail: true } } },
+      orderBy: { date: "asc" },
+      skip,
+      take,
+    });
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+};
+export const getRegisterById = async (id: string) => {
+  try {
+    return await prisma.register.findUnique({
+      where: { id },
+      include: { course: { select: { name: true, thumbnail: true } } },
+    });
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
+export const readRegisterById = async (id: string, read: boolean) => {
+  try {
+    await prisma.register.update({ where: { id }, data: { read } });
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const deleteRegisterById = async (id: string) => {
+  try {
+    await prisma.register.delete({ where: { id } });
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const countRegisters = async (key: string = "") => {
+  try {
+    return await prisma.register.count({
+      where: {
+        OR: [
+          { course: { name: { contains: key, mode: "insensitive" } } },
+          { name: { contains: key, mode: "insensitive" } },
+          { email: { contains: key, mode: "insensitive" } },
+          { phone: { contains: key, mode: "insensitive" } },
+          { message: { contains: key, mode: "insensitive" } },
+        ],
+      },
+    });
+  } catch (error) {
+    console.log(error);
+    return 0;
+  }
+};
 
-// export const createUser = async () => {};
-// export const getUsers = async () => {};
-// export const getUserById = async () => {};
-// export const updateUserById = async () => {};
-// export const deleteUserById = async () => {};
+export const createUser = async (data: Omit<User, "id" | "data">) => {
+  try {
+    // TODO: Hash password
+    await prisma.user.create({ data });
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const getUsers = async (key?: string, skip?: number, take?: number) => {
+  try {
+    return await prisma.user.findMany({
+      where: { username: { contains: key, mode: "insensitive" } },
+    });
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+};
+export const getUserById = async (id: string) => {
+  try {
+    return await prisma.user.findUnique({ where: { id } });
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
+export const changUserPasswordById = async (id: string, password: string) => {
+  try {
+    // TODO: Hash password here
+    await prisma.user.update({ where: { id }, data: { password } });
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const deleteUserById = async (id: string) => {
+  try {
+    await prisma.user.delete({ where: { id } });
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const countUsers = async (key?: string) => {
+  try {
+    return await prisma.user.count({ where: { username: { contains: key, mode: "insensitive" } } });
+  } catch (error) {
+    console.log(error);
+    return 0;
+  }
+};
