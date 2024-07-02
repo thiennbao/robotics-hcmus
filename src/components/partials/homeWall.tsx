@@ -1,4 +1,4 @@
-import Carousel from "@/components/carousel";
+import Carousel from "../utils/carousel";
 
 const HomeWall = () => {
   return (

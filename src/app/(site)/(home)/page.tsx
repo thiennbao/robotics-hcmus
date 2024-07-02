@@ -1,8 +1,8 @@
-import Description from "../about/_components/description";
-import ContactInfo from "../contact/_components/contactInfo";
-import CourseCarousel from "./_components/courseCarousel";
-import HomeWall from "./_components/homeWall";
-import NewsCarousel from "./_components/newsCarousel";
+import ContactInfo from "@/components/partials/contactInfo";
+import CourseCarousel from "@/components/partials/courseCarousel";
+import Description from "@/components/partials/description";
+import HomeWall from "@/components/partials/homeWall";
+import NewsCarousel from "@/components/partials/newsCarousel";
 
 export default function HomePage() {
   return (

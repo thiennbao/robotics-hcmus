@@ -1,5 +1,5 @@
 import { revalidatePath } from "next/cache";
-import { ImageField, InputField, MultiImageField, TextField } from "../../_components/editorUtils";
+import { ImageField, InputField, MultiImageField, TextField } from "@/components/utils/editorUtils";
 import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
 import { FaAnglesRight } from "react-icons/fa6";

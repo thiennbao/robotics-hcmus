@@ -4,9 +4,9 @@ import Link from "next/link";
 import { GrView } from "react-icons/gr";
 import { MdMarkEmailRead, MdMarkEmailUnread } from "react-icons/md";
 import { RiDeleteBin2Fill } from "react-icons/ri";
-import { ItemsPerPage, Pagination, SearchBar } from "../_components/tableUtils";
+import { ItemsPerPage, Pagination, SearchBar } from "@/components/utils/tableUtils";
 import { Suspense } from "react";
-import Confirm from "../_components/confirm";
+import Confirm from "@/components/utils/confirm";
 
 export default async function ContactsDashboardPage({
   searchParams,

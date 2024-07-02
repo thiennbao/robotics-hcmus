@@ -1,5 +1,5 @@
-import PageWall from "@/components/pageWall";
-import CourseArchive from "./_components/courseArchive";
+import CourseArchive from "@/components/partials/courseArchive";
+import PageWall from "@/components/utils/pageWall";
 
 export default function CoursesPage() {
   return (

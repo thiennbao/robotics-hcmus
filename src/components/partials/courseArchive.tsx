@@ -1,4 +1,4 @@
-import Appear from "@/components/appear";
+import Appear from "../utils/appear";
 import Course from "./course";
 import { HTMLAttributes } from "react";
 

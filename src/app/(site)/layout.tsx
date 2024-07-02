@@ -1,5 +1,5 @@
-import Footer from "./_layout/footer";
-import Header from "./_layout/header";
+import Footer from "@/components/layouts/footer";
+import Header from "@/components/layouts/header";
 
 export default function SiteLayout({
   children,

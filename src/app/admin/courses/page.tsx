@@ -1,10 +1,10 @@
-import { ItemsPerPage, Pagination, SearchBar } from "../_components/tableUtils";
+import { ItemsPerPage, Pagination, SearchBar } from "@/components/utils/tableUtils";
 import Link from "next/link";
 import { Suspense } from "react";
 import { FaPlus } from "react-icons/fa6";
 import { revalidatePath } from "next/cache";
 import { RiDeleteBin2Fill, RiEdit2Fill } from "react-icons/ri";
-import Confirm from "../_components/confirm";
+import Confirm from "@/components/utils/confirm";
 import { countCourses, deleteCourseById, getCourses } from "@/lib/query";
 
 export default async function CoursesDashboardPage({

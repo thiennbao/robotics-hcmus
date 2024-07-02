@@ -1,8 +1,8 @@
-import PageWall from "@/components/pageWall";
-import Description from "./_components/description";
-import Quote from "./_components/quote";
-import Features from "./_components/features";
-import Testimonial from "./_components/testimonial";
+import Description from "@/components/partials/description";
+import Features from "@/components/partials/features";
+import Quote from "@/components/partials/quote";
+import Testimonial from "@/components/partials/testimonial";
+import PageWall from "@/components/utils/pageWall";
 
 export default function AboutPage() {
   return (

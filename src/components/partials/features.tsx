@@ -1,4 +1,4 @@
-import Appear from "@/components/appear";
+import Appear from "../utils/appear";
 import { HTMLAttributes } from "react";
 import { FaCheckCircle } from "react-icons/fa";
 

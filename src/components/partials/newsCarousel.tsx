@@ -1,6 +1,6 @@
-import Carousel from "@/components/carousel";
-import News from "../../news/_components/news";
 import { HTMLAttributes } from "react";
+import Carousel from "../utils/carousel";
+import News from "./news";
 
 const newsContent = {
   _id: "01232456789",

@@ -3,9 +3,9 @@ import { revalidatePath } from "next/cache";
 import Link from "next/link";
 import { FaPlus } from "react-icons/fa6";
 import { RiDeleteBin2Fill, RiEdit2Fill } from "react-icons/ri";
-import { ItemsPerPage, Pagination, SearchBar } from "../_components/tableUtils";
+import { ItemsPerPage, Pagination, SearchBar } from "@/components/utils/tableUtils";
 import { Suspense } from "react";
-import Confirm from "../_components/confirm";
+import Confirm from "@/components/utils/confirm";
 
 export default async function NewsDashboardPage({
   searchParams,

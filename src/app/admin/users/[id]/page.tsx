@@ -1,5 +1,5 @@
 import { changUserPasswordById, getUserById } from "@/lib/query";
-import { InputField } from "../../_components/editorUtils";
+import { InputField } from "@/components/utils/editorUtils";
 import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
 import { FaAnglesRight } from "react-icons/fa6";

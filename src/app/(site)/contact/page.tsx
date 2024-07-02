@@ -1,7 +1,7 @@
-import PageWall from "@/components/pageWall";
-import ContactInfo from "./_components/contactInfo";
-import ContactForm from "./_components/contactForm";
-import Faq from "./_components/faq";
+import ContactForm from "@/components/partials/contactForm";
+import ContactInfo from "@/components/partials/contactInfo";
+import Faq from "@/components/partials/faq";
+import PageWall from "@/components/utils/pageWall";
 
 export default function ContactPage() {
   return (

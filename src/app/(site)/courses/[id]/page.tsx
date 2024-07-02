@@ -1,6 +1,6 @@
-import PageWall from "@/components/pageWall";
-import CourseDetail from "./_components/courseDetail";
-import CourseRegister from "./_components/courseRegister";
+import CourseDetail from "@/components/partials/courseDetail";
+import CourseRegister from "@/components/partials/courseRegister";
+import PageWall from "@/components/utils/pageWall";
 
 export default function CourseDetailPage() {
   // Fetch course data from database

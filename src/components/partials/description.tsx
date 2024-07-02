@@ -1,5 +1,5 @@
-import Appear from "@/components/appear";
 import { HTMLAttributes } from "react";
+import Appear from "../utils/appear";
 
 const Description = (props: HTMLAttributes<HTMLDivElement>) => {
   return (

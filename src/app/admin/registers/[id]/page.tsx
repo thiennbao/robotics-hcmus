@@ -4,7 +4,7 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { FaAnglesRight } from "react-icons/fa6";
 import { MdMarkEmailRead, MdMarkEmailUnread } from "react-icons/md";
-import { InputField, TextField } from "../../_components/editorUtils";
+import { InputField, TextField } from "@/components/utils/editorUtils";
 
 export default async function RegisterViewerPage({ params }: { params: { id: string } }) {
   const { id } = params;

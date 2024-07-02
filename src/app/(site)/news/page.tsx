@@ -1,5 +1,5 @@
-import PageWall from "@/components/pageWall";
-import NewsArchive from "./_components/newsArchive";
+import NewsArchive from "@/components/partials/newsArchive";
+import PageWall from "@/components/utils/pageWall";
 
 export default function NewsPage() {
   return (

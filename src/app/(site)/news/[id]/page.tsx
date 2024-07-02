@@ -1,5 +1,5 @@
-import PageWall from "@/components/pageWall";
-import NewsDetail from "./_components/newsDetail";
+import NewsDetail from "@/components/partials/newsDetail";
+import PageWall from "@/components/utils/pageWall";
 
 export default function NewsDetailPage() {
   // Fetch course data from database

@@ -2,7 +2,7 @@ import { getContactById, readContactById } from "@/lib/query";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { FaAnglesRight } from "react-icons/fa6";
-import { InputField, TextField } from "../../_components/editorUtils";
+import { InputField, TextField } from "@/components/utils/editorUtils";
 import { revalidatePath } from "next/cache";
 import { MdMarkEmailRead, MdMarkEmailUnread } from "react-icons/md";
 

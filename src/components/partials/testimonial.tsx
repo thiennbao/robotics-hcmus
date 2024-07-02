@@ -1,5 +1,5 @@
-import Appear from "@/components/appear";
-import Carousel from "@/components/carousel";
+import Appear from "../utils/appear";
+import Carousel from "../utils/carousel";
 import { HTMLAttributes } from "react";
 import { BsDot } from "react-icons/bs";
 

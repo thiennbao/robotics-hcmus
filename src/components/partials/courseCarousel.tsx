@@ -1,6 +1,6 @@
-import Carousel from "@/components/carousel";
-import Course from "../../courses/_components/course";
 import { HTMLAttributes } from "react";
+import Carousel from "../utils/carousel";
+import Course from "./course";
 
 // Temp content
 const courseContent = {

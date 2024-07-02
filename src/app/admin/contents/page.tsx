@@ -1,6 +1,6 @@
 import { revalidatePath } from "next/cache";
-import { ImageField } from "../_components/editorUtils";
-import { ItemsPerPage } from "../_components/tableUtils";
+import { ImageField } from "@/components/utils/editorUtils";
+import { ItemsPerPage } from "@/components/utils/tableUtils";
 import { redirect } from "next/navigation";
 
 export default function ContentDashboardPage({ searchParams }: { searchParams: { tab?: string } }) {

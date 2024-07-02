@@ -3,7 +3,7 @@ import { revalidatePath } from "next/cache";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { FaAnglesRight } from "react-icons/fa6";
-import { ImageField, InputField, RichTextField } from "../../_components/editorUtils";
+import { ImageField, InputField, RichTextField } from "@/components/utils/editorUtils";
 
 export default async function NewsEditorPage({ params }: { params: { id: string } }) {
   const { id } = params;

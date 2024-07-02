@@ -240,7 +240,7 @@ export const MultiImageField = ({
           hasFocused && "peer-invalid:border-red-400"
         )}
       >
-        {images.length ? (
+        {images?.length ? (
           <>
             {images.map((image, index) => (
               <div key={index} className="block h-60 aspect-video max-w-full mx-auto relative">

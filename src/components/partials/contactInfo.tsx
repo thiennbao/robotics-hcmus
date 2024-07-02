@@ -1,6 +1,6 @@
-import Appear from "@/components/appear";
 import { HTMLAttributes } from "react";
 import { BsEnvelopeFill, BsFacebook, BsGeoAltFill, BsTelephoneFill } from "react-icons/bs";
+import Appear from "../utils/appear";
 
 const ContactInfo = (props: HTMLAttributes<HTMLDivElement>) => {
   return (
