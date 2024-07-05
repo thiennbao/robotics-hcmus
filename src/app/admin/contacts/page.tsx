@@ -1,129 +1,84 @@
-import { countContacts, deleteContactById, getContacts, readContactById } from "@/lib/query";
-import { revalidatePath } from "next/cache";
+import { ItemsPerPage, Pagination, SearchBar, ViewButton } from "@/components/utils/tableUtils";
 import Link from "next/link";
-import { GrView } from "react-icons/gr";
-import { MdMarkEmailRead, MdMarkEmailUnread } from "react-icons/md";
-import { RiDeleteBin2Fill } from "react-icons/ri";
-import { ItemsPerPage, Pagination, SearchBar } from "@/components/utils/tableUtils";
 import { Suspense } from "react";
-import Confirm from "@/components/utils/confirm";
+import db from "@/lib/db";
 
-export default async function ContactsDashboardPage({
+export default async function ContactDashboardPage({
   searchParams,
 }: {
-  searchParams: { key?: string; page?: string; items?: string };
+  searchParams: { key: string; page: string; items: string };
 }) {
   const { key, page, items } = searchParams;
 
-  // Validate range of items and pages
-  const totalItems: number = await countContacts(key);
-  const itemsNum = Number(items) > 0 ? Number(items) : 5;
-  const totalPages = Math.ceil(totalItems / itemsNum);
-  const pagesNum = Number(page) > 1 ? (Number(page) < totalPages ? Number(page) : totalPages) : 1;
+  const totalItems = await db.contact.count({
+    where: { key: { contains: key, mode: "insensitive" } },
+  });
+  const itemsPerPage = Math.max(Number(items) || 5, 1);
+  const totalPages = Math.max(Math.ceil(totalItems / itemsPerPage), 1);
+  const currentPage = Math.min(Math.max(Number(page) || 1, 1), totalPages);
 
-  // Get contacts
-  const contacts = await getContacts(key, (pagesNum - 1) * itemsNum, itemsNum);
-
-  // Toggle read status
-  const handleToggleRead = async (id: string, read: boolean) => {
-    "use server";
-
-    await readContactById(id, read);
-    revalidatePath("/admin/contacts");
-  };
-
-  // Delete contact
-  const handleDelete = async (id: string) => {
-    "use server";
-
-    await deleteContactById(id);
-    revalidatePath("/admin/contacts");
-  };
+  const contacts = await db.contact.findMany({
+    where: { key: { contains: key, mode: "insensitive" } },
+    skip: (currentPage - 1) * itemsPerPage,
+    take: itemsPerPage,
+  });
 
   return (
     <div className="min-h-screen text-light">
-      <h2 className="text-3xl mb-6">CONTACTS DASHBOARD</h2>
+      <h2 className="text-3xl mb-6">CONTACT DASHBOARD</h2>
       <div className="bg-gray-700 rounded-xl p-6">
-        <div className="flex gap-x-8">
-          <ItemsPerPage className="hidden sm:block" />
-          <SearchBar />
+        <div className="flex justify-end md:justify-between">
+          <div className="hidden md:flex justify-between gap-x-8">
+            <ItemsPerPage className="hidden lg:block" />
+            <SearchBar />
+          </div>
         </div>
         <div className="my-8 pb-4 overflow-x-scroll [&::-webkit-scrollbar]:h-1 [&::-webkit-scrollbar-thumb]:bg-gray-600">
           <table>
             <thead>
               <tr className="*:p-4 *:text-left">
-                <th>Subject</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Message</th>
-                <th>Action</th>
+                <th>
+                  <div className="w-48">Key</div>
+                </th>
+                <th>
+                  <div className="w-48">Title</div>
+                </th>
+                <th className="w-full">
+                  <div>Address</div>
+                </th>
+                <th>
+                  <div className="w-24">Action</div>
+                </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-600">
               <Suspense>
                 {contacts.map((item) => (
-                  <tr key={item.id} className={item.read ? "text-gray-400" : "italic"}>
+                  <tr key={item.key}>
                     <td>
-                      <div className="w-80 p-4 text-nowrap text-ellipsis overflow-hidden">
-                        {item.subject}
-                      </div>
-                    </td>
-                    <td>
-                      <div className="w-64 p-4 text-nowrap text-ellipsis overflow-hidden">
-                        {item.name}
+                      <div className="w-48 p-4 text-nowrap text-ellipsis overflow-hidden">
+                        <span>{item.key}</span>
                       </div>
                     </td>
                     <td>
                       <div className="w-48 p-4 text-nowrap text-ellipsis overflow-hidden">
-                        {item.email}
+                        <span>{item.title || "None"}</span>
+                      </div>
+                    </td>
+                    <td className="w-full">
+                      <div className="p-4 text-nowrap text-ellipsis overflow-hidden">
+                        {item.address ? (
+                          <Link href={item.address} target="blank">
+                            <code className="bg-gray-800 px-4 py-1 rounded">{item.address}</code>
+                          </Link>
+                        ) : (
+                          <code className="bg-gray-800 px-4 py-1 rounded">None</code>
+                        )}
                       </div>
                     </td>
                     <td>
-                      <div className="w-48 p-4 text-nowrap text-ellipsis overflow-hidden">
-                        {item.phone}
-                      </div>
-                    </td>
-                    <td>
-                      <div className="w-96 p-4 text-nowrap text-ellipsis overflow-hidden">
-                        {item.message}
-                      </div>
-                    </td>
-                    <td>
-                      <div className="w-32 p-4 flex gap-4">
-                        <Link href={`/admin/contacts/${item.id}`}>
-                          <GrView className="text-sky-400" />
-                        </Link>
-                        <form action={handleToggleRead.bind(null, item.id, !item.read)}>
-                          <button className="cursor-pointer">
-                            {item.read ? (
-                              <MdMarkEmailRead className="text-emerald-500" />
-                            ) : (
-                              <MdMarkEmailUnread className="text-amber-500" />
-                            )}
-                          </button>
-                        </form>
-                        <form action={handleDelete.bind(null, item.id)}>
-                          <input
-                            type="checkbox"
-                            id={`confirm-${item.id}`}
-                            className="peer hidden"
-                          />
-                          <label htmlFor={`confirm-${item.id}`} className="cursor-pointer">
-                            <RiDeleteBin2Fill className="text-red-400" />
-                          </label>
-                          <label
-                            htmlFor={`confirm-${item.id}`}
-                            className="hidden peer-checked:block w-screen h-screen fixed top-0 left-0 bg-black bg-opacity-80 cursor-pointer z-10"
-                          />
-                          <Confirm
-                            title="Delete contact"
-                            className="hidden peer-checked:block fixed z-20 not-italic"
-                          >
-                            This will permanently delete the contact from <b>{item.name}</b>. Your
-                            action cannot be undone.
-                          </Confirm>
-                        </form>
+                      <div className="w-24 p-4 flex gap-4">
+                        <ViewButton itemId={item.key} edit />
                       </div>
                     </td>
                   </tr>

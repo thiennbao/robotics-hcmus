@@ -4,10 +4,12 @@ import clsx from "clsx";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { BsPeopleFill, BsTextParagraph, BsWechat } from "react-icons/bs";
+import { BiSolidDirections } from "react-icons/bi";
+import { BsPeopleFill, BsWechat } from "react-icons/bs";
 import { CiLogout } from "react-icons/ci";
 import { FaBook, FaGears, FaNewspaper } from "react-icons/fa6";
-import { PiSquaresFour } from "react-icons/pi";
+import { IoIosImages } from "react-icons/io";
+import { PiPhoneCallFill, PiSquaresFour } from "react-icons/pi";
 import { RiQuillPenFill } from "react-icons/ri";
 
 const Sidebar = () => {
@@ -46,38 +48,62 @@ const Sidebar = () => {
           <p className="text-sm font-bold mb-2">GENERAL</p>
           <div className="*:block *:mb-2 *:px-4 *:py-3 *:rounded-xl *:cursor-pointer *:transition hover:*:bg-gray-600 hover:*:text-gray-200">
             <Link
-              href="/admin/contents"
-              className={pathname === "contents" ? "bg-gray-600 text-gray-200" : ""}
+              href="/admin/navigations"
+              className={clsx(pathname === "navigations" && "bg-gray-600 text-gray-200")}
             >
-              <BsTextParagraph className="inline text-xl mr-2" />
-              Contents
+              <BiSolidDirections className="inline mr-2" />
+              Navigations
+            </Link>
+            <Link
+              href="/admin/contacts"
+              className={clsx(pathname === "contacts" && "bg-gray-600 text-gray-200")}
+            >
+              <PiPhoneCallFill className="inline mr-2" />
+              Contacts
+            </Link>
+          </div>
+        </div>
+        <div>
+          <p className="text-sm font-bold mb-2">CONTENT</p>
+          <div className="*:block *:mb-2 *:px-4 *:py-3 *:rounded-xl *:cursor-pointer *:transition hover:*:bg-gray-600 hover:*:text-gray-200">
+            <Link
+              href="/admin/banners"
+              className={clsx(pathname === "banners" && "bg-gray-600 text-gray-200")}
+            >
+              <IoIosImages className="inline mr-2" />
+              Banner
             </Link>
             <Link
               href="/admin/courses"
               className={clsx(pathname === "courses" && "bg-gray-600 text-gray-200")}
             >
-              <FaBook className="inline text-xl mr-2" />
+              <FaBook className="inline mr-2" />
               Courses
             </Link>
             <Link
               href="/admin/news"
               className={clsx(pathname === "news" && "bg-gray-600 text-gray-200")}
             >
-              <FaNewspaper className="inline text-xl mr-2" />
+              <FaNewspaper className="inline mr-2" />
               News
             </Link>
+          </div>
+        </div>
+        <div>
+          <p className="text-sm font-bold mb-2">CUSTOMER</p>
+          <div className="*:block *:mb-2 *:px-4 *:py-3 *:rounded-xl *:cursor-pointer *:transition hover:*:bg-gray-600 hover:*:text-gray-200">
             <Link
-              href="/admin/contacts"
-              className={clsx(pathname === "contacts" && "bg-gray-600 text-gray-200")}
+              href="/admin/messages"
+              className={clsx(pathname === "messages" && "bg-gray-600 text-gray-200")}
             >
-              <BsWechat className="inline text-xl mr-2" />
-              Contacts
+              <BsWechat className="inline mr-2" />
+              Messages
             </Link>
             <Link
               href="/admin/registers"
               className={clsx(pathname === "registers" && "bg-gray-600 text-gray-200")}
             >
-              <RiQuillPenFill className="inline text-xl mr-2" />
+              <RiQuillPenFill className="inline mr-2" />
               Registers
             </Link>
           </div>
@@ -89,18 +115,18 @@ const Sidebar = () => {
               href="/admin/users"
               className={clsx(pathname === "users" && "bg-gray-600 text-gray-200")}
             >
-              <BsPeopleFill className="inline text-xl mr-2" />
+              <BsPeopleFill className="inline mr-2" />
               Users
             </Link>
             <Link
               href="/admin/account"
               className={clsx(pathname === "account" && "bg-gray-600 text-gray-200")}
             >
-              <FaGears className="inline text-xl mr-2" />
+              <FaGears className="inline mr-2" />
               Account
             </Link>
             <Link href="">
-              <CiLogout className="inline text-xl mr-2" />
+              <CiLogout className="inline mr-2" />
               Log out
             </Link>
           </div>

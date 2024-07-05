@@ -2,7 +2,6 @@
 
 import { initializeApp } from "firebase/app";
 import { deleteObject, getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
-import { v4 as uuid } from "uuid";
 
 // Config
 
@@ -19,11 +18,11 @@ const app = initializeApp(firebaseConfig);
 const storage = getStorage(app);
 
 // Utils
-export const uploadFile = async (data: string) => {
+export const uploadFile = async (name: string, data: string) => {
   // Convert data to file object
   const res = await fetch(data);
   const blob = await res.blob();
-  const file = new File([blob], `${uuid()}.jpeg`, { type: "image/jpeg" });
+  const file = new File([blob], name, { type: "image/jpeg" });
   // Upload file
   const uploadRef = ref(storage, file.name);
   const snapshot = await uploadBytes(uploadRef, file);

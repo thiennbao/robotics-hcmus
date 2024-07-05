@@ -7,44 +7,44 @@ import {
   ViewButton,
 } from "@/components/utils/tableUtils";
 import { revalidatePath } from "next/cache";
+import Image from "next/image";
 import { Suspense } from "react";
 import db from "@/lib/db";
-import Image from "next/image";
 import { deleteFile } from "@/lib/storage";
 
-export default async function NewsDashboardPage({
+export default async function BannerDashboardPage({
   searchParams,
 }: {
   searchParams: { key: string; page: string; items: string };
 }) {
   const { key, page, items } = searchParams;
 
-  const totalItems = await db.news.count({
-    where: { title: { contains: key, mode: "insensitive" } },
+  const totalItems = await db.banner.count({
+    where: { name: { contains: key, mode: "insensitive" } },
   });
   const itemsPerPage = Math.max(Number(items) || 5, 1);
   const totalPages = Math.max(Math.ceil(totalItems / itemsPerPage), 1);
   const currentPage = Math.min(Math.max(Number(page) || 1, 1), totalPages);
 
-  const news = await db.news.findMany({
-    where: { title: { contains: key, mode: "insensitive" } },
-    orderBy: { title: "asc" },
+  const banners = await db.banner.findMany({
+    where: { name: { contains: key, mode: "insensitive" } },
+    orderBy: { order: "asc" },
     skip: (currentPage - 1) * itemsPerPage,
     take: itemsPerPage,
   });
 
-  const handleDelete = async (title: string) => {
+  const handleDelete = async (name: string) => {
     "use server";
 
-    const oldUrls = await db.news.findUnique({ where: { title }, select: { thumbnail: true } });
-    if (oldUrls) await deleteFile(oldUrls.thumbnail);
-    await db.news.delete({ where: { title } });
-    revalidatePath("/admin/news");
+    const oldUrls = await db.banner.findUnique({ where: { name }, select: { image: true } });
+    if (oldUrls) await deleteFile(oldUrls.image);
+    await db.banner.delete({ where: { name } });
+    revalidatePath("/admin/banners");
   };
 
   return (
     <div className="min-h-screen text-light">
-      <h2 className="text-3xl mb-6">NEWS DASHBOARD</h2>
+      <h2 className="text-3xl mb-6">BANNER DASHBOARD</h2>
       <div className="bg-gray-700 rounded-xl p-6">
         <div className="flex justify-end md:justify-between">
           <div className="hidden md:flex justify-between gap-x-8">
@@ -58,13 +58,10 @@ export default async function NewsDashboardPage({
             <thead>
               <tr className="*:p-4 *:text-left">
                 <th>
-                  <div className="w-80">Title</div>
+                  <div className="w-24">Order</div>
                 </th>
-                <th>
-                  <div className="w-96">Description</div>
-                </th>
-                <th>
-                  <div className="w-32">Date</div>
+                <th className="w-full">
+                  <div>Banner</div>
                 </th>
                 <th>
                   <div className="w-24">Action</div>
@@ -73,37 +70,32 @@ export default async function NewsDashboardPage({
             </thead>
             <tbody className="divide-y divide-gray-600">
               <Suspense>
-                {news.map((item) => (
-                  <tr key={item.title}>
+                {banners.map((item) => (
+                  <tr key={item.name}>
                     <td>
-                      <div className="w-80 p-4 flex items-center gap-4 text-nowrap text-ellipsis overflow-hidden">
+                      <div className="w-24 p-4 text-nowrap text-ellipsis overflow-hidden">
+                        <span>{item.order}</span>
+                      </div>
+                    </td>
+                    <td className="w-full">
+                      <div className="p-4 flex items-center gap-4 text-nowrap text-ellipsis overflow-hidden">
                         <Image
-                          src={item.thumbnail}
-                          alt={item.title}
-                          width={32}
-                          height={32}
+                          src={item.image}
+                          alt={item.name}
+                          width={160}
+                          height={90}
                           priority
-                          className="w-8 h-8"
+                          className="w-16 h-9"
                         />
-                        <span>{item.title}</span>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="w-96 p-4 text-nowrap text-ellipsis overflow-hidden">
-                        {item.content}
-                      </div>
-                    </td>
-                    <td>
-                      <div className="w-32 p-4 text-nowrap text-ellipsis overflow-hidden">
-                        {item.date.toLocaleDateString()}
+                        <span>{item.name}</span>
                       </div>
                     </td>
                     <td>
                       <div className="w-24 p-4 flex gap-4">
-                        <ViewButton itemId={item.title} edit />
+                        <ViewButton itemId={item.name} edit />
                         <DeleteButton
-                          itemName={`News ${item.title}`}
-                          action={handleDelete.bind(null, item.title)}
+                          itemName={`Banner ${item.name}`}
+                          action={handleDelete.bind(null, item.name)}
                         />
                       </div>
                     </td>

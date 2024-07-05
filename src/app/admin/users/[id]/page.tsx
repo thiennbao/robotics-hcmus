@@ -1,72 +1,62 @@
-import { changUserPasswordById, getUserById } from "@/lib/query";
-import { InputField } from "@/components/utils/editorUtils";
-import { notFound, redirect } from "next/navigation";
+import UserEditor from "@/components/forms/userEditor";
+import { userSchema } from "@/lib/schemas";
+import { revalidatePath } from "next/cache";
 import Link from "next/link";
-import { FaAnglesRight } from "react-icons/fa6";
+import { notFound, redirect } from "next/navigation";
+import { FaAngleDoubleRight } from "react-icons/fa";
+import db from "@/lib/db";
+import { User } from "@prisma/client";
+import bcrypt from "bcrypt";
 
-export default async function AccountDashboardPage({ params }: { params: { id: string } }) {
-  const { id } = params;
+export default async function UserEditorPage({ params }: { params: { id: string } }) {
+  const username = decodeURI(params.id);
 
-  // Fetch data
-  const data = await getUserById(id);
-
-  // Redirect to 404 page if data not found
-  if (!data) {
-    notFound();
+  let data: User | null = null;
+  if (username !== "add") {
+    data = await db.user.findUnique({ where: { username } });
+    if (!data) notFound();
   }
 
-  // Submit action
-  const handleChangePassword = async (formData: FormData) => {
+  const handleSubmit = async (_prevState: any, formData: FormData) => {
     "use server";
 
-    const data = {
-      old: formData.get("password/old") as string,
-      new: formData.get("password/new") as string,
-      confirm: formData.get("password/confirm") as string,
-    };
+    const validation = userSchema.safeParse({
+      username: formData.get("username") as string,
+      password: (formData.get("password") as string) || data?.password,
+      role: formData.get("role") as string,
+    });
 
-    if (data.new === data.confirm) {
-      // Save to database
-      // TODO: check old password
-      await changUserPasswordById(id, data.new);
-
-      // Redirect
+    if (validation.success) {
+      if (username === "add") {
+        validation.data.password = await bcrypt.hash(validation.data.password, 10);
+        await db.user.create({ data: validation.data });
+      } else {
+        if (validation.data.password !== data?.password) {
+          validation.data.password = await bcrypt.hash(validation.data.password, 10);
+        }
+        await db.user.update({ where: { username }, data: validation.data });
+      }
+      revalidatePath("/admin/users");
       redirect("/admin/users");
+    } else {
+      return { errors: validation.error.issues };
     }
   };
 
   return (
     <div className="min-h-screen text-light">
-      <h2 className="text-3xl mb-6">USERS DASHBOARD</h2>
+      <h2 className="text-3xl mb-6">USER DASHBOARD</h2>
       <div className="bg-gray-700 rounded-xl *:px-12 *:py-6">
         <div className="border-b border-gray-500 flex items-center">
-          <Link href="/admin/users" className="font-bold hover:text-sky-500 transition">
+          <Link href="../" className="font-bold hover:text-sky-500 transition">
             Users
           </Link>
-          <FaAnglesRight className="mx-2 text-sm" />
-          <span className="text-nowrap overflow-hidden text-ellipsis">{data.username}</span>
+          <FaAngleDoubleRight className="mx-2" />
+          <span className="text-nowrap overflow-hidden text-ellipsis">
+            {data?.username || "Add a user"}
+          </span>
         </div>
-        <form action={handleChangePassword} className="*:mb-4">
-          <InputField label="Username" inputOpt={{ defaultValue: data.username, readOnly: true }} />
-          <InputField label="Role" inputOpt={{ defaultValue: data.role, readOnly: true }} />
-          <InputField
-            label="Old password"
-            inputOpt={{ name: "password/old", type: "password", required: true }}
-          />
-          <InputField
-            label="New password"
-            inputOpt={{ name: "password/new", type: "password", required: true }}
-          />
-          <InputField
-            label="Confirm password"
-            inputOpt={{ name: "password/confirm", type: "password", required: true }}
-          />
-          <div className="text-center pt-4">
-            <button className="w-1/2 py-2 rounded-lg border border-sky-400 text-sky-400 hover:bg-sky-400 hover:text-white transition">
-              SUBMIT
-            </button>
-          </div>
-        </form>
+        <UserEditor data={data} action={handleSubmit} />
       </div>
     </div>
   );
