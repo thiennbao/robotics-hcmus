@@ -1,16 +1,18 @@
 import AccountEditor from "@/components/forms/accountEditor";
 import { userSchema } from "@/lib/schemas";
 import { revalidatePath } from "next/cache";
-import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { FaAngleDoubleRight } from "react-icons/fa";
 import db from "@/lib/db";
-import { User } from "@prisma/client";
 import bcrypt from "bcrypt";
 import { ZodIssue } from "zod";
+import { cookies } from "next/headers";
+import { verifyToken } from "@/lib/token";
 
 export default async function UserEditorPage() {
-  const username: string = "robotics"; // TODO: get from token
+  const token = cookies().get("token")?.value as string;
+  const decode = await verifyToken(token);
+  const username = decode.payload.username as string; // TODO: get from token
 
   const data = await db.user.findUnique({ where: { username } });
 

@@ -63,3 +63,8 @@ export const userSchema = z.object({
     .min(8, "Please enter at least 8 characters"),
   role: z.enum(["ADMIN", "ROOT"], { message: "Invalid role" }),
 });
+
+export const authSchema = z.object({
+  username: z.string().min(1, "Please fill out this field"),
+  password: z.string().min(1, "Please fill out this field"),
+});
