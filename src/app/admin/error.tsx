@@ -1,5 +1,4 @@
 "use client";
-import { useEffect } from "react";
 
 export default function AdminErrorPage({
   error,
@@ -8,14 +7,19 @@ export default function AdminErrorPage({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
-  useEffect(() => {
-    console.error(error);
-  }, [error]);
-
   return (
-    <div>
-      <h2>Something went wrong!</h2>
-      <button onClick={reset}>Try again</button>
+    <div className="h-full flex justify-center items-center text-light overflow-hidden">
+      <div className="text-center">
+        <img src="/error.svg" className="w-72 m-auto" />
+        <h2 className="text-xl">Something went wrong</h2>
+        <p className="w-3/4 m-auto">Error: {error.message}</p>
+        <button
+          onClick={reset}
+          className="mt-4 p-2 rounded-lg border border-sky-400 text-sky-400 hover:bg-sky-400 hover:text-white transition"
+        >
+          Try again
+        </button>
+      </div>
     </div>
   );
 }

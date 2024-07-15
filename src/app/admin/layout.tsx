@@ -8,7 +8,7 @@ export default function AdminLayout({
   return (
     <main className="flex bg-gray-900">
       <Sidebar />
-      <div className="mx-4 my-8 md:mx-12 md:my-10 flex-grow overflow-hidden">{children}</div>
+      <div className="px-4 py-8 md:px-12 md:py-10 min-h-screen overflow-hidden flex-grow">{children}</div>
     </main>
   );
 }

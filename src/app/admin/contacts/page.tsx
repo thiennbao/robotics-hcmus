@@ -24,7 +24,7 @@ export default async function ContactDashboardPage({
   });
 
   return (
-    <div className="min-h-screen text-light">
+    <div className="text-light">
       <h2 className="text-3xl mb-6">CONTACT DASHBOARD</h2>
       <div className="bg-gray-700 rounded-xl p-6">
         <div className="flex justify-end md:justify-between">

@@ -1,15 +1,10 @@
 import { Course, Register } from "@prisma/client";
 import { InputField, TextField } from "../utils/editorUtils";
+import { registerReadAction } from "@/lib/actions";
 
-const RegisterEditor = ({
-  data,
-  action,
-}: {
-  data: Register & { course: Pick<Course, "name"> };
-  action: () => void;
-}) => {
+const RegisterEditor = ({ data }: { data: Register & { course: Pick<Course, "name"> } }) => {
   return (
-    <form action={action} className="*:mb-4">
+    <form action={registerReadAction.bind(null, data.id, !data.read)} className="*:mb-4">
       <InputField
         label="Course"
         inputAttr={{

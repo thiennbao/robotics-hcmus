@@ -2,25 +2,25 @@
 
 import { User } from "@prisma/client";
 import { useFormState } from "react-dom";
-import { ZodIssue } from "zod";
-import { InputField, SelectField } from "../utils/editorUtils";
+import { InputField } from "../utils/editorUtils";
+import { changePasswordAction } from "@/lib/actions";
+import { userSchema } from "@/lib/schemas";
 
-const AccountEditor = ({
-  data,
-  action,
-}: {
-  data: User;
-  action: (_prevState: any, formData: FormData) => Promise<{ errors: ZodIssue[] } | undefined>;
-}) => {
-  const [state, formAction] = useFormState(action, { errors: [] });
+const AccountEditor = ({ data }: { data: User }) => {
+  const [state, dispatch] = useFormState(changePasswordAction, undefined);
 
-  const errors = state?.errors.reduce(
-    (obj, error) => Object.assign(obj, { [error.path.join("/")]: error.message }),
+  const action = (payload: FormData) => {
+    payload.set("id", data?.username || "");
+    dispatch(payload);
+  };
+
+  const submitErr = state?.issues.reduce(
+    (obj, error) => Object.assign(obj, { [error.path]: error.message }),
     {}
-  ) as { old: string; password: string; confirm: string } | undefined;
+  ) as { password: string; old: string; confirm: string } | undefined;
 
   return (
-    <form action={formAction} noValidate className="*:mb-4">
+    <form action={action} noValidate className="*:mb-4">
       <InputField
         label="Old password"
         inputAttr={{
@@ -29,7 +29,7 @@ const AccountEditor = ({
           type: "password",
         }}
         validation={{ required: { message: "Please fill out this field" } }}
-        submitErr={errors?.old}
+        submitErr={submitErr}
       />
       <InputField
         label="New password"
@@ -38,11 +38,8 @@ const AccountEditor = ({
           placeholder: "********",
           type: "password",
         }}
-        validation={{
-          required: { message: "Please fill out this field" },
-          min: { value: 8, message: "Please enter at least 8 characters" },
-        }}
-        submitErr={errors?.password}
+        validation={userSchema.password}
+        submitErr={submitErr}
       />
       <InputField
         label="Confirm password"
@@ -52,7 +49,7 @@ const AccountEditor = ({
           type: "password",
         }}
         validation={{ required: { message: "Please fill out this field" } }}
-        submitErr={errors?.confirm}
+        submitErr={submitErr}
       />
       <div className="text-center pt-4">
         <button className="w-1/2 py-2 rounded-lg border border-sky-400 text-sky-400 hover:bg-sky-400 hover:text-white transition">

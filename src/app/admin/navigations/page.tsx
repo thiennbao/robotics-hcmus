@@ -1,15 +1,15 @@
 import {
-  AddButton,
+  CreateButton,
   DeleteButton,
   ItemsPerPage,
   Pagination,
   SearchBar,
   ViewButton,
 } from "@/components/utils/tableUtils";
-import { revalidatePath } from "next/cache";
 import Link from "next/link";
 import { Suspense } from "react";
 import db from "@/lib/db";
+import { navigationDeleteAction } from "@/lib/actions";
 
 export default async function NavigationDashboardPage({
   searchParams,
@@ -32,15 +32,8 @@ export default async function NavigationDashboardPage({
     take: itemsPerPage,
   });
 
-  const handleDelete = async (title: string) => {
-    "use server";
-
-    await db.navigation.delete({ where: { title } });
-    revalidatePath("/admin/navigations");
-  };
-
   return (
-    <div className="min-h-screen text-light">
+    <div className="text-light">
       <h2 className="text-3xl mb-6">NAVIGATION DASHBOARD</h2>
       <div className="bg-gray-700 rounded-xl p-6">
         <div className="flex justify-end md:justify-between">
@@ -48,7 +41,7 @@ export default async function NavigationDashboardPage({
             <ItemsPerPage className="hidden lg:block" />
             <SearchBar />
           </div>
-          <AddButton />
+          <CreateButton />
         </div>
         <div className="my-8 pb-4 overflow-x-scroll [&::-webkit-scrollbar]:h-1 [&::-webkit-scrollbar-thumb]:bg-gray-600">
           <table>
@@ -86,7 +79,7 @@ export default async function NavigationDashboardPage({
                         <ViewButton itemId={item.title} edit />
                         <DeleteButton
                           itemName={`Navigation ${item.title}`}
-                          action={handleDelete.bind(null, item.title)}
+                          action={navigationDeleteAction.bind(null, item.title)}
                         />
                       </div>
                     </td>

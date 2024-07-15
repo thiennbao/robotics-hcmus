@@ -2,25 +2,25 @@
 
 import { User } from "@prisma/client";
 import { useFormState } from "react-dom";
-import { ZodIssue } from "zod";
 import { InputField, SelectField } from "../utils/editorUtils";
+import { userSaveAction } from "@/lib/actions";
+import { userSchema } from "@/lib/schemas";
 
-const UserEditor = ({
-  data,
-  action,
-}: {
-  data: User | null;
-  action: (_prevState: any, formData: FormData) => Promise<{ errors: ZodIssue[] } | undefined>;
-}) => {
-  const [state, formAction] = useFormState(action, { errors: [] });
+const UserEditor = ({ data }: { data?: User }) => {
+  const [state, dispatch] = useFormState(userSaveAction, undefined);
 
-  const errors = state?.errors.reduce(
-    (obj, error) => Object.assign(obj, { [error.path.join("/")]: error.message }),
+  const action = (payload: FormData) => {
+    payload.set("id", data?.username || "");
+    dispatch(payload);
+  };
+
+  const submitErr = state?.issues.reduce(
+    (obj, error) => Object.assign(obj, { [error.path]: error.message }),
     {}
-  ) as { [key in keyof Omit<User, "date">]: string } | undefined;
+  ) as { [key in keyof User]: string } | undefined;
 
   return (
-    <form action={formAction} noValidate className="*:mb-4">
+    <form action={action} noValidate className="*:mb-4">
       <InputField
         label="Username"
         inputAttr={{
@@ -28,16 +28,8 @@ const UserEditor = ({
           placeholder: "robotics",
           defaultValue: data?.username,
         }}
-        validation={{
-          required: { message: "Please fill out this field" },
-          min: { value: 4, message: "Please enter at least 4 characters" },
-          regex: {
-            value: /^[a-zA-Z0-9_]*$/,
-            message: "Username can only contain letters, nummbers or underscore (_)",
-          },
-          exclude: { value: ["add"], message: 'Username can not be "add" ' },
-        }}
-        submitErr={errors?.username}
+        validation={userSchema.username}
+        submitErr={submitErr}
       />
       <SelectField
         label="Role"
@@ -46,11 +38,8 @@ const UserEditor = ({
           defaultValue: data?.role,
         }}
         options={["", "ADMIN", "ROOT"]}
-        validation={{
-          required: { message: "Please fill out this field" },
-          include: { value: ["ADMIN", "ROOT"], message: "Invalid role" },
-        }}
-        submitErr={errors?.role}
+        validation={userSchema.role}
+        submitErr={submitErr}
       />
       <InputField
         label="Password"
@@ -59,11 +48,8 @@ const UserEditor = ({
           placeholder: "********",
           type: "password",
         }}
-        validation={{
-          required: { message: "Please fill out this field" },
-          min: { value: 8, message: "Please enter at least 8 characters" },
-        }}
-        submitErr={errors?.password}
+        validation={userSchema.password}
+        submitErr={submitErr}
       />
       <div className="text-center pt-4">
         <button className="w-1/2 py-2 rounded-lg border border-sky-400 text-sky-400 hover:bg-sky-400 hover:text-white transition">

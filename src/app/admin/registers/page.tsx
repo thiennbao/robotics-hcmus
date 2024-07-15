@@ -8,8 +8,8 @@ import {
 } from "@/components/utils/tableUtils";
 import { Suspense } from "react";
 import db from "@/lib/db";
-import { revalidatePath } from "next/cache";
 import Image from "next/image";
+import { registerDeleteAction, registerReadAction } from "@/lib/actions";
 
 export default async function RegisterDashboardPage({
   searchParams,
@@ -49,21 +49,8 @@ export default async function RegisterDashboardPage({
     take: itemsPerPage,
   });
 
-  const handleToggleRead = async (id: string, read: boolean) => {
-    "use server";
-
-    await db.register.update({ where: { id }, data: { read } });
-    revalidatePath("/admin/registers");
-  };
-  const handleDelete = async (id: string) => {
-    "use server";
-
-    await db.register.delete({ where: { id } });
-    revalidatePath("/admin/registers");
-  };
-
   return (
-    <div className="min-h-screen text-light">
+    <div className="text-light">
       <h2 className="text-3xl mb-6">REGISTER DASHBOARD</h2>
       <div className="bg-gray-700 rounded-xl p-6">
         <div className="flex justify-end md:justify-between">
@@ -146,20 +133,20 @@ export default async function RegisterDashboardPage({
                     </td>
                     <td>
                       <div className="w-96 p-4 text-nowrap text-ellipsis overflow-hidden">
-                        {item.message}
+                        {item.message || "None"}
                       </div>
                     </td>
                     <td>
                       <div className="w-24 p-4 flex gap-4">
                         <ViewButton itemId={item.id} />
-                        <DeleteButton
-                          itemName={`Register from ${item.name}`}
-                          action={handleDelete.bind(null, item.id)}
-                          className="not-italic"
-                        />
                         <ReadButton
                           read={item.read}
-                          action={handleToggleRead.bind(null, item.id, !item.read)}
+                          action={registerReadAction.bind(null, item.id, !item.read)}
+                        />
+                        <DeleteButton
+                          itemName={`Register from ${item.name}`}
+                          action={registerDeleteAction.bind(null, item.id)}
+                          className="not-italic"
                         />
                       </div>
                     </td>

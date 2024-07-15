@@ -2,25 +2,25 @@
 
 import { Course } from "@prisma/client";
 import { useFormState } from "react-dom";
-import { ZodIssue } from "zod";
 import { ImageField, InputField, MultiImageField, TextField } from "../utils/editorUtils";
+import { courseSaveAction } from "@/lib/actions";
+import { courseSchema } from "@/lib/schemas";
 
-const CourseEditor = ({
-  data,
-  action,
-}: {
-  data: Course | null;
-  action: (_prevState: any, formData: FormData) => Promise<{ errors: ZodIssue[] } | undefined>;
-}) => {
-  const [state, formAction] = useFormState(action, { errors: [] });
+const CourseEditor = ({ data }: { data?: Course }) => {
+  const [state, dispatch] = useFormState(courseSaveAction, undefined);
 
-  const errors = state?.errors.reduce(
-    (obj, error) => Object.assign(obj, { [error.path.join("/")]: error.message }),
+  const action = (payload: FormData) => {
+    payload.set("id", data?.name || "");
+    dispatch(payload);
+  };
+
+  const submitErr = state?.issues.reduce(
+    (obj, error) => Object.assign(obj, { [error.path]: error.message }),
     {}
   ) as { [key in keyof Course]: string } | undefined;
 
   return (
-    <form action={formAction} noValidate className="*:mb-4">
+    <form action={action} noValidate className="*:mb-4">
       <InputField
         label="Course name"
         inputAttr={{
@@ -28,11 +28,8 @@ const CourseEditor = ({
           placeholder: "Advanced Banana Peeling Techniques",
           defaultValue: data?.name,
         }}
-        validation={{
-          required: { message: "Please fill out this field" },
-          exclude: { value: ["add"], message: 'Name can not be "add" ' },
-        }}
-        submitErr={errors?.name}
+        validation={courseSchema.name}
+        submitErr={submitErr}
       />
       <ImageField
         label="Thumbnail"
@@ -40,8 +37,8 @@ const CourseEditor = ({
           name: "thumbnail",
           defaultValue: data?.thumbnail,
         }}
-        validation={{ required: { message: "Please upload a photo" } }}
-        submitErr={errors?.thumbnail}
+        validation={courseSchema.thumbnail}
+        submitErr={submitErr}
       />
       <div className="grid lg:grid-cols-2 gap-4">
         <TextField
@@ -51,8 +48,8 @@ const CourseEditor = ({
             placeholder: "Dive deep into the world of peeling with style, finesse and magic...",
             defaultValue: data?.description,
           }}
-          validation={{ required: { message: "Please fill out this field" } }}
-          submitErr={errors?.description}
+          validation={courseSchema.description}
+          submitErr={submitErr}
         />
         <TextField
           label="Objectives"
@@ -61,8 +58,8 @@ const CourseEditor = ({
             placeholder: "Unlock the secrets of banana peeling mastery...",
             defaultValue: data?.objective,
           }}
-          validation={{ required: { message: "Please fill out this field" } }}
-          submitErr={errors?.objective}
+          validation={courseSchema.objective}
+          submitErr={submitErr}
         />
       </div>
       <div className="grid md:grid-cols-3 gap-4">
@@ -73,8 +70,8 @@ const CourseEditor = ({
             placeholder: "18 - 60",
             defaultValue: data?.age,
           }}
-          validation={{ required: { message: "Please fill out this field" } }}
-          submitErr={errors?.age}
+          validation={courseSchema.age}
+          submitErr={submitErr}
         />
         <InputField
           label="Lesson"
@@ -83,8 +80,8 @@ const CourseEditor = ({
             placeholder: "8 lessons",
             defaultValue: data?.lesson,
           }}
-          validation={{ required: { message: "Please fill out this field" } }}
-          submitErr={errors?.lesson}
+          validation={courseSchema.lesson}
+          submitErr={submitErr}
         />
         <InputField
           label="Duration"
@@ -93,8 +90,8 @@ const CourseEditor = ({
             placeholder: "120 minutes / classes",
             defaultValue: data?.duration,
           }}
-          validation={{ required: { message: "Please upload a photo" } }}
-          submitErr={errors?.duration}
+          validation={courseSchema.duration}
+          submitErr={submitErr}
         />
       </div>
       <TextField
@@ -104,8 +101,8 @@ const CourseEditor = ({
           placeholder: "Peeled at least one banana before without crying...",
           defaultValue: data?.requirement,
         }}
-        validation={{ required: { message: "Please upload a photo" } }}
-        submitErr={errors?.requirement}
+        validation={courseSchema.requirement}
+        submitErr={submitErr}
       />
       <MultiImageField
         label="Gallery"
@@ -113,8 +110,8 @@ const CourseEditor = ({
           name: "gallery",
           defaultValue: JSON.stringify(data?.gallery),
         }}
-        validation={{ required: { message: "Please upload a photo" } }}
-        submitErr={errors?.gallery}
+        validation={courseSchema.gallery}
+        submitErr={submitErr}
       />
       <div className="text-center pt-4">
         <button className="w-1/2 py-2 rounded-lg border border-sky-400 text-sky-400 hover:bg-sky-400 hover:text-white transition">

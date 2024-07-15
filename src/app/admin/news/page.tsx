@@ -1,5 +1,5 @@
 import {
-  AddButton,
+  CreateButton,
   DeleteButton,
   ItemsPerPage,
   Pagination,
@@ -11,6 +11,7 @@ import { Suspense } from "react";
 import db from "@/lib/db";
 import Image from "next/image";
 import { deleteFile } from "@/lib/storage";
+import { newsDeleteAction } from "@/lib/actions";
 
 export default async function NewsDashboardPage({
   searchParams,
@@ -33,17 +34,8 @@ export default async function NewsDashboardPage({
     take: itemsPerPage,
   });
 
-  const handleDelete = async (title: string) => {
-    "use server";
-
-    const oldUrls = await db.news.findUnique({ where: { title }, select: { thumbnail: true } });
-    if (oldUrls) await deleteFile(oldUrls.thumbnail);
-    await db.news.delete({ where: { title } });
-    revalidatePath("/admin/news");
-  };
-
   return (
-    <div className="min-h-screen text-light">
+    <div className="text-light">
       <h2 className="text-3xl mb-6">NEWS DASHBOARD</h2>
       <div className="bg-gray-700 rounded-xl p-6">
         <div className="flex justify-end md:justify-between">
@@ -51,7 +43,7 @@ export default async function NewsDashboardPage({
             <ItemsPerPage className="hidden lg:block" />
             <SearchBar />
           </div>
-          <AddButton />
+          <CreateButton />
         </div>
         <div className="my-8 pb-4 overflow-x-scroll [&::-webkit-scrollbar]:h-1 [&::-webkit-scrollbar-thumb]:bg-gray-600">
           <table>
@@ -103,7 +95,7 @@ export default async function NewsDashboardPage({
                         <ViewButton itemId={item.title} edit />
                         <DeleteButton
                           itemName={`News ${item.title}`}
-                          action={handleDelete.bind(null, item.title)}
+                          action={newsDeleteAction.bind(null, item.title)}
                         />
                       </div>
                     </td>

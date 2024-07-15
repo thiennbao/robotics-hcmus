@@ -1,9 +1,10 @@
 import { Message } from "@prisma/client";
 import { InputField, TextField } from "../utils/editorUtils";
+import { messageReadAction } from "@/lib/actions";
 
-const MessageEditor = ({ data, action }: { data: Message; action: () => void }) => {
+const MessageEditor = ({ data }: { data: Message }) => {
   return (
-    <form action={action} className="*:mb-4">
+    <form action={messageReadAction.bind(null, data.id, !data.read)} className="*:mb-4">
       <InputField
         label="Name"
         inputAttr={{

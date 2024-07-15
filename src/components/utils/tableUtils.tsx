@@ -69,8 +69,6 @@ export const Pagination = ({
   totalPages,
   ...props
 }: { totalPages: number } & HTMLAttributes<HTMLDivElement>) => {
-  if (totalPages === 0) return;
-
   const searchParams = useSearchParams();
   const { replace } = useRouter();
   const pathname = usePathname();
@@ -110,15 +108,15 @@ export const Pagination = ({
   );
 };
 
-export const AddButton = (props: HTMLAttributes<HTMLDivElement>) => {
+export const CreateButton = (props: HTMLAttributes<HTMLDivElement>) => {
   return (
     <div {...props}>
       <Link
-        href="./add"
+        href="./create"
         className="px-8 py-2 flex items-center gap-2 bg-sky-400 hover:bg-sky-500 transition text-white rounded-lg"
       >
         <GrChapterAdd className="font-bold" />
-        <span>Add</span>
+        <span>Create</span>
       </Link>
     </div>
   );
@@ -131,7 +129,7 @@ export const ViewButton = ({
 }: { itemId: string; edit?: boolean } & HTMLAttributes<HTMLDivElement>) => {
   return (
     <div {...props}>
-      <Link href={`./${itemId}`}>
+      <Link href={`./${itemId}/edit`}>
         {edit ? <RiEdit2Fill className="text-sky-400" /> : <GrView className="text-sky-400" />}
       </Link>
     </div>

@@ -1,70 +1,61 @@
-import { z } from "zod";
+export const navigationSchema = {
+  title: { required: { message: "Please fill out this field" } },
+  address: { required: { message: "Please fill out this field" } },
+};
 
-export const navigationSchema = z.object({
-  title: z
-    .string()
-    .min(1, "Please fill out this field")
-    .refine((title) => title !== "add", 'Title can not be "add" '),
-  address: z.string().min(1, "Please fill out this field"),
-});
+export const contactSchema = {
+  key: { required: { message: "Please fill out this field" } },
+  title: {},
+  address: {},
+};
 
-export const contactSchema = z.object({
-  key: z
-    .string()
-    .min(1, "Please fill out this field")
-    .refine((title) => title !== "add", 'Key can not be "add" '),
-  title: z.string(),
-  address: z.string(),
-});
+export const bannerSchema = {
+  name: { required: { message: "Please fill out this field" } },
+  image: { required: { message: "Please upload a photo" } },
+  order: {
+    type: { value: "number" as "number", message: "Please enter a number" },
+    minValue: { value: 1, message: "Please enter a number greater than 0" },
+  },
+};
 
-export const bannerSchema = z.object({
-  name: z
-    .string()
-    .min(1, "Please fill out this field")
-    .refine((title) => title !== "add", 'Name can not be "add" '),
-  image: z.string().min(1, "Please upload a photo"),
-  order: z
-    .number({ message: "Please enter a number" })
-    .min(1, "Please enter a number greater than 0"),
-});
+export const courseSchema = {
+  name: { required: { message: "Please fill out this field" } },
+  thumbnail: { required: { message: "Please upload a photo" } },
+  description: { required: { message: "Please fill out this field" } },
+  objective: { required: { message: "Please fill out this field" } },
+  age: { required: { message: "Please fill out this field" } },
+  lesson: { required: { message: "Please fill out this field" } },
+  duration: { required: { message: "Please fill out this field" } },
+  requirement: { required: { message: "Please fill out this field" } },
+  gallery: { required: { message: "Please upload a photo" } },
+};
 
-export const courseSchema = z.object({
-  name: z
-    .string()
-    .min(1, "Please fill out this field")
-    .refine((title) => title !== "add", 'Name can not be "add" '),
-  thumbnail: z.string().min(1, "Please upload a photo"),
-  description: z.string().min(1, "Please fill out this field"),
-  objective: z.string().min(1, "Please fill out this field"),
-  age: z.string().min(1, "Please fill out this field"),
-  lesson: z.string().min(1, "Please fill out this field"),
-  duration: z.string().min(1, "Please fill out this field"),
-  requirement: z.string().min(1, "Please fill out this field"),
-  gallery: z.string().array().min(1, "Please upload a photo"),
-});
+export const newsSchema = {
+  title: { required: { message: "Please fill out this field" } },
+  thumbnail: { required: { message: "Please upload a photo" } },
+  content: { required: { message: "Please fill out this field" } },
+};
 
-export const newsSchema = z.object({
-  title: z
-    .string()
-    .min(1, "Please fill out this field")
-    .refine((title) => title !== "add", 'Title can not be "add" '),
-  thumbnail: z.string().min(1, "Please fill out this field"),
-  content: z.string().min(1, "Please fill out this field"),
-});
+export const userSchema = {
+  username: {
+    required: { message: "Please fill out this field" },
+    min: { value: 4, message: "Please enter at least 4 characters" },
+    regex: {
+      value: /^[a-zA-Z0-9_]*$/,
+      message: "Username can only contain letters, nummbers or underscore (_)",
+    },
+  },
+  password: {
+    required: { message: "Please fill out this field" },
+    min: { value: 8, message: "Please enter at least 8 characters" },
+  },
+  role: {
+    required: { message: "Please fill out this field" },
+    include: { value: ["ADMIN", "ROOT"], message: "Invalid role" },
+  },
+};
 
-export const userSchema = z.object({
-  username: z
-    .string()
-    .min(4, "Please enter at lease 4 characters")
-    .regex(/^[a-zA-Z0-9_]*$/, "Username can only contain letters, nummbers or underscore (_)")
-    .refine((username) => username !== "add", 'Username can not be "add" '),
-  password: z
-    .string({ message: "Please fill out this field" })
-    .min(8, "Please enter at least 8 characters"),
-  role: z.enum(["ADMIN", "ROOT"], { message: "Invalid role" }),
-});
-
-export const authSchema = z.object({
-  username: z.string().min(1, "Please fill out this field"),
-  password: z.string().min(1, "Please fill out this field"),
-});
+export const authSchema = {
+  username: { required: { message: "Please fill out this field" } },
+  password: { required: { message: "Please fill out this field" } },
+};

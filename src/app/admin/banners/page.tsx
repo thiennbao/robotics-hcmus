@@ -1,16 +1,15 @@
 import {
-  AddButton,
+  CreateButton,
   DeleteButton,
   ItemsPerPage,
   Pagination,
   SearchBar,
   ViewButton,
 } from "@/components/utils/tableUtils";
-import { revalidatePath } from "next/cache";
 import Image from "next/image";
 import { Suspense } from "react";
 import db from "@/lib/db";
-import { deleteFile } from "@/lib/storage";
+import { bannerDeleteAction } from "@/lib/actions";
 
 export default async function BannerDashboardPage({
   searchParams,
@@ -33,17 +32,8 @@ export default async function BannerDashboardPage({
     take: itemsPerPage,
   });
 
-  const handleDelete = async (name: string) => {
-    "use server";
-
-    const oldUrls = await db.banner.findUnique({ where: { name }, select: { image: true } });
-    if (oldUrls) await deleteFile(oldUrls.image);
-    await db.banner.delete({ where: { name } });
-    revalidatePath("/admin/banners");
-  };
-
   return (
-    <div className="min-h-screen text-light">
+    <div className="text-light">
       <h2 className="text-3xl mb-6">BANNER DASHBOARD</h2>
       <div className="bg-gray-700 rounded-xl p-6">
         <div className="flex justify-end md:justify-between">
@@ -51,7 +41,7 @@ export default async function BannerDashboardPage({
             <ItemsPerPage className="hidden lg:block" />
             <SearchBar />
           </div>
-          <AddButton />
+          <CreateButton />
         </div>
         <div className="my-8 pb-4 overflow-x-scroll [&::-webkit-scrollbar]:h-1 [&::-webkit-scrollbar-thumb]:bg-gray-600">
           <table>
@@ -95,7 +85,7 @@ export default async function BannerDashboardPage({
                         <ViewButton itemId={item.name} edit />
                         <DeleteButton
                           itemName={`Banner ${item.name}`}
-                          action={handleDelete.bind(null, item.name)}
+                          action={bannerDeleteAction.bind(null, item.name)}
                         />
                       </div>
                     </td>

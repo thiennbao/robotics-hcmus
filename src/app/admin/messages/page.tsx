@@ -8,7 +8,7 @@ import {
 } from "@/components/utils/tableUtils";
 import { Suspense } from "react";
 import db from "@/lib/db";
-import { revalidatePath } from "next/cache";
+import { messageDeleteAction, messageReadAction } from "@/lib/actions";
 
 export default async function MessageDashboardPage({
   searchParams,
@@ -45,21 +45,8 @@ export default async function MessageDashboardPage({
     take: itemsPerPage,
   });
 
-  const handleToggleRead = async (id: string, read: boolean) => {
-    "use server";
-
-    await db.message.update({ where: { id }, data: { read } });
-    revalidatePath("/admin/messages");
-  };
-  const handleDelete = async (id: string) => {
-    "use server";
-
-    await db.message.delete({ where: { id } });
-    revalidatePath("/admin/messages");
-  };
-
   return (
-    <div className="min-h-screen text-light">
+    <div className="text-light">
       <h2 className="text-3xl mb-6">MESSAGE DASHBOARD</h2>
       <div className="bg-gray-700 rounded-xl p-6">
         <div className="flex justify-end md:justify-between">
@@ -124,13 +111,14 @@ export default async function MessageDashboardPage({
                     <td>
                       <div className="w-24 p-4 flex gap-4">
                         <ViewButton itemId={item.id} />
-                        <DeleteButton
-                          itemName={`Message from ${item.name}`}
-                          action={handleDelete.bind(null, item.id)}
-                        />
                         <ReadButton
                           read={item.read}
-                          action={handleToggleRead.bind(null, item.id, !item.read)}
+                          action={messageReadAction.bind(null, item.id, !item.read)}
+                          className="not-italic"
+                        />
+                        <DeleteButton
+                          itemName={`Message from ${item.name}`}
+                          action={messageDeleteAction.bind(null, item.id)}
                           className="not-italic"
                         />
                       </div>

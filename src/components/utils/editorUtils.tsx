@@ -18,14 +18,14 @@ interface Props extends HTMLProps<HTMLDivElement> {
     type?: "password";
   };
   validation?: Validation;
-  submitErr?: string;
+  submitErr?: {[key: string]: string};
 }
 
 export const InputField = ({ label, inputAttr, validation, submitErr, ...props }: Props) => {
   const [errorMsg, setErrorMsg] = useState("");
 
   useEffect(() => {
-    setErrorMsg(submitErr as string);
+    setErrorMsg(submitErr?.[inputAttr.name] || "");
   }, [submitErr]);
 
   return (
@@ -51,7 +51,7 @@ export const TextField = ({ label, inputAttr, validation, submitErr, ...props }:
   const [errorMsg, setErrorMsg] = useState("");
 
   useEffect(() => {
-    setErrorMsg(submitErr as string);
+    setErrorMsg(submitErr?.[inputAttr.name] || "");
   }, [submitErr]);
 
   return (
@@ -78,7 +78,7 @@ export const ImageField = ({ label, inputAttr, validation, submitErr, ...props }
   const [image, setImage] = useState<string>(inputAttr.defaultValue as string);
 
   useEffect(() => {
-    setErrorMsg(submitErr as string);
+    setErrorMsg(submitErr?.[inputAttr.name] || "");
   }, [submitErr]);
 
   const handleUpload = (file: File | undefined) => {
@@ -93,7 +93,7 @@ export const ImageField = ({ label, inputAttr, validation, submitErr, ...props }
   };
   const handleDelete = () => {
     setImage("");
-    setErrorMsg(validation?.required?.message as string);
+    setErrorMsg(validation?.required?.message || "");
   };
 
   return (
@@ -148,7 +148,7 @@ export const MultiImageField = ({ label, inputAttr, validation, submitErr, ...pr
   const [images, setImages] = useState<string[]>(JSON.parse(inputAttr.defaultValue || "[]"));
 
   useEffect(() => {
-    setErrorMsg(submitErr as string);
+    setErrorMsg(submitErr?.[inputAttr.name] || "");
   }, [submitErr]);
 
   const handleUpload = (fileList: FileList | null) => {
@@ -235,10 +235,10 @@ export const RichTextField = ({ label, inputAttr, validation, submitErr, ...prop
   const ReactQuill = useMemo(() => dynamic(() => import("react-quill"), { ssr: false }), []);
 
   const [errorMsg, setErrorMsg] = useState("");
-  const [content, setContent] = useState<string>(inputAttr.defaultValue as string);
+  const [content, setContent] = useState<string>(inputAttr.defaultValue || "");
 
   useEffect(() => {
-    setErrorMsg(submitErr as string);
+    setErrorMsg(submitErr?.[inputAttr.name] || "");
   }, [submitErr]);
 
   // Quill library issue (value is "<p><br></p>" when all input's deleted)
@@ -307,7 +307,7 @@ export const SelectField = ({
   const [errorMsg, setErrorMsg] = useState("");
 
   useEffect(() => {
-    setErrorMsg(submitErr as string);
+    setErrorMsg(submitErr?.[inputAttr.name] || "");
   }, [submitErr]);
 
   return (

@@ -2,25 +2,25 @@
 
 import { Navigation } from "@prisma/client";
 import { useFormState } from "react-dom";
-import { ZodIssue } from "zod";
 import { InputField } from "../utils/editorUtils";
+import { navigationSaveAction } from "@/lib/actions";
+import { navigationSchema } from "@/lib/schemas";
 
-const NavigationEditor = ({
-  data,
-  action,
-}: {
-  data: Navigation | null;
-  action: (_prevState: any, formData: FormData) => Promise<{ errors: ZodIssue[] } | undefined>;
-}) => {
-  const [state, formAction] = useFormState(action, { errors: [] });
+const NavigationEditor = ({ data }: { data?: Navigation }) => {
+  const [state, dispatch] = useFormState(navigationSaveAction, undefined);
 
-  const errors = state?.errors.reduce(
-    (obj, error) => Object.assign(obj, { [error.path.join("/")]: error.message }),
+  const action = (payload: FormData) => {
+    payload.set("id", data?.title || "");
+    dispatch(payload);
+  };
+
+  const submitErr = state?.issues.reduce(
+    (obj, error) => Object.assign(obj, { [error.path]: error.message }),
     {}
-  ) as { [key in keyof Navigation]: string } | undefined;
+  ) as { [key in keyof Navigation]?: string } | undefined;
 
   return (
-    <form action={formAction} noValidate className="*:mb-4">
+    <form action={action} noValidate className="*:mb-4">
       <InputField
         label="Navigation title"
         inputAttr={{
@@ -28,11 +28,8 @@ const NavigationEditor = ({
           placeholder: "Wikipedia",
           defaultValue: data?.title,
         }}
-        validation={{
-          required: { message: "Please fill out this field" },
-          exclude: { value: ["add"], message: 'Title can not be "add" ' },
-        }}
-        submitErr={errors?.title}
+        validation={navigationSchema.title}
+        submitErr={submitErr}
       />
       <InputField
         label="Address"
@@ -41,8 +38,8 @@ const NavigationEditor = ({
           placeholder: "https://wikipedia.org",
           defaultValue: data?.address,
         }}
-        validation={{ required: { message: "Please fill out this field" } }}
-        submitErr={errors?.address}
+        validation={navigationSchema.address}
+        submitErr={submitErr}
       />
       <div className="text-center pt-4">
         <button className="w-1/2 py-2 rounded-lg border border-sky-400 text-sky-400 hover:bg-sky-400 hover:text-white transition">

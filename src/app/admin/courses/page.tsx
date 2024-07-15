@@ -1,16 +1,15 @@
 import {
-  AddButton,
+  CreateButton,
   DeleteButton,
   ItemsPerPage,
   Pagination,
   SearchBar,
   ViewButton,
 } from "@/components/utils/tableUtils";
-import { revalidatePath } from "next/cache";
 import { Suspense } from "react";
 import db from "@/lib/db";
 import Image from "next/image";
-import { deleteFile } from "@/lib/storage";
+import { courseDeleteAction } from "@/lib/actions";
 
 export default async function CourseDashboardPage({
   searchParams,
@@ -33,25 +32,8 @@ export default async function CourseDashboardPage({
     take: itemsPerPage,
   });
 
-  const handleDelete = async (name: string) => {
-    "use server";
-
-    const oldUrls = await db.course.findUnique({
-      where: { name },
-      select: { thumbnail: true, gallery: true },
-    });
-    if (oldUrls) {
-      deleteFile(oldUrls.thumbnail);
-      for (let url of oldUrls.gallery) {
-        deleteFile(url);
-      }
-    }
-    await db.course.delete({ where: { name } });
-    revalidatePath("/admin/courses");
-  };
-
   return (
-    <div className="min-h-screen text-light">
+    <div className="text-light">
       <h2 className="text-3xl mb-6">COURSE DASHBOARD</h2>
       <div className="bg-gray-700 rounded-xl p-6">
         <div className="flex justify-end md:justify-between">
@@ -59,7 +41,7 @@ export default async function CourseDashboardPage({
             <ItemsPerPage className="hidden lg:block" />
             <SearchBar />
           </div>
-          <AddButton />
+          <CreateButton />
         </div>
         <div className="my-8 pb-4 overflow-x-scroll [&::-webkit-scrollbar]:h-1 [&::-webkit-scrollbar-thumb]:bg-gray-600">
           <table>
@@ -143,7 +125,7 @@ export default async function CourseDashboardPage({
                         <ViewButton itemId={item.name} edit />
                         <DeleteButton
                           itemName={`Course ${item.name}`}
-                          action={handleDelete.bind(null, item.name)}
+                          action={courseDeleteAction.bind(null, item.name)}
                         />
                       </div>
                     </td>
