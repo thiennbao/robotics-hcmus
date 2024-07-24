@@ -6,7 +6,7 @@ import PageWall from "@/components/utils/pageWall";
 export default function ContactPage() {
   return (
     <main>
-      <PageWall title="CONTACT" image="/picsum-4.png" />
+      <PageWall title="CONTACT" image="/wallpaper-contact.png" />
       <ContactInfo className="min-h-screen flex py-24" />
       <ContactForm />
       <Faq className="min-h-screen flex py-24" />

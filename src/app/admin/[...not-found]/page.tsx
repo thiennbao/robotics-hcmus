@@ -1,10 +1,11 @@
+import Image from "next/image";
 import Link from "next/link";
 
 export default function AdminNotFound() {
   return (
     <div className="h-full flex justify-center items-center text-light overflow-hidden">
       <div className="text-center">
-        <img src="/not-found.svg" className="w-72 m-auto" />
+        <Image width={320} height={320} src="/error.svg" alt="Error" className="w-72 m-auto" />
         <h2 className="text-xl">Not Found</h2>
         <p>Could not find requested resource</p>
         <Link

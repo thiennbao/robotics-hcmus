@@ -1,5 +1,6 @@
 import { HTMLAttributes } from "react";
 import Appear from "../utils/appear";
+import Image from "next/image";
 
 const Description = (props: HTMLAttributes<HTMLDivElement>) => {
   return (
@@ -33,12 +34,24 @@ const Description = (props: HTMLAttributes<HTMLDivElement>) => {
             </Appear>
           </div>
         </div>
-        <div className="lg:w-1/2 flex flex-wrap md:flex-nowrap lg:flex-wrap xl:flex-nowrap gap-4 overflow-hidden">
+        <div className="lg:w-1/2 flex flex-wrap md:flex-nowrap lg:flex-wrap xl:flex-nowrap gap-4 overflow-hidden *:flex-1">
           <Appear variant="up" className="h-48 md:h-full">
-            <img src="/picsum-1.png" alt="Image about us" className="h-full object-cover" />
+            <Image
+              src="/about-description-left.png"
+              alt="Image about us"
+              width={900}
+              height={1200}
+              className="w-auto h-full object-cover rounded-lg"
+            />
           </Appear>
           <Appear variant="down" className="h-48 md:h-full">
-            <img src="/picsum-1.png" alt="Image about us" className="h-full object-cover" />
+            <Image
+              src="/about-description-right.png"
+              alt="Image about us"
+              width={900}
+              height={1200}
+              className="w-auto h-full object-cover rounded-lg"
+            />
           </Appear>
         </div>
       </div>

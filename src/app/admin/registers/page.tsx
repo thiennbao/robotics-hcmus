@@ -25,7 +25,6 @@ export default async function RegisterDashboardPage({
         { name: { contains: key || "", mode: "insensitive" } },
         { email: { contains: key || "", mode: "insensitive" } },
         { phone: { contains: key || "", mode: "insensitive" } },
-        { message: { contains: key || "", mode: "insensitive" } },
       ],
     },
   });
@@ -40,7 +39,6 @@ export default async function RegisterDashboardPage({
         { name: { contains: key || "", mode: "insensitive" } },
         { email: { contains: key || "", mode: "insensitive" } },
         { phone: { contains: key || "", mode: "insensitive" } },
-        { message: { contains: key || "", mode: "insensitive" } },
       ],
     },
     include: { course: { select: { name: true, thumbnail: true } } },
@@ -64,13 +62,13 @@ export default async function RegisterDashboardPage({
             <thead>
               <tr className="*:p-4 *:text-left">
                 <th>
-                  <div className="w-32">Date</div>
+                  <div className="w-64">Date</div>
                 </th>
                 <th>
-                  <div className="w-96">Course</div>
+                  <div className="w-64">Course</div>
                 </th>
                 <th>
-                  <div className="w-64">Name</div>
+                  <div className="w-48">Name</div>
                 </th>
                 <th>
                   <div className="w-48">Date of birth</div>
@@ -82,9 +80,6 @@ export default async function RegisterDashboardPage({
                   <div className="w-48">Phone</div>
                 </th>
                 <th>
-                  <div className="w-96">Message</div>
-                </th>
-                <th>
                   <div className="w-24">Action</div>
                 </th>
               </tr>
@@ -94,12 +89,12 @@ export default async function RegisterDashboardPage({
                 {registers.map((item) => (
                   <tr key={item.id} className={item.read ? "text-gray-400" : "italic"}>
                     <td>
-                      <div className="w-32 p-4 text-nowrap text-ellipsis overflow-hidden">
-                        {item.date.toLocaleDateString()}
+                      <div className="w-64 p-4 text-nowrap text-ellipsis overflow-hidden">
+                        {item.date.toLocaleString()}
                       </div>
                     </td>
                     <td>
-                      <div className="w-96 p-4 flex items-center gap-4 text-nowrap text-ellipsis overflow-hidden">
+                      <div className="w-64 p-4 flex items-center gap-4 text-nowrap text-ellipsis overflow-hidden">
                         <Image
                           src={item.course.thumbnail}
                           alt={item.course.name}
@@ -112,7 +107,7 @@ export default async function RegisterDashboardPage({
                       </div>
                     </td>
                     <td>
-                      <div className="w-64 p-4 text-nowrap text-ellipsis overflow-hidden">
+                      <div className="w-48 p-4 text-nowrap text-ellipsis overflow-hidden">
                         {item.name}
                       </div>
                     </td>
@@ -129,11 +124,6 @@ export default async function RegisterDashboardPage({
                     <td>
                       <div className="w-48 p-4 text-nowrap text-ellipsis overflow-hidden">
                         {item.phone}
-                      </div>
-                    </td>
-                    <td>
-                      <div className="w-96 p-4 text-nowrap text-ellipsis overflow-hidden">
-                        {item.message || "None"}
                       </div>
                     </td>
                     <td>

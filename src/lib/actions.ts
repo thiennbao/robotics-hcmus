@@ -10,8 +10,10 @@ import {
   bannerSchema,
   contactSchema,
   courseSchema,
+  messageSchema,
   navigationSchema,
   newsSchema,
+  registerSchema,
   userSchema,
 } from "./schemas";
 import { deleteFile, uploadFile } from "./storage";
@@ -132,9 +134,10 @@ export const courseSaveAction = async (_prevState: any, formData: FormData) => {
     objective: formData.get("objective") as string,
     age: formData.get("age") as string,
     lesson: formData.get("lesson") as string,
-    duration: formData.get("duration") as string,
+    time: formData.get("time") as string,
+    openDate: formData.get("openDate") as string,
     requirement: formData.get("requirement") as string,
-    gallery: JSON.parse((formData.get("gallery") as string) || "[]") as string[],
+    gallery: formData.getAll("gallery") as string[],
   };
   const issues = validateAll({ ...data, gallery: data.gallery.join() }, courseSchema);
   if (issues.length) {
@@ -257,6 +260,21 @@ export const newsDeleteAction = async (title: string) => {
 };
 
 // Message
+export const messageSaveAction = async (_prevData: any, formData: FormData) => {
+  const data = {
+    name: formData.get("name") as string,
+    email: formData.get("email") as string,
+    phone: formData.get("phone") as string,
+    message: formData.get("message") as string,
+  };
+  const issues = validateAll(data, messageSchema);
+  if (issues.length) {
+    return { issues };
+  } else {
+    await db.message.create({ data });
+    return { issues: [] };
+  }
+};
 export const messageReadAction = async (id: string, read: boolean) => {
   await db.message.update({ where: { id }, data: { read } });
   revalidatePath("/admin/messages");
@@ -268,6 +286,23 @@ export const messageDeleteAction = async (id: string) => {
 };
 
 // Register
+export const registerSaveAction = async (_prevData: any, formData: FormData) => {
+  const data = {
+    courseId: formData.get("courseId") as string,
+    name: formData.get("name") as string,
+    dob: formData.get("dob") as string,
+    email: formData.get("email") as string,
+    phone: formData.get("phone") as string,
+    time: formData.get("time") as string,
+  };
+  const issues = validateAll(data, registerSchema);
+  if (issues.length) {
+    return { issues };
+  } else {
+    await db.register.create({ data: { ...data, dob: new Date(data.dob) } });
+    return { issues: [] };
+  }
+};
 export const registerReadAction = async (id: string, read: boolean) => {
   await db.register.update({ where: { id }, data: { read } });
   revalidatePath("/admin/registers");

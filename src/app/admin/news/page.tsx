@@ -6,11 +6,9 @@ import {
   SearchBar,
   ViewButton,
 } from "@/components/utils/tableUtils";
-import { revalidatePath } from "next/cache";
 import { Suspense } from "react";
 import db from "@/lib/db";
 import Image from "next/image";
-import { deleteFile } from "@/lib/storage";
 import { newsDeleteAction } from "@/lib/actions";
 
 export default async function NewsDashboardPage({
@@ -29,7 +27,7 @@ export default async function NewsDashboardPage({
 
   const news = await db.news.findMany({
     where: { title: { contains: key, mode: "insensitive" } },
-    orderBy: { title: "asc" },
+    orderBy: { date: "desc" },
     skip: (currentPage - 1) * itemsPerPage,
     take: itemsPerPage,
   });

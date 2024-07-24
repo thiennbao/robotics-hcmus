@@ -1,17 +1,17 @@
+import db from "@/lib/db";
 import Appear from "../utils/appear";
 import Course from "./course";
 import { HTMLAttributes } from "react";
+import SearchBar from "../utils/searchBar";
 
-// Temp content
-const courseContent = {
-  _id: "01232456789",
-  name: "Lorem Lmao",
-  thumbnail: "/picsum-2.png",
-  description:
-    "Le passage latin classique qui ne vieillit jamais, apprécie autant (ou aussi peu) le lorem ipsum que vous pouvez manipuler avec notre générateur de texte de remplissage facile à utiliser.",
-};
+const CourseArchive = async ({
+  search,
+  ...props
+}: { search: string } & HTMLAttributes<HTMLDivElement>) => {
+  const courses = await db.course.findMany({
+    where: { name: { contains: search, mode: "insensitive" } },
+  });
 
-const CourseArchive = (props: HTMLAttributes<HTMLDivElement>) => {
   return (
     <section {...props}>
       <div className="container">
@@ -20,31 +20,26 @@ const CourseArchive = (props: HTMLAttributes<HTMLDivElement>) => {
             Archives
           </h2>
           <div className="lg:w-3/4 xl:w-1/2 mx-auto mt-12 mb-16">
-            <input
-              placeholder="Search ..."
-              className="w-full h-12 px-4 outline-none bg-gray-100 border transition focus:border-primary"
+            <SearchBar
+              paramKey="search"
+              className="w-full h-12 px-4 outline-none bg-gray-100 border rounded-lg transition focus:border-primary"
             />
           </div>
         </div>
         <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-8">
-          <Appear variant="up" viewOption={{ amount: 0.4 }} delay={0.1}>
-            <Course courseContent={courseContent} className="shadow-[gray_0_0_4px]" />
-          </Appear>
-          <Appear variant="up" viewOption={{ amount: 0.4 }} delay={0.2}>
-            <Course courseContent={courseContent} className="shadow-[gray_0_0_4px]" />
-          </Appear>
-          <Appear variant="up" viewOption={{ amount: 0.4 }} delay={0.3}>
-            <Course courseContent={courseContent} className="shadow-[gray_0_0_4px]" />
-          </Appear>
-          <Appear variant="up" viewOption={{ amount: 0.4 }} delay={0.1}>
-            <Course courseContent={courseContent} className="shadow-[gray_0_0_4px]" />
-          </Appear>
-          <Appear variant="up" viewOption={{ amount: 0.4 }} delay={0.2}>
-            <Course courseContent={courseContent} className="shadow-[gray_0_0_4px]" />
-          </Appear>
-          <Appear variant="up" viewOption={{ amount: 0.4 }} delay={0.3}>
-            <Course courseContent={courseContent} className="shadow-[gray_0_0_4px]" />
-          </Appear>
+          {courses.map((course, index) => (
+            <Appear
+              key={course.name}
+              variant="up"
+              viewOption={{ amount: 0.4 }}
+              delay={(index % 3) * 0.1}
+            >
+              <Course
+                course={course}
+                className="shadow-[gray_0_0_4px] rounded-lg overflow-hidden"
+              />
+            </Appear>
+          ))}
         </div>
       </div>
     </section>

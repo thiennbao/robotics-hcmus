@@ -1,20 +1,24 @@
 import NewsDetail from "@/components/partials/newsDetail";
 import PageWall from "@/components/utils/pageWall";
+import db from "@/lib/db";
+import { notFound } from "next/navigation";
 
-export default function NewsDetailPage() {
-  // Fetch course data from database
-  const news = {
-    title: "Lorem Lmao",
-    thumbnail: "/picsum-3.png",
-    content:
-      "Le passage latin classique qui ne vieillit jamais, apprécie autant (ou aussi peu) le lorem ipsum que vous pouvez manipuler avec notre générateur de texte de remplissage facile à utiliser.",
-    photos: ["/picsum-3.png", "/picsum-3.png"],
-  };
+export default async function NewsDetailPage({
+  params,
+  searchParams,
+}: {
+  params: { id: string };
+  searchParams: { search: string };
+}) {
+  const title = decodeURI(params.id);
+  const news = await db.news.findUnique({ where: { title } });
+
+  if (!news) notFound();
 
   return (
     <main>
       <PageWall title={news.title} image={news.thumbnail} />
-      <NewsDetail news={news} className="my-24" />
+      <NewsDetail news={news} search={searchParams.search} className="my-24" />
     </main>
   );
 }

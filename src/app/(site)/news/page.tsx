@@ -1,11 +1,11 @@
 import NewsArchive from "@/components/partials/newsArchive";
 import PageWall from "@/components/utils/pageWall";
 
-export default function NewsPage() {
+export default function NewsPage({ searchParams }: { searchParams: { search: string } }) {
   return (
     <main>
-      <PageWall title="NEWS AND BLOGS" image="/picsum-3.png" />
-      <NewsArchive className="min-h-screen flex py-24" />
+      <PageWall title="NEWS AND BLOGS" image="/wallpaper-news.png" />
+      <NewsArchive search={searchParams.search} className="min-h-screen flex py-24" />
     </main>
   );
 }

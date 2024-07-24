@@ -1,17 +1,11 @@
 import { HTMLAttributes } from "react";
 import Carousel from "../utils/carousel";
 import Course from "./course";
+import db from "@/lib/db";
 
-// Temp content
-const courseContent = {
-  _id: "01232456789",
-  name: "Lorem Lmao",
-  thumbnail: "/picsum-2.png",
-  description:
-    "Le passage latin classique qui ne vieillit jamais, apprécie autant (ou aussi peu) le lorem ipsum que vous pouvez manipuler avec notre générateur de texte de remplissage facile à utiliser.",
-};
+const CourseCarousel = async (props: HTMLAttributes<HTMLDivElement>) => {
+  const courses = await db.course.findMany();
 
-const CourseCarousel = (props: HTMLAttributes<HTMLDivElement>) => {
   return (
     <section {...props}>
       <div className="container">
@@ -19,12 +13,11 @@ const CourseCarousel = (props: HTMLAttributes<HTMLDivElement>) => {
           COURSES
         </h2>
         <Carousel withPrevNext itemsOnScreen={{ df: 1, md: 2, xl: 3 }} className="-mx-4">
-          <Course courseContent={courseContent} className="shadow-[gray_0_0_4px] m-4" />
-          <Course courseContent={courseContent} className="shadow-[gray_0_0_4px] m-4" />
-          <Course courseContent={courseContent} className="shadow-[gray_0_0_4px] m-4" />
-          <Course courseContent={courseContent} className="shadow-[gray_0_0_4px] m-4" />
-          <Course courseContent={courseContent} className="shadow-[gray_0_0_4px] m-4" />
-          <Course courseContent={courseContent} className="shadow-[gray_0_0_4px] m-4" />
+          {courses.map((course) => (
+            <div key={course.name} className="p-4 h-full">
+              <Course course={course} className="shadow-[gray_0_0_4px] rounded-lg overflow-hidden" />
+            </div>
+          ))}
         </Carousel>
       </div>
     </section>

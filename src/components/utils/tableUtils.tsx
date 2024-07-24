@@ -148,14 +148,14 @@ export const DeleteButton = ({
       <RiDeleteBin2Fill className="text-red-400 cursor-pointer" onClick={() => setConfirm(true)} />
       {confirm && (
         <>
-          <div
-            className="w-screen h-screen fixed top-0 left-0 bg-black bg-opacity-80 cursor-pointer z-10"
-            onClick={() => setConfirm(false)}
-          />
           <form action={action}>
-            <Confirm title="Delete this item" className="fixed z-20">
-              This will permanently delete the <b>{itemName}</b>. Your action cannot be undone.
-            </Confirm>
+            <Confirm
+              title="Delete this item"
+              message={`This will permanently delete the ${itemName}. Your action cannot be undone`}
+              type="warning"
+              asSubmit
+              close={() => setConfirm(false)}
+            />
           </form>
         </>
       )}

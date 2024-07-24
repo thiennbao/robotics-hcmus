@@ -64,14 +64,12 @@ const Carousel = ({
           }}
         >
           {Children.map(children, (child) => (
-            <div className="h-full" style={{ width: `${100 / childrenLength}%` }}>
-              {child}
-            </div>
+            <div style={{ width: `${100 / childrenLength}%` }}>{child}</div>
           ))}
         </div>
       )}
       {withPrevNext && (
-        <div className="*:absolute *:top-1/2 *:-translate-y-1/2 *:p-2 *:rounded-full *:text-light hover:*:bg-light hover:*:bg-opacity-20 *:transition *:cursor-pointer">
+        <div className="*:absolute *:top-1/2 *:-translate-y-1/2 *:p-2 *:rounded-full *:text-light hover:*:bg-light hover:*:bg-opacity-20 *:transition *:cursor-pointer *:select-none">
           <div
             className="left-2 md:left-8"
             onClick={() => setSlide(slide === 0 ? childrenLength - items : slide - 1)}
@@ -87,7 +85,7 @@ const Carousel = ({
         </div>
       )}
       {withCircle && (
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex text-light text-sm *:mx-1 *:cursor-pointer">
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex text-light text-sm *:mx-1 *:cursor-pointer *:select-none">
           {Children.map(children, (child, index) =>
             slide <= index && index <= slide + items - 1 ? (
               <FaCircle />

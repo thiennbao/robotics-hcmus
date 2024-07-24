@@ -1,7 +1,7 @@
 const PageWall = ({ title, image }: { title: string; image: string }) => {
   return (
     <section
-      className="relative h-[50vh] bg-cover bg-center"
+      className="relative h-[50vh] bg-cover bg-center text-center"
       style={{
         backgroundImage: `linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)),url(${image})`,
       }}

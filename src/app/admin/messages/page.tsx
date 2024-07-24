@@ -60,10 +60,10 @@ export default async function MessageDashboardPage({
             <thead>
               <tr className="*:p-4 *:text-left">
                 <th>
-                  <div className="w-32">Date</div>
+                  <div className="w-64">Date</div>
                 </th>
                 <th>
-                  <div className="w-64">Name</div>
+                  <div className="w-48">Name</div>
                 </th>
                 <th>
                   <div className="w-48">Email</div>
@@ -72,7 +72,7 @@ export default async function MessageDashboardPage({
                   <div className="w-48">Phone</div>
                 </th>
                 <th>
-                  <div className="w-96">Message</div>
+                  <div className="w-64">Message</div>
                 </th>
                 <th>
                   <div className="w-24">Action</div>
@@ -84,12 +84,12 @@ export default async function MessageDashboardPage({
                 {messages.map((item) => (
                   <tr key={item.id} className={item.read ? "text-gray-400" : "italic"}>
                     <td>
-                      <div className="w-32 p-4 text-nowrap text-ellipsis overflow-hidden">
-                        {item.date.toLocaleDateString()}
+                      <div className="w-64 p-4 text-nowrap text-ellipsis overflow-hidden">
+                        {item.date.toLocaleString()}
                       </div>
                     </td>
                     <td>
-                      <div className="w-64 p-4 text-nowrap text-ellipsis overflow-hidden">
+                      <div className="w-48 p-4 text-nowrap text-ellipsis overflow-hidden">
                         {item.name}
                       </div>
                     </td>
@@ -104,7 +104,7 @@ export default async function MessageDashboardPage({
                       </div>
                     </td>
                     <td>
-                      <div className="w-96 p-4 text-nowrap text-ellipsis overflow-hidden">
+                      <div className="w-64 p-4 text-nowrap text-ellipsis overflow-hidden">
                         {item.message}
                       </div>
                     </td>

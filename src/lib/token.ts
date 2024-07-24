@@ -21,3 +21,7 @@ export const verifyToken = async () => {
   const token = cookies().get("token")?.value as string;
   return await jose.jwtVerify(token, new TextEncoder().encode(process.env.JWT_KEY));
 };
+
+export const deleteToken = () => {
+  cookies().delete("token");
+};

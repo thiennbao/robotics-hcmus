@@ -25,7 +25,8 @@ export const courseSchema = {
   objective: { required: { message: "Please fill out this field" } },
   age: { required: { message: "Please fill out this field" } },
   lesson: { required: { message: "Please fill out this field" } },
-  duration: { required: { message: "Please fill out this field" } },
+  time: { required: { message: "Please fill out this field" } },
+  openDate: { required: { message: "Please fill out this field" } },
   requirement: { required: { message: "Please fill out this field" } },
   gallery: { required: { message: "Please upload a photo" } },
 };
@@ -34,6 +35,25 @@ export const newsSchema = {
   title: { required: { message: "Please fill out this field" } },
   thumbnail: { required: { message: "Please upload a photo" } },
   content: { required: { message: "Please fill out this field" } },
+};
+
+export const messageSchema = {
+  name: { required: { message: "Please fill out this field" } },
+  email: { required: { message: "Please fill out this field" } },
+  phone: { required: { message: "Please fill out this field" } },
+  message: { required: { message: "Please fill out this field" } },
+};
+
+export const registerSchema = {
+  courseId: { required: { message: "Required" } },
+  name: { required: { message: "Please fill out this field" } },
+  dob: {
+    required: { message: "Please fill out this field" },
+    type: { value: "date" as "date", message: "Please enter a date" },
+  },
+  email: { required: { message: "Please fill out this field" } },
+  phone: { required: { message: "Please fill out this field" } },
+  time: { required: { message: "Please choose a time slot" } },
 };
 
 export const userSchema = {

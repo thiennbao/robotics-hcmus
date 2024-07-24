@@ -63,7 +63,10 @@ export default async function CourseDashboardPage({
                   <div className="w-32">Lesson</div>
                 </th>
                 <th>
-                  <div className="w-48">Duration</div>
+                  <div className="w-64">Time</div>
+                </th>
+                <th>
+                  <div className="w-48">Opening date</div>
                 </th>
                 <th>
                   <div className="w-48">Requirement</div>
@@ -85,7 +88,7 @@ export default async function CourseDashboardPage({
                           width={32}
                           height={32}
                           priority
-                          className="w-8 h-8"
+                          className="w-8 h-8 object-cover"
                         />
                         <span>{item.name}</span>
                       </div>
@@ -111,8 +114,13 @@ export default async function CourseDashboardPage({
                       </div>
                     </td>
                     <td>
+                      <div className="w-64 p-4 text-nowrap text-ellipsis overflow-hidden">
+                        {item.time}
+                      </div>
+                    </td>
+                    <td>
                       <div className="w-48 p-4 text-nowrap text-ellipsis overflow-hidden">
-                        {item.duration}
+                        {item.openDate}
                       </div>
                     </td>
                     <td>

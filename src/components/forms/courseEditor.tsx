@@ -62,7 +62,7 @@ const CourseEditor = ({ data }: { data?: Course }) => {
           submitErr={submitErr}
         />
       </div>
-      <div className="grid md:grid-cols-3 gap-4">
+      <div className="grid md:grid-cols-2 gap-4">
         <InputField
           label="Age"
           inputAttr={{
@@ -84,13 +84,23 @@ const CourseEditor = ({ data }: { data?: Course }) => {
           submitErr={submitErr}
         />
         <InputField
-          label="Duration"
+          label="Time, separeted by ( ; ) mark"
           inputAttr={{
-            name: "duration",
-            placeholder: "120 minutes / classes",
-            defaultValue: data?.duration,
+            name: "time",
+            placeholder: "08:00 - 10:00 Saturday; 08:00 - 10:00 Sunday; ...",
+            defaultValue: data?.time,
           }}
-          validation={courseSchema.duration}
+          validation={courseSchema.age}
+          submitErr={submitErr}
+        />
+        <InputField
+          label="Expected opening date"
+          inputAttr={{
+            name: "openDate",
+            placeholder: "30/02/2024",
+            defaultValue: data?.openDate,
+          }}
+          validation={courseSchema.age}
           submitErr={submitErr}
         />
       </div>

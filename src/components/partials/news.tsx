@@ -1,31 +1,29 @@
+import { News as NewsModel } from "@prisma/client";
 import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
 import { HTMLAttributes } from "react";
 
-interface Props extends HTMLAttributes<HTMLDivElement> {
-  newsContent: {
-    _id: string;
-    title: string;
-    thumbnail: string;
-    date: string;
-  };
-}
-
-const News = ({ newsContent, className, ...props }: Props) => {
+const News = ({
+  news,
+  className,
+  ...props
+}: { news: NewsModel } & HTMLAttributes<HTMLDivElement>) => {
   return (
     <div className={clsx(className, "h-full flex flex-col")} {...props}>
-      <Link href={`/news/${newsContent._id}`}>
+      <Link href={`/news/${news.title}`}>
         <Image
-          src={newsContent.thumbnail}
-          alt={newsContent.title}
+          src={news.thumbnail}
+          alt={news.title}
           width={800}
           height={800}
-          className="aspect-square object-cover"
+          className="aspect-[4/3] object-cover"
         />
-        <div className="py-4">
-          <p className="text-xl text-primary font-bold mb-2">{newsContent.title}</p>
-          <p className="text-gray-600">{new Date(newsContent.date).toDateString()}</p>
+        <div className="p-4">
+          <p className="text-lg text-primary font-bold mb-2">
+            {news.title.length > 100 ? `${news.title.slice(0, 100)}...` : news.title}
+          </p>
+          <p className="text-gray-600">{new Date(news.date).toDateString()}</p>
         </div>
       </Link>
     </div>

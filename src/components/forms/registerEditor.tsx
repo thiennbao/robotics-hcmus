@@ -47,14 +47,6 @@ const RegisterEditor = ({ data }: { data: Register & { course: Pick<Course, "nam
           }}
         />
       </div>
-      <TextField
-        label="Message"
-        inputAttr={{
-          name: "message",
-          defaultValue: data.message || "",
-          readOnly: true,
-        }}
-      />
       <div className="text-center pt-4">
         {data.read ? (
           <button className="w-1/2 py-2 rounded-lg border border-amber-500 text-amber-500 hover:bg-amber-500 hover:text-white transition">

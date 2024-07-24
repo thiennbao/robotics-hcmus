@@ -1,35 +1,37 @@
+import { Course as CourseModel } from "@prisma/client";
 import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
 import { HTMLAttributes } from "react";
 
-interface Props extends HTMLAttributes<HTMLDivElement> {
-  courseContent: {
-    _id: string;
-    name: string;
-    thumbnail: string;
-    description: string;
-  };
-}
-
-const Course = ({ courseContent, className, ...props }: Props) => {
+const Course = ({
+  course,
+  className,
+  ...props
+}: { course: CourseModel } & HTMLAttributes<HTMLDivElement>) => {
   return (
     <div className={clsx(className, "h-full flex flex-col")} {...props}>
       <div>
-        <Image src={courseContent.thumbnail} alt={courseContent.name} width={800} height={450} />
+        <Image
+          src={course.thumbnail}
+          alt={course.name}
+          width={800}
+          height={450}
+          className="aspect-video object-cover"
+        />
       </div>
       <div className="flex-grow flex flex-col justify-between gap-6 p-6">
         <div>
-          <p className="text-xl text-primary font-bold mb-2">{courseContent.name}</p>
+          <p className="text-xl text-primary font-bold mb-2">{course.name}</p>
           <p>
-            {courseContent.description.length > 200
-              ? `${courseContent.description.slice(0, 200)}...`
-              : courseContent.description}
+            {course.description.length > 200
+              ? `${course.description.slice(0, 200)}...`
+              : course.description}
           </p>
         </div>
         <div>
-          <Link href={`/courses/${courseContent._id}`}>
-            <button className="w-32 h-10 border-2 border-primary text-primary transition hover:bg-primary hover:text-white">
+          <Link href={`/courses/${course.name}`}>
+            <button className="w-32 h-10 border-2 border-primary text-primary transition rounded hover:bg-primary hover:text-white">
               See details
             </button>
           </Link>

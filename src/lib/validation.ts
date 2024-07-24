@@ -4,7 +4,7 @@ export type Validation = {
   max?: { value: number; message: string };
   include?: { value: string[]; message: string };
   exclude?: { value: string[]; message: string };
-  type?: { value: "number"; message: string };
+  type?: { value: "number" | "date"; message: string };
   minValue?: { value: number; message: string };
   maxValue?: { value: number; message: string };
   regex?: { value: RegExp; message: string };
@@ -24,6 +24,7 @@ export const validate = (value: string, validation: Validation) => {
   if (include && !include.value.includes(value)) return include.message;
   if (type) {
     if (type.value === "number" && isNaN(Number(value))) return type.message;
+    if (type.value === "date" && isNaN(Number(new Date(value)))) return type.message;
   }
   if (minValue && !(Number(value) >= minValue.value)) return minValue.message;
   if (maxValue && !(Number(value) <= maxValue.value)) return maxValue.message;

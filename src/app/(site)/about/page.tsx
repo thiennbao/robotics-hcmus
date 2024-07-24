@@ -7,7 +7,7 @@ import PageWall from "@/components/utils/pageWall";
 export default function AboutPage() {
   return (
     <main>
-      <PageWall title="ABOUT US" image="/picsum-1.png" />
+      <PageWall title="ABOUT US" image="/wallpaper-about.png" />
       <Description className="min-h-screen flex py-24 -mb-24" />
       <Quote className="min-h-screen flex py-24 -mb-24" />
       <Features className="min-h-screen flex py-24 -mb-24" />

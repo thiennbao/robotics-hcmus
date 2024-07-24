@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Appear from "../utils/appear";
 import { HTMLAttributes } from "react";
 import { FaCheckCircle } from "react-icons/fa";
@@ -33,25 +34,25 @@ const Features = (props: HTMLAttributes<HTMLDivElement>) => {
               <Appear variant="right">
                 <Feature
                   title="Lorem ipsum"
-                  content="Des yeux qui font baisser les miens un rire qui se perd sur sa bouche voilà le portrait sans retouche de l'homme auquel j'appartiens."
+                  content="In tellus integer feugiat scelerisque varius morbi enim nunc faucibus a pellentesque sit amet porttitor eget dolor morbi non arcu"
                 />
               </Appear>
               <Appear variant="right">
                 <Feature
-                  title="Lorem ipsum"
-                  content="Des yeux qui font baisser les miens un rire qui se perd sur sa bouche voilà le portrait sans retouche de l'homme auquel j'appartiens."
+                  title="Facilisis mauris"
+                  content="Morbi leo urna molestie at elementum eu facilisis sed odio morbi quis commodo odio aenean sed adipiscing diam donec adipiscing"
                 />
               </Appear>
               <Appear variant="right">
                 <Feature
-                  title="Lorem ipsum"
-                  content="Des yeux qui font baisser les miens un rire qui se perd sur sa bouche voilà le portrait sans retouche de l'homme auquel j'appartiens."
+                  title="Adipiscing elit"
+                  content="Sit amet consectetur adipiscing elit pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas integer eget"
                 />
               </Appear>
               <Appear variant="right">
                 <Feature
-                  title="Lorem ipsum"
-                  content="Des yeux qui font baisser les miens un rire qui se perd sur sa bouche voilà le portrait sans retouche de l'homme auquel j'appartiens."
+                  title="Nec ullamcorper"
+                  content="Nec ullamcorper sit amet risus nullam eget felis eget nunc lobortis mattis aliquam faucibus purus in massa tempor nec feugiat"
                 />
               </Appear>
             </div>
@@ -59,7 +60,13 @@ const Features = (props: HTMLAttributes<HTMLDivElement>) => {
         </div>
         <div className="lg:w-2/5 xl:w-1/2 overflow-hidden">
           <Appear variant="left" viewOption={{ amount: 0.4 }} className="h-72 lg:h-full">
-            <img src="/picsum-1.png" alt="Feature image" className="h-full object-cover" />
+            <Image
+              src="/about-features.png"
+              alt="Feature image"
+              width={1200}
+              height={1200}
+              className="w-auto h-full object-cover rounded-lg"
+            />
           </Appear>
         </div>
       </div>

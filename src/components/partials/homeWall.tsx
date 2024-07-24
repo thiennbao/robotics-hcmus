@@ -1,29 +1,23 @@
 import Carousel from "../utils/carousel";
+import Image from "next/image";
+import db from "@/lib/db";
 
-const HomeWall = () => {
+const HomeWall = async () => {
+  const banners = await db.banner.findMany({ orderBy: { order: "asc" } });
+
   return (
-    <section className="h-screen">
+    <section className="h-screen bg-gray-200">
       <Carousel withPrevNext withCircle className="h-full">
-        <img
-          src="/picsum-1.png"
-          alt="Banner 1"
-          className="h-full w-full object-cover brightness-50"
-        />
-        <img
-          src="/picsum-2.png"
-          alt="Banner 2"
-          className="h-full w-full object-cover brightness-50"
-        />
-        <img
-          src="/picsum-3.png"
-          alt="Banner 3"
-          className="h-full w-full object-cover brightness-50"
-        />
-        <img
-          src="/picsum-4.png"
-          alt="Banner 4"
-          className="h-full w-full object-cover brightness-50"
-        />
+        {banners.map((banner) => (
+          <Image
+            key={banner.name}
+            src={banner.image}
+            alt={banner.name}
+            width={1600}
+            height={900}
+            className="h-full w-full object-cover brightness-50"
+          />
+        ))}
       </Carousel>
     </section>
   );

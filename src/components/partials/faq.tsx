@@ -4,7 +4,7 @@ import { BsQuestionCircle } from "react-icons/bs";
 
 const Question = ({ question, answer }: { question: string; answer: string }) => {
   return (
-    <div className="bg-gray-100 p-6 flex items-center">
+    <div className="bg-gray-100 p-6 flex items-center rounded-lg">
       <div className="mr-6">
         <BsQuestionCircle className="text-2xl text-primary" />
       </div>

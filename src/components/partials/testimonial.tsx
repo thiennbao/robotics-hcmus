@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Appear from "../utils/appear";
 import Carousel from "../utils/carousel";
 import { HTMLAttributes } from "react";
@@ -21,10 +22,12 @@ const Slide = ({
       </h2>
       <i className="block mx-auto mb-8 text-xl">{content}</i>
       <div className="flex items-center justify-center">
-        <img
+        <Image
           src={photo}
           alt="Customer photo"
-          className="w-16 aspect-square object-cover rounded-full mr-4"
+          width={64}
+          height={64}
+          className="aspect-square object-cover rounded-full mr-4"
         />
         <span>{name}</span>
         <BsDot />
@@ -37,7 +40,7 @@ const Slide = ({
 const Testimonial = (props: HTMLAttributes<HTMLDivElement>) => {
   return (
     <section {...props}>
-      <div className="text-light bg-[linear-gradient(rgba(0,0,0,0.8),rgba(0,0,0,0.8)),url(/picsum-1.png)] bg-cover bg-center overflow-hidden">
+      <div className="text-light bg-[linear-gradient(rgba(0,0,0,0.8),rgba(0,0,0,0.8)),url(/about-testimonial.png)] bg-cover bg-center overflow-hidden">
         <Appear
           variant="left"
           viewOption={{ amount: 0.4 }}
@@ -45,21 +48,21 @@ const Testimonial = (props: HTMLAttributes<HTMLDivElement>) => {
         >
           <Carousel withPrevNext withCircle className="pb-16">
             <Slide
-              content="Placerat dictum curabitur ridiculus laoreet tortor. Ipsum pellentesque inceptos porta phasellus quisque cubilia nullam vestibulum. Nunc dis eros congue et eleifend natoque."
-              photo="/picsum-1.png"
-              name="Lorem Lmao"
+              content="Venenatis cras sed felis eget velit aliquet sagittis id consectetur purus ut faucibus pulvinar elementum integer enim neque volutpat ac"
+              photo="/about-testimonial-person-1.png"
+              name="Beringar Schmidt"
               position="Customer"
             />
             <Slide
               content="Placerat dictum curabitur ridiculus laoreet tortor. Ipsum pellentesque inceptos porta phasellus quisque cubilia nullam vestibulum. Nunc dis eros congue et eleifend natoque."
-              photo="/picsum-1.png"
-              name="Lorem Lmao"
+              photo="/about-testimonial-person-2.png"
+              name="Kiefer Sachs"
               position="Customer"
             />
             <Slide
-              content="Placerat dictum curabitur ridiculus laoreet tortor. Ipsum pellentesque inceptos porta phasellus quisque cubilia nullam vestibulum. Nunc dis eros congue et eleifend natoque."
-              photo="/picsum-1.png"
-              name="Lorem Lmao"
+              content="Freiheit ohne Gesetze bedeutet Anarchie, Gesetze ohne Freiheit bedeutet Tyrannei"
+              photo="/about-testimonial-person-3.png"
+              name="Tanya von Degurechaff"
               position="Customer"
             />
           </Carousel>

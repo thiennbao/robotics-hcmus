@@ -7,6 +7,8 @@ import { HTMLProps, useEffect, useMemo, useState } from "react";
 import { LuImagePlus } from "react-icons/lu";
 import { RiDeleteBin2Fill } from "react-icons/ri";
 import "react-quill/dist/quill.snow.css";
+import Confirm from "./confirm";
+import Image from "next/image";
 
 interface Props extends HTMLProps<HTMLDivElement> {
   label: string;
@@ -18,7 +20,7 @@ interface Props extends HTMLProps<HTMLDivElement> {
     type?: "password";
   };
   validation?: Validation;
-  submitErr?: {[key: string]: string};
+  submitErr?: { [key: string]: string };
 }
 
 export const InputField = ({ label, inputAttr, validation, submitErr, ...props }: Props) => {
@@ -26,7 +28,7 @@ export const InputField = ({ label, inputAttr, validation, submitErr, ...props }
 
   useEffect(() => {
     setErrorMsg(submitErr?.[inputAttr.name] || "");
-  }, [submitErr]);
+  }, [submitErr, inputAttr.name]);
 
   return (
     <div {...props}>
@@ -52,7 +54,7 @@ export const TextField = ({ label, inputAttr, validation, submitErr, ...props }:
 
   useEffect(() => {
     setErrorMsg(submitErr?.[inputAttr.name] || "");
-  }, [submitErr]);
+  }, [submitErr, inputAttr.name]);
 
   return (
     <div {...props}>
@@ -76,16 +78,18 @@ export const TextField = ({ label, inputAttr, validation, submitErr, ...props }:
 export const ImageField = ({ label, inputAttr, validation, submitErr, ...props }: Props) => {
   const [errorMsg, setErrorMsg] = useState("");
   const [image, setImage] = useState<string>(inputAttr.defaultValue as string);
+  const [overSize, setOverSize] = useState(false);
 
   useEffect(() => {
     setErrorMsg(submitErr?.[inputAttr.name] || "");
-  }, [submitErr]);
+  }, [submitErr, inputAttr.name]);
 
   const handleUpload = (file: File | undefined) => {
     if (file) {
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = () => {
+        if ((reader.result as string).length >= 1024 ** 2) return setOverSize(true);
         setImage(reader.result as string);
         setErrorMsg("");
       };
@@ -120,7 +124,7 @@ export const ImageField = ({ label, inputAttr, validation, submitErr, ...props }
         {image ? (
           <div className="h-60 relative">
             {/* Preview image */}
-            <img src={image} className="w-full h-full rounded-lg object-cover" />
+            <Image src={image} alt="Uploaded image" className="w-full h-full rounded-lg object-cover" />
             {/* Delete button */}
             <div
               onClick={(e) => {
@@ -139,6 +143,14 @@ export const ImageField = ({ label, inputAttr, validation, submitErr, ...props }
         )}
       </label>
       <span className="mt-1 text-red-400 text-sm">{errorMsg}</span>
+      {overSize && (
+        <Confirm
+          title="Upload failed"
+          message="Your image seems to be too large, please try with a smaller image again"
+          type="warning"
+          close={() => setOverSize(false)}
+        />
+      )}
     </div>
   );
 };
@@ -146,10 +158,11 @@ export const ImageField = ({ label, inputAttr, validation, submitErr, ...props }
 export const MultiImageField = ({ label, inputAttr, validation, submitErr, ...props }: Props) => {
   const [errorMsg, setErrorMsg] = useState("");
   const [images, setImages] = useState<string[]>(JSON.parse(inputAttr.defaultValue || "[]"));
+  const [overSize, setOverSize] = useState(false);
 
   useEffect(() => {
     setErrorMsg(submitErr?.[inputAttr.name] || "");
-  }, [submitErr]);
+  }, [submitErr, inputAttr.name]);
 
   const handleUpload = (fileList: FileList | null) => {
     if (fileList) {
@@ -158,6 +171,7 @@ export const MultiImageField = ({ label, inputAttr, validation, submitErr, ...pr
         const reader = new FileReader();
         reader.readAsDataURL(files[index]);
         reader.onload = () => {
+          if ((reader.result as string).length >= 1024 ** 2) return setOverSize(true);
           setImages((images) => [...images, reader.result as string]);
           setErrorMsg("");
         };
@@ -165,7 +179,7 @@ export const MultiImageField = ({ label, inputAttr, validation, submitErr, ...pr
     }
   };
   const handleDelete = (deletedIndex: number) => {
-    const remainImage = images.filter((image, index) => index !== deletedIndex);
+    const remainImage = images.filter((_image, index) => index !== deletedIndex);
     setImages(remainImage);
     setErrorMsg(remainImage.length ? "" : (validation?.required?.message as string));
   };
@@ -176,12 +190,9 @@ export const MultiImageField = ({ label, inputAttr, validation, submitErr, ...pr
         {label}
         {validation?.required && <span className="ml-1 text-red-400">*</span>}
       </label>
-      <input
-        {...inputAttr}
-        defaultValue={JSON.stringify(images)}
-        key={JSON.stringify(images)}
-        hidden
-      />
+      {images.map((image, index) => (
+        <input {...inputAttr} defaultValue={image} key={image + index} hidden />
+      ))}
       <input
         type="file"
         accept="image/*"
@@ -203,7 +214,7 @@ export const MultiImageField = ({ label, inputAttr, validation, submitErr, ...pr
             {images.map((image, index) => (
               <div key={index} className="block h-60 aspect-video max-w-full mx-auto relative">
                 {/* Preview image */}
-                <img src={image} className="w-full h-full rounded-lg object-cover" />
+                <Image src={image} alt="Uploaded image" className="w-full h-full rounded-lg object-cover" />
                 {/* Delete button */}
                 <div
                   className="absolute top-0 right-0 m-2 p-2 bg-gray-900 bg-opacity-50 rounded-lg cursor-pointer"
@@ -227,6 +238,14 @@ export const MultiImageField = ({ label, inputAttr, validation, submitErr, ...pr
         )}
       </label>
       <span className="mt-1 text-red-400 text-sm">{errorMsg}</span>
+      {overSize && (
+        <Confirm
+          title="Upload failed"
+          message="Your image seems to be too large, please try with a smaller image again"
+          type="warning"
+          close={() => setOverSize(false)}
+        />
+      )}
     </div>
   );
 };
@@ -239,7 +258,7 @@ export const RichTextField = ({ label, inputAttr, validation, submitErr, ...prop
 
   useEffect(() => {
     setErrorMsg(submitErr?.[inputAttr.name] || "");
-  }, [submitErr]);
+  }, [submitErr, inputAttr.name]);
 
   // Quill library issue (value is "<p><br></p>" when all input's deleted)
   const handleChange = (value: string) => {
@@ -275,13 +294,10 @@ export const RichTextField = ({ label, inputAttr, validation, submitErr, ...prop
           modules={{
             toolbar: {
               container: [
-                [{ header: [1, 2, 3, 4, 5, 6, false] }],
-                [{ size: ["small", false, "large", "huge"] }],
-                ["bold", "italic", "underline", "strike"],
-                ["blockquote", "code-block"],
-                ["link", "image", "video"],
-                [{ list: "ordered" }, { list: "bullet" }, { list: "check" }],
-                [{ indent: "-1" }, { indent: "+1" }],
+                [{ header: [1, 2, 3] }],
+                ["bold", "italic", "underline", "strike", "code-block", "link"],
+                ["image", "video"],
+                [{ list: "ordered" }, { list: "bullet" }],
                 [{ script: "sub" }, { script: "super" }],
                 [{ color: [] }, { background: [] }],
                 [{ align: [] }],
@@ -308,7 +324,7 @@ export const SelectField = ({
 
   useEffect(() => {
     setErrorMsg(submitErr?.[inputAttr.name] || "");
-  }, [submitErr]);
+  }, [submitErr, inputAttr.name]);
 
   return (
     <div {...props}>

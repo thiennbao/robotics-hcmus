@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 export default function AdminErrorPage({
   error,
   reset,
@@ -10,7 +12,7 @@ export default function AdminErrorPage({
   return (
     <div className="h-full flex justify-center items-center text-light overflow-hidden">
       <div className="text-center">
-        <img src="/error.svg" className="w-72 m-auto" />
+        <Image width={320} height={320} src="/error.svg" alt="Error" className="w-72 m-auto" />
         <h2 className="text-xl">Something went wrong</h2>
         <p className="w-3/4 m-auto">Error: {error.message}</p>
         <button

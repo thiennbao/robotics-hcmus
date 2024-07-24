@@ -36,7 +36,8 @@ model Course {
     objective   String
     age         String
     lesson      String
-    duration    String
+    time        String
+    openDate    String
     requirement String
     gallery     String[]
     Register    Register[]
@@ -52,8 +53,8 @@ model News {
 model Message {
     id      String   @id @default(uuid())
     name    String
-    email   String?
-    phone   String?
+    email   String
+    phone   String
     message String
     read    Boolean  @default(false)
     date    DateTime @default(now())
@@ -67,7 +68,7 @@ model Register {
     dob      DateTime
     email    String
     phone    String
-    message  String?
+    time     String
     read     Boolean  @default(false)
     date     DateTime @default(now())
 }
