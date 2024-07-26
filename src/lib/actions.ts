@@ -22,6 +22,44 @@ import bcrypt from "bcrypt";
 import { Role } from "@prisma/client";
 import { signToken } from "./token";
 
+// Import
+export const importAction = async (
+  key:
+    | "navigations"
+    | "contacts"
+    | "banners"
+    | "courses"
+    | "news"
+    | "messages"
+    | "registers"
+    | "users",
+  data: any
+) => {
+  try {
+    if (key === "navigations") {
+      await db.navigation.createMany({ data, skipDuplicates: true });
+    } else if (key === "contacts") {
+      await db.contact.createMany({ data, skipDuplicates: true });
+    } else if (key === "banners") {
+      await db.banner.createMany({ data, skipDuplicates: true });
+    } else if (key === "courses") {
+      await db.course.createMany({ data, skipDuplicates: true });
+    } else if (key === "news") {
+      await db.news.createMany({ data, skipDuplicates: true });
+    } else if (key === "messages") {
+      await db.message.createMany({ data, skipDuplicates: true });
+    } else if (key === "registers") {
+      await db.register.createMany({ data, skipDuplicates: true });
+    } else {
+      await db.user.createMany({ data, skipDuplicates: true });
+    }
+    revalidatePath(`/admin/${key}`);
+    return { message: "success" };
+  } catch {
+    return { message: "error" };
+  }
+};
+
 // Navigation
 export const navigationSaveAction = async (_prevState: any, formData: FormData) => {
   const data = {

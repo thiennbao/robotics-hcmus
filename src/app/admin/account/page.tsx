@@ -2,7 +2,6 @@ import AccountEditor from "@/components/forms/accountEditor";
 import { notFound } from "next/navigation";
 import { FaAngleDoubleRight } from "react-icons/fa";
 import db from "@/lib/db";
-import { cookies } from "next/headers";
 import { verifyToken } from "@/lib/token";
 
 export default async function AccountEditPage() {

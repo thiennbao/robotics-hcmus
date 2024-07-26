@@ -1,5 +1,5 @@
 import { Course, Register } from "@prisma/client";
-import { InputField, TextField } from "../utils/editorUtils";
+import { InputField } from "../utils/editorUtils";
 import { registerReadAction } from "@/lib/actions";
 
 const RegisterEditor = ({ data }: { data: Register & { course: Pick<Course, "name"> } }) => {

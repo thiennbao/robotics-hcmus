@@ -4,7 +4,6 @@ import { notFound } from "next/navigation";
 import { FaAngleDoubleRight } from "react-icons/fa";
 import db from "@/lib/db";
 import { MdMarkEmailRead, MdMarkEmailUnread } from "react-icons/md";
-import { messageReadAction } from "@/lib/actions";
 
 export default async function NavigationEditPage({ params }: { params: { id: string } }) {
   const id = decodeURI(params.id);
