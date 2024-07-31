@@ -9,3 +9,5 @@ export default function CoursesPage({ searchParams }: { searchParams: { search: 
     </main>
   );
 }
+
+export const dynamic = "force-dynamic";

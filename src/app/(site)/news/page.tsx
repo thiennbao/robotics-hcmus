@@ -9,3 +9,5 @@ export default function NewsPage({ searchParams }: { searchParams: { search: str
     </main>
   );
 }
+
+export const dynamic = "force-dynamic";

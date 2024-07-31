@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-export default function AdminNotFound() {
+export default function AdminNotFoundPage() {
   return (
     <div className="h-full flex justify-center items-center text-light overflow-hidden">
       <div className="text-center">

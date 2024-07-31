@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-export default function SiteNotFound() {
+export default function NotFoundPage() {
   return (
     <div className="h-screen flex justify-center items-center text-light bg-gray-900 overflow-hidden">
       <div className="text-center pb-16">
