@@ -1,0 +1,20 @@
+# Editor
+.vscode
+
+# Git
+.git
+.gitignore
+README.md
+
+# Build and deps
+.next
+node_modules
+
+# Environment
+.env
+.env.example
+
+# Docker
+.dockerignore
+Dockerfile
+docker-compose.yml

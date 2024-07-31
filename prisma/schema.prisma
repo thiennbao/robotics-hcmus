@@ -1,0 +1,81 @@
+datasource db {
+    provider = "postgresql"
+    url      = env("POSTGRES_PRISMA_URL")
+}
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+enum Role {
+    ROOT
+    ADMIN
+}
+
+model Navigation {
+    title   String @id
+    address String
+}
+
+model Contact {
+    key     String  @id
+    title   String?
+    address String?
+}
+
+model Banner {
+    name  String @id
+    image String
+    order Int
+}
+
+model Course {
+    name        String     @id
+    thumbnail   String
+    description String
+    objective   String
+    age         String
+    lesson      String
+    time        String
+    openDate    String
+    requirement String
+    gallery     String[]
+    Register    Register[]
+}
+
+model News {
+    title     String   @id
+    thumbnail String
+    content   String
+    date      DateTime @default(now())
+}
+
+model Message {
+    id      String   @id @default(uuid())
+    name    String
+    email   String
+    phone   String
+    message String
+    read    Boolean  @default(false)
+    date    DateTime @default(now())
+}
+
+model Register {
+    id       String   @id @default(uuid())
+    courseId String
+    course   Course   @relation(fields: [courseId], references: [name])
+    name     String
+    dob      DateTime
+    email    String
+    phone    String
+    time     String
+    read     Boolean  @default(false)
+    date     DateTime @default(now())
+}
+
+model User {
+    username String   @id
+    password String
+    role     Role     @default(ADMIN)
+    date     DateTime @default(now())
+}

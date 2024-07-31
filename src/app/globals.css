@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary-rgb: 48, 80, 128;
+  --foreground-rgb: 0, 0, 0;
+  --background-rgb: 251, 251, 251;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: rgb(var(--background-rgb));
+}
+
+::selection {
+  background-color: rgb(var(--primary-rgb));
+  color: black;
+}
