@@ -1,0 +1,31 @@
+services:
+  next-app:
+    container_name: next-app
+    image: thiennbao/robotics-hcmus
+    build:
+      context: .
+      args:
+        - BASE_URL=http://localhost:3000
+        - DATABASE_URL=postgres://robotics:i<3hcmus@database:5432/db?sslmode=disable
+    restart: unless-stopped
+    env_file:
+      - .env.production
+    ports:
+      - 3000:3000
+    depends_on:
+      - database
+  database:
+    container_name: database
+    image: postgres:16.3-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=robotics
+      - POSTGRES_PASSWORD=i<3hcmus
+      - POSTGRES_DB=db
+    ports:
+      - 5432:5432
+    volumes:
+      - data:/var/lib/postgresql/data
+
+volumes:
+  data:

@@ -22,6 +22,7 @@ async function main() {
     ],
     skipDuplicates: true,
   });
+  console.log("🌱  Seed database successfully")
 }
 
 main()
