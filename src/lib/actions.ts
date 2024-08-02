@@ -19,41 +19,48 @@ import {
 import { deleteFile, uploadFile } from "./storage";
 import { v4 as uuid } from "uuid";
 import bcrypt from "bcrypt";
-import { Role } from "@prisma/client";
+import { Prisma, Role } from "@prisma/client";
 import { signToken } from "./token";
 
 // Import
-export const importAction = async (
-  key:
-    | "navigations"
-    | "contacts"
-    | "banners"
-    | "courses"
-    | "news"
-    | "messages"
-    | "registers"
-    | "users",
-  data: any
-) => {
+export const importAction = async (model: Prisma.ModelName, data: any) => {
   try {
-    if (key === "navigations") {
-      await db.navigation.createMany({ data, skipDuplicates: true });
-    } else if (key === "contacts") {
-      await db.contact.createMany({ data, skipDuplicates: true });
-    } else if (key === "banners") {
-      await db.banner.createMany({ data, skipDuplicates: true });
-    } else if (key === "courses") {
-      await db.course.createMany({ data, skipDuplicates: true });
-    } else if (key === "news") {
-      await db.news.createMany({ data, skipDuplicates: true });
-    } else if (key === "messages") {
-      await db.message.createMany({ data, skipDuplicates: true });
-    } else if (key === "registers") {
-      await db.register.createMany({ data, skipDuplicates: true });
+    data = JSON.parse(data);
+    if (model === "Navigation") {
+      for (let item of data) {
+        await db.navigation.upsert({ where: { title: item.title }, update: item, create: item });
+      }
+    } else if (model === "Contact") {
+      for (let item of data) {
+        if (!["Email", "Facebook", "Hotline", "Location"].includes(item.key)) continue;
+        await db.contact.upsert({ where: { key: item.key }, update: item, create: item });
+      }
+    } else if (model === "Banner") {
+      for (let item of data) {
+        await db.banner.upsert({ where: { name: item.name }, update: item, create: item });
+      }
+    } else if (model === "Course") {
+      for (let item of data) {
+        await db.course.upsert({ where: { name: item.name }, update: item, create: item });
+      }
+    } else if (model === "News") {
+      for (let item of data) {
+        await db.news.upsert({ where: { title: item.title }, update: item, create: item });
+      }
+    } else if (model === "Message") {
+      for (let item of data) {
+        await db.message.upsert({ where: { id: item.id }, update: item, create: item });
+      }
+    } else if (model === "Register") {
+      for (let item of data) {
+        await db.register.upsert({ where: { id: item.id }, update: item, create: item });
+      }
     } else {
-      await db.user.createMany({ data, skipDuplicates: true });
+      for (let item of data) {
+        await db.user.upsert({ where: { username: item.username }, update: item, create: item });
+      }
     }
-    revalidatePath(`/admin/${key}`);
+    revalidatePath(`/admin/${model.toLowerCase()}`);
     return { message: "success" };
   } catch {
     return { message: "error" };

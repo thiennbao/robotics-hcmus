@@ -80,13 +80,15 @@ export default async function UserDashboardPage({
                       </div>
                     </td>
                     <td>
-                      <div className="w-32 p-4 flex gap-4">
-                        <ViewButton itemId={item.username} edit />
-                        <DeleteButton
-                          itemName={`User ${item.username}`}
-                          action={userDeleteAction.bind(null, item.username)}
-                        />
-                      </div>
+                      {item.username !== "ROOT" && (
+                        <div className="w-32 p-4 flex gap-4">
+                          <ViewButton itemId={item.username} edit />
+                          <DeleteButton
+                            itemName={`User ${item.username}`}
+                            action={userDeleteAction.bind(null, item.username)}
+                          />
+                        </div>
+                      )}
                     </td>
                   </tr>
                 ))}

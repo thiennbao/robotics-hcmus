@@ -1,6 +1,6 @@
 # Robotics & IoT - HCMUS
 
-> This website is made with ❤️ by Robotics & IoT HCMUS
+> This app is made with ❤️ by Robotics & IoT HCMUS
 
 ## How to run
 
@@ -18,12 +18,22 @@ git clone https://github.com/thiennbao/robotics-hcmus.git
 npm install
 ```
 
-4. Start the app
+4. Initialize prisma
+```sh
+npx prisma db push
+```
+
+5. Seed data
+```sh
+node prisma/seed.mjs
+```
+
+6. Start the app
 ```sh
 npm run dev
 ```
 
-5. All done, your app is running at
+7. All done, your app is running at
 ```sh
 http://localhost:3000
 ```
@@ -45,4 +55,4 @@ postgres://robotics:i<3hcmus@database:5432/db?sslmode=disable
 
 ## Production
 
-To compose Docker container for production, go to [`Dockerhub`](https://hub.docker.com/repository/docker/thiennbao/robotics-hcmus) for more instruction
+To compose Docker container for production, go to [`Dockerhub`](https://hub.docker.com/r/thiennbao/robotics-hcmus) for more instruction
