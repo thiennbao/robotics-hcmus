@@ -41,6 +41,7 @@ model Course {
     requirement String
     gallery     String[]
     Register    Register[]
+    date        DateTime   @default(now())
 }
 
 model News {

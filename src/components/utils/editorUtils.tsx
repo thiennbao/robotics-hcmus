@@ -124,7 +124,7 @@ export const ImageField = ({ label, inputAttr, validation, submitErr, ...props }
         {image ? (
           <div className="h-60 relative">
             {/* Preview image */}
-            <Image src={image} alt="Uploaded image" className="w-full h-full rounded-lg object-cover" />
+            <Image src={image} alt="Uploaded image" fill sizes="400" className="w-full h-full rounded-lg object-cover" />
             {/* Delete button */}
             <div
               onClick={(e) => {
@@ -214,7 +214,7 @@ export const MultiImageField = ({ label, inputAttr, validation, submitErr, ...pr
             {images.map((image, index) => (
               <div key={index} className="block h-60 aspect-video max-w-full mx-auto relative">
                 {/* Preview image */}
-                <Image src={image} alt="Uploaded image" className="w-full h-full rounded-lg object-cover" />
+                <Image src={image} alt="Uploaded image" fill sizes="400" className="w-full h-full rounded-lg object-cover" />
                 {/* Delete button */}
                 <div
                   className="absolute top-0 right-0 m-2 p-2 bg-gray-900 bg-opacity-50 rounded-lg cursor-pointer"

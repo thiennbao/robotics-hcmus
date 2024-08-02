@@ -53,7 +53,13 @@ const CourseDetail = ({
               <div>
                 <BsClock className="text-xl text-primary" />
               </div>
-              <div>Time: {course.time}</div>
+              <div>
+                <ul>
+                  {course.time.split(";").map((timeSlot, index) => (
+                    <li key={index}>Time slot {index}: {timeSlot}</li>
+                  ))}
+                </ul>
+              </div>
             </Appear>
             <Appear variant="right" className="flex items-center gap-6 my-6">
               <div>
@@ -79,7 +85,7 @@ const CourseDetail = ({
                   alt="Course photo"
                   width={900}
                   height={900}
-                  className="w-auto h-full object-cover rounded-lg"
+                  className="w-auto aspect-square object-cover rounded-lg"
                 />
               ))}
             </Carousel>
