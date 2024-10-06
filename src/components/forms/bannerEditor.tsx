@@ -14,15 +14,14 @@ const BannerEditor = ({ data }: { data?: Banner }) => {
     dispatch(payload);
   };
 
-  const submitErr = state?.issues.reduce(
-    (obj, error) => Object.assign(obj, { [error.path]: error.message }),
-    {}
-  ) as { [key in keyof Banner]: string } | undefined;
+  const submitErr = state?.issues.reduce((obj, error) => Object.assign(obj, { [error.path]: error.message }), {}) as
+    | { [key in keyof Banner]: string }
+    | undefined;
 
   return (
     <form action={action} noValidate className="*:mb-4">
       <InputField
-        label="Name"
+        label="Tên"
         inputAttr={{
           name: "name",
           placeholder: "Winter Event",
@@ -32,16 +31,25 @@ const BannerEditor = ({ data }: { data?: Banner }) => {
         submitErr={submitErr}
       />
       <ImageField
-        label="Banner"
+        label="Banner cho desktop"
         inputAttr={{
-          name: "image",
-          defaultValue: data?.image,
+          name: "desktopImg",
+          defaultValue: data?.desktopImg,
         }}
-        validation={bannerSchema.image}
+        validation={bannerSchema.desktopImg}
+        submitErr={submitErr}
+      />
+      <ImageField
+        label="Banner cho mobile"
+        inputAttr={{
+          name: "mobileImg",
+          defaultValue: data?.mobileImg,
+        }}
+        validation={bannerSchema.mobileImg}
         submitErr={submitErr}
       />
       <InputField
-        label="Order"
+        label="Thứ tự"
         inputAttr={{
           name: "order",
           placeholder: "1",
@@ -52,7 +60,7 @@ const BannerEditor = ({ data }: { data?: Banner }) => {
       />
       <div className="text-center pt-4">
         <button className="w-1/2 py-2 rounded-lg border border-sky-400 text-sky-400 hover:bg-sky-400 hover:text-white transition">
-          SUBMIT
+          XÁC NHẬN
         </button>
       </div>
     </form>

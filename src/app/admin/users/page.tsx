@@ -47,16 +47,16 @@ export default async function UserDashboardPage({
             <thead>
               <tr className="*:p-4 *:text-left">
                 <th>
-                  <div className="w-48">Username</div>
+                  <div className="w-48">Tài khoản</div>
                 </th>
                 <th>
-                  <div className="w-32">Role</div>
+                  <div className="w-48">Vai trò</div>
                 </th>
                 <th className="w-full">
-                  <div>Created date</div>
+                  <div>Ngày tạo</div>
                 </th>
                 <th>
-                  <div className="w-24">Action</div>
+                  <div className="w-24">Hành động</div>
                 </th>
               </tr>
             </thead>
@@ -70,7 +70,7 @@ export default async function UserDashboardPage({
                       </div>
                     </td>
                     <td>
-                      <div className="w-32 p-4 text-nowrap text-ellipsis overflow-hidden">
+                      <div className="w-48 p-4 text-nowrap text-ellipsis overflow-hidden">
                         <span>{item.role}</span>
                       </div>
                     </td>
@@ -83,10 +83,7 @@ export default async function UserDashboardPage({
                       {item.username !== "ROOT" && (
                         <div className="w-32 p-4 flex gap-4">
                           <ViewButton itemId={item.username} edit />
-                          <DeleteButton
-                            itemName={`User ${item.username}`}
-                            action={userDeleteAction.bind(null, item.username)}
-                          />
+                          <DeleteButton itemName={item.username} action={userDeleteAction.bind(null, item.username)} />
                         </div>
                       )}
                     </td>

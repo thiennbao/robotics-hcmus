@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@prisma/client": "^5.17.0",
+    "@prisma/client": "^5.20.0",
     "bcrypt": "^5.1.1",
     "clsx": "^2.1.1",
     "firebase": "^10.12.2",

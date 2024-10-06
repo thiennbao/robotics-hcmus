@@ -1,18 +1,16 @@
-import Description from "@/components/partials/description";
-import Features from "@/components/partials/features";
-import Quote from "@/components/partials/quote";
+import Introduction from "@/components/partials/introduction";
 import Testimonial from "@/components/partials/testimonial";
 import PageWall from "@/components/utils/pageWall";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "About | Robotics & IoT HCMUS",
+  title: "Giới thiệu | Robotics & IoT HCMUS",
   description:
-    "About Robotics and IoT (Internet of Things) Club from University of Science, VNU-HCM",
+    "Giới thiệu câu lạc bộ Robotics and IoT (Internet of Things) Trường Đại học Khoa học Tự nhiên - Đại học Quốc gia TP.HCM",
   openGraph: {
-    title: "About | Robotics & IoT HCMUS",
+    title: "Giới thiệu | Robotics & IoT HCMUS",
     description:
-      "About Robotics and IoT (Internet of Things) Club from University of Science, VNU-HCM",
+      "Giới thiệu câu lạc bộ Robotics and IoT (Internet of Things) Trường Đại học Khoa học Tự nhiên - Đại học Quốc gia TP.HCM",
     type: "website",
     images: ["/wallpaper-about.png"],
   },
@@ -21,10 +19,8 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <main>
-      <PageWall title="ABOUT US" image="/wallpaper-about.png" />
-      <Description className="min-h-screen flex py-24 -mb-24" />
-      <Quote className="min-h-screen flex py-24 -mb-24" />
-      <Features className="min-h-screen flex py-24 -mb-24" />
+      <PageWall title="GIỚI THIỆU" image="/wallpaper-about.png" />
+      <Introduction className="min-h-screen flex py-24 -mb-24" />
       <Testimonial className="min-h-screen flex py-24 -mb-24" />
     </main>
   );

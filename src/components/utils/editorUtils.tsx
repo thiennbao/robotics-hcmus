@@ -9,6 +9,7 @@ import { RiDeleteBin2Fill } from "react-icons/ri";
 import "react-quill/dist/quill.snow.css";
 import Confirm from "./confirm";
 import Image from "next/image";
+import React from "react";
 
 interface Props extends HTMLProps<HTMLDivElement> {
   label: string;
@@ -116,15 +117,18 @@ export const ImageField = ({ label, inputAttr, validation, submitErr, ...props }
       />
       <label
         htmlFor={`${inputAttr.name}/file`}
-        className={clsx(
-          "block p-4 rounded-lg bg-gray-800 border",
-          errorMsg ? "border-red-400" : "border-transparent"
-        )}
+        className={clsx("block p-4 rounded-lg bg-gray-800 border", errorMsg ? "border-red-400" : "border-transparent")}
       >
         {image ? (
           <div className="h-60 relative">
             {/* Preview image */}
-            <Image src={image} alt="Uploaded image" fill sizes="400" className="w-full h-full rounded-lg object-cover" />
+            <Image
+              src={image}
+              alt="Uploaded image"
+              fill
+              sizes="400"
+              className="w-full h-full rounded-lg object-cover"
+            />
             {/* Delete button */}
             <div
               onClick={(e) => {
@@ -146,7 +150,7 @@ export const ImageField = ({ label, inputAttr, validation, submitErr, ...props }
       {overSize && (
         <Confirm
           title="Upload failed"
-          message="Your image seems to be too large, please try with a smaller image again"
+          message="Hình ảnh có dung lượng quá lớn, vui lòng thử lại với hình ảnh nhỏ hơn"
           type="warning"
           close={() => setOverSize(false)}
         />
@@ -214,7 +218,13 @@ export const MultiImageField = ({ label, inputAttr, validation, submitErr, ...pr
             {images.map((image, index) => (
               <div key={index} className="block h-60 aspect-video max-w-full mx-auto relative">
                 {/* Preview image */}
-                <Image src={image} alt="Uploaded image" fill sizes="400" className="w-full h-full rounded-lg object-cover" />
+                <Image
+                  src={image}
+                  alt="Uploaded image"
+                  fill
+                  sizes="400"
+                  className="w-full h-full rounded-lg object-cover"
+                />
                 {/* Delete button */}
                 <div
                   className="absolute top-0 right-0 m-2 p-2 bg-gray-900 bg-opacity-50 rounded-lg cursor-pointer"
@@ -241,7 +251,7 @@ export const MultiImageField = ({ label, inputAttr, validation, submitErr, ...pr
       {overSize && (
         <Confirm
           title="Upload failed"
-          message="Your image seems to be too large, please try with a smaller image again"
+          message="Hình ảnh có dung lượng quá lớn, vui lòng thử lại với hình ảnh nhỏ hơn"
           type="warning"
           close={() => setOverSize(false)}
         />

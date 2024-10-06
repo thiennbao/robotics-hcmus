@@ -6,7 +6,7 @@ import { verifyToken } from "@/lib/token";
 
 export default async function AccountEditPage() {
   const decode = await verifyToken();
-  const username = decode.payload.username as string; // TODO: get from token
+  const username = decode.payload.username as string;
 
   const data = await db.user.findUnique({ where: { username } });
 
@@ -19,7 +19,7 @@ export default async function AccountEditPage() {
         <div className="border-b border-gray-500 flex items-center">
           <span className="font-bold">{data.username}</span>
           <FaAngleDoubleRight className="mx-2" />
-          <span className="text-nowrap overflow-hidden text-ellipsis">Change password</span>
+          <span className="text-nowrap overflow-hidden text-ellipsis">Đổi mật khẩu</span>
         </div>
         <AccountEditor data={data} />
       </div>

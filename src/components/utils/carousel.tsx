@@ -8,12 +8,14 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   itemsOnScreen?: number | { df: number; sm?: number; md?: number; lg?: number; xl?: number };
   withPrevNext?: boolean;
   withCircle?: boolean;
+  auto?: boolean;
 }
 
 const Carousel = ({
   itemsOnScreen = 1,
   withPrevNext = false,
   withCircle = false,
+  auto = false,
   className = "",
   children,
   ...props
@@ -53,6 +55,16 @@ const Carousel = ({
     }
   }, [itemsOnScreen, setItems]);
 
+  useEffect(() => {
+    if (auto) {
+      const interval = setInterval(() => {
+        setSlide((slide) => (slide === childrenLength - items ? 0 : slide + 1));
+      }, 4000);
+
+      return () => clearInterval(interval);
+    }
+  }, [auto, childrenLength, items]);
+
   return (
     <div className={clsx(className, "relative overflow-hidden")} {...props}>
       {!!items && (
@@ -70,10 +82,7 @@ const Carousel = ({
       )}
       {withPrevNext && (
         <div className="*:absolute *:top-1/2 *:-translate-y-1/2 *:p-2 *:rounded-full *:text-light hover:*:bg-light hover:*:bg-opacity-20 *:transition *:cursor-pointer *:select-none">
-          <div
-            className="left-2 md:left-8"
-            onClick={() => setSlide(slide === 0 ? childrenLength - items : slide - 1)}
-          >
+          <div className="left-2 md:left-8" onClick={() => setSlide(slide === 0 ? childrenLength - items : slide - 1)}>
             <FaCaretLeft className="text-2xl -translate-x-0.5" />
           </div>
           <div

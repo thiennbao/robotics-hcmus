@@ -48,13 +48,19 @@ export default async function BannerDashboardPage({
             <thead>
               <tr className="*:p-4 *:text-left">
                 <th>
-                  <div className="w-24">Order</div>
+                  <div className="w-32">Thứ tự</div>
                 </th>
-                <th className="w-full">
-                  <div>Banner</div>
+                <th className="w-64">
+                  <div>Tên</div>
+                </th>
+                <th className="w-64">
+                  <div>Desktop</div>
+                </th>
+                <th className="w-64">
+                  <div>Mobile</div>
                 </th>
                 <th>
-                  <div className="w-24">Action</div>
+                  <div className="w-24">Hành động</div>
                 </th>
               </tr>
             </thead>
@@ -63,28 +69,42 @@ export default async function BannerDashboardPage({
                 {banners.map((item) => (
                   <tr key={item.name}>
                     <td>
-                      <div className="w-24 p-4 text-nowrap text-ellipsis overflow-hidden">
+                      <div className="w-32 p-4 text-nowrap text-ellipsis overflow-hidden">
                         <span>{item.order}</span>
                       </div>
                     </td>
-                    <td className="w-full">
-                      <div className="p-4 flex items-center gap-4 text-nowrap text-ellipsis overflow-hidden">
+                    <td>
+                      <div className="w-64 p-4 text-nowrap text-ellipsis overflow-hidden">
+                        <span>{item.name}</span>
+                      </div>
+                    </td>
+                    <td>
+                      <div className="w-64 p-4 overflow-hidden">
                         <Image
-                          src={item.image}
+                          src={item.desktopImg}
                           alt={item.name}
                           width={160}
                           height={90}
-                          priority
-                          className="w-16 h-9"
+                          className="w-16 h-9 rounded-md object-cover"
                         />
-                        <span>{item.name}</span>
+                      </div>
+                    </td>
+                    <td className="w-64">
+                      <div className="p-4 flex items-center gap-4 text-nowrap text-ellipsis overflow-hidden">
+                        <Image
+                          src={item.mobileImg}
+                          alt={item.name}
+                          width={90}
+                          height={160}
+                          className="w-9 h-16 rounded-md object-cover"
+                        />
                       </div>
                     </td>
                     <td>
                       <div className="w-24 p-4 flex gap-4">
                         <ViewButton itemId={item.name} edit />
                         <DeleteButton
-                          itemName={`Banner ${item.name}`}
+                          itemName={item.name}
                           action={bannerDeleteAction.bind(null, item.name)}
                         />
                       </div>

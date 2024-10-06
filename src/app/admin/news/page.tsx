@@ -48,16 +48,16 @@ export default async function NewsDashboardPage({
             <thead>
               <tr className="*:p-4 *:text-left">
                 <th>
-                  <div className="w-80">Title</div>
+                  <div className="w-64">Tiêu đề</div>
                 </th>
                 <th>
-                  <div className="w-96">Description</div>
+                  <div className="w-96">Nội dung</div>
                 </th>
                 <th>
-                  <div className="w-32">Date</div>
+                  <div className="w-48">Ngày tạo</div>
                 </th>
                 <th>
-                  <div className="w-24">Action</div>
+                  <div className="w-24">Hành động</div>
                 </th>
               </tr>
             </thead>
@@ -66,35 +66,30 @@ export default async function NewsDashboardPage({
                 {news.map((item) => (
                   <tr key={item.title}>
                     <td>
-                      <div className="w-80 p-4 flex items-center gap-4 text-nowrap text-ellipsis overflow-hidden">
+                      <div className="w-64 p-4 flex items-center gap-4 text-nowrap text-ellipsis overflow-hidden">
                         <Image
                           src={item.thumbnail}
                           alt={item.title}
-                          width={32}
-                          height={32}
+                          width={128}
+                          height={128}
                           priority
-                          className="w-8 h-8"
+                          className="w-8 h-8 object-cover"
                         />
                         <span>{item.title}</span>
                       </div>
                     </td>
                     <td>
-                      <div className="w-96 p-4 text-nowrap text-ellipsis overflow-hidden">
-                        {item.content}
-                      </div>
+                      <div className="w-96 p-4 text-nowrap text-ellipsis overflow-hidden">{item.content}</div>
                     </td>
                     <td>
-                      <div className="w-32 p-4 text-nowrap text-ellipsis overflow-hidden">
+                      <div className="w-48 p-4 text-nowrap text-ellipsis overflow-hidden">
                         {item.date.toLocaleDateString()}
                       </div>
                     </td>
                     <td>
                       <div className="w-24 p-4 flex gap-4">
                         <ViewButton itemId={item.title} edit />
-                        <DeleteButton
-                          itemName={`News ${item.title}`}
-                          action={newsDeleteAction.bind(null, item.title)}
-                        />
+                        <DeleteButton itemName={item.title} action={newsDeleteAction.bind(null, item.title)} />
                       </div>
                     </td>
                   </tr>

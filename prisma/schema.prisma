@@ -18,30 +18,29 @@ model Navigation {
 }
 
 model Contact {
-    key     String  @id
-    title   String?
-    address String?
+    key     String @id
+    title   String
+    address String
 }
 
 model Banner {
-    name  String @id
-    image String
-    order Int
+    name       String @id
+    desktopImg String
+    mobileImg  String
+    order      Int
 }
 
 model Course {
-    name        String     @id
-    thumbnail   String
-    description String
-    objective   String
-    age         String
-    lesson      String
-    time        String
-    openDate    String
-    requirement String
-    gallery     String[]
-    Register    Register[]
-    date        DateTime   @default(now())
+    name         String     @id
+    thumbnail    String
+    brief        String
+    overview     String
+    organization String
+    description  String
+    time         String
+    gallery      String[]
+    Register     Register[]
+    date         DateTime   @default(now())
 }
 
 model News {
@@ -62,16 +61,17 @@ model Message {
 }
 
 model Register {
-    id       String   @id @default(uuid())
-    courseId String
-    course   Course   @relation(fields: [courseId], references: [name])
-    name     String
-    dob      DateTime
-    email    String
-    phone    String
-    time     String
-    read     Boolean  @default(false)
-    date     DateTime @default(now())
+    id         String   @id @default(uuid())
+    courseId   String
+    course     Course   @relation(fields: [courseId], references: [name], onDelete: Cascade)
+    name       String
+    parentName String
+    dob        DateTime
+    email      String
+    phone      String
+    time       String
+    read       Boolean  @default(false)
+    date       DateTime @default(now())
 }
 
 model User {

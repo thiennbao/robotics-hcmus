@@ -4,11 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { HTMLAttributes } from "react";
 
-const Course = ({
-  course,
-  className,
-  ...props
-}: { course: CourseModel } & HTMLAttributes<HTMLDivElement>) => {
+const Course = ({ course, className, ...props }: { course: CourseModel } & HTMLAttributes<HTMLDivElement>) => {
   return (
     <div className={clsx(className, "h-full flex flex-col")} {...props}>
       <div>
@@ -23,16 +19,12 @@ const Course = ({
       <div className="flex-grow flex flex-col justify-between gap-6 p-6">
         <div>
           <p className="text-xl text-primary font-bold mb-2">{course.name}</p>
-          <p>
-            {course.description.length > 200
-              ? `${course.description.slice(0, 200)}...`
-              : course.description}
-          </p>
+          <p className="line-clamp-4">{course.brief}</p>
         </div>
         <div>
           <Link href={`/courses/${course.name}`}>
             <button className="w-32 h-10 border-2 border-primary text-primary transition rounded hover:bg-primary hover:text-white">
-              See details
+              Xem chi tiết
             </button>
           </Link>
         </div>

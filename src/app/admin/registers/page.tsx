@@ -62,25 +62,28 @@ export default async function RegisterDashboardPage({
             <thead>
               <tr className="*:p-4 *:text-left">
                 <th>
-                  <div className="w-64">Date</div>
+                  <div className="w-64">Ngày đăng ký</div>
                 </th>
                 <th>
-                  <div className="w-64">Course</div>
+                  <div className="w-64">Khóa học</div>
                 </th>
                 <th>
-                  <div className="w-48">Name</div>
+                  <div className="w-48">Họ tên học sinh</div>
                 </th>
                 <th>
-                  <div className="w-48">Date of birth</div>
+                  <div className="w-48">Họ tên phụ huynh</div>
+                </th>
+                <th>
+                  <div className="w-48">Ngày sinh</div>
                 </th>
                 <th>
                   <div className="w-48">Email</div>
                 </th>
                 <th>
-                  <div className="w-48">Phone</div>
+                  <div className="w-48">Số điện thoại</div>
                 </th>
                 <th>
-                  <div className="w-24">Action</div>
+                  <div className="w-24">Hành động</div>
                 </th>
               </tr>
             </thead>
@@ -107,9 +110,10 @@ export default async function RegisterDashboardPage({
                       </div>
                     </td>
                     <td>
-                      <div className="w-48 p-4 text-nowrap text-ellipsis overflow-hidden">
-                        {item.name}
-                      </div>
+                      <div className="w-48 p-4 text-nowrap text-ellipsis overflow-hidden">{item.name}</div>
+                    </td>
+                    <td>
+                      <div className="w-48 p-4 text-nowrap text-ellipsis overflow-hidden">{item.parentName}</div>
                     </td>
                     <td>
                       <div className="w-48 p-4 text-nowrap text-ellipsis overflow-hidden">
@@ -117,24 +121,17 @@ export default async function RegisterDashboardPage({
                       </div>
                     </td>
                     <td>
-                      <div className="w-48 p-4 text-nowrap text-ellipsis overflow-hidden">
-                        {item.email}
-                      </div>
+                      <div className="w-48 p-4 text-nowrap text-ellipsis overflow-hidden">{item.email}</div>
                     </td>
                     <td>
-                      <div className="w-48 p-4 text-nowrap text-ellipsis overflow-hidden">
-                        {item.phone}
-                      </div>
+                      <div className="w-48 p-4 text-nowrap text-ellipsis overflow-hidden">{item.phone}</div>
                     </td>
                     <td>
                       <div className="w-24 p-4 flex gap-4">
                         <ViewButton itemId={item.id} />
-                        <ReadButton
-                          read={item.read}
-                          action={registerReadAction.bind(null, item.id, !item.read)}
-                        />
+                        <ReadButton read={item.read} action={registerReadAction.bind(null, item.id, !item.read)} />
                         <DeleteButton
-                          itemName={`Register from ${item.name}`}
+                          itemName={`Đăng ký từ ${item.name}`}
                           action={registerDeleteAction.bind(null, item.id)}
                           className="not-italic"
                         />

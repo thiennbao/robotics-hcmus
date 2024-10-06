@@ -1,7 +1,15 @@
-import { ItemsPerPage, Pagination, SearchBar, ViewButton } from "@/components/utils/tableUtils";
+import {
+  CreateButton,
+  DeleteButton,
+  ItemsPerPage,
+  Pagination,
+  SearchBar,
+  ViewButton,
+} from "@/components/utils/tableUtils";
 import Link from "next/link";
 import { Suspense } from "react";
 import db from "@/lib/db";
+import { contactDeleteAction } from "@/lib/actions";
 
 export default async function ContactDashboardPage({
   searchParams,
@@ -32,22 +40,23 @@ export default async function ContactDashboardPage({
             <ItemsPerPage className="hidden lg:block" />
             <SearchBar />
           </div>
+          <CreateButton />
         </div>
         <div className="my-8 pb-4 overflow-x-scroll [&::-webkit-scrollbar]:h-1 [&::-webkit-scrollbar-thumb]:bg-gray-600">
           <table>
             <thead>
               <tr className="*:p-4 *:text-left">
                 <th>
-                  <div className="w-48">Key</div>
+                  <div className="w-48">Từ khóa</div>
                 </th>
                 <th>
-                  <div className="w-48">Title</div>
+                  <div className="w-48">Tiêu đề</div>
                 </th>
                 <th className="w-full">
-                  <div>Address</div>
+                  <div>Địa chỉ</div>
                 </th>
                 <th>
-                  <div className="w-24">Action</div>
+                  <div className="w-24">Hành động</div>
                 </th>
               </tr>
             </thead>
@@ -79,6 +88,10 @@ export default async function ContactDashboardPage({
                     <td>
                       <div className="w-24 p-4 flex gap-4">
                         <ViewButton itemId={item.key} edit />
+                        <DeleteButton
+                          itemName={item.key}
+                          action={contactDeleteAction.bind(null, item.key)}
+                        />
                       </div>
                     </td>
                   </tr>

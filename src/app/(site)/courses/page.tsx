@@ -3,13 +3,13 @@ import PageWall from "@/components/utils/pageWall";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Courses | Robotics & IoT HCMUS",
+  title: "Khóa học | Robotics & IoT HCMUS",
   description:
-    "Courses at Robotics and IoT (Internet of Things) Club from University of Science, VNU-HCM",
+    "Khóa học tại câu lạc bộ Robotics and IoT (Internet of Things) Trường Đại học Khoa học Tự nhiên - Đại học Quốc gia TP.HCM",
   openGraph: {
-    title: "Courses | Robotics & IoT HCMUS",
+    title: "Khóa học | Robotics & IoT HCMUS",
     description:
-      "Courses at Robotics and IoT (Internet of Things) Club from University of Science, VNU-HCM",
+      "Khóa học tại câu lạc bộ Robotics and IoT (Internet of Things) Trường Đại học Khoa học Tự nhiên - Đại học Quốc gia TP.HCM",
     type: "website",
     images: ["/wallpaper-courses.png"],
   },
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 export default function CoursesPage({ searchParams }: { searchParams: { search: string } }) {
   return (
     <main>
-      <PageWall title="COURSES" image="/wallpaper-courses.png" />
+      <PageWall title="KHÓA HỌC" image="/wallpaper-courses.png" />
       <CourseArchive search={searchParams.search} className="min-h-screen flex py-24" />
     </main>
   );

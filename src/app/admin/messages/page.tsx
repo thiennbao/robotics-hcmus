@@ -60,22 +60,22 @@ export default async function MessageDashboardPage({
             <thead>
               <tr className="*:p-4 *:text-left">
                 <th>
-                  <div className="w-64">Date</div>
+                  <div className="w-64">Ngày tạo</div>
                 </th>
                 <th>
-                  <div className="w-48">Name</div>
+                  <div className="w-48">Họ tên</div>
                 </th>
                 <th>
                   <div className="w-48">Email</div>
                 </th>
                 <th>
-                  <div className="w-48">Phone</div>
+                  <div className="w-48">Số điện thoại</div>
                 </th>
                 <th>
-                  <div className="w-64">Message</div>
+                  <div className="w-64">Nội dung</div>
                 </th>
                 <th>
-                  <div className="w-24">Action</div>
+                  <div className="w-24">Hành động</div>
                 </th>
               </tr>
             </thead>
@@ -117,7 +117,7 @@ export default async function MessageDashboardPage({
                           className="not-italic"
                         />
                         <DeleteButton
-                          itemName={`Message from ${item.name}`}
+                          itemName={`Lời nhắn từ ${item.name}`}
                           action={messageDeleteAction.bind(null, item.id)}
                           className="not-italic"
                         />

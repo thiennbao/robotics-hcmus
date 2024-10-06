@@ -12,7 +12,7 @@ export default async function BannerCreatePage() {
             Banners
           </Link>
           <FaAngleDoubleRight className="mx-2" />
-          <span className="text-nowrap overflow-hidden text-ellipsis">Create a banner</span>
+          <span className="text-nowrap overflow-hidden text-ellipsis">Tạo mới</span>
         </div>
         <BannerEditor />
       </div>

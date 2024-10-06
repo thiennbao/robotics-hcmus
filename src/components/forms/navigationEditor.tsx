@@ -22,20 +22,20 @@ const NavigationEditor = ({ data }: { data?: Navigation }) => {
   return (
     <form action={action} noValidate className="*:mb-4">
       <InputField
-        label="Navigation title"
+        label="Tiêu đề"
         inputAttr={{
           name: "title",
-          placeholder: "Wikipedia",
+          placeholder: "Robocus",
           defaultValue: data?.title,
         }}
         validation={navigationSchema.title}
         submitErr={submitErr}
       />
       <InputField
-        label="Address"
+        label="Địa chỉ"
         inputAttr={{
           name: "address",
-          placeholder: "https://wikipedia.org",
+          placeholder: "https://robocus.org",
           defaultValue: data?.address,
         }}
         validation={navigationSchema.address}
@@ -43,7 +43,7 @@ const NavigationEditor = ({ data }: { data?: Navigation }) => {
       />
       <div className="text-center pt-4">
         <button className="w-1/2 py-2 rounded-lg border border-sky-400 text-sky-400 hover:bg-sky-400 hover:text-white transition">
-          SUBMIT
+          XÁC NHẬN
         </button>
       </div>
     </form>

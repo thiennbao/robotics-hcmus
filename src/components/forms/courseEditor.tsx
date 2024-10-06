@@ -2,7 +2,7 @@
 
 import { Course } from "@prisma/client";
 import { useFormState } from "react-dom";
-import { ImageField, InputField, MultiImageField, TextField } from "../utils/editorUtils";
+import { ImageField, InputField, MultiImageField, RichTextField, TextField } from "../utils/editorUtils";
 import { courseSaveAction } from "@/lib/actions";
 import { courseSchema } from "@/lib/schemas";
 
@@ -14,15 +14,14 @@ const CourseEditor = ({ data }: { data?: Course }) => {
     dispatch(payload);
   };
 
-  const submitErr = state?.issues.reduce(
-    (obj, error) => Object.assign(obj, { [error.path]: error.message }),
-    {}
-  ) as { [key in keyof Course]: string } | undefined;
+  const submitErr = state?.issues.reduce((obj, error) => Object.assign(obj, { [error.path]: error.message }), {}) as
+    | { [key in keyof Course]: string }
+    | undefined;
 
   return (
     <form action={action} noValidate className="*:mb-4">
       <InputField
-        label="Course name"
+        label="Tên khóa học"
         inputAttr={{
           name: "name",
           placeholder: "Advanced Banana Peeling Techniques",
@@ -40,82 +39,54 @@ const CourseEditor = ({ data }: { data?: Course }) => {
         validation={courseSchema.thumbnail}
         submitErr={submitErr}
       />
-      <div className="grid lg:grid-cols-2 gap-4">
-        <TextField
-          label="Description"
-          inputAttr={{
-            name: "description",
-            placeholder: "Dive deep into the world of peeling with style, finesse and magic...",
-            defaultValue: data?.description,
-          }}
-          validation={courseSchema.description}
-          submitErr={submitErr}
-        />
-        <TextField
-          label="Objectives"
-          inputAttr={{
-            name: "objective",
-            placeholder: "Unlock the secrets of banana peeling mastery...",
-            defaultValue: data?.objective,
-          }}
-          validation={courseSchema.objective}
-          submitErr={submitErr}
-        />
-      </div>
-      <div className="grid md:grid-cols-2 gap-4">
-        <InputField
-          label="Age"
-          inputAttr={{
-            name: "age",
-            placeholder: "18 - 60",
-            defaultValue: data?.age,
-          }}
-          validation={courseSchema.age}
-          submitErr={submitErr}
-        />
-        <InputField
-          label="Lesson"
-          inputAttr={{
-            name: "lesson",
-            placeholder: "8 lessons",
-            defaultValue: data?.lesson,
-          }}
-          validation={courseSchema.lesson}
-          submitErr={submitErr}
-        />
-        <InputField
-          label="Time, separeted by ( ; ) mark"
-          inputAttr={{
-            name: "time",
-            placeholder: "08:00 - 10:00 Saturday; 08:00 - 10:00 Sunday; ...",
-            defaultValue: data?.time,
-          }}
-          validation={courseSchema.age}
-          submitErr={submitErr}
-        />
-        <InputField
-          label="Expected opening date"
-          inputAttr={{
-            name: "openDate",
-            placeholder: "30/02/2024",
-            defaultValue: data?.openDate,
-          }}
-          validation={courseSchema.age}
-          submitErr={submitErr}
-        />
-      </div>
       <TextField
-        label="Requirement"
+        label="Mô tả tóm tắt"
         inputAttr={{
-          name: "requirement",
-          placeholder: "Peeled at least one banana before without crying...",
-          defaultValue: data?.requirement,
+          name: "brief",
+          defaultValue: data?.brief,
         }}
-        validation={courseSchema.requirement}
+        validation={courseSchema.brief}
+        submitErr={submitErr}
+      />
+      <RichTextField
+        label="Tổng quan khóa học"
+        inputAttr={{
+          name: "overview",
+          defaultValue: data?.overview,
+        }}
+        validation={courseSchema.overview}
+        submitErr={submitErr}
+      />
+      <RichTextField
+        label="Tổ chức khóa học"
+        inputAttr={{
+          name: "organization",
+          defaultValue: data?.organization,
+        }}
+        validation={courseSchema.organization}
+        submitErr={submitErr}
+      />
+      <RichTextField
+        label="Nội dung khóa học"
+        inputAttr={{
+          name: "description",
+          defaultValue: data?.description,
+        }}
+        validation={courseSchema.description}
+        submitErr={submitErr}
+      />
+      <InputField
+        label="Khung giờ mở lớp, cách nhau bằng dấu chấm phẩy (;)"
+        inputAttr={{
+          name: "time",
+          placeholder: "08:00 - 10:00 Saturday; 08:00 - 10:00 Sunday; ...",
+          defaultValue: data?.time,
+        }}
+        validation={courseSchema.time}
         submitErr={submitErr}
       />
       <MultiImageField
-        label="Gallery"
+        label="Hình ảnh"
         inputAttr={{
           name: "gallery",
           defaultValue: JSON.stringify(data?.gallery),
@@ -125,7 +96,7 @@ const CourseEditor = ({ data }: { data?: Course }) => {
       />
       <div className="text-center pt-4">
         <button className="w-1/2 py-2 rounded-lg border border-sky-400 text-sky-400 hover:bg-sky-400 hover:text-white transition">
-          SUBMIT
+          XÁC NHẬN
         </button>
       </div>
     </form>

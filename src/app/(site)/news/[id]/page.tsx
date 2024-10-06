@@ -11,10 +11,10 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
 
   return {
     title: `${news?.title} | Robotics & IoT HCMUS`,
-    description: `About the news ${news.title} at Robotics and IoT (Internet of Things) Club from University of Science, VNU-HCM`,
+    description: `${news.title} tại câu lạc bộ Robotics and IoT (Internet of Things) Trường Đại học Khoa học Tự nhiên - Đại học Quốc gia TP.HCM`,
     openGraph: {
       title: `${news?.title} | Robotics & IoT HCMUS`,
-      description: `About the news ${news.title} at Robotics and IoT (Internet of Things) Club from University of Science, VNU-HCM`,
+      description: `${news.title} tại câu lạc bộ Robotics and IoT (Internet of Things) Trường Đại học Khoa học Tự nhiên - Đại học Quốc gia TP.HCM`,
       type: "website",
       images: [news.thumbnail],
     },

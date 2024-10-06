@@ -29,7 +29,7 @@ export const SearchBar = (props: HTMLAttributes<HTMLDivElement>) => {
     <div {...props}>
       <input
         onChange={(e) => handleSearch(e.target.value)}
-        placeholder="Search..."
+        placeholder="Tìm kiếm..."
         defaultValue={searchParams.get("key")?.toString()}
         className="p-2 bg-gray-800 border border-transparent focus:border-gray-500 outline-none rounded-lg"
       />
@@ -60,15 +60,12 @@ export const ItemsPerPage = (props: HTMLAttributes<HTMLDivElement>) => {
         <option>20</option>
         <option>50</option>
       </select>
-      <span>items / page</span>
+      <span>mục / trang</span>
     </div>
   );
 };
 
-export const Pagination = ({
-  totalPages,
-  ...props
-}: { totalPages: number } & HTMLAttributes<HTMLDivElement>) => {
+export const Pagination = ({ totalPages, ...props }: { totalPages: number } & HTMLAttributes<HTMLDivElement>) => {
   const searchParams = useSearchParams();
   const { replace } = useRouter();
   const pathname = usePathname();
@@ -116,7 +113,7 @@ export const CreateButton = (props: HTMLAttributes<HTMLDivElement>) => {
         className="px-8 py-2 flex items-center gap-2 bg-sky-400 hover:bg-sky-500 transition text-white rounded-lg"
       >
         <GrChapterAdd className="font-bold" />
-        <span>Create</span>
+        <span>Tạo mới</span>
       </Link>
     </div>
   );
@@ -147,17 +144,15 @@ export const DeleteButton = ({
     <div {...props}>
       <RiDeleteBin2Fill className="text-red-400 cursor-pointer" onClick={() => setConfirm(true)} />
       {confirm && (
-        <>
-          <form action={action}>
-            <Confirm
-              title="Delete this item"
-              message={`This will permanently delete the ${itemName}. Your action cannot be undone`}
-              type="warning"
-              asSubmit
-              close={() => setConfirm(false)}
-            />
-          </form>
-        </>
+        <form action={action}>
+          <Confirm
+            title="Xóa mục này"
+            message={`Xóa vĩnh viễn ${itemName}. Hành động này không thể hoàn lại!`}
+            type="warning"
+            asSubmit
+            close={() => setConfirm(false)}
+          />
+        </form>
       )}
     </div>
   );
@@ -172,11 +167,7 @@ export const ReadButton = ({
     <div {...props}>
       <form action={action}>
         <button className="cursor-pointer">
-          {read ? (
-            <MdMarkEmailRead className="text-emerald-500" />
-          ) : (
-            <MdMarkEmailUnread className="text-amber-500" />
-          )}
+          {read ? <MdMarkEmailRead className="text-emerald-500" /> : <MdMarkEmailUnread className="text-amber-500" />}
         </button>
       </form>
     </div>

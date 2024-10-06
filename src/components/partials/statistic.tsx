@@ -6,15 +6,7 @@ import { CiExport, CiImport } from "react-icons/ci";
 import Confirm from "../utils/confirm";
 import { Prisma } from "@prisma/client";
 
-const Statistic = ({
-  model,
-  icon,
-  data,
-}: {
-  model: Prisma.ModelName;
-  icon: JSX.Element;
-  data: any[];
-}) => {
+const Statistic = ({ model, icon, data }: { model: Prisma.ModelName; icon: JSX.Element; data: any[] }) => {
   const [downloadUrl, setDownloadUrl] = useState("");
   const [status, setStatus] = useState("");
 
@@ -44,9 +36,7 @@ const Statistic = ({
       <div className="font-bold">
         {icon} <span>{model}</span>
       </div>
-      <div className="flex h-12 justify-center items-center my-4 text-xl bg-gray-800 rounded-lg">
-        {data.length}
-      </div>
+      <div className="flex h-12 justify-center items-center my-4 text-xl bg-gray-800 rounded-lg">{data.length}</div>
       <div className="flex justify-end gap-2 *:flex-1">
         <button className="rounded-lg border border-sky-500 text-sky-500 hover:bg-sky-400 hover:text-white">
           <label htmlFor={`import/${model}`} className="block px-4 py-2 cursor-pointer">
@@ -69,7 +59,7 @@ const Statistic = ({
         {status === "success" && (
           <Confirm
             title={`Import ${model}`}
-            message="Import file sucessfully"
+            message="Nhập dữ liệu thành công"
             type="success"
             close={() => setStatus("")}
           />
@@ -77,7 +67,7 @@ const Statistic = ({
         {status === "error" && (
           <Confirm
             title={`Import ${model}`}
-            message="Cannot import your file, please ensure that your input file is in JSON format with correct syntax and data"
+            message="Không thể nhập dữ liệu, vui lòng đảm bảo file ở định dạng JSON, đúng cú pháp và chứa dữ liệu hợp lệ"
             type="warning"
             close={() => setStatus("")}
           />

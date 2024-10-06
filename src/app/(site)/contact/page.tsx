@@ -5,13 +5,13 @@ import PageWall from "@/components/utils/pageWall";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Contact | Robotics & IoT HCMUS",
+  title: "Liên hệ | Robotics & IoT HCMUS",
   description:
-    "Contact Robotics and IoT (Internet of Things) Club from University of Science, VNU-HCM",
+    "Liên hệ câu lạc bộ Robotics and IoT (Internet of Things) Trường Đại học Khoa học Tự nhiên - Đại học Quốc gia TP.HCM",
   openGraph: {
-    title: "Contact | Robotics & IoT HCMUS",
+    title: "Liên hệ | Robotics & IoT HCMUS",
     description:
-      "Contact Robotics and IoT (Internet of Things) Club from University of Science, VNU-HCM",
+      "Liên hệ câu lạc bộ Robotics and IoT (Internet of Things) Trường Đại học Khoa học Tự nhiên - Đại học Quốc gia TP.HCM",
     type: "website",
     images: ["/wallpaper-contact.png"],
   },
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <main>
-      <PageWall title="CONTACT" image="/wallpaper-contact.png" />
+      <PageWall title="LIÊN HỆ" image="/wallpaper-contact.png" />
       <ContactInfo className="min-h-screen flex py-24" />
       <ContactForm />
       <Faq className="min-h-screen flex py-24" />

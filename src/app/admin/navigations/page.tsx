@@ -48,13 +48,13 @@ export default async function NavigationDashboardPage({
             <thead>
               <tr className="*:p-4 *:text-left">
                 <th>
-                  <div className="w-48">Title</div>
+                  <div className="w-48">Tiêu đề</div>
                 </th>
                 <th className="w-full">
-                  <div>Address</div>
+                  <div>Địa chỉ</div>
                 </th>
                 <th>
-                  <div className="w-24">Action</div>
+                  <div className="w-24">Hành động</div>
                 </th>
               </tr>
             </thead>
@@ -78,7 +78,7 @@ export default async function NavigationDashboardPage({
                       <div className="w-24 p-4 flex gap-4">
                         <ViewButton itemId={item.title} edit />
                         <DeleteButton
-                          itemName={`Navigation ${item.title}`}
+                          itemName={item.title}
                           action={navigationDeleteAction.bind(null, item.title)}
                         />
                       </div>

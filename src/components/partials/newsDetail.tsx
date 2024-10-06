@@ -22,10 +22,15 @@ const NewsDetail = async ({
     <section {...props}>
       <div className="container grid grid-cols-1 lg:grid-cols-3 gap-y-8 lg:gap-x-12">
         <div className="col-span-2">
-          <p className="text-primary text-md">{news.date.toDateString()}</p>
-          <h2 className="mb-8 text-2xl font-bold">
-            {news.title}
-          </h2>
+          <p className="text-primary text-md">
+            {news.date.toLocaleDateString("vi-VN", {
+              weekday: "long",
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })}
+          </p>
+          <h2 className="mb-8 text-2xl font-bold">{news.title}</h2>
           <div
             className={clsx(
               "[&_h1]:text-2xl [&_h1]:mb-4 [&_h1]:font-bold",
@@ -66,7 +71,14 @@ const NewsDetail = async ({
                   </div>
                   <div className="col-span-3 h-full px-4 py-2 flex flex-col justify-between">
                     <p className="text-primary mb-2 h-12 overflow-hidden">{news.title}</p>
-                    <p className="text-gray-600 text-sm text-right">{news.date.toDateString()}</p>
+                    <p className="text-gray-600 text-sm text-right">
+                      {news.date.toLocaleDateString("vi-VN", {
+                        weekday: "long",
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      })}
+                    </p>
                   </div>
                 </Link>
               </Appear>

@@ -48,31 +48,25 @@ export default async function CourseDashboardPage({
             <thead>
               <tr className="*:p-4 *:text-left">
                 <th>
-                  <div className="w-96">Course Name</div>
+                  <div className="w-64">Tên khóa học</div>
                 </th>
                 <th>
-                  <div className="w-64">Description</div>
+                  <div className="w-64">Mô tả tóm tắt</div>
                 </th>
                 <th>
-                  <div className="w-64">Objectives</div>
+                  <div className="w-64">Tổng quan</div>
                 </th>
                 <th>
-                  <div className="w-32">Age</div>
+                  <div className="w-64">Tổ chức</div>
                 </th>
                 <th>
-                  <div className="w-32">Lesson</div>
+                  <div className="w-64">Nội dung</div>
                 </th>
                 <th>
-                  <div className="w-64">Time</div>
+                  <div className="w-64">Khung giờ</div>
                 </th>
                 <th>
-                  <div className="w-48">Opening date</div>
-                </th>
-                <th>
-                  <div className="w-48">Requirement</div>
-                </th>
-                <th>
-                  <div className="w-24">Action</div>
+                  <div className="w-24">Hành động</div>
                 </th>
               </tr>
             </thead>
@@ -81,12 +75,12 @@ export default async function CourseDashboardPage({
                 {courses.map((item) => (
                   <tr key={item.name}>
                     <td>
-                      <div className="w-96 p-4 flex items-center gap-4 text-nowrap text-ellipsis overflow-hidden">
+                      <div className="w-64 p-4 flex items-center gap-4 text-nowrap text-ellipsis overflow-hidden">
                         <Image
                           src={item.thumbnail}
                           alt={item.name}
-                          width={32}
-                          height={32}
+                          width={128}
+                          height={128}
                           priority
                           className="w-8 h-8 object-cover"
                         />
@@ -94,45 +88,25 @@ export default async function CourseDashboardPage({
                       </div>
                     </td>
                     <td>
-                      <div className="w-64 p-4 text-nowrap text-ellipsis overflow-hidden">
-                        {item.description}
-                      </div>
+                      <div className="w-64 p-4 text-nowrap text-ellipsis overflow-hidden">{item.brief}</div>
                     </td>
                     <td>
-                      <div className="w-64 p-4 text-nowrap text-ellipsis overflow-hidden">
-                        {item.objective}
-                      </div>
+                      <div className="w-64 p-4 text-nowrap text-ellipsis overflow-hidden">{item.overview}</div>
                     </td>
                     <td>
-                      <div className="w-32 p-4 text-nowrap text-ellipsis overflow-hidden">
-                        {item.age}
-                      </div>
+                      <div className="w-64 p-4 text-nowrap text-ellipsis overflow-hidden">{item.organization}</div>
                     </td>
                     <td>
-                      <div className="w-32 p-4 text-nowrap text-ellipsis overflow-hidden">
-                        {item.lesson}
-                      </div>
+                      <div className="w-64 p-4 text-nowrap text-ellipsis overflow-hidden">{item.description}</div>
                     </td>
                     <td>
-                      <div className="w-64 p-4 text-nowrap text-ellipsis overflow-hidden">
-                        {item.time}
-                      </div>
-                    </td>
-                    <td>
-                      <div className="w-48 p-4 text-nowrap text-ellipsis overflow-hidden">
-                        {item.openDate}
-                      </div>
-                    </td>
-                    <td>
-                      <div className="w-48 p-4 text-nowrap text-ellipsis overflow-hidden">
-                        {item.requirement}
-                      </div>
+                      <div className="w-64 p-4 text-nowrap text-ellipsis overflow-hidden">{item.time}</div>
                     </td>
                     <td>
                       <div className="w-24 p-4 flex gap-4">
                         <ViewButton itemId={item.name} edit />
                         <DeleteButton
-                          itemName={`Course ${item.name}`}
+                          itemName={item.name}
                           action={courseDeleteAction.bind(null, item.name)}
                         />
                       </div>

@@ -6,7 +6,8 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Robotics & IoT HCMUS",
-  description: "Website for Robotics and IoT HCMUS Club",
+  description:
+    "Website cho Câu lạc bộ Robotics and IoT (Internet of Things) Trường Đại học Khoa học Tự nhiên - Đại học Quốc gia TP.HCM",
 };
 
 export default function RootLayout({

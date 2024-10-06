@@ -32,7 +32,6 @@ export const importAction = async (model: Prisma.ModelName, data: any) => {
       }
     } else if (model === "Contact") {
       for (let item of data) {
-        if (!["Email", "Facebook", "Hotline", "Location"].includes(item.key)) continue;
         await db.contact.upsert({ where: { key: item.key }, update: item, create: item });
       }
     } else if (model === "Banner") {
@@ -89,7 +88,7 @@ export const navigationSaveAction = async (_prevState: any, formData: FormData) 
     } catch (error) {
       if (error instanceof PrismaClientKnownRequestError && error.code === "P2002") {
         // Unique constraint error
-        const issue: Issue = { path: "title", message: "This title is already taken" };
+        const issue: Issue = { path: "title", message: "Tiêu đề này đã tồn tại" };
         return { issues: [issue] };
       } else {
         throw error;
@@ -113,18 +112,37 @@ export const contactSaveAction = async (_prevState: any, formData: FormData) => 
   if (issues.length) {
     return { issues };
   } else {
-    const id = formData.get("id") as string;
-    await db.contact.update({ where: { key: id }, data });
-    revalidatePath("/admin/contacts");
-    redirect("/admin/contacts");
+    try {
+      const id = formData.get("id") as string;
+      if (id) {
+        await db.contact.update({ where: { key: id }, data });
+      } else {
+        await db.contact.create({ data });
+      }
+      revalidatePath("/admin/contacts");
+      redirect("/admin/contacts");
+    } catch (error) {
+      if (error instanceof PrismaClientKnownRequestError && error.code === "P2002") {
+        // Unique constraint error
+        const issue: Issue = { path: "key", message: "Từ khóa này đã tồn tại" };
+        return { issues: [issue] };
+      } else {
+        throw error;
+      }
+    }
   }
+};
+export const contactDeleteAction = async (key: string) => {
+  await db.contact.delete({ where: { key } });
+  revalidatePath("/admin/contacts");
 };
 
 // Banner
 export const bannerSaveAction = async (_prevState: any, formData: FormData) => {
   const rawData = {
     name: formData.get("name") as string,
-    image: formData.get("image") as string,
+    desktopImg: formData.get("desktopImg") as string,
+    mobileImg: formData.get("mobileImg") as string,
     order: formData.get("order") as string,
   };
   const issues = validateAll(rawData, bannerSchema);
@@ -135,19 +153,30 @@ export const bannerSaveAction = async (_prevState: any, formData: FormData) => {
       const data = { ...rawData, order: Number(formData.get("order")) };
       const id = formData.get("id") as string;
       if (id) {
-        if (data.image.startsWith("data:")) {
+        if (data.desktopImg.startsWith("data:")) {
           const oldUrls = await db.banner.findUnique({
             where: { name: id },
-            select: { image: true },
+            select: { desktopImg: true },
           });
           if (oldUrls) {
-            deleteFile(oldUrls.image);
-            data.image = await uploadFile(`banners/${data.name}.jpeg`, data.image);
+            deleteFile(oldUrls.desktopImg);
+            data.desktopImg = await uploadFile(`banners/${data.name}.jpeg`, data.desktopImg);
+          }
+        }
+        if (data.mobileImg.startsWith("data:")) {
+          const oldUrls = await db.banner.findUnique({
+            where: { name: id },
+            select: { mobileImg: true },
+          });
+          if (oldUrls) {
+            deleteFile(oldUrls.mobileImg);
+            data.mobileImg = await uploadFile(`banners/${data.name}.jpeg`, data.mobileImg);
           }
         }
         await db.banner.update({ where: { name: id }, data });
       } else {
-        data.image = await uploadFile(`banners/${data.name}.jpeg`, data.image);
+        data.desktopImg = await uploadFile(`banners/${data.name}-desktop.jpeg`, data.desktopImg);
+        data.mobileImg = await uploadFile(`banners/${data.name}-mobile.jpeg`, data.mobileImg);
         await db.banner.create({ data });
       }
       revalidatePath("/admin/banners");
@@ -155,7 +184,7 @@ export const bannerSaveAction = async (_prevState: any, formData: FormData) => {
     } catch (error) {
       if (error instanceof PrismaClientKnownRequestError && error.code === "P2002") {
         // Unique constraint error
-        const issue: Issue = { path: "name", message: "This name is already taken" };
+        const issue: Issue = { path: "name", message: "Tên này đã tồn tại" };
         return { issues: [issue] };
       } else {
         throw error;
@@ -164,8 +193,11 @@ export const bannerSaveAction = async (_prevState: any, formData: FormData) => {
   }
 };
 export const bannerDeleteAction = async (name: string) => {
-  const oldUrls = await db.banner.findUnique({ where: { name }, select: { image: true } });
-  if (oldUrls) await deleteFile(oldUrls.image);
+  const oldUrls = await db.banner.findUnique({ where: { name }, select: { desktopImg: true, mobileImg: true } });
+  if (oldUrls) {
+    await deleteFile(oldUrls.desktopImg);
+    await deleteFile(oldUrls.mobileImg);
+  }
   await db.banner.delete({ where: { name } });
   revalidatePath("/admin/banners");
 };
@@ -175,13 +207,11 @@ export const courseSaveAction = async (_prevState: any, formData: FormData) => {
   const data = {
     name: formData.get("name") as string,
     thumbnail: formData.get("thumbnail") as string,
+    brief: formData.get("brief") as string,
+    overview: formData.get("overview") as string,
+    organization: formData.get("organization") as string,
     description: formData.get("description") as string,
-    objective: formData.get("objective") as string,
-    age: formData.get("age") as string,
-    lesson: formData.get("lesson") as string,
     time: formData.get("time") as string,
-    openDate: formData.get("openDate") as string,
-    requirement: formData.get("requirement") as string,
     gallery: formData.getAll("gallery") as string[],
   };
   const issues = validateAll({ ...data, gallery: data.gallery.join() }, courseSchema);
@@ -211,9 +241,7 @@ export const courseSaveAction = async (_prevState: any, formData: FormData) => {
           // Upload new images
           data.gallery = await Promise.all(
             data.gallery.map(async (image) =>
-              image.startsWith("data:")
-                ? await uploadFile(`courses/${data.name}-gallery-${uuid()}.jpeg`, image)
-                : image
+              image.startsWith("data:") ? await uploadFile(`courses/${data.name}-gallery-${uuid()}.jpeg`, image) : image
             )
           );
         }
@@ -221,9 +249,7 @@ export const courseSaveAction = async (_prevState: any, formData: FormData) => {
       } else {
         data.thumbnail = await uploadFile(`courses/${data.name}.jpeg`, data.thumbnail);
         data.gallery = await Promise.all(
-          data.gallery.map(async (image) =>
-            uploadFile(`courses/${data.name}-gallery-${uuid()}.jpeg`, image)
-          )
+          data.gallery.map(async (image) => uploadFile(`courses/${data.name}-gallery-${uuid()}.jpeg`, image))
         );
         await db.course.create({ data });
       }
@@ -232,7 +258,7 @@ export const courseSaveAction = async (_prevState: any, formData: FormData) => {
     } catch (error) {
       if (error instanceof PrismaClientKnownRequestError && error.code === "P2002") {
         // Unique constraint error
-        const issue: Issue = { path: "name", message: "This name is already taken" };
+        const issue: Issue = { path: "name", message: "Tên này đã tồn tại" };
         return { issues: [issue] };
       } else {
         throw error;
@@ -289,7 +315,7 @@ export const newsSaveAction = async (_prevState: any, formData: FormData) => {
     } catch (error) {
       if (error instanceof PrismaClientKnownRequestError && error.code === "P2002") {
         // Unique constraint error
-        const issue: Issue = { path: "title", message: "This title is already taken" };
+        const issue: Issue = { path: "title", message: "Tiêu đề này đã tồn tại" };
         return { issues: [issue] };
       } else {
         throw error;
@@ -335,6 +361,7 @@ export const registerSaveAction = async (_prevData: any, formData: FormData) => 
   const data = {
     courseId: formData.get("courseId") as string,
     name: formData.get("name") as string,
+    parentName: formData.get("parentName") as string,
     dob: formData.get("dob") as string,
     email: formData.get("email") as string,
     phone: formData.get("phone") as string,
@@ -391,7 +418,7 @@ export const userSaveAction = async (_prevState: any, formData: FormData) => {
     } catch (error) {
       if (error instanceof PrismaClientKnownRequestError && error.code === "P2002") {
         // Unique constraint error
-        const issue: Issue = { path: "username", message: "This username is already taken" };
+        const issue: Issue = { path: "username", message: "Tải khoản này đã tồn tại" };
         return { issues: [issue] };
       } else {
         throw error;
@@ -415,14 +442,14 @@ export const changePasswordAction = async (_prevState: any, formData: FormData) 
   if (issues.length) {
     return { issues };
   } else if (data.password !== data.confirm) {
-    const issue: Issue = { path: "confirm", message: "Confirm password not match" };
+    const issue: Issue = { path: "confirm", message: "Xác nhận mật khẩu không khớp" };
     return { issues: [issue] };
   } else {
     const user = await db.user.findUnique({ where: { username: data.id } });
     if (user) {
       const match = await bcrypt.compare(data.old, user.password);
       if (!match) {
-        const issue: Issue = { path: "old", message: "Wrong password" };
+        const issue: Issue = { path: "old", message: "Mật khẩu không chính xác" };
         return { issues: [issue] };
       } else {
         const password = await bcrypt.hash(data.password, 10);
@@ -448,12 +475,12 @@ export const authenticateAction = async (_prevState: any, formData: FormData) =>
     const { username, password } = data;
     const foundUser = await db.user.findUnique({ where: { username } });
     if (!foundUser) {
-      const issue: Issue = { path: "username", message: "Username not found" };
+      const issue: Issue = { path: "username", message: "Tài khoản không tồn tại" };
       return { issues: [issue] };
     }
     const match = await bcrypt.compare(password, foundUser.password);
     if (!match) {
-      const issue: Issue = { path: "password", message: "Wrong password" };
+      const issue: Issue = { path: "password", message: "Mật khẩu không chính xác" };
       return { issues: [issue] };
     }
 

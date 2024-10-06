@@ -14,25 +14,24 @@ const AccountEditor = ({ data }: { data: User }) => {
     dispatch(payload);
   };
 
-  const submitErr = state?.issues.reduce(
-    (obj, error) => Object.assign(obj, { [error.path]: error.message }),
-    {}
-  ) as { password: string; old: string; confirm: string } | undefined;
+  const submitErr = state?.issues.reduce((obj, error) => Object.assign(obj, { [error.path]: error.message }), {}) as
+    | { password: string; old: string; confirm: string }
+    | undefined;
 
   return (
     <form action={action} noValidate className="*:mb-4">
       <InputField
-        label="Old password"
+        label="Mật khẩu cũ"
         inputAttr={{
           name: "old",
           placeholder: "********",
           type: "password",
         }}
-        validation={{ required: { message: "Please fill out this field" } }}
+        validation={{ required: { message: "Vui lòng nhập vào trường này" } }}
         submitErr={submitErr}
       />
       <InputField
-        label="New password"
+        label="Mật khẩu mới"
         inputAttr={{
           name: "password",
           placeholder: "********",
@@ -42,18 +41,18 @@ const AccountEditor = ({ data }: { data: User }) => {
         submitErr={submitErr}
       />
       <InputField
-        label="Confirm password"
+        label="Xác nhận mật khẩu mới"
         inputAttr={{
           name: "confirm",
           placeholder: "********",
           type: "password",
         }}
-        validation={{ required: { message: "Please fill out this field" } }}
+        validation={{ required: { message: "Vui lòng nhập vào trường này" } }}
         submitErr={submitErr}
       />
       <div className="text-center pt-4">
         <button className="w-1/2 py-2 rounded-lg border border-sky-400 text-sky-400 hover:bg-sky-400 hover:text-white transition">
-          SUBMIT
+          XÁC NHẬN
         </button>
       </div>
     </form>

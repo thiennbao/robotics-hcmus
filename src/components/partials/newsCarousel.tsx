@@ -4,14 +4,12 @@ import News from "./news";
 import db from "@/lib/db";
 
 const NewsCarousel = async (props: HTMLAttributes<HTMLDivElement>) => {
-  const news = await db.news.findMany({ orderBy: { date: "desc" }, take: 12});
+  const news = await db.news.findMany({ orderBy: { date: "desc" }, take: 12 });
 
   return (
     <section {...props}>
       <div className="container">
-        <h2 className="mb-4 text-3xl font-bold before:content-['HOTEST'] before:block before:text-primary before:text-[0.6em] before:font-normal">
-          NEWS AND BLOGS
-        </h2>
+        <h2 className="mb-4 text-3xl text-primary font-bold">TIN TỨC</h2>
         <Carousel withPrevNext itemsOnScreen={{ df: 1, md: 2, xl: 3 }} className="-mx-4">
           {news.map((item) => (
             <div key={item.title} className="p-4 h-full">

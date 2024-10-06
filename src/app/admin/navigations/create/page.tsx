@@ -12,7 +12,7 @@ export default async function NavigationCreatePage() {
             Navigations
           </Link>
           <FaAngleDoubleRight className="mx-2" />
-          <span className="text-nowrap overflow-hidden text-ellipsis">Create a navigation</span>
+          <span className="text-nowrap overflow-hidden text-ellipsis">Tạo mới</span>
         </div>
         <NavigationEditor />
       </div>

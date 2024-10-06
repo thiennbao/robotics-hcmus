@@ -12,16 +12,6 @@ async function main() {
       password: "$2b$12$hZvt3N9JZC3OzFMkN.Me5.2wRfXITPIiNnRI56ntKT6Eltmzj3t9q",
     },
   });
-  await prisma.contact.createMany({
-    data: [
-      { key: "Email", title: "", address: "" },
-      { key: "Facebook", title: "", address: "" },
-      { key: "Hotline", title: "", address: "" },
-      { key: "Location", title: "", address: "" },
-      // Add more key if need
-    ],
-    skipDuplicates: true,
-  });
   console.log("🌱  Seed database successfully")
 }
 

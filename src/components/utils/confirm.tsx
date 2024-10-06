@@ -43,7 +43,7 @@ const Confirm = ({
             onClick={asSubmit ? undefined : close}
             type={asSubmit ? "submit" : "button"}
           >
-            Confirm
+            Xác nhận
           </button>
         </div>
       </div>

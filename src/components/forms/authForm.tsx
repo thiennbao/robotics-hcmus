@@ -13,14 +13,14 @@ const AuthForm = () => {
 
   return (
     <form action={formAction} className="w-96 *:my-4 max-w-full">
-      <InputField label="Username" inputAttr={{ name: "username" }} submitErr={submitErr} />
+      <InputField label="Tên đăng nhập" inputAttr={{ name: "username" }} submitErr={submitErr} />
       <InputField
-        label="Password"
+        label="Mật khẩu"
         inputAttr={{ name: "password", type: "password" }}
         submitErr={submitErr}
       />
       <button className="w-full py-2 rounded-lg border border-sky-400 text-sky-400 hover:bg-sky-400 hover:text-white transition">
-        SIGN IN
+        ĐĂNG NHẬP
       </button>
     </form>
   );

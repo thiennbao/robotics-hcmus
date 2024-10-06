@@ -17,9 +17,7 @@ const Slide = ({
 }) => {
   return (
     <div className="w-4/5 md:w-3/4 xl:w-3/5 py-16 m-auto">
-      <h2 className="mb-8 text-3xl font-bold before:content-['CUSTOMER_TESTIMONIAL'] before:block before:text-primary before:text-[0.6em] before:font-normal">
-        What they say about us
-      </h2>
+      <h2 className="mb-8 text-3xl font-bold">Nhận xét từ khách hàng</h2>
       <i className="block mx-auto mb-8 text-xl">{content}</i>
       <div className="flex items-center justify-center">
         <Image

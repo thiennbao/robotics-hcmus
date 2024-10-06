@@ -5,36 +5,20 @@ import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  BsEnvelopeFill,
-  BsFacebook,
-  BsGeoAltFill,
-  BsHeartFill,
-  BsTelephoneFill,
-} from "react-icons/bs";
+import { BsHeartFill } from "react-icons/bs";
 
 const Footer = ({ extraNav, contacts }: { extraNav: Navigation[]; contacts: Contact[] }) => {
   const page = usePathname().split("/")[1];
 
   const staticNav = [
-    { title: "Home", address: "/" },
-    { title: "About", address: "/about" },
-    { title: "Courses", address: "/courses" },
-    { title: "News", address: "/news" },
-    { title: "Contact", address: "/contact" },
+    { title: "Trang chủ", address: "/" },
+    { title: "Giới thiệu", address: "/about" },
+    { title: "Khóa học", address: "/courses" },
+    { title: "Tin tức", address: "/news" },
+    { title: "Liên hệ", address: "/contact" },
   ];
 
-  contacts = contacts
-    .filter((contact) => contact.title && contact.address)
-    .sort((c1, c2) => (c2.title?.length || 0) - (c1.title?.length || 0));
-
-  // Fixed with contacts list in db
-  const icons: { [key: string]: JSX.Element } = {
-    Location: <BsGeoAltFill />,
-    Facebook: <BsFacebook />,
-    Email: <BsEnvelopeFill />,
-    Hotline: <BsTelephoneFill />,
-  };
+  contacts = contacts.sort((c1, c2) => (c2.title?.length || 0) - (c1.title?.length || 0));
 
   return (
     <footer className="py-12 bg-gray-100">
@@ -42,16 +26,16 @@ const Footer = ({ extraNav, contacts }: { extraNav: Navigation[]; contacts: Cont
         {/* Logo */}
         <div>
           <Link href="/">
-            <Image src="/logo.svg" alt="Robotics and IoT HCMUS" width={160} height={100} />
+            <Image src="/logo.png" alt="Robotics and IoT HCMUS" width={160} height={100} />
           </Link>
           <p className="mt-4">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt
-            ut labore et dolore magna aliqua.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore
+            magna aliqua.
           </p>
         </div>
         {/* Navigations */}
         <div>
-          <p className="mb-4 text-lg text-primary font-bold">Quick links</p>
+          <p className="mb-4 text-lg text-primary font-bold">Menu</p>
           <div className="flex flex-wrap">
             {[...staticNav, ...extraNav].map((navigation) => (
               <Link
@@ -69,27 +53,15 @@ const Footer = ({ extraNav, contacts }: { extraNav: Navigation[]; contacts: Cont
         </div>
         {/* Contacts */}
         <div>
-          <p className="mb-4 text-lg text-primary font-bold">Reach us at</p>
+          <p className="mb-4 text-lg text-primary font-bold">Thông tin liên hệ</p>
           <div className="*:block *:mb-2 *:transition hover:*:text-primary">
             {contacts.map((contact) => (
-              <Link href={contact.address || ""} key={contact.key}>
-                <div className="inline-block w-fit me-2 align-middle text-primary">
-                  {icons[contact.key]}
-                </div>
-                <span>
-                  {contact.key}: {contact.title}
-                </span>
+              <Link href={contact.address || ""} key={contact.key} target="_blank">
+                {contact.key}: {contact.title}
               </Link>
             ))}
           </div>
         </div>
-      </div>
-      <div className="container text-center mt-8">
-        <p>
-          <span>This website is made with</span>
-          <BsHeartFill className="inline mx-2 text-2xl text-red-500" />
-          <span>by Robotics & IoT HCMUS</span>
-        </p>
       </div>
     </footer>
   );

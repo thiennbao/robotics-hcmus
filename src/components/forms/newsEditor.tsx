@@ -22,7 +22,7 @@ const NewsEditor = ({ data }: { data?: News }) => {
   return (
     <form action={action} noValidate className="*:mb-4">
       <InputField
-        label="News title"
+        label="Tiêu đề"
         inputAttr={{
           name: "title",
           placeholder: "Dumb New Way to Peel Bananas Is Taking Over the Internet",
@@ -41,7 +41,7 @@ const NewsEditor = ({ data }: { data?: News }) => {
         submitErr={submitErr}
       />
       <RichTextField
-        label="Content"
+        label="Nội dung"
         inputAttr={{
           name: "content",
           defaultValue: data?.content,
@@ -51,7 +51,7 @@ const NewsEditor = ({ data }: { data?: News }) => {
       />
       <div className="text-center pt-4">
         <button className="w-1/2 py-2 rounded-lg border border-sky-400 text-sky-400 hover:bg-sky-400 hover:text-white transition">
-          SUBMIT
+          XÁC NHẬN
         </button>
       </div>
     </form>

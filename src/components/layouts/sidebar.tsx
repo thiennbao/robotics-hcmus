@@ -56,7 +56,7 @@ const Sidebar = ({ isRoot, logout }: { isRoot: boolean; logout: () => void }) =>
         <div className="flex p-2 justify-between gap-4">
           <Link href="/admin" className="w-4/5">
             <Image
-              src="/logo.svg"
+              src="/logo-white.png"
               alt="Robotics and IoT HCMUS"
               width={160}
               height={100}

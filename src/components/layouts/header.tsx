@@ -7,7 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { PiSquaresFour } from "react-icons/pi";
+import { IoMenu } from "react-icons/io5";
 
 const Header = ({ extraNav }: { extraNav: Navigation[] }) => {
   const page = usePathname().split("/")[1];
@@ -21,10 +21,10 @@ const Header = ({ extraNav }: { extraNav: Navigation[] }) => {
   });
 
   const staticNav = [
-    { title: "About", address: "/about" },
-    { title: "Courses", address: "/courses" },
-    { title: "News", address: "/news" },
-    { title: "Contact", address: "/contact" },
+    { title: "Giới thiệu", address: "/about" },
+    { title: "Khóa học", address: "/courses" },
+    { title: "Tin tức", address: "/news" },
+    { title: "Liên hệ", address: "/contact" },
   ];
 
   return (
@@ -34,15 +34,15 @@ const Header = ({ extraNav }: { extraNav: Navigation[] }) => {
         isOnTop ? "h-32" : "h-20 shadow-[gray_0_0_2px] bg-gray-50"
       )}
     >
-      <div
-        className={clsx(
-          "h-full container flex items-center justify-between",
-          isOnTop && "opacity-90 text-white"
-        )}
-      >
+      <div className={clsx("h-full container flex items-center justify-between", isOnTop && "opacity-90 text-white")}>
         <div>
           <Link href="/">
-            <Image src="/logo.svg" alt="Robotics and IoT HCMUS" width={160} height={100} />
+            <Image
+              src={isOnTop ? "/logo-white.png" : "/logo.png"}
+              alt="Robotics and IoT HCMUS"
+              width={160}
+              height={100}
+            />
           </Link>
         </div>
         <nav className="hidden md:flex gap-4 lg:gap-8">
@@ -59,16 +59,13 @@ const Header = ({ extraNav }: { extraNav: Navigation[] }) => {
           ))}
         </nav>
         <div className="md:hidden">
-          <PiSquaresFour onClick={() => setIsOpen(true)} className="text-2xl cursor-pointer" />
+          <IoMenu onClick={() => setIsOpen(true)} className="text-2xl cursor-pointer" />
         </div>
       </div>
       <div className="md:hidden flex items-center">
         <div
           onClick={() => setIsOpen(false)}
-          className={clsx(
-            !isOpen && "hidden",
-            "fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-95 z-20"
-          )}
+          className={clsx(!isOpen && "hidden", "fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-95 z-20")}
         />
         <div
           className={clsx(
@@ -78,11 +75,11 @@ const Header = ({ extraNav }: { extraNav: Navigation[] }) => {
         >
           <div className="flex p-2 justify-between gap-4">
             <Link href="/admin" className="w-4/5">
-              <Image src="/logo.svg" alt="Robotics and IoT HCMUS" width={160} height={100} />
+              <Image src="/logo.png" alt="Robotics and IoT HCMUS" width={160} height={100} />
             </Link>
             <button onClick={() => setIsOpen(false)} className="w-1/5">
               <div className="w-full aspect-square flex justify-center items-center rounded-full">
-                <PiSquaresFour className="text-xl" />
+                <IoMenu className="text-xl" />
               </div>
             </button>
           </div>
@@ -90,11 +87,7 @@ const Header = ({ extraNav }: { extraNav: Navigation[] }) => {
             <p className="text-sm font-bold mb-2">MENU</p>
             <div className="*:block *:mb-2 *:px-4 *:py-2 *:rounded-lg">
               {[...staticNav, ...extraNav].map((navigation) => (
-                <Link
-                  key={navigation.title}
-                  href={navigation.address}
-                  className={clsx("bg-primary text-gray-200")}
-                >
+                <Link key={navigation.title} href={navigation.address} className={clsx("bg-primary text-gray-200")}>
                   {navigation.title}
                 </Link>
               ))}

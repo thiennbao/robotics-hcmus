@@ -8,12 +8,12 @@ export default function ErrorPage({ reset }: { reset: () => void }) {
       <div className="text-center">
         <Image width={320} height={320} src="/error.svg" alt="Error" className="w-72 m-auto" />
         <h2 className="text-xl">Internal Server Error</h2>
-        <p className="m-auto">Something went wrong, please try again later.</p>
+        <p className="m-auto">Lỗi hệ thống, vui lòng thử lại sau.</p>
         <button
           onClick={reset}
           className="mt-4 p-2 rounded-lg border border-sky-400 text-sky-400 hover:bg-sky-400 hover:text-white transition"
         >
-          Try again
+          Thử lại
         </button>
       </div>
     </div>

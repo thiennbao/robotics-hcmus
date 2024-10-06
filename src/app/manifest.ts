@@ -4,7 +4,7 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: 'Robotics & IoT HCMUS',
     short_name: 'Robotics HCMUS',
-    description: 'Robotics and IoT (Internet of Things) Club from University of Science, VNU-HCM',
+    description: 'Câu lạc bộ Robotics and IoT (Internet of Things) Trường Đại học Khoa học Tự nhiên - Đại học Quốc gia TP.HCM',
     start_url: '/',
     display: 'standalone',
     background_color: '#fff',

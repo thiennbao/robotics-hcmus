@@ -23,9 +23,9 @@ export default async function NavigationEditPage({ params }: { params: { id: str
             Registers
           </Link>
           <FaAngleDoubleRight className="mx-2" />
-          <span className="text-nowrap overflow-hidden text-ellipsis">From: {data.name}</span>
+          <span className="text-nowrap overflow-hidden text-ellipsis">Từ: {data.name}</span>
           <div className="mx-2">{data.read ? <MdMarkEmailRead /> : <MdMarkEmailUnread />}</div>
-          <span>{data.read ? "Read" : "Unread"}</span>
+          <span>{data.read ? "Đã đọc" : "Chưa đọc"}</span>
         </div>
         <RegisterEditor data={data} />
       </div>

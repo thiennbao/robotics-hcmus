@@ -22,7 +22,7 @@ const UserEditor = ({ data }: { data?: User }) => {
   return (
     <form action={action} noValidate className="*:mb-4">
       <InputField
-        label="Username"
+        label="Tên đăng nhập"
         inputAttr={{
           name: "username",
           placeholder: "robotics",
@@ -32,7 +32,7 @@ const UserEditor = ({ data }: { data?: User }) => {
         submitErr={submitErr}
       />
       <SelectField
-        label="Role"
+        label="Vai trò"
         inputAttr={{
           name: "role",
           defaultValue: data?.role,
@@ -42,7 +42,7 @@ const UserEditor = ({ data }: { data?: User }) => {
         submitErr={submitErr}
       />
       <InputField
-        label="Password"
+        label="Mật khẩu"
         inputAttr={{
           name: "password",
           placeholder: "********",
@@ -53,7 +53,7 @@ const UserEditor = ({ data }: { data?: User }) => {
       />
       <div className="text-center pt-4">
         <button className="w-1/2 py-2 rounded-lg border border-sky-400 text-sky-400 hover:bg-sky-400 hover:text-white transition">
-          SUBMIT
+          XÁC NHẬN
         </button>
       </div>
     </form>

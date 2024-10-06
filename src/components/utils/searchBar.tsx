@@ -26,7 +26,7 @@ const SearchBar = ({
     <input
       {...props}
       onChange={(e) => handleSearch(e.target.value)}
-      placeholder="Search..."
+      placeholder="Tìm kiếm..."
       defaultValue={searchParams.get(paramKey)?.toString()}
     />
   );

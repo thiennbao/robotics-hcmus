@@ -11,7 +11,7 @@ export const signToken = async (data: { username: string; role: string }) => {
   cookies().set("token", token, {
     maxAge: 60 * 60 * 24 * 7, // 1 week
     path: "/",
-    domain: process.env.HOST ?? "localhost",
+    domain: (process.env.BASE_URL as string).split("://")[1].split(":")[0], // Host
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
   });

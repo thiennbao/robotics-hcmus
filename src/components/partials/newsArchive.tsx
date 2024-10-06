@@ -17,8 +17,8 @@ const NewsArchive = async ({
     <section {...props}>
       <div className="container">
         <div>
-          <h2 className="text-center text-3xl font-bold before:content-['NEWS'] before:block before:text-primary before:text-[0.6em] before:font-normal">
-            Archives
+          <h2 className="text-center text-3xl font-bold before:content-['DANH_SÁCH'] before:block before:text-primary before:text-[0.6em] before:font-normal">
+            TIN TỨC
           </h2>
           <div className="lg:w-3/4 xl:w-1/2 mx-auto mt-12 mb-16">
             <SearchBar

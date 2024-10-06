@@ -6,7 +6,7 @@ const RegisterEditor = ({ data }: { data: Register & { course: Pick<Course, "nam
   return (
     <form action={registerReadAction.bind(null, data.id, !data.read)} className="*:mb-4">
       <InputField
-        label="Course"
+        label="Khoá học"
         inputAttr={{
           name: "course",
           defaultValue: data.course.name,
@@ -14,7 +14,7 @@ const RegisterEditor = ({ data }: { data: Register & { course: Pick<Course, "nam
         }}
       />
       <InputField
-        label="Name"
+        label="Họ tên học sinh"
         inputAttr={{
           name: "name",
           defaultValue: data.name,
@@ -22,39 +22,45 @@ const RegisterEditor = ({ data }: { data: Register & { course: Pick<Course, "nam
         }}
       />
       <InputField
-        label="Date of birth"
+        label="Họ tên phụ huynh"
+        inputAttr={{
+          name: "parentName",
+          defaultValue: data.parentName,
+          readOnly: true,
+        }}
+      />
+      <InputField
+        label="Ngày sinh"
         inputAttr={{
           name: "dob",
           defaultValue: data.dob.toLocaleDateString(),
           readOnly: true,
         }}
       />
-      <div className="grid lg:grid-cols-2 gap-4">
-        <InputField
-          label="Email"
-          inputAttr={{
-            name: "email",
-            defaultValue: data.email,
-            readOnly: true,
-          }}
-        />
-        <InputField
-          label="Phone"
-          inputAttr={{
-            name: "phone",
-            defaultValue: data.phone,
-            readOnly: true,
-          }}
-        />
-      </div>
+      <InputField
+        label="Email"
+        inputAttr={{
+          name: "email",
+          defaultValue: data.email,
+          readOnly: true,
+        }}
+      />
+      <InputField
+        label="Số điện thoại"
+        inputAttr={{
+          name: "phone",
+          defaultValue: data.phone,
+          readOnly: true,
+        }}
+      />
       <div className="text-center pt-4">
         {data.read ? (
           <button className="w-1/2 py-2 rounded-lg border border-amber-500 text-amber-500 hover:bg-amber-500 hover:text-white transition">
-            MAKE AS UNREAD
+            ĐÁNH DẤU CHƯA ĐỌC
           </button>
         ) : (
           <button className="w-1/2 py-2 rounded-lg border border-emerald-500 text-emerald-500 hover:bg-emerald-500 hover:text-white transition">
-            MAKE AS READ
+            ĐÁNH DẤU ĐÃ ĐỌC
           </button>
         )}
       </div>

@@ -1,39 +1,21 @@
 import { HTMLAttributes } from "react";
-import { BsEnvelopeFill, BsFacebook, BsGeoAltFill, BsTelephoneFill } from "react-icons/bs";
 import Appear from "../utils/appear";
 import db from "@/lib/db";
 import Link from "next/link";
 
 const ContactInfo = async (props: HTMLAttributes<HTMLDivElement>) => {
-  const contacts = (await db.contact.findMany())
-    .filter((contact) => contact.title && contact.address)
-    .sort((c1, c2) => (c2.title?.length || 0) - (c1.title?.length || 0));
-
-  // Fixed with contacts list in db
-  const icons: { [key: string]: JSX.Element } = {
-    Location: <BsGeoAltFill />,
-    Facebook: <BsFacebook />,
-    Email: <BsEnvelopeFill />,
-    Hotline: <BsTelephoneFill />,
-  };
+  const contacts = (await db.contact.findMany()).sort((c1, c2) => (c2.title?.length || 0) - (c1.title?.length || 0));
 
   return (
     <section {...props}>
       <div className="container flex flex-wrap justify-between gap-y-8">
         <div className="lg:w-1/2 flex items-center">
           <div className="lg:mr-20">
-            <h2 className="mb-8 text-3xl font-bold before:content-['COURSE_DETAILS'] before:block before:text-primary before:text-[0.6em] before:font-normal">
-              Contact Information
-            </h2>
+            <h2 className="mb-8 text-3xl text-primary font-bold">Thông tin liên hệ</h2>
             {contacts.map((contact) => (
               <Appear key={contact.key} variant="right" className="flex items-center gap-6 my-6">
-                <Link href={contact.address || ""} className="hover:text-primary transition">
-                  <div className="inline-block w-fit me-2 align-middle text-2xl text-primary">
-                    {icons[contact.key]}
-                  </div>
-                  <span>
-                    {contact.key}: {contact.title}
-                  </span>
+                <Link href={contact.address || ""} className="hover:text-primary transition" target="_blank">
+                  {contact.key}: {contact.title}
                 </Link>
               </Appear>
             ))}

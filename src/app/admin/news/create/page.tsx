@@ -12,7 +12,7 @@ export default async function NewsEditPage() {
             News
           </Link>
           <FaAngleDoubleRight className="mx-2" />
-          <span className="text-nowrap overflow-hidden text-ellipsis">Create news</span>
+          <span className="text-nowrap overflow-hidden text-ellipsis">Tạo mới</span>
         </div>
         <NewsEditor />
       </div>

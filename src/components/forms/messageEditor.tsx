@@ -6,7 +6,7 @@ const MessageEditor = ({ data }: { data: Message }) => {
   return (
     <form action={messageReadAction.bind(null, data.id, !data.read)} className="*:mb-4">
       <InputField
-        label="Name"
+        label="Họ tên"
         inputAttr={{
           name: "name",
           defaultValue: data.name,
@@ -23,7 +23,7 @@ const MessageEditor = ({ data }: { data: Message }) => {
           }}
         />
         <InputField
-          label="Phone"
+          label="Số điện thoại"
           inputAttr={{
             name: "phone",
             defaultValue: data.phone || "",
@@ -32,7 +32,7 @@ const MessageEditor = ({ data }: { data: Message }) => {
         />
       </div>
       <TextField
-        label="Message"
+        label="Lời nhắn"
         inputAttr={{
           name: "message",
           defaultValue: data.message,
@@ -42,11 +42,11 @@ const MessageEditor = ({ data }: { data: Message }) => {
       <div className="text-center pt-4">
         {data.read ? (
           <button className="w-1/2 py-2 rounded-lg border border-amber-500 text-amber-500 hover:bg-amber-500 hover:text-white transition">
-            MAKE AS UNREAD
+            ĐÁNH DẤU CHƯA ĐỌC
           </button>
         ) : (
           <button className="w-1/2 py-2 rounded-lg border border-emerald-500 text-emerald-500 hover:bg-emerald-500 hover:text-white transition">
-            MAKE AS READ
+            ĐÁNH DẤU ĐÃ ĐỌC
           </button>
         )}
       </div>
