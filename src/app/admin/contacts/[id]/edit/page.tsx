@@ -5,8 +5,8 @@ import { FaAngleDoubleRight } from "react-icons/fa";
 import db from "@/lib/db";
 
 export default async function NavigationEditPage({ params }: { params: { id: string } }) {
-  const key = decodeURI(params.id);
-  const data = await db.contact.findUnique({ where: { key } });
+  const title = decodeURIComponent(params.id);
+  const data = await db.contact.findUnique({ where: { title } });
 
   if (!data) notFound();
 

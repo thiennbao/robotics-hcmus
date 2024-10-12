@@ -9,7 +9,9 @@ const Brief = (props: HTMLAttributes<HTMLDivElement>) => {
       <div className="container flex flex-wrap justify-between gap-y-8">
         <div className="lg:w-1/2 flex items-center">
           <div>
-            <h2 className="mb-8 text-3xl text-primary font-bold">Giới thiệu</h2>
+            <h2 className="mb-4 text-3xl text-primary font-bold w-fit pb-2 relative after:absolute after:left-0 after:bottom-0 after:bg-primary after:h-[3px] after:w-0 hover:after:w-full after:transition-all">
+              <Link href="/about">GIỚI THIỆU</Link>
+            </h2>
             <Appear variant="right">
               <p className="mt-4">
                 Câu lạc bộ &#40;CLB&#41; Robotics & IoT, được thành lập vào tháng 7/2015, trực thuộc sự quản lý của

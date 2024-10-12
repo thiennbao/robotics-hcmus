@@ -11,7 +11,7 @@ import {
   contactSchema,
   courseSchema,
   messageSchema,
-  navigationSchema,
+  competitionSchema,
   newsSchema,
   registerSchema,
   userSchema,
@@ -26,13 +26,13 @@ import { signToken } from "./token";
 export const importAction = async (model: Prisma.ModelName, data: any) => {
   try {
     data = JSON.parse(data);
-    if (model === "Navigation") {
+    if (model === "Competition") {
       for (let item of data) {
-        await db.navigation.upsert({ where: { title: item.title }, update: item, create: item });
+        await db.competition.upsert({ where: { title: item.title }, update: item, create: item });
       }
     } else if (model === "Contact") {
       for (let item of data) {
-        await db.contact.upsert({ where: { key: item.key }, update: item, create: item });
+        await db.contact.upsert({ where: { title: item.key }, update: item, create: item });
       }
     } else if (model === "Banner") {
       for (let item of data) {
@@ -66,25 +66,25 @@ export const importAction = async (model: Prisma.ModelName, data: any) => {
   }
 };
 
-// Navigation
-export const navigationSaveAction = async (_prevState: any, formData: FormData) => {
+// Competition
+export const competitionSaveAction = async (_prevState: any, formData: FormData) => {
   const data = {
     title: formData.get("title") as string,
     address: formData.get("address") as string,
   };
-  const issues = validateAll(data, navigationSchema);
+  const issues = validateAll(data, competitionSchema);
   if (issues.length) {
     return { issues };
   } else {
     try {
       const id = formData.get("id") as string;
       if (id) {
-        await db.navigation.update({ where: { title: id }, data });
+        await db.competition.update({ where: { title: id }, data });
       } else {
-        await db.navigation.create({ data });
+        await db.competition.create({ data });
       }
-      revalidatePath("/admin/navigations");
-      redirect("/admin/navigations");
+      revalidatePath("/admin/competitions");
+      redirect("/admin/competitions");
     } catch (error) {
       if (error instanceof PrismaClientKnownRequestError && error.code === "P2002") {
         // Unique constraint error
@@ -96,15 +96,14 @@ export const navigationSaveAction = async (_prevState: any, formData: FormData) 
     }
   }
 };
-export const navigationDeleteAction = async (title: string) => {
-  await db.navigation.delete({ where: { title } });
-  revalidatePath("/admin/navigations");
+export const competitionDeleteAction = async (title: string) => {
+  await db.competition.delete({ where: { title } });
+  revalidatePath("/admin/competitions");
 };
 
 // Contact
 export const contactSaveAction = async (_prevState: any, formData: FormData) => {
   const data = {
-    key: formData.get("key") as string,
     title: formData.get("title") as string,
     address: formData.get("address") as string,
   };
@@ -115,7 +114,7 @@ export const contactSaveAction = async (_prevState: any, formData: FormData) => 
     try {
       const id = formData.get("id") as string;
       if (id) {
-        await db.contact.update({ where: { key: id }, data });
+        await db.contact.update({ where: { title: id }, data });
       } else {
         await db.contact.create({ data });
       }
@@ -124,7 +123,7 @@ export const contactSaveAction = async (_prevState: any, formData: FormData) => 
     } catch (error) {
       if (error instanceof PrismaClientKnownRequestError && error.code === "P2002") {
         // Unique constraint error
-        const issue: Issue = { path: "key", message: "Từ khóa này đã tồn tại" };
+        const issue: Issue = { path: "title", message: "Từ khóa này đã tồn tại" };
         return { issues: [issue] };
       } else {
         throw error;
@@ -132,8 +131,8 @@ export const contactSaveAction = async (_prevState: any, formData: FormData) => 
     }
   }
 };
-export const contactDeleteAction = async (key: string) => {
-  await db.contact.delete({ where: { key } });
+export const contactDeleteAction = async (title: string) => {
+  await db.contact.delete({ where: { title } });
   revalidatePath("/admin/contacts");
 };
 

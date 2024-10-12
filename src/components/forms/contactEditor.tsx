@@ -10,7 +10,7 @@ const ContactEditor = ({ data }: { data?: Contact }) => {
   const [state, dispatch] = useFormState(contactSaveAction, undefined);
 
   const action = (payload: FormData) => {
-    payload.set("id", data?.key || "");
+    payload.set("id", data?.title || "");
     dispatch(payload);
   };
 
@@ -20,16 +20,6 @@ const ContactEditor = ({ data }: { data?: Contact }) => {
 
   return (
     <form action={action} noValidate className="*:mb-4">
-      <InputField
-        label="Từ khóa"
-        inputAttr={{
-          name: "key",
-          placeholder: "Facebook",
-          defaultValue: data?.key || "",
-        }}
-        validation={contactSchema.key}
-        submitErr={submitErr}
-      />
       <InputField
         label="Tiêu đề"
         inputAttr={{

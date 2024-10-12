@@ -19,21 +19,21 @@ const Sidebar = ({ isRoot, logout }: { isRoot: boolean; logout: () => void }) =>
 
   const sideNavs = {
     general: [
-      { title: "Navigations", address: "navigations", icon: <BiSolidDirections /> },
-      { title: "Contacts", address: "contacts", icon: <PiPhoneCallFill /> },
+      { title: "Competitions", icon: <BiSolidDirections /> },
+      { title: "Contacts", icon: <PiPhoneCallFill /> },
     ],
     content: [
-      { title: "Banner", address: "banners", icon: <IoIosImages /> },
-      { title: "Courses", address: "courses", icon: <FaBook /> },
-      { title: "News", address: "news", icon: <FaNewspaper /> },
+      { title: "Banner", icon: <IoIosImages /> },
+      { title: "Courses", icon: <FaBook /> },
+      { title: "News", icon: <FaNewspaper /> },
     ],
     customer: [
-      { title: "Messages", address: "messages", icon: <BsWechat /> },
-      { title: "Registers", address: "registers", icon: <RiQuillPenFill /> },
+      { title: "Messages", icon: <BsWechat /> },
+      { title: "Registers", icon: <RiQuillPenFill /> },
     ],
-    auth: [{ title: "Account", address: "account", icon: <FaGears /> }],
+    auth: [{ title: "Account", icon: <FaGears /> }],
   };
-  if (isRoot) sideNavs.auth.unshift({ title: "Users", address: "users", icon: <BsPeopleFill /> });
+  if (isRoot) sideNavs.auth.unshift({ title: "Users", icon: <BsPeopleFill /> });
 
   return (
     <div
@@ -77,8 +77,8 @@ const Sidebar = ({ isRoot, logout }: { isRoot: boolean; logout: () => void }) =>
                 {sideNavs[section as keyof typeof sideNavs].map((nav) => (
                   <Link
                     key={nav.title}
-                    href={`/admin/${nav.address}`}
-                    className={clsx(pathname === nav.address && "bg-gray-600 text-gray-200")}
+                    href={`/admin/${nav.title.toLowerCase()}`}
+                    className={clsx(pathname === nav.title.toLowerCase() && "bg-gray-600 text-gray-200")}
                   >
                     <div className="inline-block mr-2 align-middle">{nav.icon}</div>
                     <span>{nav.title}</span>

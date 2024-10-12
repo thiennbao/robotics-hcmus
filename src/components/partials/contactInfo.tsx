@@ -13,9 +13,9 @@ const ContactInfo = async (props: HTMLAttributes<HTMLDivElement>) => {
           <div className="lg:mr-20">
             <h2 className="mb-8 text-3xl text-primary font-bold">Thông tin liên hệ</h2>
             {contacts.map((contact) => (
-              <Appear key={contact.key} variant="right" className="flex items-center gap-6 my-6">
-                <Link href={contact.address || ""} className="hover:text-primary transition" target="_blank">
-                  {contact.key}: {contact.title}
+              <Appear key={contact.title} variant="right" className="flex items-center gap-6 my-6">
+                <Link href={contact.address} className="hover:text-primary transition" target="_blank">
+                  {contact.title}
                 </Link>
               </Appear>
             ))}

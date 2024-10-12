@@ -1,15 +1,16 @@
 "use client";
 
-import { Navigation } from "@prisma/client";
+import { Competition } from "@prisma/client";
 import clsx from "clsx";
 import { useMotionValueEvent, useScroll } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { FaCaretDown } from "react-icons/fa";
 import { IoMenu } from "react-icons/io5";
 
-const Header = ({ extraNav }: { extraNav: Navigation[] }) => {
+const Header = ({ competitions }: { competitions: Competition[] }) => {
   const page = usePathname().split("/")[1];
 
   const { scrollY } = useScroll();
@@ -20,7 +21,7 @@ const Header = ({ extraNav }: { extraNav: Navigation[] }) => {
     setIsOnTop(latest === 0);
   });
 
-  const staticNav = [
+  const navItems = [
     { title: "Giới thiệu", address: "/about" },
     { title: "Khóa học", address: "/courses" },
     { title: "Tin tức", address: "/news" },
@@ -35,28 +36,42 @@ const Header = ({ extraNav }: { extraNav: Navigation[] }) => {
       )}
     >
       <div className={clsx("h-full container flex items-center justify-between", isOnTop && "opacity-90 text-white")}>
-        <div>
+        <div className="max-w-48">
           <Link href="/">
             <Image
-              src={isOnTop ? "/logo-white.png" : "/logo.png"}
+              src={isOnTop ? "/logo-white.png" : "/logo-primary.png"}
               alt="Robotics and IoT HCMUS"
-              width={160}
-              height={100}
+              width={800}
+              height={200}
+              className="h-full w-full"
             />
           </Link>
         </div>
         <nav className="hidden md:flex gap-4 lg:gap-8">
-          {[...staticNav, ...extraNav].map((navigation) => (
+          {navItems.map((item) => (
             <div
-              key={navigation.title}
+              key={item.title}
               className={clsx(
                 "px-2 py-1 relative after:absolute after:left-0 after:bottom-0 after:bg-primary after:h-[2px] after:w-0 hover:after:w-full after:transition-all *:py-4",
-                `/${page}` === navigation.address && "text-primary"
+                `/${page}` === item.address && "text-primary"
               )}
             >
-              <Link href={navigation.address}>{navigation.title}</Link>
+              <Link href={item.address}>{item.title}</Link>
             </div>
           ))}
+          <div className="px-2 py-1 relative group">
+            <p className="cursor-pointer">Cuộc thi <FaCaretDown className="inline text-lg" /></p>
+            <div className={clsx("hidden group-hover:block absolute px-6 pt-2 pb-4 left-1/2 -translate-x-1/2 rounded-md", !isOnTop && "bg-gray-50")}>
+              {competitions.map((competition) => (
+                <div
+                  key={competition.title}
+                  className="my-2 px-2 py-1 relative after:absolute after:left-0 after:bottom-0 after:bg-primary after:h-[2px] after:w-0 hover:after:w-full after:transition-all *:py-4"
+                >
+                  <Link href={competition.address}>{competition.title}</Link>
+                </div>
+              ))}
+            </div>
+          </div>
         </nav>
         <div className="md:hidden">
           <IoMenu onClick={() => setIsOpen(true)} className="text-2xl cursor-pointer" />
@@ -75,7 +90,7 @@ const Header = ({ extraNav }: { extraNav: Navigation[] }) => {
         >
           <div className="flex p-2 justify-between gap-4">
             <Link href="/admin" className="w-4/5">
-              <Image src="/logo.png" alt="Robotics and IoT HCMUS" width={160} height={100} />
+              <Image src="/logo-primary.png" alt="Robotics and IoT HCMUS" width={160} height={100} />
             </Link>
             <button onClick={() => setIsOpen(false)} className="w-1/5">
               <div className="w-full aspect-square flex justify-center items-center rounded-full">
@@ -86,9 +101,9 @@ const Header = ({ extraNav }: { extraNav: Navigation[] }) => {
           <div>
             <p className="text-sm font-bold mb-2">MENU</p>
             <div className="*:block *:mb-2 *:px-4 *:py-2 *:rounded-lg">
-              {[...staticNav, ...extraNav].map((navigation) => (
-                <Link key={navigation.title} href={navigation.address} className={clsx("bg-primary text-gray-200")}>
-                  {navigation.title}
+              {navItems.map((item) => (
+                <Link key={item.title} href={item.address} className={clsx("bg-primary text-gray-200")}>
+                  {item.title}
                 </Link>
               ))}
             </div>

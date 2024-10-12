@@ -7,7 +7,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
-  const name = decodeURI(params.id);
+  const name = decodeURIComponent(params.id);
   const course = await db.course.findUnique({ where: { name } });
   if (!course) return {};
 
@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
 }
 
 export default async function CourseDetailPage({ params }: { params: { id: string } }) {
-  const name = decodeURI(params.id);
+  const name = decodeURIComponent(params.id);
   const course = await db.course.findUnique({ where: { name } });
 
   if (!course) notFound();

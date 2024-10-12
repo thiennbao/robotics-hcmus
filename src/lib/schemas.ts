@@ -1,10 +1,9 @@
-export const navigationSchema = {
+export const competitionSchema = {
   title: { required: { message: "Vui lòng nhập vào trường này" } },
   address: { required: { message: "Vui lòng nhập vào trường này" } },
 };
 
 export const contactSchema = {
-  key: { required: { message: "Vui lòng nhập vào trường này" } },
   title: { required: { message: "Vui lòng nhập vào trường này" } },
   address: { required: { message: "Vui lòng nhập vào trường này" } },
 };

@@ -23,7 +23,7 @@ const Faq = (props: HTMLAttributes<HTMLDivElement>) => {
         <h2 className="mb-6 text-center text-3xl font-bold before:content-['FAQ'] before:block before:text-primary before:text-[0.6em] before:font-normal">
           Most Popular Questions
         </h2>
-        <div className="grid lg:grid-cols-2 gap-8 overflow-hidden">
+        <div className="grid lg:grid-cols-2 gap-8 overflow-hidden *:flex">
           <Appear variant="right">
             <Question
               question="Quis porta class facilisi suspendisse?"

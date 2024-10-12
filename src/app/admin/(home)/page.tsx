@@ -19,9 +19,9 @@ export default async function AdminPage() {
         <div className="bg-gray-700 rounded-xl p-6">
           <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-4">
             <Statistic
-              model="Navigation"
+              model="Competition"
               icon={<BiSolidDirections className="inline align-middle text-xl" />}
-              data={await db.navigation.findMany()}
+              data={await db.competition.findMany()}
             />
             <Statistic
               model="Contact"

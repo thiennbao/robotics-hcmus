@@ -19,14 +19,14 @@ export default async function ContactDashboardPage({
   const { key, page, items } = searchParams;
 
   const totalItems = await db.contact.count({
-    where: { key: { contains: key, mode: "insensitive" } },
+    where: { title: { contains: key, mode: "insensitive" } },
   });
   const itemsPerPage = Math.max(Number(items) || 5, 1);
   const totalPages = Math.max(Math.ceil(totalItems / itemsPerPage), 1);
   const currentPage = Math.min(Math.max(Number(page) || 1, 1), totalPages);
 
   const contacts = await db.contact.findMany({
-    where: { key: { contains: key, mode: "insensitive" } },
+    where: { title: { contains: key, mode: "insensitive" } },
     skip: (currentPage - 1) * itemsPerPage,
     take: itemsPerPage,
   });
@@ -47,10 +47,7 @@ export default async function ContactDashboardPage({
             <thead>
               <tr className="*:p-4 *:text-left">
                 <th>
-                  <div className="w-48">Từ khóa</div>
-                </th>
-                <th>
-                  <div className="w-48">Tiêu đề</div>
+                  <div className="w-96">Tiêu đề</div>
                 </th>
                 <th className="w-full">
                   <div>Địa chỉ</div>
@@ -63,35 +60,23 @@ export default async function ContactDashboardPage({
             <tbody className="divide-y divide-gray-600">
               <Suspense>
                 {contacts.map((item) => (
-                  <tr key={item.key}>
+                  <tr key={item.title}>
                     <td>
-                      <div className="w-48 p-4 text-nowrap text-ellipsis overflow-hidden">
-                        <span>{item.key}</span>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="w-48 p-4 text-nowrap text-ellipsis overflow-hidden">
-                        <span>{item.title || "None"}</span>
+                      <div className="w-96 p-4 text-nowrap text-ellipsis overflow-hidden">
+                        <span>{item.title}</span>
                       </div>
                     </td>
                     <td className="w-full">
                       <div className="p-4 text-nowrap text-ellipsis overflow-hidden">
-                        {item.address ? (
-                          <Link href={item.address} target="blank">
-                            <code className="bg-gray-800 px-4 py-1 rounded">{item.address}</code>
-                          </Link>
-                        ) : (
-                          <code className="bg-gray-800 px-4 py-1 rounded">None</code>
-                        )}
+                        <Link href={item.address} target="blank">
+                          <code className="bg-gray-800 px-4 py-1 rounded">{item.address}</code>
+                        </Link>
                       </div>
                     </td>
                     <td>
                       <div className="w-24 p-4 flex gap-4">
-                        <ViewButton itemId={item.key} edit />
-                        <DeleteButton
-                          itemName={item.key}
-                          action={contactDeleteAction.bind(null, item.key)}
-                        />
+                        <ViewButton itemId={item.title} edit />
+                        <DeleteButton itemName={item.title} action={contactDeleteAction.bind(null, item.title)} />
                       </div>
                     </td>
                   </tr>

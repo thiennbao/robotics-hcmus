@@ -1,23 +1,22 @@
 "use client";
 
-import { Navigation } from "@prisma/client";
+import { Competition } from "@prisma/client";
 import { useFormState } from "react-dom";
 import { InputField } from "../utils/editorUtils";
-import { navigationSaveAction } from "@/lib/actions";
-import { navigationSchema } from "@/lib/schemas";
+import { competitionSaveAction } from "@/lib/actions";
+import { competitionSchema } from "@/lib/schemas";
 
-const NavigationEditor = ({ data }: { data?: Navigation }) => {
-  const [state, dispatch] = useFormState(navigationSaveAction, undefined);
+const CompetitionEditor = ({ data }: { data?: Competition }) => {
+  const [state, dispatch] = useFormState(competitionSaveAction, undefined);
 
   const action = (payload: FormData) => {
     payload.set("id", data?.title || "");
     dispatch(payload);
   };
 
-  const submitErr = state?.issues.reduce(
-    (obj, error) => Object.assign(obj, { [error.path]: error.message }),
-    {}
-  ) as { [key in keyof Navigation]?: string } | undefined;
+  const submitErr = state?.issues.reduce((obj, error) => Object.assign(obj, { [error.path]: error.message }), {}) as
+    | { [key in keyof Competition]?: string }
+    | undefined;
 
   return (
     <form action={action} noValidate className="*:mb-4">
@@ -28,7 +27,7 @@ const NavigationEditor = ({ data }: { data?: Navigation }) => {
           placeholder: "Robocus",
           defaultValue: data?.title,
         }}
-        validation={navigationSchema.title}
+        validation={competitionSchema.title}
         submitErr={submitErr}
       />
       <InputField
@@ -38,7 +37,7 @@ const NavigationEditor = ({ data }: { data?: Navigation }) => {
           placeholder: "https://robocus.org",
           defaultValue: data?.address,
         }}
-        validation={navigationSchema.address}
+        validation={competitionSchema.address}
         submitErr={submitErr}
       />
       <div className="text-center pt-4">
@@ -50,4 +49,4 @@ const NavigationEditor = ({ data }: { data?: Navigation }) => {
   );
 };
 
-export default NavigationEditor;
+export default CompetitionEditor;

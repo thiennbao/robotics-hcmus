@@ -81,7 +81,7 @@ const Carousel = ({
         </div>
       )}
       {withPrevNext && (
-        <div className="*:absolute *:top-1/2 *:-translate-y-1/2 *:p-2 *:rounded-full *:text-light hover:*:bg-light hover:*:bg-opacity-20 *:transition *:cursor-pointer *:select-none">
+        <div className="*:absolute *:top-1/2 *:-translate-y-1/2 *:p-2 *:rounded-full *:text-white *:bg-black *:bg-opacity-50 hover:*:bg-opacity-80 *:transition *:cursor-pointer *:select-none">
           <div className="left-2 md:left-8" onClick={() => setSlide(slide === 0 ? childrenLength - items : slide - 1)}>
             <FaCaretLeft className="text-2xl -translate-x-0.5" />
           </div>

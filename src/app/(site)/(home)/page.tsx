@@ -1,4 +1,3 @@
-import ContactInfo from "@/components/partials/contactInfo";
 import CourseCarousel from "@/components/partials/courseCarousel";
 import Brief from "@/components/partials/brief";
 import HomeWall from "@/components/partials/homeWall";
@@ -29,8 +28,7 @@ export default function HomePage() {
       <HomeWall />
       <Brief className="min-h-screen flex py-24 -mb-24" />
       <CourseCarousel className="min-h-screen flex py-24 -mb-24" />
-      <NewsCarousel className="min-h-screen py-24 -mb-24" />
-      <ContactInfo className="min-h-screen flex py-24" />
+      <NewsCarousel className="min-h-screen py-24" />
     </main>
   );
 }

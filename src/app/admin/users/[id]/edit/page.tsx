@@ -5,7 +5,7 @@ import { FaAngleDoubleRight } from "react-icons/fa";
 import db from "@/lib/db";
 
 export default async function UserEditPage({ params }: { params: { id: string } }) {
-  const username = decodeURI(params.id);
+  const username = decodeURIComponent(params.id);
   const data = await db.user.findUnique({ where: { username } });
 
   if (!data) notFound();

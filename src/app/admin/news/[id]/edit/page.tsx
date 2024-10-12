@@ -5,7 +5,7 @@ import { FaAngleDoubleRight } from "react-icons/fa";
 import db from "@/lib/db";
 
 export default async function NewsEditPage({ params }: { params: { id: string } }) {
-  const title = decodeURI(params.id);
+  const title = decodeURIComponent(params.id);
   const data = await db.news.findUnique({ where: { title } });
 
   if (!data) notFound();

@@ -21,7 +21,7 @@ export default function AboutPage() {
     <main>
       <PageWall title="GIỚI THIỆU" image="/wallpaper-about.png" />
       <Introduction className="min-h-screen flex py-24 -mb-24" />
-      <Testimonial className="min-h-screen flex py-24 -mb-24" />
+      <Testimonial className="min-h-screen flex pt-24" />
     </main>
   );
 }

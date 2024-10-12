@@ -9,23 +9,23 @@ import {
 import Link from "next/link";
 import { Suspense } from "react";
 import db from "@/lib/db";
-import { navigationDeleteAction } from "@/lib/actions";
+import { competitionDeleteAction } from "@/lib/actions";
 
-export default async function NavigationDashboardPage({
+export default async function CompetitionDashboardPage({
   searchParams,
 }: {
   searchParams: { key: string; page: string; items: string };
 }) {
   const { key, page, items } = searchParams;
 
-  const totalItems = await db.navigation.count({
+  const totalItems = await db.competition.count({
     where: { title: { contains: key, mode: "insensitive" } },
   });
   const itemsPerPage = Math.max(Number(items) || 5, 1);
   const totalPages = Math.max(Math.ceil(totalItems / itemsPerPage), 1);
   const currentPage = Math.min(Math.max(Number(page) || 1, 1), totalPages);
 
-  const navigations = await db.navigation.findMany({
+  const competitions = await db.competition.findMany({
     where: { title: { contains: key, mode: "insensitive" } },
     orderBy: { title: "asc" },
     skip: (currentPage - 1) * itemsPerPage,
@@ -34,7 +34,7 @@ export default async function NavigationDashboardPage({
 
   return (
     <div className="text-light">
-      <h2 className="text-3xl mb-6">NAVIGATION DASHBOARD</h2>
+      <h2 className="text-3xl mb-6">COMPETITION DASHBOARD</h2>
       <div className="bg-gray-700 rounded-xl p-6">
         <div className="flex justify-end md:justify-between">
           <div className="hidden md:flex justify-between gap-x-8">
@@ -48,7 +48,7 @@ export default async function NavigationDashboardPage({
             <thead>
               <tr className="*:p-4 *:text-left">
                 <th>
-                  <div className="w-48">Tiêu đề</div>
+                  <div className="w-96">Tiêu đề</div>
                 </th>
                 <th className="w-full">
                   <div>Địa chỉ</div>
@@ -60,10 +60,10 @@ export default async function NavigationDashboardPage({
             </thead>
             <tbody className="divide-y divide-gray-600">
               <Suspense>
-                {navigations.map((item) => (
+                {competitions.map((item) => (
                   <tr key={item.title}>
                     <td>
-                      <div className="w-48 p-4 text-nowrap text-ellipsis overflow-hidden">
+                      <div className="w-96 p-4 text-nowrap text-ellipsis overflow-hidden">
                         <span>{item.title}</span>
                       </div>
                     </td>
@@ -79,7 +79,7 @@ export default async function NavigationDashboardPage({
                         <ViewButton itemId={item.title} edit />
                         <DeleteButton
                           itemName={item.title}
-                          action={navigationDeleteAction.bind(null, item.title)}
+                          action={competitionDeleteAction.bind(null, item.title)}
                         />
                       </div>
                     </td>

@@ -6,7 +6,7 @@ import db from "@/lib/db";
 import { MdMarkEmailRead, MdMarkEmailUnread } from "react-icons/md";
 
 export default async function NavigationEditPage({ params }: { params: { id: string } }) {
-  const id = decodeURI(params.id);
+  const id = decodeURIComponent(params.id);
   const data = await db.message.findUnique({ where: { id } });
 
   if (!data) notFound();

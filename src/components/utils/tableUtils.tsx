@@ -126,7 +126,7 @@ export const ViewButton = ({
 }: { itemId: string; edit?: boolean } & HTMLAttributes<HTMLDivElement>) => {
   return (
     <div {...props}>
-      <Link href={`./${itemId}/edit`}>
+      <Link href={`./${encodeURIComponent(itemId)}/edit`}>
         {edit ? <RiEdit2Fill className="text-sky-400" /> : <GrView className="text-sky-400" />}
       </Link>
     </div>

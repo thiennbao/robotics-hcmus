@@ -4,7 +4,7 @@ import { MetadataRoute } from "next";
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const courses = await db.course.findMany({ select: { name: true, date: true } });
   return courses.map((course) => ({
-    url: `${process.env.BASE_URL}/courses/${encodeURI(course.name)}`,
+    url: `${process.env.BASE_URL}/courses/${encodeURIComponent(course.name)}`,
     lastModified: course.date,
     priority: 0.7,
   }));

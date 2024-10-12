@@ -5,7 +5,7 @@ import { FaAngleDoubleRight } from "react-icons/fa";
 import db from "@/lib/db";
 
 export default async function BannerEditPage({ params }: { params: { id: string } }) {
-  const name = decodeURI(params.id);
+  const name = decodeURIComponent(params.id);
   const data = await db.banner.findUnique({ where: { name } });
 
   if (!data) notFound();

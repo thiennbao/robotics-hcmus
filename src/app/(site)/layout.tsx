@@ -8,14 +8,14 @@ export default async function SiteLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const navigations = await db.navigation.findMany();
+  const competitions = await db.competition.findMany();
   const contacts = await db.contact.findMany();
 
   return (
     <>
-      <Header extraNav={navigations} />
+      <Header competitions={competitions} />
       {children}
-      <Footer extraNav={navigations} contacts={contacts} />
+      <Footer contacts={contacts} />
     </>
   );
 }

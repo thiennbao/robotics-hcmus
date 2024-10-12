@@ -7,13 +7,15 @@ import { HTMLAttributes } from "react";
 const News = ({ news, className, ...props }: { news: NewsModel } & HTMLAttributes<HTMLDivElement>) => {
   return (
     <div className={clsx(className, "h-full flex flex-col")} {...props}>
-      <Link href={`/news/${news.title}`}>
-        <Image src={news.thumbnail} alt={news.title} width={800} height={800} className="aspect-[4/3] object-cover" />
-        <div className="p-6">
-          <p className="text-lg text-primary font-bold mb-2">
-            {news.title.length > 100 ? `${news.title.slice(0, 100)}...` : news.title}
-          </p>
-          <p className="text-gray-600">
+      <div>
+        <Image src={news.thumbnail} alt={news.title} width={800} height={450} className="aspect-video object-cover" />
+      </div>
+      <div className="flex-grow flex flex-col justify-between gap-6 p-6">
+        <div>
+          <Link href={`/news/${news.title}`} className="text-xl text-primary font-bold mb-2 line-clamp-3">
+            {news.title}
+          </Link>
+          <p className="line-clamp-4">
             {new Date(news.date).toLocaleDateString("vi-VN", {
               weekday: "long",
               year: "numeric",
@@ -22,7 +24,14 @@ const News = ({ news, className, ...props }: { news: NewsModel } & HTMLAttribute
             })}
           </p>
         </div>
-      </Link>
+        <div>
+          <Link href={`/news/${news.title}`}>
+            <button className="w-32 h-10 border-2 border-primary text-primary transition rounded hover:bg-primary hover:text-white">
+              Xem chi tiết
+            </button>
+          </Link>
+        </div>
+      </div>
     </div>
   );
 };

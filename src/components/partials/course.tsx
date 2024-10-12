@@ -18,7 +18,9 @@ const Course = ({ course, className, ...props }: { course: CourseModel } & HTMLA
       </div>
       <div className="flex-grow flex flex-col justify-between gap-6 p-6">
         <div>
-          <p className="text-xl text-primary font-bold mb-2">{course.name}</p>
+          <Link href={`/courses/${course.name}`} className="text-xl text-primary font-bold mb-2 line-clamp-2">
+            {course.name}
+          </Link>
           <p className="line-clamp-4">{course.brief}</p>
         </div>
         <div>

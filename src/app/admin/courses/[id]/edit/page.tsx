@@ -5,7 +5,7 @@ import { FaAngleDoubleRight } from "react-icons/fa";
 import db from "@/lib/db";
 
 export default async function CourseEditPage({ params }: { params: { id: string } }) {
-  const name = decodeURI(params.id);
+  const name = decodeURIComponent(params.id);
   const data = await db.course.findUnique({ where: { name } });
 
   if (!data) notFound();

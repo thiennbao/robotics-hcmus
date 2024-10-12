@@ -12,14 +12,13 @@ enum Role {
     ADMIN
 }
 
-model Navigation {
+model Competition {
     title   String @id
     address String
 }
 
 model Contact {
-    key     String @id
-    title   String
+    title   String @id
     address String
 }
 
