@@ -12,11 +12,6 @@ enum Role {
     ADMIN
 }
 
-model Competition {
-    title   String @id
-    address String
-}
-
 model Contact {
     title   String @id
     address String
@@ -47,6 +42,13 @@ model News {
     thumbnail String
     content   String
     date      DateTime @default(now())
+}
+
+model Competition {
+    title       String @id
+    address     String
+    description String
+    thumbnail   String
 }
 
 model Message {

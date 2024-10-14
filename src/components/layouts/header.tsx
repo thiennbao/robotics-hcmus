@@ -1,16 +1,14 @@
 "use client";
 
-import { Competition } from "@prisma/client";
 import clsx from "clsx";
 import { useMotionValueEvent, useScroll } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { FaCaretDown } from "react-icons/fa";
 import { IoMenu } from "react-icons/io5";
 
-const Header = ({ competitions }: { competitions: Competition[] }) => {
+const Header = () => {
   const page = usePathname().split("/")[1];
 
   const { scrollY } = useScroll();
@@ -25,6 +23,7 @@ const Header = ({ competitions }: { competitions: Competition[] }) => {
     { title: "Giới thiệu", address: "/about" },
     { title: "Khóa học", address: "/courses" },
     { title: "Tin tức", address: "/news" },
+    { title: "Cuộc thi", address: "/competitions" },
     { title: "Liên hệ", address: "/contact" },
   ];
 
@@ -59,19 +58,6 @@ const Header = ({ competitions }: { competitions: Competition[] }) => {
               <Link href={item.address}>{item.title}</Link>
             </div>
           ))}
-          <div className="px-2 py-1 relative group">
-            <p className="cursor-pointer">Cuộc thi <FaCaretDown className="inline text-lg" /></p>
-            <div className={clsx("hidden group-hover:block absolute px-6 pt-2 pb-4 left-1/2 -translate-x-1/2 rounded-md", !isOnTop && "bg-gray-50")}>
-              {competitions.map((competition) => (
-                <div
-                  key={competition.title}
-                  className="my-2 px-2 py-1 relative after:absolute after:left-0 after:bottom-0 after:bg-primary after:h-[2px] after:w-0 hover:after:w-full after:transition-all *:py-4"
-                >
-                  <Link href={competition.address}>{competition.title}</Link>
-                </div>
-              ))}
-            </div>
-          </div>
         </nav>
         <div className="md:hidden">
           <IoMenu onClick={() => setIsOpen(true)} className="text-2xl cursor-pointer" />

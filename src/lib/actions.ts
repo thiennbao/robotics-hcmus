@@ -26,13 +26,9 @@ import { signToken } from "./token";
 export const importAction = async (model: Prisma.ModelName, data: any) => {
   try {
     data = JSON.parse(data);
-    if (model === "Competition") {
+    if (model === "Contact") {
       for (let item of data) {
-        await db.competition.upsert({ where: { title: item.title }, update: item, create: item });
-      }
-    } else if (model === "Contact") {
-      for (let item of data) {
-        await db.contact.upsert({ where: { title: item.key }, update: item, create: item });
+        await db.contact.upsert({ where: { title: item.title }, update: item, create: item });
       }
     } else if (model === "Banner") {
       for (let item of data) {
@@ -45,6 +41,10 @@ export const importAction = async (model: Prisma.ModelName, data: any) => {
     } else if (model === "News") {
       for (let item of data) {
         await db.news.upsert({ where: { title: item.title }, update: item, create: item });
+      }
+    } else if (model === "Competition") {
+      for (let item of data) {
+        await db.competition.upsert({ where: { title: item.title }, update: item, create: item });
       }
     } else if (model === "Message") {
       for (let item of data) {
@@ -64,41 +64,6 @@ export const importAction = async (model: Prisma.ModelName, data: any) => {
   } catch {
     return { message: "error" };
   }
-};
-
-// Competition
-export const competitionSaveAction = async (_prevState: any, formData: FormData) => {
-  const data = {
-    title: formData.get("title") as string,
-    address: formData.get("address") as string,
-  };
-  const issues = validateAll(data, competitionSchema);
-  if (issues.length) {
-    return { issues };
-  } else {
-    try {
-      const id = formData.get("id") as string;
-      if (id) {
-        await db.competition.update({ where: { title: id }, data });
-      } else {
-        await db.competition.create({ data });
-      }
-      revalidatePath("/admin/competitions");
-      redirect("/admin/competitions");
-    } catch (error) {
-      if (error instanceof PrismaClientKnownRequestError && error.code === "P2002") {
-        // Unique constraint error
-        const issue: Issue = { path: "title", message: "Tiêu đề này đã tồn tại" };
-        return { issues: [issue] };
-      } else {
-        throw error;
-      }
-    }
-  }
-};
-export const competitionDeleteAction = async (title: string) => {
-  await db.competition.delete({ where: { title } });
-  revalidatePath("/admin/competitions");
 };
 
 // Contact
@@ -327,6 +292,54 @@ export const newsDeleteAction = async (title: string) => {
   if (oldUrls) await deleteFile(oldUrls.thumbnail);
   await db.news.delete({ where: { title } });
   revalidatePath("/admin/news");
+};
+
+// Competition
+export const competitionSaveAction = async (_prevState: any, formData: FormData) => {
+  const data = {
+    title: formData.get("title") as string,
+    address: formData.get("address") as string,
+    description: formData.get("description") as string,
+    thumbnail: formData.get("thumbnail") as string,
+  };
+  const issues = validateAll(data, competitionSchema);
+  if (issues.length) {
+    return { issues };
+  } else {
+    try {
+      const id = formData.get("id") as string;
+      if (id) {
+        if (data.thumbnail.startsWith("data:")) {
+          const oldUrls = await db.competition.findUnique({
+            where: { title: id },
+            select: { thumbnail: true },
+          });
+          if (oldUrls) {
+            deleteFile(oldUrls.thumbnail);
+            data.thumbnail = await uploadFile(`competitions/${data.title}.jpeg`, data.thumbnail);
+          }
+        }
+        await db.competition.update({ where: { title: id }, data });
+      } else {
+        data.thumbnail = await uploadFile(`competitions/${data.title}.jpeg`, data.thumbnail);
+        await db.competition.create({ data });
+      }
+      revalidatePath("/admin/competitions");
+      redirect("/admin/competitions");
+    } catch (error) {
+      if (error instanceof PrismaClientKnownRequestError && error.code === "P2002") {
+        // Unique constraint error
+        const issue: Issue = { path: "title", message: "Tiêu đề này đã tồn tại" };
+        return { issues: [issue] };
+      } else {
+        throw error;
+      }
+    }
+  }
+};
+export const competitionDeleteAction = async (title: string) => {
+  await db.competition.delete({ where: { title } });
+  revalidatePath("/admin/competitions");
 };
 
 // Message

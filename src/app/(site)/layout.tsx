@@ -8,12 +8,11 @@ export default async function SiteLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const competitions = await db.competition.findMany();
   const contacts = await db.contact.findMany();
 
   return (
     <>
-      <Header competitions={competitions} />
+      <Header />
       {children}
       <Footer contacts={contacts} />
     </>

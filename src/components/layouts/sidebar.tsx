@@ -5,8 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { BiSolidDirections } from "react-icons/bi";
-import { BsPeopleFill, BsWechat } from "react-icons/bs";
+import { BsFire, BsPeopleFill, BsWechat } from "react-icons/bs";
 import { CiLogout } from "react-icons/ci";
 import { FaBook, FaGears, FaNewspaper } from "react-icons/fa6";
 import { IoIosImages } from "react-icons/io";
@@ -18,13 +17,11 @@ const Sidebar = ({ isRoot, logout }: { isRoot: boolean; logout: () => void }) =>
   const [isOpen, setIsOpen] = useState(true);
 
   const sideNavs = {
-    general: [
-      { title: "Competitions", icon: <BiSolidDirections /> },
-      { title: "Contacts", icon: <PiPhoneCallFill /> },
-    ],
+    general: [{ title: "Contacts", icon: <PiPhoneCallFill /> }],
     content: [
       { title: "Banner", icon: <IoIosImages /> },
       { title: "Courses", icon: <FaBook /> },
+      { title: "Competitions", icon: <BsFire /> },
       { title: "News", icon: <FaNewspaper /> },
     ],
     customer: [

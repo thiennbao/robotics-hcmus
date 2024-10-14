@@ -2,7 +2,7 @@
 
 import { Competition } from "@prisma/client";
 import { useFormState } from "react-dom";
-import { InputField } from "../utils/editorUtils";
+import { ImageField, InputField, RichTextField } from "../utils/editorUtils";
 import { competitionSaveAction } from "@/lib/actions";
 import { competitionSchema } from "@/lib/schemas";
 
@@ -38,6 +38,24 @@ const CompetitionEditor = ({ data }: { data?: Competition }) => {
           defaultValue: data?.address,
         }}
         validation={competitionSchema.address}
+        submitErr={submitErr}
+      />
+      <ImageField
+        label="Thumbnail"
+        inputAttr={{
+          name: "thumbnail",
+          defaultValue: data?.thumbnail,
+        }}
+        validation={competitionSchema.thumbnail}
+        submitErr={submitErr}
+      />
+      <RichTextField
+        label="Mô tả"
+        inputAttr={{
+          name: "description",
+          defaultValue: data?.description,
+        }}
+        validation={competitionSchema.description}
         submitErr={submitErr}
       />
       <div className="text-center pt-4">

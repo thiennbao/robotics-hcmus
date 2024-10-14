@@ -10,6 +10,7 @@ import Link from "next/link";
 import { Suspense } from "react";
 import db from "@/lib/db";
 import { competitionDeleteAction } from "@/lib/actions";
+import Image from "next/image";
 
 export default async function CompetitionDashboardPage({
   searchParams,
@@ -48,10 +49,13 @@ export default async function CompetitionDashboardPage({
             <thead>
               <tr className="*:p-4 *:text-left">
                 <th>
-                  <div className="w-96">Tiêu đề</div>
+                  <div className="w-64">Tiêu đề</div>
                 </th>
-                <th className="w-full">
+                <th className="w-64">
                   <div>Địa chỉ</div>
+                </th>
+                <th className="w-96">
+                  <div>Mô tả</div>
                 </th>
                 <th>
                   <div className="w-24">Hành động</div>
@@ -63,24 +67,34 @@ export default async function CompetitionDashboardPage({
                 {competitions.map((item) => (
                   <tr key={item.title}>
                     <td>
-                      <div className="w-96 p-4 text-nowrap text-ellipsis overflow-hidden">
+                      <div className="w-64 p-4 flex items-center gap-4 text-nowrap text-ellipsis overflow-hidden">
+                        <Image
+                          src={item.thumbnail}
+                          alt={item.title}
+                          width={128}
+                          height={128}
+                          priority
+                          className="w-8 h-8 object-cover"
+                        />
                         <span>{item.title}</span>
                       </div>
                     </td>
-                    <td className="w-full">
-                      <div className="p-4 text-nowrap text-ellipsis overflow-hidden">
+                    <td>
+                      <div className="w-64 p-4 text-nowrap text-ellipsis overflow-hidden">
                         <Link href={item.address} target="blank">
                           <code className="bg-gray-800 px-4 py-1 rounded">{item.address}</code>
                         </Link>
                       </div>
                     </td>
                     <td>
+                      <div className="w-96 p-4 text-nowrap text-ellipsis overflow-hidden">
+                        <span>{item.description}</span>
+                      </div>
+                    </td>
+                    <td>
                       <div className="w-24 p-4 flex gap-4">
                         <ViewButton itemId={item.title} edit />
-                        <DeleteButton
-                          itemName={item.title}
-                          action={competitionDeleteAction.bind(null, item.title)}
-                        />
+                        <DeleteButton itemName={item.title} action={competitionDeleteAction.bind(null, item.title)} />
                       </div>
                     </td>
                   </tr>

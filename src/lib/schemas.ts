@@ -1,14 +1,12 @@
-export const competitionSchema = {
+import { Banner, Competition, Contact, Course, Message, News, Register, User } from "@prisma/client";
+import { Validation } from "./validation";
+
+export const contactSchema: { [key in keyof Contact]: Validation } = {
   title: { required: { message: "Vui lòng nhập vào trường này" } },
   address: { required: { message: "Vui lòng nhập vào trường này" } },
 };
 
-export const contactSchema = {
-  title: { required: { message: "Vui lòng nhập vào trường này" } },
-  address: { required: { message: "Vui lòng nhập vào trường này" } },
-};
-
-export const bannerSchema = {
+export const bannerSchema: { [key in keyof Banner]: Validation } = {
   name: { required: { message: "Vui lòng nhập vào trường này" } },
   desktopImg: { required: { message: "Vui lòng tải lên một hình ảnh" } },
   mobileImg: { required: { message: "Vui lòng tải lên một hình ảnh" } },
@@ -18,7 +16,7 @@ export const bannerSchema = {
   },
 };
 
-export const courseSchema = {
+export const courseSchema: { [key in keyof Omit<Course, "date">]: Validation } = {
   name: { required: { message: "Vui lòng nhập vào trường này" } },
   thumbnail: { required: { message: "Vui lòng tải lên một hình ảnh" } },
   brief: { required: { message: "Vui lòng nhập vào trường này" } },
@@ -29,20 +27,27 @@ export const courseSchema = {
   gallery: { required: { message: "Vui lòng tải lên một hình ảnh" } },
 };
 
-export const newsSchema = {
+export const newsSchema: { [key in keyof Omit<News, "date">]: Validation } = {
   title: { required: { message: "Vui lòng nhập vào trường này" } },
   thumbnail: { required: { message: "Vui lòng tải lên một hình ảnh" } },
   content: { required: { message: "Vui lòng nhập vào trường này" } },
 };
 
-export const messageSchema = {
+export const competitionSchema: { [key in keyof Competition]: Validation } = {
+  title: { required: { message: "Vui lòng nhập vào trường này" } },
+  address: { required: { message: "Vui lòng nhập vào trường này" } },
+  description: { required: { message: "Vui lòng nhập vào trường này" } },
+  thumbnail: { required: { message: "Vui lòng tải lên một hình ảnh" } },
+};
+
+export const messageSchema: { [key in keyof Omit<Message, "id" | "date" | "read">]: Validation } = {
   name: { required: { message: "Vui lòng nhập vào trường này" } },
   email: { required: { message: "Vui lòng nhập vào trường này" } },
   phone: { required: { message: "Vui lòng nhập vào trường này" } },
   message: { required: { message: "Vui lòng nhập vào trường này" } },
 };
 
-export const registerSchema = {
+export const registerSchema: { [key in keyof Omit<Register, "id" | "date" | "read">]: Validation } = {
   courseId: { required: { message: "Required" } },
   name: { required: { message: "Vui lòng nhập vào trường này" } },
   parentName: { required: { message: "Vui lòng nhập vào trường này" } },
@@ -55,7 +60,7 @@ export const registerSchema = {
   time: { required: { message: "Vui lòng chọn một khung giờ" } },
 };
 
-export const userSchema = {
+export const userSchema: { [key in keyof Omit<User, "date">]: Validation } = {
   username: {
     required: { message: "Vui lòng nhập vào trường này" },
     min: { value: 4, message: "Vui lòng nhập vào ít nhất 4 ký tự" },

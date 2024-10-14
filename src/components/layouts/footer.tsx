@@ -13,6 +13,7 @@ const Footer = ({ contacts }: { contacts: Contact[] }) => {
     { title: "Giới thiệu", address: "/about" },
     { title: "Khóa học", address: "/courses" },
     { title: "Tin tức", address: "/news" },
+    { title: "Cuộc thi", address: "/competitions" },
     { title: "Liên hệ", address: "/contact" },
   ];
 
