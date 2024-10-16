@@ -10,8 +10,8 @@ export const signToken = async (data: { username: string; role: string }) => {
   // Set cookie
   cookies().set("token", token, {
     maxAge: 60 * 60 * 24 * 7, // 1 week
-    path: "/",
     httpOnly: true,
+    sameSite: "strict",
     secure: process.env.NODE_ENV === "production",
   });
 };
@@ -22,9 +22,5 @@ export const verifyToken = async () => {
 };
 
 export const deleteToken = () => {
-  cookies().delete({
-    name: "token",
-    path: "/",
-    secure: process.env.NODE_ENV === "production",
-  });
+  cookies().delete("token");
 };

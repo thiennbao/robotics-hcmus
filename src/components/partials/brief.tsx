@@ -9,7 +9,7 @@ const Brief = (props: HTMLAttributes<HTMLDivElement>) => {
       <div className="container flex flex-wrap justify-between gap-y-8">
         <div className="lg:w-1/2 flex items-center">
           <div>
-            <h2 className="mb-4 text-3xl text-primary font-bold w-fit pb-2 relative after:absolute after:left-0 after:bottom-0 after:bg-primary after:h-[3px] after:w-0 hover:after:w-full after:transition-all">
+            <h2 className="mb-4 text-3xl text-primary font-bold">
               <Link href="/about">GIỚI THIỆU</Link>
             </h2>
             <Appear variant="right">

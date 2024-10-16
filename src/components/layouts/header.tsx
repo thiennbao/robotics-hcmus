@@ -85,10 +85,10 @@ const Header = () => {
             </button>
           </div>
           <div>
-            <p className="text-sm font-bold mb-2">MENU</p>
-            <div className="*:block *:mb-2 *:px-4 *:py-2 *:rounded-lg">
-              {navItems.map((item) => (
-                <Link key={item.title} href={item.address} className={clsx("bg-primary text-gray-200")}>
+            <p className="text-sm font-bold mb-4">MENU</p>
+            <div className="*:block *:mb-2 *:py-2 *:border-b *:border-gray-200 hover:*:text-primary hover:*:border-primary">
+              {[{ title: "Trang chủ", address: "/" }, ...navItems].map((item) => (
+                <Link key={item.title} href={item.address}>
                   {item.title}
                 </Link>
               ))}

@@ -1,5 +1,5 @@
+import Award from "@/components/partials/award";
 import Introduction from "@/components/partials/introduction";
-import Testimonial from "@/components/partials/testimonial";
 import PageWall from "@/components/utils/pageWall";
 import { Metadata } from "next";
 
@@ -21,7 +21,24 @@ export default function AboutPage() {
     <main>
       <PageWall title="GIỚI THIỆU" image="/wallpaper-about.png" />
       <Introduction className="min-h-screen flex py-24 -mb-24" />
-      <Testimonial className="min-h-screen flex pt-24" />
+      <Award
+        awards={[
+          { image: "/about-gallery-0.png", title: "Lorem ipsum odor amet" },
+          { image: "/about-gallery-1.png", title: "Consectetuer adipiscing elit" },
+          { image: "/about-gallery-2.png", title: "Non eget per volutpat mi facilisi" },
+          { image: "/about-gallery-3.png", title: "Suscipit bibendum odio morbi" },
+          { image: "/about-gallery-4.png", title: "Amet vel fringilla ultrices" },
+          { image: "/about-gallery-5.png", title: "Tempor ridiculus ultrices" },
+          { image: "/about-gallery-6.png", title: "Tristique scelerisque nascetur" },
+          { image: "/about-gallery-7.png", title: "Venenatis orci morbi habitant non dolor magna" },
+          { image: "/about-gallery-8.png", title: "Dignissim fusce rutrum malesuada mattis sit elementum" },
+          {
+            image: "/about-gallery-9.png",
+            title: "Lobortis pretium tempus sociosqu tortor morbi convallis efficitur ligula proin",
+          },
+        ]}
+        className="container mt-24 mb-12 overflow-hidden"
+      />
     </main>
   );
 }

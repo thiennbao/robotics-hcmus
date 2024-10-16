@@ -10,10 +10,10 @@ const NewsCarousel = async (props: HTMLAttributes<HTMLDivElement>) => {
   return (
     <section {...props}>
       <div className="container">
-        <h2 className="mb-4 text-3xl text-primary font-bold w-fit pb-2 relative after:absolute after:left-0 after:bottom-0 after:bg-primary after:h-[3px] after:w-0 hover:after:w-full after:transition-all">
+        <h2 className="mb-4 text-3xl text-primary font-bold">
           <Link href="/about">TIN TỨC</Link>
         </h2>
-        <Carousel auto withPrevNext itemsOnScreen={{ df: 1, md: 2, xl: 3 }} className="-mx-4">
+        <Carousel auto={4000} withPrevNext itemsOnScreen={{ df: 1, md: 2, xl: 3 }} className="-mx-4">
           {news.map((item) => (
             <div key={item.title} className="p-4 h-full">
               <News news={item} className="shadow-[gray_0_0_4px] rounded-lg overflow-hidden" />

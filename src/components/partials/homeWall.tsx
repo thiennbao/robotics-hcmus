@@ -7,7 +7,7 @@ const HomeWall = async () => {
 
   return (
     <section className="h-screen bg-gray-200">
-      <Carousel withPrevNext withCircle className="h-full">
+      <Carousel auto={8000} withPrevNext withCircle className="h-full">
         {banners.map((banner) => (
           <Banner banner={banner} key={banner.name} />
         ))}

@@ -8,14 +8,14 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   itemsOnScreen?: number | { df: number; sm?: number; md?: number; lg?: number; xl?: number };
   withPrevNext?: boolean;
   withCircle?: boolean;
-  auto?: boolean;
+  auto?: number;
 }
 
 const Carousel = ({
   itemsOnScreen = 1,
   withPrevNext = false,
   withCircle = false,
-  auto = false,
+  auto = 0,
   className = "",
   children,
   ...props
@@ -59,7 +59,7 @@ const Carousel = ({
     if (auto) {
       const interval = setInterval(() => {
         setSlide((slide) => (slide === childrenLength - items ? 0 : slide + 1));
-      }, 4000);
+      }, auto);
 
       return () => clearInterval(interval);
     }
