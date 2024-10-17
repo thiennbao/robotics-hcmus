@@ -30,10 +30,10 @@ export default async function CourseDetailPage({ params }: { params: { id: strin
   if (!course) notFound();
 
   return (
-    <main>
+    <main className="-mt-16 *:my-16 lg:-mt-20 lg:*:my-20">
       <PageWall title={course.name} image={course.thumbnail} />
-      <CourseDetail course={course} className="min-h-screen flex my-24" />
-      <CourseGallery gallery={course.gallery} className="my-24 overflow-hidden"/>
+      <CourseDetail course={course} />
+      <CourseGallery gallery={course.gallery} className="overflow-hidden" />
       <CourseRegister course={course} />
     </main>
   );

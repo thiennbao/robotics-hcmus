@@ -4,7 +4,7 @@ import db from "@/lib/db";
 import Link from "next/link";
 
 const ContactInfo = async (props: HTMLAttributes<HTMLDivElement>) => {
-  const contacts = (await db.contact.findMany()).sort((c1, c2) => (c2.title?.length || 0) - (c1.title?.length || 0));
+  const contacts = await db.contact.findMany({ orderBy: { order: "asc" } });
 
   return (
     <section {...props}>

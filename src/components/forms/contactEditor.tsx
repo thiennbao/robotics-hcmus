@@ -21,6 +21,16 @@ const ContactEditor = ({ data }: { data?: Contact }) => {
   return (
     <form action={action} noValidate className="*:mb-4">
       <InputField
+        label="Thứ tự"
+        inputAttr={{
+          name: "order",
+          placeholder: "1",
+          defaultValue: String(data?.order || ""),
+        }}
+        validation={contactSchema.order}
+        submitErr={submitErr}
+      />
+      <InputField
         label="Tiêu đề"
         inputAttr={{
           name: "title",

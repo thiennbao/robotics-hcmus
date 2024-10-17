@@ -28,7 +28,7 @@ export default async function CompetitionDashboardPage({
 
   const competitions = await db.competition.findMany({
     where: { title: { contains: key, mode: "insensitive" } },
-    orderBy: { title: "asc" },
+    orderBy: { order: "asc" },
     skip: (currentPage - 1) * itemsPerPage,
     take: itemsPerPage,
   });
@@ -49,6 +49,9 @@ export default async function CompetitionDashboardPage({
             <thead>
               <tr className="*:p-4 *:text-left">
                 <th>
+                  <div className="w-32">Thứ tự</div>
+                </th>
+                <th>
                   <div className="w-64">Tiêu đề</div>
                 </th>
                 <th className="w-64">
@@ -66,6 +69,11 @@ export default async function CompetitionDashboardPage({
               <Suspense>
                 {competitions.map((item) => (
                   <tr key={item.title}>
+                    <td>
+                      <div className="w-32 p-4 text-nowrap text-ellipsis overflow-hidden">
+                        <span>{item.order}</span>
+                      </div>
+                    </td>
                     <td>
                       <div className="w-64 p-4 flex items-center gap-4 text-nowrap text-ellipsis overflow-hidden">
                         <Image

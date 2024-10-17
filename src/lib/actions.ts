@@ -19,7 +19,7 @@ import {
 import { deleteFile, uploadFile } from "./storage";
 import { v4 as uuid } from "uuid";
 import bcrypt from "bcrypt";
-import { Prisma, Role } from "@prisma/client";
+import { Banner, Contact, Course, Prisma, Role } from "@prisma/client";
 import { signToken } from "./token";
 
 // Import
@@ -68,15 +68,17 @@ export const importAction = async (model: Prisma.ModelName, data: any) => {
 
 // Contact
 export const contactSaveAction = async (_prevState: any, formData: FormData) => {
-  const data = {
+  const rawData = {
+    order: formData.get("order") as string,
     title: formData.get("title") as string,
     address: formData.get("address") as string,
   };
-  const issues = validateAll(data, contactSchema);
+  const issues = validateAll(rawData, contactSchema);
   if (issues.length) {
     return { issues };
   } else {
     try {
+      const data = { ...rawData, order: Number(rawData.order) };
       const id = formData.get("id") as string;
       if (id) {
         await db.contact.update({ where: { title: id }, data });
@@ -104,43 +106,31 @@ export const contactDeleteAction = async (title: string) => {
 // Banner
 export const bannerSaveAction = async (_prevState: any, formData: FormData) => {
   const rawData = {
-    name: formData.get("name") as string,
-    desktopImg: formData.get("desktopImg") as string,
-    mobileImg: formData.get("mobileImg") as string,
     order: formData.get("order") as string,
+    name: formData.get("name") as string,
+    image: formData.get("image") as string,
   };
   const issues = validateAll(rawData, bannerSchema);
   if (issues.length) {
     return { issues };
   } else {
     try {
-      const data = { ...rawData, order: Number(formData.get("order")) };
+      const data = { ...rawData, order: Number(rawData.order) };
       const id = formData.get("id") as string;
       if (id) {
-        if (data.desktopImg.startsWith("data:")) {
+        if (data.image.startsWith("data:")) {
           const oldUrls = await db.banner.findUnique({
             where: { name: id },
-            select: { desktopImg: true },
+            select: { image: true },
           });
           if (oldUrls) {
-            deleteFile(oldUrls.desktopImg);
-            data.desktopImg = await uploadFile(`banners/${data.name}.jpeg`, data.desktopImg);
-          }
-        }
-        if (data.mobileImg.startsWith("data:")) {
-          const oldUrls = await db.banner.findUnique({
-            where: { name: id },
-            select: { mobileImg: true },
-          });
-          if (oldUrls) {
-            deleteFile(oldUrls.mobileImg);
-            data.mobileImg = await uploadFile(`banners/${data.name}.jpeg`, data.mobileImg);
+            deleteFile(oldUrls.image);
+            data.image = await uploadFile(`banners/${data.name}.jpeg`, data.image);
           }
         }
         await db.banner.update({ where: { name: id }, data });
       } else {
-        data.desktopImg = await uploadFile(`banners/${data.name}-desktop.jpeg`, data.desktopImg);
-        data.mobileImg = await uploadFile(`banners/${data.name}-mobile.jpeg`, data.mobileImg);
+        data.image = await uploadFile(`banners/${data.name}.jpeg`, data.image);
         await db.banner.create({ data });
       }
       revalidatePath("/admin/banners");
@@ -157,18 +147,16 @@ export const bannerSaveAction = async (_prevState: any, formData: FormData) => {
   }
 };
 export const bannerDeleteAction = async (name: string) => {
-  const oldUrls = await db.banner.findUnique({ where: { name }, select: { desktopImg: true, mobileImg: true } });
-  if (oldUrls) {
-    await deleteFile(oldUrls.desktopImg);
-    await deleteFile(oldUrls.mobileImg);
-  }
+  const oldUrls = await db.banner.findUnique({ where: { name }, select: { image: true } });
+  if (oldUrls) await deleteFile(oldUrls.image);
   await db.banner.delete({ where: { name } });
   revalidatePath("/admin/banners");
 };
 
 // Course
 export const courseSaveAction = async (_prevState: any, formData: FormData) => {
-  const data = {
+  const rawData = {
+    order: formData.get("order") as string,
     name: formData.get("name") as string,
     thumbnail: formData.get("thumbnail") as string,
     brief: formData.get("brief") as string,
@@ -178,11 +166,12 @@ export const courseSaveAction = async (_prevState: any, formData: FormData) => {
     time: formData.get("time") as string,
     gallery: formData.getAll("gallery") as string[],
   };
-  const issues = validateAll({ ...data, gallery: data.gallery.join() }, courseSchema);
+  const issues = validateAll({ ...rawData, gallery: rawData.gallery.join() }, courseSchema);
   if (issues.length) {
     return { issues };
   } else {
     try {
+      const data = { ...rawData, order: Number(rawData.order) };
       const id = formData.get("id") as string;
       if (id) {
         // Get old urls
@@ -296,17 +285,19 @@ export const newsDeleteAction = async (title: string) => {
 
 // Competition
 export const competitionSaveAction = async (_prevState: any, formData: FormData) => {
-  const data = {
+  const rawData = {
+    order: formData.get("order") as string,
     title: formData.get("title") as string,
     address: formData.get("address") as string,
     description: formData.get("description") as string,
     thumbnail: formData.get("thumbnail") as string,
   };
-  const issues = validateAll(data, competitionSchema);
+  const issues = validateAll(rawData, competitionSchema);
   if (issues.length) {
     return { issues };
   } else {
     try {
+      const data = { ...rawData, order: Number(rawData.order) };
       const id = formData.get("id") as string;
       if (id) {
         if (data.thumbnail.startsWith("data:")) {

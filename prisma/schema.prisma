@@ -13,18 +13,19 @@ enum Role {
 }
 
 model Contact {
+    order   Int
     title   String @id
     address String
 }
 
 model Banner {
-    name       String @id
-    desktopImg String
-    mobileImg  String
-    order      Int
+    order Int
+    name  String @id
+    image String
 }
 
 model Course {
+    order        Int
     name         String     @id
     thumbnail    String
     brief        String
@@ -45,6 +46,7 @@ model News {
 }
 
 model Competition {
+    order       Int
     title       String @id
     address     String
     description String

@@ -8,8 +8,8 @@ import Link from "next/link";
 
 const Item = ({ competition, isReverse }: { competition: Competition; isReverse: boolean }) => {
   return (
-    <div className="grid grid-cols-2 -mx-6 *:p-6">
-      <div className={clsx("overflow-hidden", isReverse && "order-1")}>
+    <div className="grid grid-cols-1 lg:grid-cols-2 -mx-6 *:p-6">
+      <div className={clsx("overflow-hidden", isReverse && "lg:order-1")}>
         <Appear variant={isReverse ? "left" : "right"}>
           <h2 className="mb-4 text-3xl text-primary font-bold">
             <Link href={competition.address}>{competition.title}</Link>
@@ -42,7 +42,7 @@ const Item = ({ competition, isReverse }: { competition: Competition; isReverse:
 };
 
 const Competitions = async (props: HTMLAttributes<HTMLDivElement>) => {
-  const competitions = await db.competition.findMany();
+  const competitions = await db.competition.findMany({ orderBy: { order: "asc" } });
 
   return (
     <section {...props}>

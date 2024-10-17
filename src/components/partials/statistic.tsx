@@ -37,23 +37,25 @@ const Statistic = ({ model, icon, data }: { model: Prisma.ModelName; icon: JSX.E
         {icon} <span>{model}</span>
       </div>
       <div className="flex h-12 justify-center items-center my-4 text-xl bg-gray-800 rounded-lg">{data.length}</div>
-      <div className="flex justify-end gap-2 *:flex-1">
+      <div className="w-full grid grid-cols-2 gap-x-2">
         <button className="rounded-lg border border-sky-500 text-sky-500 hover:bg-sky-400 hover:text-white">
-          <label htmlFor={`import/${model}`} className="block px-4 py-2 cursor-pointer">
-            <CiImport className="inline align-middle text-xl" /> Import
-            <input
-              name="import"
-              id={`import/${model}`}
-              type="file"
-              accept="application/JSON"
-              onChange={(e) => handleImport(e.target.files?.[0])}
-              hidden
-            />
+          <label htmlFor={`import/${model}`} className="flex justify-center gap-x-2 items-center px-4 py-2 cursor-pointer">
+            <CiImport className="text-xl" />
+            <span>Import</span>
           </label>
+          <input
+            name="import"
+            id={`import/${model}`}
+            type="file"
+            accept="application/JSON"
+            onChange={(e) => handleImport(e.target.files?.[0])}
+            hidden
+          />
         </button>
         <button className="rounded-lg border border-sky-500 text-sky-500 hover:bg-sky-400 hover:text-white">
-          <a href={downloadUrl} download={`${model}.json`} className="block px-4 py-2">
-            <CiExport className="inline align-middle text-xl" /> Export
+          <a href={downloadUrl} download={`${model}.json`} className="flex justify-center gap-x-2 items-center px-4 py-2">
+            <CiExport className="text-xl" />
+            <span>Export</span>
           </a>
         </button>
         {status === "success" && (

@@ -21,6 +21,16 @@ const BannerEditor = ({ data }: { data?: Banner }) => {
   return (
     <form action={action} noValidate className="*:mb-4">
       <InputField
+        label="Thứ tự"
+        inputAttr={{
+          name: "order",
+          placeholder: "1",
+          defaultValue: String(data?.order || ""),
+        }}
+        validation={bannerSchema.order}
+        submitErr={submitErr}
+      />
+      <InputField
         label="Tên"
         inputAttr={{
           name: "name",
@@ -31,31 +41,12 @@ const BannerEditor = ({ data }: { data?: Banner }) => {
         submitErr={submitErr}
       />
       <ImageField
-        label="Banner cho desktop"
+        label="Banner"
         inputAttr={{
-          name: "desktopImg",
-          defaultValue: data?.desktopImg,
+          name: "image",
+          defaultValue: data?.image,
         }}
-        validation={bannerSchema.desktopImg}
-        submitErr={submitErr}
-      />
-      <ImageField
-        label="Banner cho mobile"
-        inputAttr={{
-          name: "mobileImg",
-          defaultValue: data?.mobileImg,
-        }}
-        validation={bannerSchema.mobileImg}
-        submitErr={submitErr}
-      />
-      <InputField
-        label="Thứ tự"
-        inputAttr={{
-          name: "order",
-          placeholder: "1",
-          defaultValue: String(data?.order || ""),
-        }}
-        validation={bannerSchema.order}
+        validation={bannerSchema.image}
         submitErr={submitErr}
       />
       <div className="text-center pt-4">

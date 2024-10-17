@@ -36,7 +36,7 @@ export default async function NewsDetailPage({
   return (
     <main>
       <PageWall title={news.title} image={news.thumbnail} />
-      <NewsDetail news={news} search={searchParams.search} className="my-24" />
+      <NewsDetail news={news} search={searchParams.search} className="my-16 lg:my-20" />
     </main>
   );
 }

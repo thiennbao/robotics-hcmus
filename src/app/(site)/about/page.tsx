@@ -18,27 +18,10 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <main>
+    <main className="-mt-16 *:my-16 lg:-mt-20 lg:*:my-20">
       <PageWall title="GIỚI THIỆU" image="/wallpaper-about.png" />
-      <Introduction className="min-h-screen flex py-24 -mb-24" />
-      <Award
-        awards={[
-          { image: "/about-gallery-0.png", title: "Lorem ipsum odor amet" },
-          { image: "/about-gallery-1.png", title: "Consectetuer adipiscing elit" },
-          { image: "/about-gallery-2.png", title: "Non eget per volutpat mi facilisi" },
-          { image: "/about-gallery-3.png", title: "Suscipit bibendum odio morbi" },
-          { image: "/about-gallery-4.png", title: "Amet vel fringilla ultrices" },
-          { image: "/about-gallery-5.png", title: "Tempor ridiculus ultrices" },
-          { image: "/about-gallery-6.png", title: "Tristique scelerisque nascetur" },
-          { image: "/about-gallery-7.png", title: "Venenatis orci morbi habitant non dolor magna" },
-          { image: "/about-gallery-8.png", title: "Dignissim fusce rutrum malesuada mattis sit elementum" },
-          {
-            image: "/about-gallery-9.png",
-            title: "Lobortis pretium tempus sociosqu tortor morbi convallis efficitur ligula proin",
-          },
-        ]}
-        className="container mt-24 mb-12 overflow-hidden"
-      />
+      <Introduction />
+      <Award />
     </main>
   );
 }

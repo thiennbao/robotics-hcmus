@@ -27,6 +27,7 @@ export default async function ContactDashboardPage({
 
   const contacts = await db.contact.findMany({
     where: { title: { contains: key, mode: "insensitive" } },
+    orderBy: { order: "asc" },
     skip: (currentPage - 1) * itemsPerPage,
     take: itemsPerPage,
   });
@@ -47,6 +48,9 @@ export default async function ContactDashboardPage({
             <thead>
               <tr className="*:p-4 *:text-left">
                 <th>
+                  <div className="w-32">Thứ tự</div>
+                </th>
+                <th>
                   <div className="w-96">Tiêu đề</div>
                 </th>
                 <th className="w-full">
@@ -61,6 +65,11 @@ export default async function ContactDashboardPage({
               <Suspense>
                 {contacts.map((item) => (
                   <tr key={item.title}>
+                    <td>
+                      <div className="w-32 p-4 text-nowrap text-ellipsis overflow-hidden">
+                        <span>{item.order}</span>
+                      </div>
+                    </td>
                     <td>
                       <div className="w-96 p-4 text-nowrap text-ellipsis overflow-hidden">
                         <span>{item.title}</span>

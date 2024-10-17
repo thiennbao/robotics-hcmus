@@ -54,10 +54,7 @@ export default async function BannerDashboardPage({
                   <div>Tên</div>
                 </th>
                 <th className="w-64">
-                  <div>Desktop</div>
-                </th>
-                <th className="w-64">
-                  <div>Mobile</div>
+                  <div>Banner</div>
                 </th>
                 <th>
                   <div className="w-24">Hành động</div>
@@ -81,7 +78,7 @@ export default async function BannerDashboardPage({
                     <td>
                       <div className="w-64 p-4 overflow-hidden">
                         <Image
-                          src={item.desktopImg}
+                          src={item.image}
                           alt={item.name}
                           width={160}
                           height={90}
@@ -89,24 +86,10 @@ export default async function BannerDashboardPage({
                         />
                       </div>
                     </td>
-                    <td className="w-64">
-                      <div className="p-4 flex items-center gap-4 text-nowrap text-ellipsis overflow-hidden">
-                        <Image
-                          src={item.mobileImg}
-                          alt={item.name}
-                          width={90}
-                          height={160}
-                          className="w-9 h-16 rounded-md object-cover"
-                        />
-                      </div>
-                    </td>
                     <td>
                       <div className="w-24 p-4 flex gap-4">
                         <ViewButton itemId={item.name} edit />
-                        <DeleteButton
-                          itemName={item.name}
-                          action={bannerDeleteAction.bind(null, item.name)}
-                        />
+                        <DeleteButton itemName={item.name} action={bannerDeleteAction.bind(null, item.name)} />
                       </div>
                     </td>
                   </tr>

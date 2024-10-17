@@ -27,7 +27,7 @@ export default async function CourseDashboardPage({
 
   const courses = await db.course.findMany({
     where: { name: { contains: key, mode: "insensitive" } },
-    orderBy: { name: "asc" },
+    orderBy: { order: "asc" },
     skip: (currentPage - 1) * itemsPerPage,
     take: itemsPerPage,
   });
@@ -47,6 +47,9 @@ export default async function CourseDashboardPage({
           <table>
             <thead>
               <tr className="*:p-4 *:text-left">
+                <th>
+                  <div className="w-32">Thứ tự</div>
+                </th>
                 <th>
                   <div className="w-64">Tên khóa học</div>
                 </th>
@@ -74,6 +77,11 @@ export default async function CourseDashboardPage({
               <Suspense>
                 {courses.map((item) => (
                   <tr key={item.name}>
+                    <td>
+                      <div className="w-32 p-4 text-nowrap text-ellipsis overflow-hidden">
+                        <span>{item.order}</span>
+                      </div>
+                    </td>
                     <td>
                       <div className="w-64 p-4 flex items-center gap-4 text-nowrap text-ellipsis overflow-hidden">
                         <Image
@@ -105,10 +113,7 @@ export default async function CourseDashboardPage({
                     <td>
                       <div className="w-24 p-4 flex gap-4">
                         <ViewButton itemId={item.name} edit />
-                        <DeleteButton
-                          itemName={item.name}
-                          action={courseDeleteAction.bind(null, item.name)}
-                        />
+                        <DeleteButton itemName={item.name} action={courseDeleteAction.bind(null, item.name)} />
                       </div>
                     </td>
                   </tr>

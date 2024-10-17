@@ -17,8 +17,6 @@ const Footer = ({ contacts }: { contacts: Contact[] }) => {
     { title: "Liên hệ", address: "/contact" },
   ];
 
-  contacts = contacts.sort((c1, c2) => (c2.title?.length || 0) - (c1.title?.length || 0));
-
   return (
     <footer className="py-12 bg-gray-100">
       <div className="container lg:flex gap-16 *:flex-1 *:mb-8 *:lg:mb-0">

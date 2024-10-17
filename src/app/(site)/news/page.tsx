@@ -15,11 +15,11 @@ export const metadata: Metadata = {
   },
 };
 
-export default function NewsPage({ searchParams }: { searchParams: { search: string } }) {
+export default function NewsPage({ searchParams }: { searchParams: { search: string; take: string } }) {
   return (
     <main>
       <PageWall title="TIN TỨC" image="/wallpaper-news.png" />
-      <NewsArchive search={searchParams.search} className="min-h-screen flex py-24" />
+      <NewsArchive searchParams={searchParams} className="my-16 lg:my-20" />
     </main>
   );
 }

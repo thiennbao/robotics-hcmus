@@ -2,21 +2,28 @@ import { Banner, Competition, Contact, Course, Message, News, Register, User } f
 import { Validation } from "./validation";
 
 export const contactSchema: { [key in keyof Contact]: Validation } = {
+  order: {
+    type: { value: "number" as "number", message: "Vui lòng nhập vào một chữ số" },
+    minValue: { value: 1, message: "Vui lòng nhập vào một chữ số lớn hơn 0" },
+  },
   title: { required: { message: "Vui lòng nhập vào trường này" } },
   address: { required: { message: "Vui lòng nhập vào trường này" } },
 };
 
 export const bannerSchema: { [key in keyof Banner]: Validation } = {
-  name: { required: { message: "Vui lòng nhập vào trường này" } },
-  desktopImg: { required: { message: "Vui lòng tải lên một hình ảnh" } },
-  mobileImg: { required: { message: "Vui lòng tải lên một hình ảnh" } },
   order: {
     type: { value: "number" as "number", message: "Vui lòng nhập vào một chữ số" },
     minValue: { value: 1, message: "Vui lòng nhập vào một chữ số lớn hơn 0" },
   },
+  name: { required: { message: "Vui lòng nhập vào trường này" } },
+  image: { required: { message: "Vui lòng tải lên một hình ảnh" } },
 };
 
 export const courseSchema: { [key in keyof Omit<Course, "date">]: Validation } = {
+  order: {
+    type: { value: "number" as "number", message: "Vui lòng nhập vào một chữ số" },
+    minValue: { value: 1, message: "Vui lòng nhập vào một chữ số lớn hơn 0" },
+  },
   name: { required: { message: "Vui lòng nhập vào trường này" } },
   thumbnail: { required: { message: "Vui lòng tải lên một hình ảnh" } },
   brief: { required: { message: "Vui lòng nhập vào trường này" } },
@@ -34,6 +41,10 @@ export const newsSchema: { [key in keyof Omit<News, "date">]: Validation } = {
 };
 
 export const competitionSchema: { [key in keyof Competition]: Validation } = {
+  order: {
+    type: { value: "number" as "number", message: "Vui lòng nhập vào một chữ số" },
+    minValue: { value: 1, message: "Vui lòng nhập vào một chữ số lớn hơn 0" },
+  },
   title: { required: { message: "Vui lòng nhập vào trường này" } },
   address: { required: { message: "Vui lòng nhập vào trường này" } },
   description: { required: { message: "Vui lòng nhập vào trường này" } },

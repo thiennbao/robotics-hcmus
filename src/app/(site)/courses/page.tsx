@@ -19,7 +19,7 @@ export default function CoursesPage({ searchParams }: { searchParams: { search: 
   return (
     <main>
       <PageWall title="KHÓA HỌC" image="/wallpaper-courses.png" />
-      <CourseArchive search={searchParams.search} className="min-h-screen flex py-24" />
+      <CourseArchive search={searchParams.search} className="my-16 lg:my-20" />
     </main>
   );
 }

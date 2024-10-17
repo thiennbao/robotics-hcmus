@@ -8,7 +8,7 @@ export default async function SiteLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const contacts = await db.contact.findMany();
+  const contacts = await db.contact.findMany({ orderBy: { order: "asc" } });
 
   return (
     <>

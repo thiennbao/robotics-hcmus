@@ -3,14 +3,21 @@ import Appear from "../utils/appear";
 import News from "./news";
 import { HTMLAttributes } from "react";
 import SearchBar from "../utils/searchBar";
+import LoadButton from "../utils/loadButton";
 
 const NewsArchive = async ({
-  search,
+  searchParams,
   ...props
-}: { search: string } & HTMLAttributes<HTMLDivElement>) => {
+}: { searchParams: { search: string; take: string } } & HTMLAttributes<HTMLDivElement>) => {
+  const take = Math.max(Number(searchParams.take) || 6, 1);
+
   const news = await db.news.findMany({
-    where: { title: { contains: search, mode: "insensitive" } },
+    where: { title: { contains: searchParams.search, mode: "insensitive" } },
+    take,
     orderBy: { date: "desc" },
+  });
+  const count = await db.news.count({
+    where: { title: { contains: searchParams.search, mode: "insensitive" } },
   });
 
   return (
@@ -29,15 +36,23 @@ const NewsArchive = async ({
         </div>
         <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-8">
           {news.map((item, index) => (
-            <Appear
-              key={item.title}
-              variant="up"
-              viewOption={{ amount: 0.4 }}
-              delay={(index % 3) * 0.1}
-            >
+            <Appear key={item.title} variant="up" viewOption={{ amount: 0.4 }} delay={(index % 3) * 0.1}>
               <News news={item} className="shadow-[gray_0_0_4px] rounded-lg overflow-hidden" />
             </Appear>
           ))}
+        </div>
+        <div className="mt-4">
+          <Appear variant="up" className="flex justify-center">
+            {count > news.length && (
+              <LoadButton
+                paramKey="take"
+                amount={6}
+                className="w-32 h-10 mt-8 border-2 border-primary text-primary transition rounded hover:bg-primary hover:text-white"
+              >
+                Tải thêm
+              </LoadButton>
+            )}
+          </Appear>
         </div>
       </div>
     </section>

@@ -19,7 +19,7 @@ const Sidebar = ({ isRoot, logout }: { isRoot: boolean; logout: () => void }) =>
   const sideNavs = {
     general: [{ title: "Contacts", icon: <PiPhoneCallFill /> }],
     content: [
-      { title: "Banner", icon: <IoIosImages /> },
+      { title: "Banners", icon: <IoIosImages /> },
       { title: "Courses", icon: <FaBook /> },
       { title: "Competitions", icon: <BsFire /> },
       { title: "News", icon: <FaNewspaper /> },

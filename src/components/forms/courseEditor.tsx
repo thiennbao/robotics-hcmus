@@ -21,6 +21,16 @@ const CourseEditor = ({ data }: { data?: Course }) => {
   return (
     <form action={action} noValidate className="*:mb-4">
       <InputField
+        label="Thứ tự"
+        inputAttr={{
+          name: "order",
+          placeholder: "1",
+          defaultValue: String(data?.order || ""),
+        }}
+        validation={courseSchema.order}
+        submitErr={submitErr}
+      />
+      <InputField
         label="Tên khóa học"
         inputAttr={{
           name: "name",

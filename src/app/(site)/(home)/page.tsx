@@ -6,7 +6,7 @@ import db from "@/lib/db";
 import { Metadata } from "next";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const banners = await db.banner.findMany({ select: { desktopImg: true } });
+  const banners = await db.banner.findMany({ select: { image: true } });
 
   return {
     title: "Robotics & IoT HCMUS",
@@ -17,18 +17,18 @@ export async function generateMetadata(): Promise<Metadata> {
       description:
         "Câu lạc bộ Robotics and IoT (Internet of Things) Trường Đại học Khoa học Tự nhiên - Đại học Quốc gia TP.HCM",
       type: "website",
-      images: [...banners.map((banner) => banner.desktopImg)],
+      images: [...banners.map((banner) => banner.image)],
     },
   };
 }
 
 export default function HomePage() {
   return (
-    <main>
+    <main className="-mt-16 *:my-16 lg:-mt-20 lg:*:my-20">
       <HomeWall />
-      <Brief className="min-h-screen flex py-24 -mb-24" />
-      <CourseCarousel className="min-h-screen flex py-24 -mb-24" />
-      <NewsCarousel className="min-h-screen py-24" />
+      <Brief />
+      <CourseCarousel />
+      <NewsCarousel />
     </main>
   );
 }

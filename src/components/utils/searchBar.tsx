@@ -4,10 +4,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { HTMLAttributes } from "react";
 import { useDebouncedCallback } from "use-debounce";
 
-const SearchBar = ({
-  paramKey,
-  ...props
-}: { paramKey: string } & HTMLAttributes<HTMLInputElement>) => {
+const SearchBar = ({ paramKey, ...props }: { paramKey: string } & HTMLAttributes<HTMLInputElement>) => {
   const searchParams = useSearchParams();
   const { replace } = useRouter();
   const pathname = usePathname();

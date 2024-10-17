@@ -21,9 +21,9 @@ export default function ContactPage() {
   return (
     <main>
       <PageWall title="LIÊN HỆ" image="/wallpaper-contact.png" />
-      <ContactInfo className="min-h-screen flex py-24" />
+      <ContactInfo className="min-h-screen flex py-16 lg:py-20" />
       <ContactForm />
-      <Faq className="min-h-screen flex py-24" />
+      <Faq className="my-16 lg:my-20" />
     </main>
   );
 }

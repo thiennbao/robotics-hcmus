@@ -5,7 +5,7 @@ import db from "@/lib/db";
 import Link from "next/link";
 
 const CourseCarousel = async (props: HTMLAttributes<HTMLDivElement>) => {
-  const courses = await db.course.findMany({ orderBy: { date: "desc" }, take: 12 });
+  const courses = await db.course.findMany({ orderBy: { order: "asc" }, take: 12 });
 
   return (
     <section {...props}>

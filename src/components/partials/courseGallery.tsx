@@ -5,7 +5,7 @@ import Image from "next/image";
 const courseGallery = ({ gallery, ...props }: { gallery: string[] } & HTMLAttributes<HTMLDivElement>) => {
   return (
     <section {...props}>
-      <Carousel withPrevNext auto={4000} itemsOnScreen={{ df: 1, md: 2, xl: 3 }} className="-mx-4">
+      <Carousel withPrevNext auto={4000} itemsOnScreen={{ df: 1, md: 2, xl: 3 }} className="-mx-[6px]">
         {gallery.map((image) => (
           <div key={image} className="p-[6px]">
             <Image
