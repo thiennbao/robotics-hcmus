@@ -5,6 +5,7 @@ export const contactSchema: { [key in keyof Contact]: Validation } = {
   title: { required: { message: "Vui lòng nhập vào trường này" } },
   address: { required: { message: "Vui lòng nhập vào trường này" } },
   order: {
+    required: { message: "Vui lòng nhập vào trường này" },
     type: { value: "number", message: "Vui lòng nhập vào một chữ số" },
     minValue: { value: 1, message: "Vui lòng nhập vào một chữ số lớn hơn 0" },
   },
@@ -15,6 +16,7 @@ export const bannerSchema: { [key in keyof Banner]: Validation } = {
   image: { required: { message: "Vui lòng tải lên một hình ảnh" } },
   address: { required: { message: "Vui lòng nhập vào trường này" } },
   order: {
+    required: { message: "Vui lòng nhập vào trường này" },
     type: { value: "number", message: "Vui lòng nhập vào một chữ số" },
     minValue: { value: 1, message: "Vui lòng nhập vào một chữ số lớn hơn 0" },
   },
@@ -30,6 +32,7 @@ export const courseSchema: { [key in keyof Omit<Course, "date">]: Validation } =
   time: { required: { message: "Vui lòng nhập vào trường này" } },
   gallery: { required: { message: "Vui lòng tải lên một hình ảnh" } },
   order: {
+    required: { message: "Vui lòng nhập vào trường này" },
     type: { value: "number", message: "Vui lòng nhập vào một chữ số" },
     minValue: { value: 1, message: "Vui lòng nhập vào một chữ số lớn hơn 0" },
   },
@@ -47,6 +50,7 @@ export const competitionSchema: { [key in keyof Competition]: Validation } = {
   description: { required: { message: "Vui lòng nhập vào trường này" } },
   thumbnail: { required: { message: "Vui lòng tải lên một hình ảnh" } },
   order: {
+    required: { message: "Vui lòng nhập vào trường này" },
     type: { value: "number", message: "Vui lòng nhập vào một chữ số" },
     minValue: { value: 1, message: "Vui lòng nhập vào một chữ số lớn hơn 0" },
   },
@@ -102,6 +106,15 @@ export const userSchema: { [key in keyof Omit<User, "date">]: Validation } = {
     required: { message: "Vui lòng nhập vào trường này" },
     include: { value: ["ADMIN", "ROOT"], message: "Vị trí không phù hợp" },
   },
+};
+
+export const changePasswordSchema = {
+  old: { required: { message: "Vui lòng nhập vào trường này" } },
+  password: {
+    required: { message: "Vui lòng nhập vào trường này" },
+    min: { value: 8, message: "Vui lòng nhập vào ít nhất 8 ký tự" },
+  },
+  confirm: { required: { message: "Vui lòng nhập vào trường này" } },
 };
 
 export const authSchema = {

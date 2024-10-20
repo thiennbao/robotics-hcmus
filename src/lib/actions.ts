@@ -15,6 +15,7 @@ import {
   newsSchema,
   registerSchema,
   userSchema,
+  changePasswordSchema,
 } from "./schemas";
 import { deleteFile, uploadFile } from "./storage";
 import { v4 as uuid } from "uuid";
@@ -410,21 +411,22 @@ export const userDeleteAction = async (username: string) => {
   revalidatePath("/admin/users");
 };
 export const changePasswordAction = async (_prevState: any, formData: FormData) => {
-  const data = {
-    id: formData.get("id") as string,
-    password: formData.get("password") as string,
-    old: formData.get("old") as string,
-    confirm: formData.get("confirm") as string,
+  const origin = formData.get("origin") as string;
+  const data = Object.keys(changePasswordSchema).reduce(
+    (obj, key) => Object.assign(obj, { [key]: formData.get(key) }),
+    {}
+  ) as {
+    [key in keyof typeof changePasswordSchema]: string;
   };
 
-  const issues = validateAll({ password: data.password }, userSchema);
+  const issues = validateAll(data, changePasswordSchema);
   if (issues.length) {
     return { issues };
   } else if (data.password !== data.confirm) {
     const issue: Issue = { path: "confirm", message: "Xác nhận mật khẩu không khớp" };
     return { issues: [issue] };
   } else {
-    const user = await db.user.findUnique({ where: { username: data.id } });
+    const user = await db.user.findUnique({ where: { username: origin } });
     if (user) {
       const match = await bcrypt.compare(data.old, user.password);
       if (!match) {
@@ -432,7 +434,7 @@ export const changePasswordAction = async (_prevState: any, formData: FormData) 
         return { issues: [issue] };
       } else {
         const password = await bcrypt.hash(data.password, 10);
-        await db.user.update({ where: { username: data.id }, data: { password } });
+        await db.user.update({ where: { username: origin }, data: { password } });
         redirect("/admin");
       }
     }

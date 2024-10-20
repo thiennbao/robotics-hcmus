@@ -45,7 +45,7 @@ const NewsEditor = ({ data }: { data?: News }) => {
       />
       <RichTextField
         label="Nội dung"
-        name="overview"
+        name="content"
         validation={newsSchema.content}
         submitErr={submitErr?.content}
         data={data?.content}

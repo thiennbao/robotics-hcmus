@@ -17,8 +17,8 @@ const Sidebar = ({ isRoot, logout }: { isRoot: boolean; logout: () => void }) =>
   const [isOpen, setIsOpen] = useState(true);
 
   const sideNavs = {
-    general: [{ title: "Contacts", icon: <PiPhoneCallFill /> }],
     content: [
+      { title: "Contacts", icon: <PiPhoneCallFill /> },
       { title: "Banners", icon: <IoIosImages /> },
       { title: "Courses", icon: <FaBook /> },
       { title: "News", icon: <FaNewspaper /> },

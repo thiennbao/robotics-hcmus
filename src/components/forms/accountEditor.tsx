@@ -4,7 +4,7 @@ import { User } from "@prisma/client";
 import { useFormState } from "react-dom";
 import { InputField } from "../utils/editorUtils";
 import { changePasswordAction } from "@/lib/actions";
-import { userSchema } from "@/lib/schemas";
+import { changePasswordSchema } from "@/lib/schemas";
 import { useState } from "react";
 
 const AccountEditor = ({ data }: { data: User }) => {
@@ -12,7 +12,7 @@ const AccountEditor = ({ data }: { data: User }) => {
   const [formData, setFormData] = useState(new FormData());
 
   const submitErr = state?.issues.reduce((obj, error) => Object.assign(obj, { [error.path]: error.message }), {}) as
-    | { password: string; old: string; confirm: string }
+    | { [key in keyof typeof changePasswordSchema]: string }
     | undefined;
 
   const setData = (key: string, value: string) => {
@@ -30,7 +30,7 @@ const AccountEditor = ({ data }: { data: User }) => {
       <InputField
         label="Mật khẩu cũ"
         name="old"
-        validation={{ required: { message: "Vui lòng nhập vào trường này" } }}
+        validation={changePasswordSchema.old}
         submitErr={submitErr?.old}
         setData={setData}
         inputAttr={{ placeholder: "********", type: "password" }}
@@ -38,7 +38,7 @@ const AccountEditor = ({ data }: { data: User }) => {
       <InputField
         label="Mật khẩu mới"
         name="password"
-        validation={userSchema.password}
+        validation={changePasswordSchema.password}
         submitErr={submitErr?.password}
         setData={setData}
         inputAttr={{ placeholder: "********", type: "password" }}
@@ -46,7 +46,7 @@ const AccountEditor = ({ data }: { data: User }) => {
       <InputField
         label="Xác nhận mật khẩu"
         name="confirm"
-        validation={{ required: { message: "Vui lòng nhập vào trường này" } }}
+        validation={changePasswordSchema.confirm}
         submitErr={submitErr?.confirm}
         setData={setData}
         inputAttr={{ placeholder: "********", type: "password" }}

@@ -38,7 +38,7 @@ const NewsDetail = async ({
               "[&_h2]:text-lg [&_h3]:mb-1 [&_h3]:font-bold",
               "[&_.ql-syntax]:bg-[#23241f] [&_.ql-syntax]:text-[#f8f8f2]",
               "[&_a]:text-primary",
-              "[&_img]:w-full [&_img]:md:w-1/2 [&_img]:m-auto [&_img]:aspect-video [&_img]:object-cover",
+              "[&_img]:w-full [&_img]:md:w-1/2 [&_img]:m-auto [&_img]:aspect-video [&_img]:object-cover [&_img]:rounded-md",
               "[&_ol]:list-decimal [&_ol]:px-8",
               "[&_ul]:list-disc [&_ul]:px-8",
               "[&_.ql-align-center]:text-center",
