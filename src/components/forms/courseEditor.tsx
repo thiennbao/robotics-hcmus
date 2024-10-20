@@ -2,107 +2,104 @@
 
 import { Course } from "@prisma/client";
 import { useFormState } from "react-dom";
-import { ImageField, InputField, MultiImageField, RichTextField, TextField } from "../utils/editorUtils";
+import { ImageField, InputField, MultiImageField, RichTextField } from "../utils/editorUtils";
 import { courseSaveAction } from "@/lib/actions";
 import { courseSchema } from "@/lib/schemas";
+import { useState } from "react";
 
 const CourseEditor = ({ data }: { data?: Course }) => {
   const [state, dispatch] = useFormState(courseSaveAction, undefined);
-
-  const action = (payload: FormData) => {
-    payload.set("id", data?.name || "");
-    dispatch(payload);
-  };
+  const [formData, setFormData] = useState(new FormData());
 
   const submitErr = state?.issues.reduce((obj, error) => Object.assign(obj, { [error.path]: error.message }), {}) as
-    | { [key in keyof Course]: string }
+    | { [key in keyof typeof courseSchema]: string }
     | undefined;
 
+  const setData = (key: string, value: string) => {
+    formData.set(key, value);
+    setFormData(formData);
+  };
+
+  const preDispatch = () => {
+    formData.set("origin", data?.name || "");
+    dispatch(formData);
+  };
+
   return (
-    <form action={action} noValidate className="*:mb-4">
-      <InputField
-        label="Thứ tự"
-        inputAttr={{
-          name: "order",
-          placeholder: "1",
-          defaultValue: String(data?.order || ""),
-        }}
-        validation={courseSchema.order}
-        submitErr={submitErr}
-      />
+    <form action={preDispatch} noValidate className="*:mb-4">
       <InputField
         label="Tên khóa học"
-        inputAttr={{
-          name: "name",
-          placeholder: "Advanced Banana Peeling Techniques",
-          defaultValue: data?.name,
-        }}
+        name="name"
         validation={courseSchema.name}
-        submitErr={submitErr}
+        submitErr={submitErr?.name}
+        data={data?.name}
+        setData={setData}
       />
       <ImageField
         label="Thumbnail"
-        inputAttr={{
-          name: "thumbnail",
-          defaultValue: data?.thumbnail,
-        }}
+        name="thumbnail"
         validation={courseSchema.thumbnail}
-        submitErr={submitErr}
+        submitErr={submitErr?.thumbnail}
+        data={data?.thumbnail}
+        setData={setData}
       />
-      <TextField
+      <InputField
+        textarea
         label="Mô tả tóm tắt"
-        inputAttr={{
-          name: "brief",
-          defaultValue: data?.brief,
-        }}
+        name="brief"
         validation={courseSchema.brief}
-        submitErr={submitErr}
+        submitErr={submitErr?.brief}
+        data={data?.brief}
+        setData={setData}
       />
       <RichTextField
         label="Tổng quan khóa học"
-        inputAttr={{
-          name: "overview",
-          defaultValue: data?.overview,
-        }}
+        name="overview"
         validation={courseSchema.overview}
-        submitErr={submitErr}
+        submitErr={submitErr?.overview}
+        data={data?.overview}
+        setData={setData}
       />
       <RichTextField
         label="Tổ chức khóa học"
-        inputAttr={{
-          name: "organization",
-          defaultValue: data?.organization,
-        }}
+        name="organization"
         validation={courseSchema.organization}
-        submitErr={submitErr}
+        submitErr={submitErr?.organization}
+        data={data?.organization}
+        setData={setData}
       />
       <RichTextField
         label="Nội dung khóa học"
-        inputAttr={{
-          name: "description",
-          defaultValue: data?.description,
-        }}
+        name="description"
         validation={courseSchema.description}
-        submitErr={submitErr}
+        submitErr={submitErr?.description}
+        data={data?.description}
+        setData={setData}
       />
       <InputField
         label="Khung giờ mở lớp, cách nhau bằng dấu chấm phẩy (;)"
-        inputAttr={{
-          name: "time",
-          placeholder: "08:00 - 10:00 Saturday; 08:00 - 10:00 Sunday; ...",
-          defaultValue: data?.time,
-        }}
+        name="time"
         validation={courseSchema.time}
-        submitErr={submitErr}
+        submitErr={submitErr?.time}
+        data={data?.time}
+        setData={setData}
+        inputAttr={{ placeholder: "08:00 - 10:00 Saturday; 08:00 - 10:00 Sunday; ..." }}
       />
       <MultiImageField
         label="Hình ảnh"
-        inputAttr={{
-          name: "gallery",
-          defaultValue: JSON.stringify(data?.gallery),
-        }}
+        name="gallery"
         validation={courseSchema.gallery}
-        submitErr={submitErr}
+        submitErr={submitErr?.gallery}
+        data={JSON.stringify(data?.gallery)}
+        setData={setData}
+      />
+      <InputField
+        label="Thứ tự"
+        name="order"
+        validation={courseSchema.order}
+        submitErr={submitErr?.order}
+        data={String(data?.order || "")}
+        setData={setData}
       />
       <div className="text-center pt-4">
         <button className="w-1/2 py-2 rounded-lg border border-sky-400 text-sky-400 hover:bg-sky-400 hover:text-white transition">

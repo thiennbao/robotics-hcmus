@@ -5,50 +5,51 @@ import { useFormState } from "react-dom";
 import { InputField } from "../utils/editorUtils";
 import { changePasswordAction } from "@/lib/actions";
 import { userSchema } from "@/lib/schemas";
+import { useState } from "react";
 
 const AccountEditor = ({ data }: { data: User }) => {
   const [state, dispatch] = useFormState(changePasswordAction, undefined);
-
-  const action = (payload: FormData) => {
-    payload.set("id", data?.username || "");
-    dispatch(payload);
-  };
+  const [formData, setFormData] = useState(new FormData());
 
   const submitErr = state?.issues.reduce((obj, error) => Object.assign(obj, { [error.path]: error.message }), {}) as
     | { password: string; old: string; confirm: string }
     | undefined;
 
+  const setData = (key: string, value: string) => {
+    formData.set(key, value);
+    setFormData(formData);
+  };
+
+  const preDispatch = () => {
+    formData.set("origin", data?.username || "");
+    dispatch(formData);
+  };
+
   return (
-    <form action={action} noValidate className="*:mb-4">
+    <form action={preDispatch} noValidate className="*:mb-4">
       <InputField
         label="Mật khẩu cũ"
-        inputAttr={{
-          name: "old",
-          placeholder: "********",
-          type: "password",
-        }}
+        name="old"
         validation={{ required: { message: "Vui lòng nhập vào trường này" } }}
-        submitErr={submitErr}
+        submitErr={submitErr?.old}
+        setData={setData}
+        inputAttr={{ placeholder: "********", type: "password" }}
       />
       <InputField
         label="Mật khẩu mới"
-        inputAttr={{
-          name: "password",
-          placeholder: "********",
-          type: "password",
-        }}
+        name="password"
         validation={userSchema.password}
-        submitErr={submitErr}
+        submitErr={submitErr?.password}
+        setData={setData}
+        inputAttr={{ placeholder: "********", type: "password" }}
       />
       <InputField
-        label="Xác nhận mật khẩu mới"
-        inputAttr={{
-          name: "confirm",
-          placeholder: "********",
-          type: "password",
-        }}
+        label="Xác nhận mật khẩu"
+        name="confirm"
         validation={{ required: { message: "Vui lòng nhập vào trường này" } }}
-        submitErr={submitErr}
+        submitErr={submitErr?.confirm}
+        setData={setData}
+        inputAttr={{ placeholder: "********", type: "password" }}
       />
       <div className="text-center pt-4">
         <button className="w-1/2 py-2 rounded-lg border border-sky-400 text-sky-400 hover:bg-sky-400 hover:text-white transition">

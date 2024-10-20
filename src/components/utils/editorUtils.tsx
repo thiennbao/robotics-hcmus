@@ -3,33 +3,51 @@
 import { validate, Validation } from "@/lib/validation";
 import clsx from "clsx";
 import dynamic from "next/dynamic";
-import { HTMLProps, useEffect, useMemo, useState } from "react";
+import { ChangeEvent, HTMLProps, InputHTMLAttributes, useEffect, useMemo, useRef, useState } from "react";
 import { LuImagePlus } from "react-icons/lu";
 import { RiDeleteBin2Fill } from "react-icons/ri";
 import "react-quill/dist/quill.snow.css";
-import Confirm from "./confirm";
 import Image from "next/image";
 import React from "react";
 
+// Deer my kouhai, if one day you have to read this pile of code and can't understand anything, no problem.
+// Even me who wrote it wouldn’t understand if I read it again.
+
 interface Props extends HTMLProps<HTMLDivElement> {
   label: string;
-  inputAttr: {
-    name: string;
-    defaultValue?: string;
-    placeholder?: string;
-    readOnly?: boolean;
-    type?: "password";
-  };
+  name: string;
   validation?: Validation;
-  submitErr?: { [key: string]: string };
+  submitErr?: string;
+  data?: string;
+  setData?: (key: string, value: string) => void;
+  inputAttr?: Pick<InputHTMLAttributes<HTMLInputElement>, "placeholder" | "readOnly" | "type">;
 }
 
-export const InputField = ({ label, inputAttr, validation, submitErr, ...props }: Props) => {
+export const InputField = ({
+  label,
+  name,
+  validation,
+  submitErr,
+  data,
+  setData,
+  inputAttr,
+  textarea = false,
+  ...props
+}: Props & { textarea?: boolean }) => {
+  const [input, setInput] = useState(data || "");
   const [errorMsg, setErrorMsg] = useState("");
 
   useEffect(() => {
-    setErrorMsg(submitErr?.[inputAttr.name] || "");
-  }, [submitErr, inputAttr.name]);
+    if (setData) setData(name, input);
+  }, [setData, name, input]);
+  useEffect(() => {
+    setErrorMsg(submitErr || "");
+  }, [submitErr]);
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setInput(event.target.value);
+    if (validation) setErrorMsg(validate(event.target.value, validation));
+  };
 
   return (
     <div {...props}>
@@ -37,63 +55,54 @@ export const InputField = ({ label, inputAttr, validation, submitErr, ...props }
         {label}
         {validation?.required && <span className="ml-1 text-red-400">*</span>}
       </label>
-      <input
-        {...inputAttr}
-        onChange={(e) => setErrorMsg(validation ? validate(e.target.value, validation) : "")}
-        className={clsx(
-          "w-full p-2 rounded-lg bg-gray-800 outline-none border focus:border-sky-500",
-          errorMsg ? "border-red-400" : "border-transparent"
-        )}
-      />
+      {textarea ? (
+        <textarea
+          {...inputAttr}
+          value={input}
+          onChange={handleChange}
+          className={clsx(
+            "w-full h-60 p-2 rounded-lg bg-gray-800 outline-none border focus:border-sky-500",
+            errorMsg ? "border-red-400" : "border-transparent"
+          )}
+        />
+      ) : (
+        <input
+          {...inputAttr}
+          value={input}
+          onChange={handleChange}
+          className={clsx(
+            "w-full p-2 rounded-lg bg-gray-800 outline-none border focus:border-sky-500",
+            errorMsg ? "border-red-400" : "border-transparent"
+          )}
+        />
+      )}
       <span className="mt-1 text-red-400 text-sm">{errorMsg}</span>
     </div>
   );
 };
 
-export const TextField = ({ label, inputAttr, validation, submitErr, ...props }: Props) => {
+export const ImageField = ({ label, name, validation, submitErr, data, setData, ...props }: Props) => {
+  const [image, setImage] = useState(data || "");
   const [errorMsg, setErrorMsg] = useState("");
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    setErrorMsg(submitErr?.[inputAttr.name] || "");
-  }, [submitErr, inputAttr.name]);
-
-  return (
-    <div {...props}>
-      <label className="block mb-2 font-bold">
-        {label}
-        {validation?.required && <span className="ml-1 text-red-400">*</span>}
-      </label>
-      <textarea
-        {...inputAttr}
-        onChange={(e) => setErrorMsg(validation ? validate(e.target.value, validation) : "")}
-        className={clsx(
-          "w-full h-60 p-2 rounded-lg bg-gray-800 outline-none border focus:border-sky-500 [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:bg-gray-600",
-          errorMsg ? "border-red-400" : "border-transparent"
-        )}
-      />
-      <span className="mt-1 text-red-400 text-sm">{errorMsg}</span>
-    </div>
-  );
-};
-
-export const ImageField = ({ label, inputAttr, validation, submitErr, ...props }: Props) => {
-  const [errorMsg, setErrorMsg] = useState("");
-  const [image, setImage] = useState<string>(inputAttr.defaultValue as string);
-  const [overSize, setOverSize] = useState(false);
-
+    if (setData) setData(name, image);
+  }, [setData, name, image]);
   useEffect(() => {
-    setErrorMsg(submitErr?.[inputAttr.name] || "");
-  }, [submitErr, inputAttr.name]);
+    setErrorMsg(submitErr || "");
+  }, [submitErr]);
 
-  const handleUpload = (file: File | undefined) => {
+  const handleUpload = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
     if (file) {
       const reader = new FileReader();
-      reader.readAsDataURL(file);
       reader.onload = () => {
-        if ((reader.result as string).length >= 1024 ** 2) return setOverSize(true);
         setImage(reader.result as string);
         setErrorMsg("");
       };
+      reader.readAsDataURL(file);
+      if (inputRef.current) inputRef.current.value = "";
     }
   };
   const handleDelete = () => {
@@ -107,21 +116,16 @@ export const ImageField = ({ label, inputAttr, validation, submitErr, ...props }
         {label}
         {validation?.required && <span className="ml-1 text-red-400">*</span>}
       </label>
-      <input {...inputAttr} defaultValue={image} key={image} hidden />
-      <input
-        type="file"
-        accept="image/*"
-        id={`${inputAttr.name}/file`}
-        onChange={(e) => handleUpload(e.target.files?.[0])}
-        hidden
-      />
+      <input type="file" accept="image/*" id={name} onChange={handleUpload} ref={inputRef} hidden />
       <label
-        htmlFor={`${inputAttr.name}/file`}
-        className={clsx("block p-4 rounded-lg bg-gray-800 border", errorMsg ? "border-red-400" : "border-transparent")}
+        htmlFor={name}
+        className={clsx(
+          "block p-4 rounded-lg bg-gray-800 cursor-pointer border",
+          errorMsg ? "border-red-400" : "border-transparent"
+        )}
       >
         {image ? (
           <div className="h-60 relative">
-            {/* Preview image */}
             <Image
               src={image}
               alt="Uploaded image"
@@ -129,7 +133,6 @@ export const ImageField = ({ label, inputAttr, validation, submitErr, ...props }
               sizes="400"
               className="w-full h-full rounded-lg object-cover"
             />
-            {/* Delete button */}
             <div
               onClick={(e) => {
                 e.preventDefault();
@@ -147,45 +150,39 @@ export const ImageField = ({ label, inputAttr, validation, submitErr, ...props }
         )}
       </label>
       <span className="mt-1 text-red-400 text-sm">{errorMsg}</span>
-      {overSize && (
-        <Confirm
-          title="Upload failed"
-          message="Hình ảnh có dung lượng quá lớn, vui lòng thử lại với hình ảnh nhỏ hơn"
-          type="warning"
-          close={() => setOverSize(false)}
-        />
-      )}
     </div>
   );
 };
 
-export const MultiImageField = ({ label, inputAttr, validation, submitErr, ...props }: Props) => {
+export const MultiImageField = ({ label, name, validation, submitErr, data, setData, ...props }: Props) => {
   const [errorMsg, setErrorMsg] = useState("");
-  const [images, setImages] = useState<string[]>(JSON.parse(inputAttr.defaultValue || "[]"));
-  const [overSize, setOverSize] = useState(false);
+  const [images, setImages] = useState<string[]>(JSON.parse(data || "[]"));
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    setErrorMsg(submitErr?.[inputAttr.name] || "");
-  }, [submitErr, inputAttr.name]);
+    const imagesJson = JSON.stringify(images);
+    if (setData) setData(name, imagesJson);
+  }, [setData, name, images]);
+  useEffect(() => {
+    setErrorMsg(submitErr || "");
+  }, [submitErr]);
 
-  const handleUpload = (fileList: FileList | null) => {
-    if (fileList) {
-      const { length, ...files } = fileList;
-      for (let index in files) {
-        const reader = new FileReader();
-        reader.readAsDataURL(files[index]);
-        reader.onload = () => {
-          if ((reader.result as string).length >= 1024 ** 2) return setOverSize(true);
-          setImages((images) => [...images, reader.result as string]);
-          setErrorMsg("");
-        };
-      }
-    }
+  const handleUpload = (event: ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(event.target.files || []);
+    files.forEach((file) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setImages((images) => [...images, reader.result as string]);
+        setErrorMsg("");
+      };
+      reader.readAsDataURL(file);
+    });
+    if (inputRef.current) inputRef.current.value = "";
   };
   const handleDelete = (deletedIndex: number) => {
-    const remainImage = images.filter((_image, index) => index !== deletedIndex);
-    setImages(remainImage);
-    setErrorMsg(remainImage.length ? "" : (validation?.required?.message as string));
+    const remainImages = images.filter((_image, index) => index != deletedIndex);
+    setImages(remainImages);
+    setErrorMsg(remainImages.length ? "" : (validation?.required?.message as string));
   };
 
   return (
@@ -194,20 +191,9 @@ export const MultiImageField = ({ label, inputAttr, validation, submitErr, ...pr
         {label}
         {validation?.required && <span className="ml-1 text-red-400">*</span>}
       </label>
-      {images.map((image, index) => (
-        <input {...inputAttr} defaultValue={image} key={image + index} hidden />
-      ))}
-      <input
-        type="file"
-        accept="image/*"
-        multiple
-        name={`${inputAttr.name}/file`}
-        id={`${inputAttr.name}/file`}
-        onChange={(e) => handleUpload(e.target.files)}
-        hidden
-      />
+      <input hidden type="file" accept="image/*" multiple id={name} ref={inputRef} onChange={handleUpload} />
       <label
-        htmlFor={`${inputAttr.name}/file`}
+        htmlFor={name}
         className={clsx(
           errorMsg ? "border-red-400" : "border-transparent",
           "grid grid-cols-2 lg:grid-cols-3 gap-2 p-4 rounded-lg bg-gray-800 border"
@@ -248,31 +234,26 @@ export const MultiImageField = ({ label, inputAttr, validation, submitErr, ...pr
         )}
       </label>
       <span className="mt-1 text-red-400 text-sm">{errorMsg}</span>
-      {overSize && (
-        <Confirm
-          title="Upload failed"
-          message="Hình ảnh có dung lượng quá lớn, vui lòng thử lại với hình ảnh nhỏ hơn"
-          type="warning"
-          close={() => setOverSize(false)}
-        />
-      )}
     </div>
   );
 };
 
-export const RichTextField = ({ label, inputAttr, validation, submitErr, ...props }: Props) => {
+export const RichTextField = ({ label, name, validation, submitErr, data, setData, ...props }: Props) => {
   const ReactQuill = useMemo(() => dynamic(() => import("react-quill"), { ssr: false }), []);
 
+  const [input, setInput] = useState(data || "");
   const [errorMsg, setErrorMsg] = useState("");
-  const [content, setContent] = useState<string>(inputAttr.defaultValue || "");
 
   useEffect(() => {
-    setErrorMsg(submitErr?.[inputAttr.name] || "");
-  }, [submitErr, inputAttr.name]);
+    if (setData) setData(name, input);
+  }, [setData, name, input]);
+  useEffect(() => {
+    setErrorMsg(submitErr || "");
+  }, [submitErr, name]);
 
   // Quill library issue (value is "<p><br></p>" when all input's deleted)
   const handleChange = (value: string) => {
-    setContent(value === "<p><br></p>" ? "" : value);
+    setInput(value === "<p><br></p>" ? "" : value);
     setErrorMsg(validation ? validate(value === "<p><br></p>" ? "" : value, validation) : "");
   };
 
@@ -282,7 +263,6 @@ export const RichTextField = ({ label, inputAttr, validation, submitErr, ...prop
         {label}
         {validation?.required && <span className="ml-1 text-red-400">*</span>}
       </label>
-      <input {...inputAttr} defaultValue={content} key={content} hidden />
       <div
         className={clsx(
           "rounded-lg border focus-within:border-sky-500",
@@ -291,7 +271,7 @@ export const RichTextField = ({ label, inputAttr, validation, submitErr, ...prop
       >
         <ReactQuill
           className={clsx(
-            "rounded-lg h-[40rem] bg-gray-800 overflow-hidden",
+            "rounded-lg h-96 bg-gray-800 overflow-hidden",
             "[&_.ql-toolbar]:!border-transparent [&_.ql-container]:!border-transparent",
             "[&_.ql-toolbar_.ql-stroke]:fill-none [&_.ql-toolbar_.ql-stroke]:stroke-gray-300",
             "[&_.ql-toolbar_.ql-fill]:fill-gray-300 [&_.ql-toolbar_.ql-fill]:stroke-none",
@@ -299,7 +279,7 @@ export const RichTextField = ({ label, inputAttr, validation, submitErr, ...prop
             "[&_.ql-editor]:text-base [&_.ql-editor]:pb-16 [&_.ql-editor::-webkit-scrollbar]:w-1 [&_.ql-editor::-webkit-scrollbar-thumb]:bg-gray-600"
           )}
           theme="snow"
-          value={content}
+          value={input}
           onChange={handleChange}
           modules={{
             toolbar: {
@@ -324,17 +304,31 @@ export const RichTextField = ({ label, inputAttr, validation, submitErr, ...prop
 
 export const SelectField = ({
   label,
-  inputAttr,
+  name,
   validation,
   submitErr,
+  data,
+  setData,
+  inputAttr,
   options,
   ...props
-}: { options: string[] } & Props) => {
+}: Props & { options: string[] }) => {
+  const [selected, setSelected] = useState(data || "");
   const [errorMsg, setErrorMsg] = useState("");
 
   useEffect(() => {
-    setErrorMsg(submitErr?.[inputAttr.name] || "");
-  }, [submitErr, inputAttr.name]);
+    if (setData) setData(name, selected);
+  }, [setData, name, selected]);
+  useEffect(() => {
+    setErrorMsg(submitErr || "");
+  }, [submitErr]);
+
+  const handleSelect = (event: ChangeEvent<HTMLSelectElement>) => {
+    setSelected(event.target.value);
+    if (validation) {
+      setErrorMsg(validate(event.target.value, validation));
+    }
+  };
 
   return (
     <div {...props}>
@@ -344,7 +338,7 @@ export const SelectField = ({
       </label>
       <select
         {...inputAttr}
-        onChange={(e) => setErrorMsg(validation ? validate(e.target.value, validation) : "")}
+        onChange={handleSelect}
         className={clsx(
           "w-full p-2.5 rounded-lg bg-gray-800 outline-none border focus:border-sky-500",
           errorMsg ? "border-red-400" : "border-transparent"

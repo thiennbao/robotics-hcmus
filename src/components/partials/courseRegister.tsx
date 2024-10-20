@@ -26,7 +26,7 @@ const CourseRegister = ({ course }: { course: Course }) => {
     );
   }, [state]);
 
-  const action = (payload: FormData) => {
+  const preDispatch = (payload: FormData) => {
     payload.set("courseId", course.name);
     dispatch(payload);
   };
@@ -35,7 +35,7 @@ const CourseRegister = ({ course }: { course: Course }) => {
     <section className="h-screen flex justify-center items-center bg-[linear-gradient(rgba(0,0,0,0.8),rgba(0,0,0,0.8)),url(/register-form.png)] bg-center bg-cover">
       <div className="w-full md:w-3/4 lg:w-1/2 p-8 mx-8 backdrop-blur-sm shadow-[white_0_0_0.75px] rounded-lg text-light">
         <h2 className="text-center mb-8 text-3xl font-bold">Đăng ký khóa học này</h2>
-        <form action={action} ref={formRef} className="grid grid-cols-2 gap-4">
+        <form action={preDispatch} ref={formRef} className="grid grid-cols-2 gap-4">
           <div className="col-span-2 md:col-span-1">
             <label className="block mb-1 font-bold">
               Họ tên học sinh <span className="text-red-500">*</span>

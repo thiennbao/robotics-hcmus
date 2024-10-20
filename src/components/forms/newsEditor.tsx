@@ -5,49 +5,51 @@ import { useFormState } from "react-dom";
 import { ImageField, InputField, RichTextField } from "../utils/editorUtils";
 import { newsSaveAction } from "@/lib/actions";
 import { newsSchema } from "@/lib/schemas";
+import { useState } from "react";
 
 const NewsEditor = ({ data }: { data?: News }) => {
   const [state, dispatch] = useFormState(newsSaveAction, undefined);
+  const [formData, setFormData] = useState(new FormData());
 
-  const action = (payload: FormData) => {
-    payload.set("id", data?.title || "");
-    dispatch(payload);
+  const submitErr = state?.issues.reduce((obj, error) => Object.assign(obj, { [error.path]: error.message }), {}) as
+    | { [key in keyof typeof newsSchema]: string }
+    | undefined;
+
+  const setData = (key: string, value: string) => {
+    formData.set(key, value);
+    setFormData(formData);
   };
 
-  const submitErr = state?.issues.reduce(
-    (obj, error) => Object.assign(obj, { [error.path]: error.message }),
-    {}
-  ) as { [key in keyof News]: string } | undefined;
+  const preDispatch = () => {
+    formData.set("origin", data?.title || "");
+    dispatch(formData);
+  };
 
   return (
-    <form action={action} noValidate className="*:mb-4">
+    <form action={preDispatch} noValidate className="*:mb-4">
       <InputField
         label="Tiêu đề"
-        inputAttr={{
-          name: "title",
-          placeholder: "Dumb New Way to Peel Bananas Is Taking Over the Internet",
-          defaultValue: data?.title,
-        }}
+        name="title"
         validation={newsSchema.title}
-        submitErr={submitErr}
+        submitErr={submitErr?.title}
+        data={data?.title || ""}
+        setData={setData}
       />
       <ImageField
         label="Thumbnail"
-        inputAttr={{
-          name: "thumbnail",
-          defaultValue: data?.thumbnail,
-        }}
+        name="thumbnail"
         validation={newsSchema.thumbnail}
-        submitErr={submitErr}
+        submitErr={submitErr?.thumbnail}
+        data={data?.thumbnail}
+        setData={setData}
       />
       <RichTextField
         label="Nội dung"
-        inputAttr={{
-          name: "content",
-          defaultValue: data?.content,
-        }}
+        name="overview"
         validation={newsSchema.content}
-        submitErr={submitErr}
+        submitErr={submitErr?.content}
+        data={data?.content}
+        setData={setData}
       />
       <div className="text-center pt-4">
         <button className="w-1/2 py-2 rounded-lg border border-sky-400 text-sky-400 hover:bg-sky-400 hover:text-white transition">

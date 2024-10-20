@@ -36,7 +36,7 @@ export const validateAll = <T extends { [key: string]: string }>(
   values: T,
   validations: { [key in keyof T]: Validation }
 ) => {
-  return Object.keys(values).reduce((issues: Issue[], key: string) => {
+  return Object.keys(validations).reduce((issues: Issue[], key: string) => {
     const issue = validate(values[key], validations[key]);
     return issue ? [...issues, { path: key, message: issue }] : issues;
   }, []);

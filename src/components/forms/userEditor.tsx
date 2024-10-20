@@ -5,51 +5,51 @@ import { useFormState } from "react-dom";
 import { InputField, SelectField } from "../utils/editorUtils";
 import { userSaveAction } from "@/lib/actions";
 import { userSchema } from "@/lib/schemas";
+import { useState } from "react";
 
 const UserEditor = ({ data }: { data?: User }) => {
   const [state, dispatch] = useFormState(userSaveAction, undefined);
+  const [formData, setFormData] = useState(new FormData());
 
-  const action = (payload: FormData) => {
-    payload.set("id", data?.username || "");
-    dispatch(payload);
+  const submitErr = state?.issues.reduce((obj, error) => Object.assign(obj, { [error.path]: error.message }), {}) as
+    | { [key in keyof typeof userSchema]: string }
+    | undefined;
+
+  const setData = (key: string, value: string) => {
+    formData.set(key, value);
+    setFormData(formData);
   };
 
-  const submitErr = state?.issues.reduce(
-    (obj, error) => Object.assign(obj, { [error.path]: error.message }),
-    {}
-  ) as { [key in keyof User]: string } | undefined;
-
+  const preDispatch = () => {
+    formData.set("origin", data?.username || "");
+    dispatch(formData);
+  };
   return (
-    <form action={action} noValidate className="*:mb-4">
+    <form action={preDispatch} noValidate className="*:mb-4">
       <InputField
         label="Tên đăng nhập"
-        inputAttr={{
-          name: "username",
-          placeholder: "robotics",
-          defaultValue: data?.username,
-        }}
+        name="username"
         validation={userSchema.username}
-        submitErr={submitErr}
+        submitErr={submitErr?.username}
+        data={data?.username}
+        setData={setData}
       />
       <SelectField
         label="Vai trò"
-        inputAttr={{
-          name: "role",
-          defaultValue: data?.role,
-        }}
-        options={["", "ADMIN", "ROOT"]}
+        name="role"
         validation={userSchema.role}
-        submitErr={submitErr}
+        submitErr={submitErr?.role}
+        data={data?.role}
+        setData={setData}
+        options={["", "ADMIN", "ROOT"]}
       />
       <InputField
         label="Mật khẩu"
-        inputAttr={{
-          name: "password",
-          placeholder: "********",
-          type: "password",
-        }}
+        name="password"
         validation={userSchema.password}
-        submitErr={submitErr}
+        submitErr={submitErr?.password}
+        setData={setData}
+        inputAttr={{ placeholder: "********", type: "password" }}
       />
       <div className="text-center pt-4">
         <button className="w-1/2 py-2 rounded-lg border border-sky-400 text-sky-400 hover:bg-sky-400 hover:text-white transition">

@@ -21,8 +21,8 @@ const Sidebar = ({ isRoot, logout }: { isRoot: boolean; logout: () => void }) =>
     content: [
       { title: "Banners", icon: <IoIosImages /> },
       { title: "Courses", icon: <FaBook /> },
-      { title: "Competitions", icon: <BsFire /> },
       { title: "News", icon: <FaNewspaper /> },
+      { title: "Competitions", icon: <BsFire /> },
     ],
     customer: [
       { title: "Messages", icon: <BsWechat /> },

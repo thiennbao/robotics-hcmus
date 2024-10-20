@@ -19,7 +19,7 @@ import {
 import { deleteFile, uploadFile } from "./storage";
 import { v4 as uuid } from "uuid";
 import bcrypt from "bcrypt";
-import { Banner, Contact, Course, Prisma, Role } from "@prisma/client";
+import { Banner, Contact, Course, Prisma, Role, User } from "@prisma/client";
 import { signToken } from "./token";
 
 // Import
@@ -68,20 +68,19 @@ export const importAction = async (model: Prisma.ModelName, data: any) => {
 
 // Contact
 export const contactSaveAction = async (_prevState: any, formData: FormData) => {
-  const rawData = {
-    order: formData.get("order") as string,
-    title: formData.get("title") as string,
-    address: formData.get("address") as string,
-  };
+  const origin = formData.get("origin") as string;
+  const rawData = Object.keys(contactSchema).reduce(
+    (obj, key) => Object.assign(obj, { [key]: formData.get(key) }),
+    {}
+  ) as { [key in keyof typeof contactSchema]: string };
   const issues = validateAll(rawData, contactSchema);
   if (issues.length) {
     return { issues };
   } else {
     try {
       const data = { ...rawData, order: Number(rawData.order) };
-      const id = formData.get("id") as string;
-      if (id) {
-        await db.contact.update({ where: { title: id }, data });
+      if (origin) {
+        await db.contact.update({ where: { title: origin }, data });
       } else {
         await db.contact.create({ data });
       }
@@ -105,22 +104,21 @@ export const contactDeleteAction = async (title: string) => {
 
 // Banner
 export const bannerSaveAction = async (_prevState: any, formData: FormData) => {
-  const rawData = {
-    order: formData.get("order") as string,
-    name: formData.get("name") as string,
-    image: formData.get("image") as string,
-  };
+  const origin = formData.get("origin") as string;
+  const rawData = Object.keys(bannerSchema).reduce(
+    (obj, key) => Object.assign(obj, { [key]: formData.get(key) }),
+    {}
+  ) as { [key in keyof typeof bannerSchema]: string };
   const issues = validateAll(rawData, bannerSchema);
   if (issues.length) {
     return { issues };
   } else {
     try {
       const data = { ...rawData, order: Number(rawData.order) };
-      const id = formData.get("id") as string;
-      if (id) {
+      if (origin) {
         if (data.image.startsWith("data:")) {
           const oldUrls = await db.banner.findUnique({
-            where: { name: id },
+            where: { name: origin },
             select: { image: true },
           });
           if (oldUrls) {
@@ -128,7 +126,7 @@ export const bannerSaveAction = async (_prevState: any, formData: FormData) => {
             data.image = await uploadFile(`banners/${data.name}.jpeg`, data.image);
           }
         }
-        await db.banner.update({ where: { name: id }, data });
+        await db.banner.update({ where: { name: origin }, data });
       } else {
         data.image = await uploadFile(`banners/${data.name}.jpeg`, data.image);
         await db.banner.create({ data });
@@ -155,28 +153,21 @@ export const bannerDeleteAction = async (name: string) => {
 
 // Course
 export const courseSaveAction = async (_prevState: any, formData: FormData) => {
-  const rawData = {
-    order: formData.get("order") as string,
-    name: formData.get("name") as string,
-    thumbnail: formData.get("thumbnail") as string,
-    brief: formData.get("brief") as string,
-    overview: formData.get("overview") as string,
-    organization: formData.get("organization") as string,
-    description: formData.get("description") as string,
-    time: formData.get("time") as string,
-    gallery: formData.getAll("gallery") as string[],
-  };
-  const issues = validateAll({ ...rawData, gallery: rawData.gallery.join() }, courseSchema);
+  const origin = formData.get("origin") as string;
+  const rawData = Object.keys(courseSchema).reduce(
+    (obj, key) => Object.assign(obj, { [key]: formData.get(key) }),
+    {}
+  ) as { [key in keyof typeof courseSchema]: string };
+  const issues = validateAll(rawData, courseSchema);
   if (issues.length) {
     return { issues };
   } else {
     try {
-      const data = { ...rawData, order: Number(rawData.order) };
-      const id = formData.get("id") as string;
-      if (id) {
+      const data = { ...rawData, gallery: JSON.parse(rawData.gallery), order: Number(rawData.order) };
+      if (origin) {
         // Get old urls
         const oldUrls = await db.course.findUnique({
-          where: { name: id },
+          where: { name: origin },
           select: { thumbnail: true, gallery: true },
         });
         if (oldUrls) {
@@ -193,16 +184,16 @@ export const courseSaveAction = async (_prevState: any, formData: FormData) => {
           }
           // Upload new images
           data.gallery = await Promise.all(
-            data.gallery.map(async (image) =>
+            data.gallery.map(async (image: string) =>
               image.startsWith("data:") ? await uploadFile(`courses/${data.name}-gallery-${uuid()}.jpeg`, image) : image
             )
           );
         }
-        await db.course.update({ where: { name: id }, data });
+        await db.course.update({ where: { name: origin }, data });
       } else {
         data.thumbnail = await uploadFile(`courses/${data.name}.jpeg`, data.thumbnail);
         data.gallery = await Promise.all(
-          data.gallery.map(async (image) => uploadFile(`courses/${data.name}-gallery-${uuid()}.jpeg`, image))
+          data.gallery.map(async (image: string) => uploadFile(`courses/${data.name}-gallery-${uuid()}.jpeg`, image))
         );
         await db.course.create({ data });
       }
@@ -236,21 +227,19 @@ export const courseDeleteAction = async (name: string) => {
 
 // News
 export const newsSaveAction = async (_prevState: any, formData: FormData) => {
-  const data = {
-    title: formData.get("title") as string,
-    thumbnail: formData.get("thumbnail") as string,
-    content: formData.get("content") as string,
+  const origin = formData.get("origin") as string;
+  const data = Object.keys(newsSchema).reduce((obj, key) => Object.assign(obj, { [key]: formData.get(key) }), {}) as {
+    [key in keyof typeof newsSchema]: string;
   };
   const issues = validateAll(data, newsSchema);
   if (issues.length) {
     return { issues };
   } else {
     try {
-      const id = formData.get("id") as string;
-      if (id) {
+      if (origin) {
         if (data.thumbnail.startsWith("data:")) {
           const oldUrls = await db.news.findUnique({
-            where: { title: id },
+            where: { title: origin },
             select: { thumbnail: true },
           });
           if (oldUrls) {
@@ -258,7 +247,7 @@ export const newsSaveAction = async (_prevState: any, formData: FormData) => {
             data.thumbnail = await uploadFile(`news/${data.title}.jpeg`, data.thumbnail);
           }
         }
-        await db.news.update({ where: { title: id }, data });
+        await db.news.update({ where: { title: origin }, data });
       } else {
         data.thumbnail = await uploadFile(`news/${data.title}.jpeg`, data.thumbnail);
         await db.news.create({ data });
@@ -285,24 +274,21 @@ export const newsDeleteAction = async (title: string) => {
 
 // Competition
 export const competitionSaveAction = async (_prevState: any, formData: FormData) => {
-  const rawData = {
-    order: formData.get("order") as string,
-    title: formData.get("title") as string,
-    address: formData.get("address") as string,
-    description: formData.get("description") as string,
-    thumbnail: formData.get("thumbnail") as string,
-  };
+  const origin = formData.get("origin") as string;
+  const rawData = Object.keys(competitionSchema).reduce(
+    (obj, key) => Object.assign(obj, { [key]: formData.get(key) }),
+    {}
+  ) as { [key in keyof typeof competitionSchema]: string };
   const issues = validateAll(rawData, competitionSchema);
   if (issues.length) {
     return { issues };
   } else {
     try {
       const data = { ...rawData, order: Number(rawData.order) };
-      const id = formData.get("id") as string;
-      if (id) {
+      if (origin) {
         if (data.thumbnail.startsWith("data:")) {
           const oldUrls = await db.competition.findUnique({
-            where: { title: id },
+            where: { title: origin },
             select: { thumbnail: true },
           });
           if (oldUrls) {
@@ -310,7 +296,7 @@ export const competitionSaveAction = async (_prevState: any, formData: FormData)
             data.thumbnail = await uploadFile(`competitions/${data.title}.jpeg`, data.thumbnail);
           }
         }
-        await db.competition.update({ where: { title: id }, data });
+        await db.competition.update({ where: { title: origin }, data });
       } else {
         data.thumbnail = await uploadFile(`competitions/${data.title}.jpeg`, data.thumbnail);
         await db.competition.create({ data });
@@ -335,12 +321,10 @@ export const competitionDeleteAction = async (title: string) => {
 
 // Message
 export const messageSaveAction = async (_prevData: any, formData: FormData) => {
-  const data = {
-    name: formData.get("name") as string,
-    email: formData.get("email") as string,
-    phone: formData.get("phone") as string,
-    message: formData.get("message") as string,
-  };
+  const data = Object.keys(messageSchema).reduce(
+    (obj, key) => Object.assign(obj, { [key]: formData.get(key) }),
+    {}
+  ) as { [key in keyof typeof messageSchema]: string };
   const issues = validateAll(data, messageSchema);
   if (issues.length) {
     return { issues };
@@ -361,15 +345,10 @@ export const messageDeleteAction = async (id: string) => {
 
 // Register
 export const registerSaveAction = async (_prevData: any, formData: FormData) => {
-  const data = {
-    courseId: formData.get("courseId") as string,
-    name: formData.get("name") as string,
-    parentName: formData.get("parentName") as string,
-    dob: formData.get("dob") as string,
-    email: formData.get("email") as string,
-    phone: formData.get("phone") as string,
-    time: formData.get("time") as string,
-  };
+  const data = Object.keys(registerSchema).reduce(
+    (obj, key) => Object.assign(obj, { [key]: formData.get(key) }),
+    {}
+  ) as { [key in keyof typeof registerSchema]: string };
   const issues = validateAll(data, registerSchema);
   if (issues.length) {
     return { issues };
@@ -390,16 +369,13 @@ export const registerDeleteAction = async (id: string) => {
 
 // User
 export const userSaveAction = async (_prevState: any, formData: FormData) => {
-  const id = formData.get("id") as string;
-
-  const data = {
-    username: formData.get("username") as string,
-    password: formData.get("password") as string,
-    role: formData.get("role") as Role,
+  const origin = formData.get("origin") as string;
+  const data = Object.keys(userSchema).reduce((obj, key) => Object.assign(obj, { [key]: formData.get(key) }), {}) as {
+    [key in keyof typeof userSchema]: string;
   };
 
   const issues =
-    data.password || !id
+    data.password || !origin
       ? validateAll(data, userSchema)
       : validateAll({ username: data.username, role: data.role }, userSchema);
 
@@ -407,14 +383,14 @@ export const userSaveAction = async (_prevState: any, formData: FormData) => {
     return { issues };
   } else {
     try {
-      if (id) {
+      if (origin) {
         if (data.password) {
           data.password = await bcrypt.hash(data.password || "", 10);
         }
-        await db.user.update({ where: { username: id }, data });
+        await db.user.update({ where: { username: origin }, data: data as User });
       } else {
         data.password = await bcrypt.hash(data.password, 10);
-        await db.user.create({ data });
+        await db.user.create({ data: data as User });
       }
       revalidatePath("/admin/users");
       redirect("/admin/users");
@@ -471,24 +447,20 @@ export const authenticateAction = async (_prevState: any, formData: FormData) =>
   };
 
   const issues = validateAll(data, authSchema);
-
   if (issues.length) {
     return { issues };
   } else {
-    const { username, password } = data;
-    const foundUser = await db.user.findUnique({ where: { username } });
+    const foundUser = await db.user.findUnique({ where: { username: data.username } });
     if (!foundUser) {
       const issue: Issue = { path: "username", message: "Tài khoản không tồn tại" };
       return { issues: [issue] };
     }
-    const match = await bcrypt.compare(password, foundUser.password);
+    const match = await bcrypt.compare(data.password, foundUser.password);
     if (!match) {
       const issue: Issue = { path: "password", message: "Mật khẩu không chính xác" };
       return { issues: [issue] };
     }
-
     await signToken({ username: foundUser.username, role: foundUser.role });
-
     redirect("/admin");
   }
 };
