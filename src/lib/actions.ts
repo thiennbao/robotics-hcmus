@@ -443,9 +443,8 @@ export const changePasswordAction = async (_prevState: any, formData: FormData) 
 
 // Auth
 export const authenticateAction = async (_prevState: any, formData: FormData) => {
-  const data = {
-    username: formData.get("username") as string,
-    password: formData.get("password") as string,
+  const data = Object.keys(authSchema).reduce((obj, key) => Object.assign(obj, { [key]: formData.get(key) }), {}) as {
+    [key in keyof typeof authSchema]: string;
   };
 
   const issues = validateAll(data, authSchema);

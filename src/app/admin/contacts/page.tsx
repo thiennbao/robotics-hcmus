@@ -53,7 +53,7 @@ export default async function ContactDashboardPage({
                 <th>
                   <div className="w-96">Tiêu đề</div>
                 </th>
-                <th className="w-full">
+                <th className="w-96">
                   <div>Địa chỉ</div>
                 </th>
                 <th>
@@ -75,10 +75,12 @@ export default async function ContactDashboardPage({
                         <span>{item.title}</span>
                       </div>
                     </td>
-                    <td className="w-full">
-                      <div className="p-4 text-nowrap text-ellipsis overflow-hidden">
-                        <Link href={item.address} target="blank">
-                          <code className="bg-gray-800 px-4 py-1 rounded">{item.address}</code>
+                    <td>
+                      <div className="w-96 p-4 text-nowrap text-ellipsis">
+                        <Link href={item.address} target="blank" className="bg-pink-500">
+                          <code className="block w-full bg-gray-800 px-4 py-1 rounded text-ellipsis overflow-hidden">
+                            {item.address}
+                          </code>
                         </Link>
                       </div>
                     </td>

@@ -1,63 +1,65 @@
 # Robotics & IoT - HCMUS
 
-> This app is made with ❤️ by Robotics & IoT HCMUS
+> This app is made with 🩵 by Robotics & IoT HCMUS
 
 ## How to run
 
-To clone and run this application, you'll need `Git` and `Node.js` (which comes with `npm`) .
-
-1. Clone this repository
+🍓 Clone this repository
 
 ```sh
 git clone https://github.com/thiennbao/robotics-hcmus.git
 ```
 
-2. Go into the repository, create a `.env` file with the format provided in the `.env.example` file and fill in your environment variables
+🍊 Go into the repository, create a file named `.env`
 
-3. Install dependencies
+```xml
+# Next app
+BASE_URL=<domain_url>
+POSTGRES_PRISMA_URL=<prisma_url>
+JWT_KEY=<jwt_key>
+
+# Firebase storage
+FIREBASE_API_KEY=<firebase_config>
+FIREBASE_AUTH_DOMAIN=<firebase_config>
+FIREBASE_PROJECT_ID=<firebase_config>
+FIREBASE_STORAGE_BUCKET=<firebase_config>
+FIREBASE_MESSAGING_SENDER_ID=<firebase_config>
+FIREBASE_APP_ID=<firebase_config>
+```
+
+- `domain_url`: the url of domain for hosting this app, should use `http://localhost:3000` for local.
+- `prisma_url`: postgres connect string.
+- `jwt_key`: can be any string, the more complex, the better.
+- `firebase_config`: see https://firebase.google.com/docs/web/setup for more information.
+
+🍋 Install dependencies
 
 ```sh
 npm install
 ```
 
-4. Initialize prisma
+🥑 Initialize prisma and seed data
 
 ```sh
 npx prisma db push
 ```
 
-5. Seed data
-
 ```sh
 node prisma/seed.mjs
 ```
 
-6. Start the app
+🍇 Start the app
 
 ```sh
 npm run dev
 ```
 
-7. All done, your app is running at
+🍑 All done, your app is running at
 
 ```sh
 http://localhost:3000
 ```
 
-## Deploy with Docker
+## Run with Docker
 
-To deploy this app with docker,
-
-1. Create a `.env.production` file with the format provided in the `.env.production.example` file and fill in your environment variables
-
-2. Compose Docker container
-
-```sh
-docker compose up -d
-```
-
-3. All done, your app is running at
-
-```sh
-http://localhost:3000
-```
+🐳 To run this app with docker, see https://hub.docker.com/r/thiennbao/robotics-hcmus for more construction.

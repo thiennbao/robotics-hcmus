@@ -83,6 +83,9 @@ export default async function RegisterDashboardPage({
                   <div className="w-48">Số điện thoại</div>
                 </th>
                 <th>
+                  <div className="w-48">Khung giờ</div>
+                </th>
+                <th>
                   <div className="w-24">Hành động</div>
                 </th>
               </tr>
@@ -125,6 +128,9 @@ export default async function RegisterDashboardPage({
                     </td>
                     <td>
                       <div className="w-48 p-4 text-nowrap text-ellipsis overflow-hidden">{item.phone}</div>
+                    </td>
+                    <td>
+                      <div className="w-48 p-4 text-nowrap text-ellipsis overflow-hidden">{item.time}</div>
                     </td>
                     <td>
                       <div className="w-24 p-4 flex gap-4">

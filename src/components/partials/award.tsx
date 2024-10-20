@@ -28,7 +28,7 @@ const Award = (props: HTMLAttributes<HTMLDivElement>) => {
                 alt={item.title}
                 width={800}
                 height={450}
-                className="h-full w-full aspect-video object-cover brightness-50 rounded-md"
+                className="h-full w-full aspect-video object-cover rounded-md"
               />
               <p className="text-center p-2 w-3/4 m-auto italic text-sm">{item.title}</p>
             </div>

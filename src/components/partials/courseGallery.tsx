@@ -15,7 +15,7 @@ const courseGallery = ({ gallery, ...props }: { gallery: string[] } & HTMLAttrib
                 alt={image}
                 width={1600}
                 height={900}
-                className="h-full w-full aspect-video object-cover brightness-50 rounded-md"
+                className="h-full w-full aspect-video object-cover rounded-md"
               />
             </div>
           ))}

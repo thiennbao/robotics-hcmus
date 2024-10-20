@@ -19,11 +19,6 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-ARG BASE_URL
-ENV BASE_URL=$BASE_URL
-ARG DATABASE_URL
-ENV POSTGRES_PRISMA_URL=$DATABASE_URL
-
 RUN npx prisma generate
 RUN npm run build
 
@@ -33,10 +28,6 @@ FROM base AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production
-ARG BASE_URL
-ENV BASE_URL=$BASE_URL
-ARG DATABASE_URL
-ENV POSTGRES_PRISMA_URL=$DATABASE_URL
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
