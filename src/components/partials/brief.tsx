@@ -14,12 +14,11 @@ const Brief = (props: HTMLAttributes<HTMLDivElement>) => {
             </h2>
             <Appear variant="right">
               <p className="mt-4">
-                Câu lạc bộ &#40;CLB&#41; Robotics & IoT, được thành lập vào tháng 7/2015, trực thuộc sự quản lý của
-                phòng thí nghiệm trí tuệ nhân tạo &#40;AILAB&#41; - Trường Đại học Khoa học Tự nhiên - ĐHQG TPHCM. CLB
-                ra đời với mục tiêu tạo nên một không gian học thuật và nghiên cứu năng động, nơi các bạn sinh viên và
-                học sinh có thể tiếp cận, tìm hiểu về lĩnh vực công nghệ đang phát triển mạnh mẽ là Robotics và Internet
-                of Things &#40;IoT&#41; và sứ mệnh truyền cảm hứng, thúc đẩy tinh thần đổi mới sáng tạo trong lĩnh vực
-                Robot và IoT.
+                Câu lạc bộ (CLB) Robotics & IoT, được thành lập vào tháng 7/2015, trực thuộc sự quản lý của phòng thí
+                nghiệm trí tuệ nhân tạo (AILAB) - Trường Đại học Khoa học Tự nhiên - ĐHQG TPHCM. CLB ra đời với mục tiêu
+                tạo nên một không gian học thuật và nghiên cứu năng động, nơi các bạn sinh viên và học sinh có thể tiếp
+                cận, tìm hiểu về lĩnh vực công nghệ đang phát triển mạnh mẽ là Robotics và Internet of Things (IoT) và
+                sứ mệnh truyền cảm hứng, thúc đẩy tinh thần đổi mới sáng tạo trong lĩnh vực Robot và IoT.
               </p>
             </Appear>
             <Appear variant="right">
@@ -46,7 +45,7 @@ const Brief = (props: HTMLAttributes<HTMLDivElement>) => {
               alt="Robotics & IoT HCMUS"
               width={900}
               height={900}
-              className="w-auto h-full aspect-video lg:aspect-square object-cover rounded-lg"
+              className="w-auto h-full aspect-video object-cover rounded-lg"
             />
           </Appear>
         </div>

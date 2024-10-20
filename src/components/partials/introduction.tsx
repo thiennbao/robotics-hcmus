@@ -77,8 +77,8 @@ const Introduction = (props: HTMLAttributes<HTMLDivElement>) => {
             <Appear variant="left">
               <p className="mt-4">
                 Năm 2024, nhằm lan tỏa niềm đam mê công nghệ, sáng tạo Robot đến các bạn học sinh trên khắp mọi miền đất
-                nước, CLB Robotics & IoT lần đầu tiên tổ chức chương trình &qout;Ngày hội kết nối công nghệ - Lắp ráp và
-                lập trình xe điều khiển&qout; với sự tài trợ của Trung tâm Hoa Kỳ thuộc Tổng lãnh sự quán Hoa Kỳ TP.HCM.
+                nước, CLB Robotics & IoT lần đầu tiên tổ chức chương trình &quot;Ngày hội kết nối công nghệ - Lắp ráp và
+                lập trình xe điều khiển&quot; với sự tài trợ của Trung tâm Hoa Kỳ thuộc Tổng lãnh sự quán Hoa Kỳ TP.HCM.
               </p>
             </Appear>
           </div>

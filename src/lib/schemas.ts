@@ -13,6 +13,7 @@ export const contactSchema: { [key in keyof Contact]: Validation } = {
 export const bannerSchema: { [key in keyof Banner]: Validation } = {
   name: { required: { message: "Vui lòng nhập vào trường này" } },
   image: { required: { message: "Vui lòng tải lên một hình ảnh" } },
+  address: { required: { message: "Vui lòng nhập vào trường này" } },
   order: {
     type: { value: "number", message: "Vui lòng nhập vào một chữ số" },
     minValue: { value: 1, message: "Vui lòng nhập vào một chữ số lớn hơn 0" },

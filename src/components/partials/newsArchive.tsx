@@ -23,16 +23,11 @@ const NewsArchive = async ({
   return (
     <section {...props}>
       <div className="container">
-        <div>
-          <h2 className="text-center text-3xl font-bold before:content-['DANH_SÁCH'] before:block before:text-primary before:text-[0.6em] before:font-normal">
-            TIN TỨC
-          </h2>
-          <div className="lg:w-3/4 xl:w-1/2 mx-auto mt-12 mb-16">
-            <SearchBar
-              paramKey="search"
-              className="w-full h-12 px-4 outline-none bg-gray-100 border rounded-lg transition focus:border-primary"
-            />
-          </div>
+        <div className="lg:w-3/4 xl:w-1/2 mx-auto mt-12 mb-16">
+          <SearchBar
+            paramKey="search"
+            className="w-full h-12 px-4 outline-none bg-gray-100 border rounded-lg transition focus:border-primary"
+          />
         </div>
         <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-8">
           {news.map((item, index) => (

@@ -4,14 +4,11 @@ import { BsQuestionCircle } from "react-icons/bs";
 
 const Question = ({ question, answer }: { question: string; answer: string }) => {
   return (
-    <div className="bg-gray-100 p-6 flex items-center rounded-lg">
-      <div className="mr-6">
-        <BsQuestionCircle className="text-2xl text-primary" />
+    <div className="bg-gray-100 p-6 rounded-lg">
+      <div className="flex items-center gap-x-2 mb-2">
+        <BsQuestionCircle className="text-2xl text-primary" /> <p className="text-xl font-bold">{question}</p>
       </div>
-      <div>
-        <p className="text-xl font-bold mb-2">{question}</p>
-        <p>{answer}</p>
-      </div>
+      <p>{answer}</p>
     </div>
   );
 };
@@ -20,9 +17,7 @@ const Faq = (props: HTMLAttributes<HTMLDivElement>) => {
   return (
     <section {...props}>
       <div className="container">
-        <h2 className="mb-6 text-center text-3xl font-bold before:content-['FAQ'] before:block before:text-primary before:text-[0.6em] before:font-normal">
-          Câu hỏi thường gặp
-        </h2>
+        <h2 className="mb-6 text-center text-primary text-3xl font-bold">CÂU HỎI THƯỜNG GẶP</h2>
         <div className="grid lg:grid-cols-2 gap-8 overflow-hidden *:flex">
           <Appear variant="right">
             <Question

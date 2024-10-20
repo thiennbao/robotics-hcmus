@@ -34,7 +34,9 @@ const Header = () => {
         isOnTop ? "h-32" : "h-20 shadow-[gray_0_0_2px] bg-gray-50"
       )}
     >
-      <div className={clsx("h-full container flex items-center justify-between", isOnTop && "opacity-90 text-white")}>
+      <div
+        className={clsx("h-full container flex items-center justify-between", isOnTop && "opacity-90 text-gray-300")}
+      >
         <div className="max-w-48">
           <Link href="/">
             <Image
@@ -51,8 +53,9 @@ const Header = () => {
             <div
               key={item.title}
               className={clsx(
-                "px-2 py-1 relative after:absolute after:left-0 after:bottom-0 after:bg-primary after:h-[2px] after:w-0 hover:after:w-full after:transition-all *:py-4",
-                `/${page}` === item.address && "text-primary"
+                "px-2 py-1 relative after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-0 hover:after:w-full after:transition-all *:py-4",
+                `/${page}` === item.address && (isOnTop ? "text-white" : "text-primary"),
+                isOnTop ? "after:bg-gray-300" : "after:bg-primary"
               )}
             >
               <Link href={item.address}>{item.title}</Link>

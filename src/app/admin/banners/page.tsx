@@ -10,6 +10,7 @@ import Image from "next/image";
 import { Suspense } from "react";
 import db from "@/lib/db";
 import { bannerDeleteAction } from "@/lib/actions";
+import Link from "next/link";
 
 export default async function BannerDashboardPage({
   searchParams,
@@ -50,11 +51,14 @@ export default async function BannerDashboardPage({
                 <th>
                   <div className="w-32">Thứ tự</div>
                 </th>
-                <th className="w-64">
+                <th className="w-48">
                   <div>Tên</div>
                 </th>
-                <th className="w-64">
+                <th className="w-48">
                   <div>Banner</div>
+                </th>
+                <th className="w-96">
+                  <div>Địa chỉ</div>
                 </th>
                 <th>
                   <div className="w-24">Hành động</div>
@@ -71,12 +75,12 @@ export default async function BannerDashboardPage({
                       </div>
                     </td>
                     <td>
-                      <div className="w-64 p-4 text-nowrap text-ellipsis overflow-hidden">
+                      <div className="w-48 p-4 text-nowrap text-ellipsis overflow-hidden">
                         <span>{item.name}</span>
                       </div>
                     </td>
                     <td>
-                      <div className="w-64 p-4 overflow-hidden">
+                      <div className="w-48 p-4 overflow-hidden">
                         <Image
                           src={item.image}
                           alt={item.name}
@@ -84,6 +88,13 @@ export default async function BannerDashboardPage({
                           height={90}
                           className="w-16 h-9 rounded-md object-cover"
                         />
+                      </div>
+                    </td>
+                    <td>
+                      <div className="w-96 p-4 text-nowrap text-ellipsis overflow-hidden">
+                        <Link href={item.address} target="blank">
+                          <code className="bg-gray-800 px-4 py-1 rounded">{item.address}</code>
+                        </Link>
                       </div>
                     </td>
                     <td>

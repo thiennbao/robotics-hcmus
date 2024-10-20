@@ -44,6 +44,14 @@ const BannerEditor = ({ data }: { data?: Banner }) => {
         setData={setData}
       />
       <InputField
+        label="Địa chỉ"
+        name="address"
+        validation={bannerSchema.address}
+        submitErr={submitErr?.address}
+        data={data?.address || ""}
+        setData={setData}
+      />
+      <InputField
         label="Thứ tự"
         name="order"
         validation={bannerSchema.order}
