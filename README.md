@@ -10,7 +10,13 @@
 git clone https://github.com/thiennbao/robotics-hcmus.git
 ```
 
-🍊 Go into the repository, create a file named `.env`
+🍊 Go into the repository and install dependencies
+
+```sh
+npm install
+```
+
+🍋 Create a file named `.env`
 
 ```xml
 # Next app
@@ -32,20 +38,14 @@ FIREBASE_APP_ID=<firebase_config>
 - `jwt_key`: can be any string, the more complex, the better.
 - `firebase_config`: see https://firebase.google.com/docs/web/setup for more information.
 
-🍋 Install dependencies
-
-```sh
-npm install
-```
-
 🥑 Initialize prisma and seed data
 
 ```sh
-npx prisma db push
+npm run prisma:push
 ```
 
 ```sh
-node prisma/seed.mjs
+npm run prisma:seed
 ```
 
 🍇 Start the app
@@ -62,4 +62,4 @@ http://localhost:3000
 
 ## Run with Docker
 
-🐳 To run this app with docker, see https://hub.docker.com/r/thiennbao/robotics-hcmus for more construction.
+🐳 To run this app with docker, see https://hub.docker.com/r/thiennbao/robotics-hcmus for more instruction.

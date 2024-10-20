@@ -1,4 +1,12 @@
 services:
+  database:
+    container_name: database
+    image: postgres:16.3-alpine
+    restart: always
+    env_file:
+      - .env.production
+    volumes:
+      - data:/var/lib/postgresql/data
   next-app:
     container_name: next-app
     build:
@@ -6,25 +14,17 @@ services:
     restart: unless-stopped
     env_file:
       - .env.production
-    ports:
-      - 3000:3000
     depends_on:
       - database
-    networks:
-      - main
-  database:
-    container_name: database
-    image: postgres:16.3-alpine
-    restart: always
-    env_file:
-      - .env.production
-    ports:
-      - 5432:5432
-    networks:
-      - main
+  nginx:
+    container_name: nginx
+    image: nginx:alpine
+    restart: unless-stopped
     volumes:
-      - data:/var/lib/postgresql/data
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - next-app
+    ports:
+      - 80:80
 volumes:
   data:
-networks:
-  main:

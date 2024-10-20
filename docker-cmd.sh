@@ -1,1 +1,1 @@
-npx prisma db push --skip-generate; node prisma/seed.mjs; node server.js;
+npm run prisma:push -- --skip-generate; npm run prisma:seed; node server.js;
