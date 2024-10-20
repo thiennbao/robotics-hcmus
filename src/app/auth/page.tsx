@@ -11,7 +11,7 @@ export default function AuthPage() {
   return (
     <main className="h-screen bg-gray-900 flex justify-center items-center">
       <div className="text-gray-400 p-4 overflow-hidden">
-        <Image src="/logo-primary.png" alt="Robotics and IoT HCMUS" width={200} height={125} className="m-auto" />
+        <Image src="/logo-primary.png" alt="Robotics and IoT HCMUS" width={800} height={200} className="w-52 h-auto m-auto" />
         <div className="text-center mt-12 mb-8">
           <p>Chào mừng quay trở lại</p>
           <p>Xin vui lòng đăng nhập vào hệ thống</p>
