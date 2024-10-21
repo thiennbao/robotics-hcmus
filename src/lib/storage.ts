@@ -34,3 +34,13 @@ export const deleteFile = async (url: string) => {
   const deleteRef = ref(storage, url);
   deleteObject(deleteRef);
 };
+
+export const getFile = async (fileName: string) => {
+  try {
+    const fileRef = ref(storage, fileName);
+    const downloadURL = await getDownloadURL(fileRef);
+    return downloadURL;
+  } catch {
+    return "";
+  }
+};

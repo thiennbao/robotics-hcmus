@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 export default function CoursesPage({ searchParams }: { searchParams: { search: string } }) {
   return (
     <main>
-      <PageWall title="KHÓA HỌC" image="/wallpaper-courses.png" />
+      <PageWall title="KHÓA HỌC" image="static/wallpaper-courses.png" />
       <CourseArchive search={searchParams.search} className="my-16 lg:my-20" />
     </main>
   );

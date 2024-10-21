@@ -27,7 +27,7 @@ const ContactForm = () => {
   }, [state]);
 
   return (
-    <section className="min-h-screen py-4 flex justify-center items-center bg-[linear-gradient(rgba(0,0,0,0.8),rgba(0,0,0,0.8)),url(/contact-form.png)] bg-center bg-cover">
+    <section className="min-h-screen py-4 flex justify-center items-center bg-[linear-gradient(rgba(0,0,0,0.76),rgba(0,0,0,0.76)),url(/form-background.png)] bg-center bg-cover">
       <div className="w-full md:w-3/4 lg:w-1/2 p-8 md:p-12 mx-8 backdrop-blur-sm shadow-[white_0_0_0.75px] text-light rounded-lg">
         <h2 className="text-center mb-4 text-3xl font-bold">LIÊN HỆ CHÚNG TÔI</h2>
         <form action={dispatch} ref={formRef} className="grid grid-cols-2 gap-4">
@@ -37,9 +37,9 @@ const ContactForm = () => {
             </label>
             <input
               name="name"
-              placeholder="Trần Nguyễn Phúc Khang"
+              placeholder="Nguyễn Văn A"
               className={clsx(
-                "w-full p-4 transition bg-transparent outline-none border-2 focus:border-primary shadow-[white_0_0_0.75px] rounded",
+                "w-full p-4 transition bg-transparent outline-none border-2 focus:border-gray-300 shadow-[white_0_0_0.75px] rounded",
                 submitErr?.name ? "border-red-500" : "border-transparent"
               )}
               onChange={() => setSubmitErr(submitErr && { ...submitErr, name: "" })}
@@ -52,9 +52,9 @@ const ContactForm = () => {
             </label>
             <input
               name="email"
-              placeholder="jiji@example.com"
+              placeholder="a@example.com"
               className={clsx(
-                "w-full p-4 transition bg-transparent outline-none border-2 focus:border-primary shadow-[white_0_0_0.75px] rounded",
+                "w-full p-4 transition bg-transparent outline-none border-2 focus:border-gray-300 shadow-[white_0_0_0.75px] rounded",
                 submitErr?.email ? "border-red-500" : "border-transparent"
               )}
               onChange={() => setSubmitErr(submitErr && { ...submitErr, email: "" })}
@@ -69,7 +69,7 @@ const ContactForm = () => {
               name="phone"
               placeholder="0123456789"
               className={clsx(
-                "w-full p-4 transition bg-transparent outline-none border-2 focus:border-primary shadow-[white_0_0_0.75px] rounded",
+                "w-full p-4 transition bg-transparent outline-none border-2 focus:border-gray-300 shadow-[white_0_0_0.75px] rounded",
                 submitErr?.phone ? "border-red-500" : "border-transparent"
               )}
               onChange={() => setSubmitErr(submitErr && { ...submitErr, phone: "" })}
@@ -84,14 +84,14 @@ const ContactForm = () => {
               name="message"
               placeholder="..."
               className={clsx(
-                "w-full h-32 resize-none p-4 transition bg-transparent outline-none border-2 focus:border-primary shadow-[white_0_0_0.75px] rounded",
+                "w-full h-32 resize-none p-4 transition bg-transparent outline-none border-2 focus:border-gray-300 shadow-[white_0_0_0.75px] rounded",
                 submitErr?.message ? "border-red-500" : "border-transparent"
               )}
               onChange={() => setSubmitErr(submitErr && { ...submitErr, message: "" })}
             />
             <p className="text-red-500 text-sm">{submitErr?.message}</p>
           </div>
-          <button className="col-span-2 border-2 border-primary text-primary hover:text-white hover:bg-primary p-4 transition bg-transparent outline-none rounded">
+          <button className="col-span-2 border-2 border-gray-300 text-gray-300 hover:text-black hover:bg-gray-300 p-4 transition bg-transparent outline-none rounded">
             GỬI
           </button>
         </form>

@@ -32,7 +32,7 @@ const CourseRegister = ({ course }: { course: Course }) => {
   };
 
   return (
-    <section className="h-screen flex justify-center items-center bg-[linear-gradient(rgba(0,0,0,0.8),rgba(0,0,0,0.8)),url(/register-form.png)] bg-center bg-cover">
+    <section className="h-screen flex justify-center items-center bg-[linear-gradient(rgba(0,0,0,0.76),rgba(0,0,0,0.76)),url(/form-background.png)] bg-center bg-cover">
       <div className="w-full md:w-3/4 lg:w-1/2 p-8 mx-8 backdrop-blur-sm shadow-[white_0_0_0.75px] rounded-lg text-light">
         <h2 className="text-center mb-8 text-3xl font-bold">ĐĂNG KÝ KHÓA HỌC NÀY</h2>
         <form action={preDispatch} ref={formRef} className="grid grid-cols-2 gap-4">
@@ -42,9 +42,9 @@ const CourseRegister = ({ course }: { course: Course }) => {
             </label>
             <input
               name="name"
-              placeholder="Trần Nguyễn Phúc Khang"
+              placeholder="Nguyễn Văn A"
               className={clsx(
-                "w-full p-4 transition bg-transparent outline-none border-2 focus:border-primary shadow-[white_0_0_0.75px] rounded",
+                "w-full p-4 transition bg-transparent outline-none border-2 focus:border-gray-300 shadow-[white_0_0_0.75px] rounded",
                 submitErr?.name ? "border-red-500" : "border-transparent"
               )}
               onChange={() => setSubmitErr(submitErr && { ...submitErr, name: "" })}
@@ -57,9 +57,9 @@ const CourseRegister = ({ course }: { course: Course }) => {
             </label>
             <input
               name="parentName"
-              placeholder="Nguyễn Thiên Bảo"
+              placeholder="Nguyễn Thị B"
               className={clsx(
-                "w-full p-4 transition bg-transparent outline-none border-2 focus:border-primary shadow-[white_0_0_0.75px] rounded",
+                "w-full p-4 transition bg-transparent outline-none border-2 focus:border-gray-300 shadow-[white_0_0_0.75px] rounded",
                 submitErr?.parentName ? "border-red-500" : "border-transparent"
               )}
               onChange={() => setSubmitErr(submitErr && { ...submitErr, parentName: "" })}
@@ -74,7 +74,7 @@ const CourseRegister = ({ course }: { course: Course }) => {
               name="dob"
               type="date"
               className={clsx(
-                "w-full p-4 transition bg-transparent outline-none border-2 focus:border-primary shadow-[white_0_0_0.75px] rounded",
+                "w-full p-4 transition bg-transparent outline-none border-2 focus:border-gray-300 shadow-[white_0_0_0.75px] rounded",
                 submitErr?.dob ? "border-red-500" : "border-transparent"
               )}
               onChange={() => setSubmitErr(submitErr && { ...submitErr, dob: "" })}
@@ -87,9 +87,9 @@ const CourseRegister = ({ course }: { course: Course }) => {
             </label>
             <input
               name="email"
-              placeholder="jiji@example.com"
+              placeholder="a@example.com"
               className={clsx(
-                "w-full p-4 transition bg-transparent outline-none border-2 focus:border-primary shadow-[white_0_0_0.75px] rounded",
+                "w-full p-4 transition bg-transparent outline-none border-2 focus:border-gray-300 shadow-[white_0_0_0.75px] rounded",
                 submitErr?.email ? "border-red-500" : "border-transparent"
               )}
               onChange={() => setSubmitErr(submitErr && { ...submitErr, email: "" })}
@@ -104,7 +104,7 @@ const CourseRegister = ({ course }: { course: Course }) => {
               name="phone"
               placeholder="0123456789"
               className={clsx(
-                "w-full p-4 transition bg-transparent outline-none border-2 focus:border-primary shadow-[white_0_0_0.75px] rounded",
+                "w-full p-4 transition bg-transparent outline-none border-2 focus:border-gray-300 shadow-[white_0_0_0.75px] rounded",
                 submitErr?.phone ? "border-red-500" : "border-transparent"
               )}
               onChange={() => setSubmitErr(submitErr && { ...submitErr, phone: "" })}
@@ -118,7 +118,7 @@ const CourseRegister = ({ course }: { course: Course }) => {
             <select
               name="time"
               className={clsx(
-                "w-full p-4 transition bg-transparent outline-none border-2 focus:border-primary shadow-[white_0_0_0.75px] rounded *:text-black",
+                "w-full p-4 transition bg-transparent outline-none border-2 focus:border-gray-300 shadow-[white_0_0_0.75px] rounded *:text-black",
                 submitErr?.time ? "border-red-500" : "border-transparent"
               )}
             >
@@ -128,7 +128,7 @@ const CourseRegister = ({ course }: { course: Course }) => {
             </select>
             <p className="text-red-500 mt-1 text-sm">{submitErr?.time}</p>
           </div>
-          <button className="col-span-2 border-2 border-primary text-primary hover:text-white hover:bg-primary p-4 transition bg-transparent outline-none rounded">
+          <button className="col-span-2 border-2 border-gray-300 text-gray-300 hover:text-black hover:bg-gray-300 p-4 transition bg-transparent outline-none rounded">
             ĐĂNG KÝ
           </button>
         </form>

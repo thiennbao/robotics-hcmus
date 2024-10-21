@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 export default function NewsPage({ searchParams }: { searchParams: { search: string; take: string } }) {
   return (
     <main>
-      <PageWall title="TIN TỨC" image="/wallpaper-news.png" />
+      <PageWall title="TIN TỨC" image="static/wallpaper-news.png" />
       <NewsArchive searchParams={searchParams} className="my-16 lg:my-20" />
     </main>
   );

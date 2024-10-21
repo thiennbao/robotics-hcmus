@@ -1,9 +1,9 @@
 import { HTMLAttributes } from "react";
 import Appear from "../utils/appear";
-import Image from "next/image";
 import Link from "next/link";
+import FirebaseImage from "../utils/firebaseImage";
 
-const Brief = (props: HTMLAttributes<HTMLDivElement>) => {
+const Brief = async (props: HTMLAttributes<HTMLDivElement>) => {
   return (
     <section {...props}>
       <div className="container flex flex-wrap justify-between gap-y-8">
@@ -40,8 +40,8 @@ const Brief = (props: HTMLAttributes<HTMLDivElement>) => {
         </div>
         <div className="lg:w-5/12 overflow-hidden">
           <Appear variant="left" className="h-full">
-            <Image
-              src="/home-brief.png"
+            <FirebaseImage
+              fileName="static/intro-top.png"
               alt="Robotics & IoT HCMUS"
               width={900}
               height={900}

@@ -1,4 +1,4 @@
-import Award from "@/components/partials/award";
+import Activity from "@/components/partials/activity";
 import Introduction from "@/components/partials/introduction";
 import PageWall from "@/components/utils/pageWall";
 import { Metadata } from "next";
@@ -19,9 +19,9 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <main className="-mt-16 *:my-16 lg:-mt-20 lg:*:my-20">
-      <PageWall title="GIỚI THIỆU" image="/wallpaper-about.png" />
+      <PageWall title="GIỚI THIỆU" image="static/wallpaper-about.png" />
       <Introduction />
-      <Award />
+      <Activity />
     </main>
   );
 }

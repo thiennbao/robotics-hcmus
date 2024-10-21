@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <main>
-      <PageWall title="LIÊN HỆ" image="/wallpaper-contact.png" />
+      <PageWall title="LIÊN HỆ" image="static/wallpaper-contact.png" />
       <ContactInfo className="py-16 lg:py-20" />
       <ContactForm />
       <Faq className="my-16 lg:my-20" />

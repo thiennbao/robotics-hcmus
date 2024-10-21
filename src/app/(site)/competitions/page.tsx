@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 export default function CompetitionsPage() {
   return (
     <main>
-      <PageWall title="CUỘC THI" image="/wallpaper-competitions.png" />
+      <PageWall title="CUỘC THI" image="static/wallpaper-competitions.png" />
       <Competitions className="my-16 lg:my-20" />
     </main>
   );

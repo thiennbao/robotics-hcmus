@@ -1,12 +1,12 @@
 import { HTMLAttributes } from "react";
 import Appear from "../utils/appear";
-import Image from "next/image";
+import FirebaseImage from "../utils/firebaseImage";
 
-const Introduction = (props: HTMLAttributes<HTMLDivElement>) => {
+const Introduction = async (props: HTMLAttributes<HTMLDivElement>) => {
   return (
     <section {...props}>
       <div className="container">
-        <div className="grid lg:grid-cols-2 gap-x-16 gap-y-8">
+        <div className="grid xl:grid-cols-2 gap-x-16 gap-y-8">
           <div className="overflow-hidden order-1">
             <Appear variant="right">
               <p className="mt-4">
@@ -37,8 +37,8 @@ const Introduction = (props: HTMLAttributes<HTMLDivElement>) => {
           </div>
           <div className="overflow-hidden order-2">
             <Appear variant="left" className="h-full">
-              <Image
-                src="/about-intro-top.png"
+              <FirebaseImage
+                fileName="static/intro-top.png"
                 alt="Robotics & IoT HCMUS"
                 width={900}
                 height={900}
@@ -46,10 +46,10 @@ const Introduction = (props: HTMLAttributes<HTMLDivElement>) => {
               />
             </Appear>
           </div>
-          <div className="overflow-hidden order-4 lg:order-3">
+          <div className="overflow-hidden order-4 xl:order-3">
             <Appear variant="right" className="h-full">
-              <Image
-                src="/about-intro-bot.png"
+              <FirebaseImage
+                fileName="static/intro-bot.png"
                 alt="Robotics & IoT HCMUS"
                 width={900}
                 height={900}
@@ -57,7 +57,7 @@ const Introduction = (props: HTMLAttributes<HTMLDivElement>) => {
               />
             </Appear>
           </div>
-          <div className="overflow-hidden order-3 lg:order-4">
+          <div className="overflow-hidden order-3 xl:order-4">
             <Appear variant="left">
               <p className="mt-4">
                 Từ năm 2023, với mong muốn tạo ra một sân chơi sáng tạo về Robot dành cho các bạn học sinh, CLB Robotics

@@ -53,8 +53,8 @@ export default async function ContactDashboardPage({
                 <th>
                   <div className="w-96">Tiêu đề</div>
                 </th>
-                <th className="w-96">
-                  <div>Địa chỉ</div>
+                <th>
+                  <div className="w-96">Địa chỉ</div>
                 </th>
                 <th>
                   <div className="w-24">Hành động</div>
