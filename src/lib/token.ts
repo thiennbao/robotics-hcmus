@@ -8,12 +8,7 @@ export const signToken = async (data: { username: string; role: string }) => {
     .setExpirationTime("7d")
     .sign(new TextEncoder().encode(process.env.JWT_KEY));
   // Set cookie
-  cookies().set("token", token, {
-    maxAge: 60 * 60 * 24 * 7, // 1 week
-    httpOnly: true,
-    sameSite: "strict",
-    secure: process.env.NODE_ENV === "production",
-  });
+  cookies().set("token", token);
 };
 
 export const verifyToken = async () => {
