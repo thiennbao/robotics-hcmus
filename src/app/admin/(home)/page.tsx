@@ -4,7 +4,7 @@ import { verifyToken } from "@/lib/token";
 import { BsFire, BsPeopleFill, BsWechat } from "react-icons/bs";
 import { FaBook, FaNewspaper } from "react-icons/fa";
 import { IoIosImages } from "react-icons/io";
-import { PiPhoneCallFill } from "react-icons/pi";
+import { PiPhoneCallFill, PiSealQuestionFill } from "react-icons/pi";
 import { RiQuillPenFill } from "react-icons/ri";
 
 export default async function AdminPage() {
@@ -18,14 +18,14 @@ export default async function AdminPage() {
         <div className="bg-gray-700 rounded-xl p-6">
           <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-4">
             <Statistic
-              model="Contact"
-              icon={<PiPhoneCallFill className="inline align-middle text-xl" />}
-              data={await db.contact.findMany()}
-            />
-            <Statistic
               model="Banner"
               icon={<IoIosImages className="inline align-middle text-xl" />}
               data={await db.banner.findMany()}
+            />
+            <Statistic
+              model="Activity"
+              icon={<BsFire className="inline align-middle text-xl" />}
+              data={await db.activity.findMany()}
             />
             <Statistic
               model="Course"
@@ -37,10 +37,20 @@ export default async function AdminPage() {
               icon={<FaNewspaper className="inline align-middle text-xl" />}
               data={await db.news.findMany()}
             />
-             <Statistic
+            <Statistic
               model="Competition"
               icon={<BsFire className="inline align-middle text-xl" />}
               data={await db.competition.findMany()}
+            />
+            <Statistic
+              model="Contact"
+              icon={<PiPhoneCallFill className="inline align-middle text-xl" />}
+              data={await db.contact.findMany()}
+            />
+            <Statistic
+              model="Faq"
+              icon={<PiSealQuestionFill className="inline align-middle text-xl" />}
+              data={await db.faq.findMany()}
             />
             <Statistic
               model="Message"

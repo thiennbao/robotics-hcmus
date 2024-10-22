@@ -8,8 +8,8 @@ import { useState } from "react";
 import { BsFire, BsPeopleFill, BsWechat } from "react-icons/bs";
 import { CiLogout } from "react-icons/ci";
 import { FaBook, FaGears, FaNewspaper } from "react-icons/fa6";
-import { IoIosImages } from "react-icons/io";
-import { PiPhoneCallFill, PiSquaresFour } from "react-icons/pi";
+import { IoIosImages, IoIosTrophy } from "react-icons/io";
+import { PiPhoneCallFill, PiSealQuestionFill, PiSquaresFour } from "react-icons/pi";
 import { RiQuillPenFill } from "react-icons/ri";
 
 const Sidebar = ({ isRoot, logout }: { isRoot: boolean; logout: () => void }) => {
@@ -18,11 +18,13 @@ const Sidebar = ({ isRoot, logout }: { isRoot: boolean; logout: () => void }) =>
 
   const sideNavs = {
     content: [
-      { title: "Contacts", icon: <PiPhoneCallFill /> },
       { title: "Banners", icon: <IoIosImages /> },
+      { title: "Activities", icon: <BsFire /> },
       { title: "Courses", icon: <FaBook /> },
       { title: "News", icon: <FaNewspaper /> },
-      { title: "Competitions", icon: <BsFire /> },
+      { title: "Competitions", icon: <IoIosTrophy /> },
+      { title: "Contacts", icon: <PiPhoneCallFill /> },
+      { title: "Faqs", icon: <PiSealQuestionFill /> },
     ],
     customer: [
       { title: "Messages", icon: <BsWechat /> },

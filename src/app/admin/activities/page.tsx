@@ -6,27 +6,26 @@ import {
   SearchBar,
   ViewButton,
 } from "@/components/utils/tableUtils";
-import Link from "next/link";
+import Image from "next/image";
 import { Suspense } from "react";
 import db from "@/lib/db";
-import { competitionDeleteAction } from "@/lib/actions";
-import Image from "next/image";
+import { activityDeleteAction } from "@/lib/actions";
 
-export default async function CompetitionDashboardPage({
+export default async function ActivityDashboardPage({
   searchParams,
 }: {
   searchParams: { key: string; page: string; items: string };
 }) {
   const { key, page, items } = searchParams;
 
-  const totalItems = await db.competition.count({
+  const totalItems = await db.activity.count({
     where: { title: { contains: key, mode: "insensitive" } },
   });
   const itemsPerPage = Math.max(Number(items) || 5, 1);
   const totalPages = Math.max(Math.ceil(totalItems / itemsPerPage), 1);
   const currentPage = Math.min(Math.max(Number(page) || 1, 1), totalPages);
 
-  const competitions = await db.competition.findMany({
+  const activities = await db.activity.findMany({
     where: { title: { contains: key, mode: "insensitive" } },
     orderBy: { order: "asc" },
     skip: (currentPage - 1) * itemsPerPage,
@@ -35,7 +34,7 @@ export default async function CompetitionDashboardPage({
 
   return (
     <div className="text-light">
-      <h2 className="text-3xl mb-6">COMPETITION DASHBOARD</h2>
+      <h2 className="text-3xl mb-6">ACTIVITY DASHBOARD</h2>
       <div className="bg-gray-700 rounded-xl p-6">
         <div className="flex justify-end md:justify-between">
           <div className="hidden md:flex justify-between gap-x-8">
@@ -52,13 +51,10 @@ export default async function CompetitionDashboardPage({
                   <div className="w-32">Thứ tự</div>
                 </th>
                 <th>
-                  <div className="w-64">Tiêu đề</div>
+                  <div className="w-48">Tiêu đề</div>
                 </th>
-                <th>
-                  <div className="w-64">Địa chỉ</div>
-                </th>
-                <th>
-                  <div className="w-96">Mô tả</div>
+                <th className="w-full">
+                  <div>Hình ảnh</div>
                 </th>
                 <th>
                   <div className="w-24">Hành động</div>
@@ -67,7 +63,7 @@ export default async function CompetitionDashboardPage({
             </thead>
             <tbody className="divide-y divide-gray-600">
               <Suspense>
-                {competitions.map((item) => (
+                {activities.map((item) => (
                   <tr key={item.title}>
                     <td>
                       <div className="w-32 p-4 text-nowrap text-ellipsis overflow-hidden">
@@ -75,34 +71,25 @@ export default async function CompetitionDashboardPage({
                       </div>
                     </td>
                     <td>
-                      <div className="w-64 p-4 flex items-center gap-4 text-nowrap text-ellipsis overflow-hidden">
-                        <Image
-                          src={item.thumbnail}
-                          alt={item.title}
-                          width={128}
-                          height={128}
-                          priority
-                          className="w-8 h-8 object-cover"
-                        />
+                      <div className="w-48 p-4 text-nowrap text-ellipsis overflow-hidden">
                         <span>{item.title}</span>
                       </div>
                     </td>
-                    <td>
-                      <div className="w-64 p-4 text-nowrap text-ellipsis overflow-hidden">
-                        <Link href={item.address} target="blank">
-                          <code className="bg-gray-800 px-4 py-1 rounded">{item.address}</code>
-                        </Link>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="w-96 p-4 text-nowrap text-ellipsis overflow-hidden">
-                        <span>{item.description}</span>
+                    <td className="w-full">
+                      <div className="p-4 overflow-hidden">
+                        <Image
+                          src={item.image}
+                          alt={item.title}
+                          width={160}
+                          height={90}
+                          className="w-16 h-9 rounded-md object-cover"
+                        />
                       </div>
                     </td>
                     <td>
                       <div className="w-24 p-4 flex gap-4">
                         <ViewButton itemId={item.title} edit />
-                        <DeleteButton itemName={item.title} action={competitionDeleteAction.bind(null, item.title)} />
+                        <DeleteButton itemName={item.title} action={activityDeleteAction.bind(null, item.title)} />
                       </div>
                     </td>
                   </tr>

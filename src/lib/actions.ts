@@ -16,24 +16,26 @@ import {
   registerSchema,
   userSchema,
   changePasswordSchema,
+  activitySchema,
+  faqSchema,
 } from "./schemas";
 import { deleteFile, uploadFile } from "./storage";
 import { v4 as uuid } from "uuid";
 import bcrypt from "bcrypt";
-import { Banner, Contact, Course, Prisma, Role, User } from "@prisma/client";
+import { Prisma, User } from "@prisma/client";
 import { signToken } from "./token";
 
 // Import
 export const importAction = async (model: Prisma.ModelName, data: any) => {
   try {
     data = JSON.parse(data);
-    if (model === "Contact") {
-      for (let item of data) {
-        await db.contact.upsert({ where: { title: item.title }, update: item, create: item });
-      }
-    } else if (model === "Banner") {
+    if (model === "Banner") {
       for (let item of data) {
         await db.banner.upsert({ where: { name: item.name }, update: item, create: item });
+      }
+    } else if (model === "Activity") {
+      for (let item of data) {
+        await db.activity.upsert({ where: { title: item.title }, update: item, create: item });
       }
     } else if (model === "Course") {
       for (let item of data) {
@@ -46,6 +48,14 @@ export const importAction = async (model: Prisma.ModelName, data: any) => {
     } else if (model === "Competition") {
       for (let item of data) {
         await db.competition.upsert({ where: { title: item.title }, update: item, create: item });
+      }
+    } else if (model === "Contact") {
+      for (let item of data) {
+        await db.contact.upsert({ where: { title: item.title }, update: item, create: item });
+      }
+    } else if (model === "Faq") {
+      for (let item of data) {
+        await db.faq.upsert({ where: { question: item.question }, update: item, create: item });
       }
     } else if (model === "Message") {
       for (let item of data) {
@@ -60,47 +70,11 @@ export const importAction = async (model: Prisma.ModelName, data: any) => {
         await db.user.upsert({ where: { username: item.username }, update: item, create: item });
       }
     }
-    revalidatePath(`/admin/${model.toLowerCase()}`);
+    revalidatePath(`/admin`);
     return { message: "success" };
   } catch {
     return { message: "error" };
   }
-};
-
-// Contact
-export const contactSaveAction = async (_prevState: any, formData: FormData) => {
-  const origin = formData.get("origin") as string;
-  const rawData = Object.keys(contactSchema).reduce(
-    (obj, key) => Object.assign(obj, { [key]: formData.get(key) }),
-    {}
-  ) as { [key in keyof typeof contactSchema]: string };
-  const issues = validateAll(rawData, contactSchema);
-  if (issues.length) {
-    return { issues };
-  } else {
-    try {
-      const data = { ...rawData, order: Number(rawData.order) };
-      if (origin) {
-        await db.contact.update({ where: { title: origin }, data });
-      } else {
-        await db.contact.create({ data });
-      }
-      revalidatePath("/admin/contacts");
-      redirect("/admin/contacts");
-    } catch (error) {
-      if (error instanceof PrismaClientKnownRequestError && error.code === "P2002") {
-        // Unique constraint error
-        const issue: Issue = { path: "title", message: "Từ khóa này đã tồn tại" };
-        return { issues: [issue] };
-      } else {
-        throw error;
-      }
-    }
-  }
-};
-export const contactDeleteAction = async (title: string) => {
-  await db.contact.delete({ where: { title } });
-  revalidatePath("/admin/contacts");
 };
 
 // Banner
@@ -150,6 +124,55 @@ export const bannerDeleteAction = async (name: string) => {
   if (oldUrls) await deleteFile(oldUrls.image);
   await db.banner.delete({ where: { name } });
   revalidatePath("/admin/banners");
+};
+
+// Activity
+export const activitySaveAction = async (_prevState: any, formData: FormData) => {
+  const origin = formData.get("origin") as string;
+  const rawData = Object.keys(activitySchema).reduce(
+    (obj, key) => Object.assign(obj, { [key]: formData.get(key) }),
+    {}
+  ) as { [key in keyof typeof activitySchema]: string };
+  const issues = validateAll(rawData, activitySchema);
+  if (issues.length) {
+    return { issues };
+  } else {
+    try {
+      const data = { ...rawData, order: Number(rawData.order) };
+      if (origin) {
+        if (data.image.startsWith("data:")) {
+          const oldUrls = await db.activity.findUnique({
+            where: { title: origin },
+            select: { image: true },
+          });
+          if (oldUrls) {
+            deleteFile(oldUrls.image);
+            data.image = await uploadFile(`activities/${data.title}.jpeg`, data.image);
+          }
+        }
+        await db.activity.update({ where: { title: origin }, data });
+      } else {
+        data.image = await uploadFile(`activities/${data.title}.jpeg`, data.image);
+        await db.activity.create({ data });
+      }
+      revalidatePath("/admin/activities");
+      redirect("/admin/activities");
+    } catch (error) {
+      if (error instanceof PrismaClientKnownRequestError && error.code === "P2002") {
+        // Unique constraint error
+        const issue: Issue = { path: "title", message: "Tên này đã tồn tại" };
+        return { issues: [issue] };
+      } else {
+        throw error;
+      }
+    }
+  }
+};
+export const activityDeleteAction = async (title: string) => {
+  const oldUrls = await db.activity.findUnique({ where: { title }, select: { image: true } });
+  if (oldUrls) await deleteFile(oldUrls.image);
+  await db.activity.delete({ where: { title } });
+  revalidatePath("/admin/activities");
 };
 
 // Course
@@ -318,6 +341,77 @@ export const competitionSaveAction = async (_prevState: any, formData: FormData)
 export const competitionDeleteAction = async (title: string) => {
   await db.competition.delete({ where: { title } });
   revalidatePath("/admin/competitions");
+};
+
+// Contact
+export const contactSaveAction = async (_prevState: any, formData: FormData) => {
+  const origin = formData.get("origin") as string;
+  const rawData = Object.keys(contactSchema).reduce(
+    (obj, key) => Object.assign(obj, { [key]: formData.get(key) }),
+    {}
+  ) as { [key in keyof typeof contactSchema]: string };
+  const issues = validateAll(rawData, contactSchema);
+  if (issues.length) {
+    return { issues };
+  } else {
+    try {
+      const data = { ...rawData, order: Number(rawData.order) };
+      if (origin) {
+        await db.contact.update({ where: { title: origin }, data });
+      } else {
+        await db.contact.create({ data });
+      }
+      revalidatePath("/admin/contacts");
+      redirect("/admin/contacts");
+    } catch (error) {
+      if (error instanceof PrismaClientKnownRequestError && error.code === "P2002") {
+        // Unique constraint error
+        const issue: Issue = { path: "title", message: "Từ khóa này đã tồn tại" };
+        return { issues: [issue] };
+      } else {
+        throw error;
+      }
+    }
+  }
+};
+export const contactDeleteAction = async (title: string) => {
+  await db.contact.delete({ where: { title } });
+  revalidatePath("/admin/contacts");
+};
+
+// Faq
+export const faqSaveAction = async (_prevState: any, formData: FormData) => {
+  const origin = formData.get("origin") as string;
+  const rawData = Object.keys(faqSchema).reduce((obj, key) => Object.assign(obj, { [key]: formData.get(key) }), {}) as {
+    [key in keyof typeof faqSchema]: string;
+  };
+  const issues = validateAll(rawData, faqSchema);
+  if (issues.length) {
+    return { issues };
+  } else {
+    try {
+      const data = { ...rawData, order: Number(rawData.order) };
+      if (origin) {
+        await db.faq.update({ where: { question: origin }, data });
+      } else {
+        await db.faq.create({ data });
+      }
+      revalidatePath("/admin/faqs");
+      redirect("/admin/faqs");
+    } catch (error) {
+      if (error instanceof PrismaClientKnownRequestError && error.code === "P2002") {
+        // Unique constraint error
+        const issue: Issue = { path: "question", message: "Từ khóa này đã tồn tại" };
+        return { issues: [issue] };
+      } else {
+        throw error;
+      }
+    }
+  }
+};
+export const faqDeleteAction = async (question: string) => {
+  await db.faq.delete({ where: { question } });
+  revalidatePath("/admin/faqs");
 };
 
 // Message

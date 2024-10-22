@@ -1,8 +1,9 @@
-import { Banner, Competition, Contact, Course, Message, News, Register, User } from "@prisma/client";
+import { Activity, Banner, Competition, Contact, Course, Faq, Message, News, Register, User } from "@prisma/client";
 import { Validation } from "./validation";
 
-export const contactSchema: { [key in keyof Contact]: Validation } = {
-  title: { required: { message: "Vui lòng nhập vào trường này" } },
+export const bannerSchema: { [key in keyof Banner]: Validation } = {
+  name: { required: { message: "Vui lòng nhập vào trường này" } },
+  image: { required: { message: "Vui lòng tải lên một hình ảnh" } },
   address: { required: { message: "Vui lòng nhập vào trường này" } },
   order: {
     required: { message: "Vui lòng nhập vào trường này" },
@@ -11,10 +12,9 @@ export const contactSchema: { [key in keyof Contact]: Validation } = {
   },
 };
 
-export const bannerSchema: { [key in keyof Banner]: Validation } = {
-  name: { required: { message: "Vui lòng nhập vào trường này" } },
+export const activitySchema: { [key in keyof Activity]: Validation } = {
+  title: { required: { message: "Vui lòng nhập vào trường này" } },
   image: { required: { message: "Vui lòng tải lên một hình ảnh" } },
-  address: { required: { message: "Vui lòng nhập vào trường này" } },
   order: {
     required: { message: "Vui lòng nhập vào trường này" },
     type: { value: "number", message: "Vui lòng nhập vào một chữ số" },
@@ -49,6 +49,26 @@ export const competitionSchema: { [key in keyof Competition]: Validation } = {
   address: { required: { message: "Vui lòng nhập vào trường này" } },
   description: { required: { message: "Vui lòng nhập vào trường này" } },
   thumbnail: { required: { message: "Vui lòng tải lên một hình ảnh" } },
+  order: {
+    required: { message: "Vui lòng nhập vào trường này" },
+    type: { value: "number", message: "Vui lòng nhập vào một chữ số" },
+    minValue: { value: 1, message: "Vui lòng nhập vào một chữ số lớn hơn 0" },
+  },
+};
+
+export const contactSchema: { [key in keyof Contact]: Validation } = {
+  title: { required: { message: "Vui lòng nhập vào trường này" } },
+  address: { required: { message: "Vui lòng nhập vào trường này" } },
+  order: {
+    required: { message: "Vui lòng nhập vào trường này" },
+    type: { value: "number", message: "Vui lòng nhập vào một chữ số" },
+    minValue: { value: 1, message: "Vui lòng nhập vào một chữ số lớn hơn 0" },
+  },
+};
+
+export const faqSchema: { [key in keyof Faq]: Validation } = {
+  question: { required: { message: "Vui lòng nhập vào trường này" } },
+  answer: { required: { message: "Vui lòng nhập vào trường này" } },
   order: {
     required: { message: "Vui lòng nhập vào trường này" },
     type: { value: "number", message: "Vui lòng nhập vào một chữ số" },

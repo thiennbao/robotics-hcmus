@@ -51,14 +51,14 @@ export default async function BannerDashboardPage({
                 <th>
                   <div className="w-32">Thứ tự</div>
                 </th>
-                <th className="w-48">
-                  <div>Tên</div>
+                <th>
+                  <div className="w-48">Tên</div>
                 </th>
-                <th className="w-48">
-                  <div>Banner</div>
+                <th>
+                  <div className="w-48">Banner</div>
                 </th>
-                <th className="w-96">
-                  <div>Địa chỉ</div>
+                <th>
+                  <div className="w-96">Địa chỉ</div>
                 </th>
                 <th>
                   <div className="w-24">Hành động</div>

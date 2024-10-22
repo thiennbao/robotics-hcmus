@@ -12,17 +12,17 @@ enum Role {
     ADMIN
 }
 
-model Contact {
-    title   String @id
-    address String
-    order   Int
-}
-
 model Banner {
     name    String @id
     image   String
     address String
     order   Int
+}
+
+model Activity {
+    title String @id
+    image String
+    order Int
 }
 
 model Course {
@@ -52,6 +52,18 @@ model Competition {
     description String
     thumbnail   String
     order       Int
+}
+
+model Contact {
+    title   String @id
+    address String
+    order   Int
+}
+
+model Faq {
+    question String @id
+    answer   String
+    order    Int
 }
 
 model Message {
