@@ -13,12 +13,18 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
 
   return {
     title: `${course?.name} | Robotics & IoT HCMUS`,
-    description: `${course?.name} tại câu lạc bộ Robotics and IoT (Internet of Things) Trường Đại học Khoa học Tự nhiên - Đại học Quốc gia TP.HCM`,
+    description: `Khóa học ${course?.name} tại câu lạc bộ Robotics and IoT (Internet of Things) Trường Đại học Khoa học Tự nhiên - Đại học Quốc gia TP.HCM`,
     openGraph: {
       title: `${course?.name} | Robotics & IoT HCMUS`,
-      description: `${course?.name} tại câu lạc bộ Robotics and IoT (Internet of Things) Trường Đại học Khoa học Tự nhiên - Đại học Quốc gia TP.HCM`,
+      description: `Khóa học ${course?.name} tại câu lạc bộ Robotics and IoT (Internet of Things) Trường Đại học Khoa học Tự nhiên - Đại học Quốc gia TP.HCM`,
       type: "website",
-      images: [course.thumbnail],
+      images: [course.thumbnail, ...course.gallery],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${course?.name} | Robotics & IoT HCMUS`,
+      description: `${course?.name} tại câu lạc bộ Robotics and IoT (Internet of Things) Trường Đại học Khoa học Tự nhiên - Đại học Quốc gia TP.HCM`,
+      images: [course.thumbnail, ...course.gallery],
     },
   };
 }

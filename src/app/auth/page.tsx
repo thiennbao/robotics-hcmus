@@ -1,11 +1,5 @@
 import AuthForm from "@/components/forms/authForm";
-import { Metadata } from "next";
 import Image from "next/image";
-
-export const metadata: Metadata = {
-  title: "Auth | Robotics & IoT HCMUS",
-  description: "Đăng nhập vào Robotics and IoT HCMUS",
-};
 
 export default function AuthPage() {
   return (

@@ -1,12 +1,6 @@
 import Sidebar from "@/components/layouts/sidebar";
 import { deleteToken, verifyToken } from "@/lib/token";
-import { Metadata } from "next";
 import { redirect } from "next/navigation";
-
-export const metadata: Metadata = {
-  title: "Admin Dashboard | Robotics & IoT HCMUS",
-  description: "Admin dashboard for Robotics and IoT HCMUS",
-};
 
 export default async function AdminLayout({
   children,

@@ -18,6 +18,12 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
       type: "website",
       images: [news.thumbnail],
     },
+    twitter: {
+      card: "summary_large_image",
+      title: `${news?.title} | Robotics & IoT HCMUS`,
+      description: `${news.title} tại câu lạc bộ Robotics and IoT (Internet of Things) Trường Đại học Khoa học Tự nhiên - Đại học Quốc gia TP.HCM`,
+      images: [news.thumbnail],
+    },
   };
 }
 

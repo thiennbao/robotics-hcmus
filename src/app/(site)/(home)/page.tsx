@@ -9,14 +9,21 @@ export async function generateMetadata(): Promise<Metadata> {
   const banners = await db.banner.findMany({ select: { image: true } });
 
   return {
-    title: "Robotics & IoT HCMUS",
+    title: "Trang chủ | Robotics & IoT HCMUS",
     description:
       "Câu lạc bộ Robotics and IoT (Internet of Things) Trường Đại học Khoa học Tự nhiên - Đại học Quốc gia TP.HCM",
     openGraph: {
-      title: "Robotics & IoT HCMUS",
+      title: "Trang chủ | Robotics & IoT HCMUS",
       description:
         "Câu lạc bộ Robotics and IoT (Internet of Things) Trường Đại học Khoa học Tự nhiên - Đại học Quốc gia TP.HCM",
       type: "website",
+      images: [...banners.map((banner) => banner.image)],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "Trang chủ | Robotics & IoT HCMUS",
+      description:
+        "Câu lạc bộ Robotics and IoT (Internet of Things) Trường Đại học Khoa học Tự nhiên - Đại học Quốc gia TP.HCM",
       images: [...banners.map((banner) => banner.image)],
     },
   };
