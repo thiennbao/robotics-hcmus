@@ -7,6 +7,7 @@ const FirebaseImage = async ({
   ...props
 }: { fileName: string; alt: string } & Omit<ImageProps, "src" | "alt">) => {
   const url = await getFile(fileName);
+  if (!url) return null;
   return <Image src={url} alt={alt} {...props} />;
 };
 

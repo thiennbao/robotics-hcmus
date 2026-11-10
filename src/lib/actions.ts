@@ -97,7 +97,7 @@ export const bannerSaveAction = async (_prevState: any, formData: FormData) => {
             select: { image: true },
           });
           if (oldUrls) {
-            deleteFile(oldUrls.image);
+            await deleteFile(oldUrls.image);
             data.image = await uploadFile(`banners/${data.name}.jpeg`, data.image);
           }
         }
@@ -146,7 +146,7 @@ export const activitySaveAction = async (_prevState: any, formData: FormData) =>
             select: { image: true },
           });
           if (oldUrls) {
-            deleteFile(oldUrls.image);
+            await deleteFile(oldUrls.image);
             data.image = await uploadFile(`activities/${data.title}.jpeg`, data.image);
           }
         }
@@ -197,13 +197,13 @@ export const courseSaveAction = async (_prevState: any, formData: FormData) => {
         if (oldUrls) {
           // Delete and upload new thumbnail
           if (data.thumbnail !== oldUrls.thumbnail) {
-            deleteFile(oldUrls.thumbnail);
+            await deleteFile(oldUrls.thumbnail);
             data.thumbnail = await uploadFile(`courses/${data.name}.jpeg`, data.thumbnail);
           }
           // Delete images in gallery
           for (let url of oldUrls.gallery) {
             if (!data.gallery.includes(url)) {
-              deleteFile(url);
+              await deleteFile(url);
             }
           }
           // Upload new images
@@ -240,9 +240,9 @@ export const courseDeleteAction = async (name: string) => {
     select: { thumbnail: true, gallery: true },
   });
   if (oldUrls) {
-    deleteFile(oldUrls.thumbnail);
+    await deleteFile(oldUrls.thumbnail);
     for (let url of oldUrls.gallery) {
-      deleteFile(url);
+      await deleteFile(url);
     }
   }
   await db.course.delete({ where: { name } });
@@ -267,7 +267,7 @@ export const newsSaveAction = async (_prevState: any, formData: FormData) => {
             select: { thumbnail: true },
           });
           if (oldUrls) {
-            deleteFile(oldUrls.thumbnail);
+            await deleteFile(oldUrls.thumbnail);
             data.thumbnail = await uploadFile(`news/${data.title}.jpeg`, data.thumbnail);
           }
         }
@@ -316,7 +316,7 @@ export const competitionSaveAction = async (_prevState: any, formData: FormData)
             select: { thumbnail: true },
           });
           if (oldUrls) {
-            deleteFile(oldUrls.thumbnail);
+            await deleteFile(oldUrls.thumbnail);
             data.thumbnail = await uploadFile(`competitions/${data.title}.jpeg`, data.thumbnail);
           }
         }
@@ -339,6 +339,8 @@ export const competitionSaveAction = async (_prevState: any, formData: FormData)
   }
 };
 export const competitionDeleteAction = async (title: string) => {
+  const oldUrls = await db.competition.findUnique({ where: { title }, select: { thumbnail: true } });
+  if (oldUrls) await deleteFile(oldUrls.thumbnail);
   await db.competition.delete({ where: { title } });
   revalidatePath("/admin/competitions");
 };
