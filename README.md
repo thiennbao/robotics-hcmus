@@ -24,19 +24,16 @@ BASE_URL=<domain_url>
 POSTGRES_PRISMA_URL=<prisma_url>
 JWT_KEY=<jwt_key>
 
-# Firebase storage
-FIREBASE_API_KEY=<firebase_config>
-FIREBASE_AUTH_DOMAIN=<firebase_config>
-FIREBASE_PROJECT_ID=<firebase_config>
-FIREBASE_STORAGE_BUCKET=<firebase_config>
-FIREBASE_MESSAGING_SENDER_ID=<firebase_config>
-FIREBASE_APP_ID=<firebase_config>
+# Cloudinary storage
+CLOUDINARY_CLOUD_NAME=<cloud_name>
+CLOUDINARY_API_KEY=<api_key>
+CLOUDINARY_API_SECRET=<api_secret>
 ```
 
 - `domain_url`: the url of domain for hosting this app, should use `http://localhost:3000` for local.
 - `prisma_url`: postgres connect string.
 - `jwt_key`: can be any string, the more complex, the better.
-- `firebase_config`: see https://firebase.google.com/docs/web/setup for more information.
+- `cloud_name`, `api_key`, `api_secret`: Cloudinary credentials for media storage.
 
 🥑 Initialize prisma and seed data
 

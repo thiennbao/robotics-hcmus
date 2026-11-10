@@ -1,46 +1,71 @@
 "use server";
 
-import { initializeApp } from "firebase/app";
-import { deleteObject, getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
+import { v2 as cloudinary } from "cloudinary";
+import fs from "fs";
+import path from "path";
 
-// Config
+if (process.env.CLOUDINARY_URL) {
+  cloudinary.config({
+    cloudinary_url: process.env.CLOUDINARY_URL,
+    secure: true,
+  });
+} else {
+  cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+    secure: true,
+  });
+}
 
-const firebaseConfig = {
-  apiKey: process.env.FIREBASE_API_KEY,
-  authDomain: process.env.FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.FIREBASE_PROJECT_ID,
-  storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.FIREBASE_APP_ID,
+export const uploadFile = async (name: string, data: string): Promise<string> => {
+  const cleanName = name.replace(/^\/+/, "");
+  const publicId = cleanName.replace(/\.[^/.]+$/, "");
+
+  const result = await cloudinary.uploader.upload(data, {
+    public_id: publicId,
+    overwrite: true,
+    resource_type: "image",
+  });
+
+  return result.secure_url;
 };
 
-const app = initializeApp(firebaseConfig);
-const storage = getStorage(app);
-
-// Utils
-export const uploadFile = async (name: string, data: string) => {
-  // Convert data to file object
-  const res = await fetch(data);
-  const blob = await res.blob();
-  const file = new File([blob], name, { type: "image/jpeg" });
-  // Upload file
-  const uploadRef = ref(storage, file.name);
-  const snapshot = await uploadBytes(uploadRef, file);
-  const downloadURL = await getDownloadURL(snapshot.ref);
-  return downloadURL;
-};
-
-export const deleteFile = async (url: string) => {
-  const deleteRef = ref(storage, url);
-  deleteObject(deleteRef);
-};
-
-export const getFile = async (fileName: string) => {
+export const deleteFile = async (url: string): Promise<void> => {
+  if (!url) return;
   try {
-    const fileRef = ref(storage, fileName);
-    const downloadURL = await getDownloadURL(fileRef);
-    return downloadURL;
-  } catch {
-    return "";
+    if (url.includes("firebasestorage.googleapis.com")) return;
+
+    let publicId = url;
+    if (url.startsWith("http://") || url.startsWith("https://")) {
+      const match = url.match(/\/image\/upload\/(?:v\d+\/)?(.+?)(?:\.[^/.]*)?$/);
+      if (match) {
+        publicId = match[1];
+      } else {
+        return;
+      }
+    }
+
+    await cloudinary.uploader.destroy(publicId);
+  } catch (error) {
+    console.error("Failed to delete file from Cloudinary:", error);
   }
+};
+
+export const getFile = async (fileName: string): Promise<string> => {
+  if (!fileName) return "";
+  if (fileName.startsWith("http://") || fileName.startsWith("https://") || fileName.startsWith("/")) {
+    return fileName;
+  }
+
+  const cleanName = fileName.replace(/^\/+/, "");
+
+  // Nếu file có sẵn trong thư mục public/ (ví dụ public/static/...)
+  const localPublicPath = path.join(process.cwd(), "public", cleanName);
+  if (fs.existsSync(localPublicPath)) {
+    return `/${cleanName}`;
+  }
+
+  // Ngược lại lấy từ Cloudinary
+  return cloudinary.url(cleanName, { secure: true });
 };
