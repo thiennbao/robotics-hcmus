@@ -66,6 +66,9 @@ export const getFile = async (fileName: string): Promise<string> => {
     return `/${cleanName}`;
   }
 
-  // Ngược lại lấy từ Cloudinary
-  return cloudinary.url(cleanName, { secure: true });
+  // Cloudinary dùng dynamic folder mode nên public id không còn chứa đường dẫn thư mục,
+  // chỉ giữ lại tên file. Đường dẫn đầy đủ vẫn được dùng để tìm file local ở trên.
+  const publicId = cleanName.split("/").pop() ?? cleanName;
+
+  return cloudinary.url(publicId, { secure: true });
 };
