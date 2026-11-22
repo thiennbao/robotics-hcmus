@@ -6,6 +6,7 @@ import SearchBar from "../utils/searchBar";
 import db from "@/lib/db";
 import Image from "next/image";
 import clsx from "clsx";
+import { RichTextContent } from "../utils/richTextContent";
 
 const NewsDetail = async ({
   news,
@@ -31,21 +32,20 @@ const NewsDetail = async ({
             })}
           </p>
           <h2 className="mb-8 text-2xl font-bold">{news.title}</h2>
-          <div
+          <RichTextContent
+            html={news.content}
             className={clsx(
               "[&_h1]:text-2xl [&_h1]:mb-4 [&_h1]:font-bold",
               "[&_h2]:text-xl [&_h2]:mb-2 [&_h2]:font-bold",
               "[&_h2]:text-lg [&_h3]:mb-1 [&_h3]:font-bold",
               "[&_.ql-syntax]:bg-[#23241f] [&_.ql-syntax]:text-[#f8f8f2]",
               "[&_a]:text-primary",
-              "[&_img]:w-full [&_img]:md:w-1/2 [&_img]:m-auto [&_img]:aspect-video [&_img]:object-cover [&_img]:rounded-md",
               "[&_ol]:list-decimal [&_ol]:px-8",
               "[&_ul]:list-disc [&_ul]:px-8",
               "[&_.ql-align-center]:text-center",
               "[&_.ql-align-right]:text-right",
               "[&_.ql-align-justify]:text-justify"
             )}
-            dangerouslySetInnerHTML={{ __html: news.content }}
           />
         </div>
         <div className="overflow-hidden p-2">

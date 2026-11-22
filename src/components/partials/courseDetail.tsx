@@ -3,6 +3,7 @@
 import { Course } from "@prisma/client";
 import clsx from "clsx";
 import { HTMLAttributes, useState } from "react";
+import { RichTextContent } from "../utils/richTextContent";
 
 const CourseDetail = ({ course, ...props }: { course: Course } & HTMLAttributes<HTMLDivElement>) => {
   const [section, setSection] = useState<keyof Course>("overview");
@@ -38,7 +39,7 @@ const CourseDetail = ({ course, ...props }: { course: Course } & HTMLAttributes<
               </ul>
             </div>
             <div className="w-3/4 p-6">
-              <div dangerouslySetInnerHTML={{ __html: course[section] }} />
+              <RichTextContent html={String(course[section] ?? "")} />
             </div>
           </div>
         </div>

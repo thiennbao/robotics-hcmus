@@ -1,9 +1,16 @@
+import { getAboutBrief } from "@/lib/pageConfig";
+import Image from "next/image";
+import Link from "next/link";
 import { HTMLAttributes } from "react";
 import Appear from "../utils/appear";
-import Link from "next/link";
-import FirebaseImage from "../utils/firebaseImage";
 
 const Brief = async (props: HTMLAttributes<HTMLDivElement>) => {
+  const { paragraphs, image } = await getAboutBrief();
+  const canUseNextImage =
+    image.startsWith("/") ||
+    image.includes("res.cloudinary.com") ||
+    image.includes("firebasestorage.googleapis.com");
+
   return (
     <section {...props}>
       <div className="container flex flex-wrap justify-between gap-y-8">
@@ -12,23 +19,11 @@ const Brief = async (props: HTMLAttributes<HTMLDivElement>) => {
             <h2 className="mb-4 text-3xl text-primary font-bold">
               <Link href="/about">GIỚI THIỆU</Link>
             </h2>
-            <Appear variant="right">
-              <p className="mt-4">
-                Câu lạc bộ (CLB) Robotics & IoT, được thành lập vào tháng 7/2015, trực thuộc sự quản lý của phòng thí
-                nghiệm trí tuệ nhân tạo (AILAB) - Trường Đại học Khoa học Tự nhiên - ĐHQG TPHCM. CLB ra đời với mục tiêu
-                tạo nên một không gian học thuật và nghiên cứu năng động, nơi các bạn sinh viên và học sinh có thể tiếp
-                cận, tìm hiểu về lĩnh vực công nghệ đang phát triển mạnh mẽ là Robotics và Internet of Things (IoT) và
-                sứ mệnh truyền cảm hứng, thúc đẩy tinh thần đổi mới sáng tạo trong lĩnh vực Robot và IoT.
-              </p>
-            </Appear>
-            <Appear variant="right">
-              <p className="mt-4">
-                Thông qua các hoạt động nghiên cứu và thực hành, CLB Robotics & IoT không chỉ giúp các thành viên nắm
-                vững kiến thức nền tảng mà còn khuyến khích các bạn phát triển tư duy sáng tạo, kỹ năng giải quyết vấn
-                đề trong môi trường công nghệ tiên tiến. Đây là nơi các bạn có thể chia sẻ, học hỏi kinh nghiệm lẫn
-                nhau, cũng như phát triển các dự án cá nhân hay nhóm dưới sự hỗ trợ của các giảng viên từ AILAB.
-              </p>
-            </Appear>
+            {paragraphs.map((paragraph, index) => (
+              <Appear key={index} variant="right">
+                <p className="mt-4" dangerouslySetInnerHTML={{ __html: paragraph }} />
+              </Appear>
+            ))}
             <Appear variant="right" className="flex justify-end">
               <Link href="/about">
                 <button className="w-32 h-10 mt-8 border-2 border-primary text-primary transition rounded hover:bg-primary hover:text-white">
@@ -40,13 +35,22 @@ const Brief = async (props: HTMLAttributes<HTMLDivElement>) => {
         </div>
         <div className="lg:w-5/12 overflow-hidden">
           <Appear variant="left" className="h-full">
-            <FirebaseImage
-              fileName="static/intro-top.png"
-              alt="Robotics & IoT HCMUS"
-              width={900}
-              height={900}
-              className="w-auto h-full aspect-video object-cover rounded-lg"
-            />
+            {canUseNextImage ? (
+              <Image
+                src={image}
+                alt="Robotics & IoT HCMUS"
+                width={900}
+                height={900}
+                className="w-full h-full aspect-video object-cover rounded-lg"
+              />
+            ) : (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={image}
+                alt="Robotics & IoT HCMUS"
+                className="w-full h-full aspect-video object-cover rounded-lg"
+              />
+            )}
           </Appear>
         </div>
       </div>

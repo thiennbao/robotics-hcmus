@@ -1,3 +1,4 @@
+import { PageBannerSection } from "@/components/admin/pageBannerSection";
 import {
   CreateButton,
   DeleteButton,
@@ -10,6 +11,7 @@ import Link from "next/link";
 import { Suspense } from "react";
 import db from "@/lib/db";
 import { competitionDeleteAction } from "@/lib/actions";
+import { getPageConfig } from "@/lib/pageConfig";
 import Image from "next/image";
 
 export default async function CompetitionDashboardPage({
@@ -19,6 +21,7 @@ export default async function CompetitionDashboardPage({
 }) {
   const { key, page, items } = searchParams;
 
+  const pageConfig = await getPageConfig("competitions");
   const totalItems = await db.competition.count({
     where: { title: { contains: key, mode: "insensitive" } },
   });
@@ -36,6 +39,12 @@ export default async function CompetitionDashboardPage({
   return (
     <div className="text-light">
       <h2 className="text-3xl mb-6">COMPETITION DASHBOARD</h2>
+      <PageBannerSection
+        slug="competitions"
+        title="CUỘC THI"
+        initialBanner={pageConfig.bannerImage}
+        className="mb-6"
+      />
       <div className="bg-gray-700 rounded-xl p-6">
         <div className="flex justify-end md:justify-between">
           <div className="hidden md:flex justify-between gap-x-8">

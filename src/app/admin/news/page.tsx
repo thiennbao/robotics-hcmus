@@ -1,3 +1,4 @@
+import { PageBannerSection } from "@/components/admin/pageBannerSection";
 import {
   CreateButton,
   DeleteButton,
@@ -10,6 +11,7 @@ import { Suspense } from "react";
 import db from "@/lib/db";
 import Image from "next/image";
 import { newsDeleteAction } from "@/lib/actions";
+import { getPageConfig } from "@/lib/pageConfig";
 
 export default async function NewsDashboardPage({
   searchParams,
@@ -18,6 +20,7 @@ export default async function NewsDashboardPage({
 }) {
   const { key, page, items } = searchParams;
 
+  const pageConfig = await getPageConfig("news");
   const totalItems = await db.news.count({
     where: { title: { contains: key, mode: "insensitive" } },
   });
@@ -35,6 +38,12 @@ export default async function NewsDashboardPage({
   return (
     <div className="text-light">
       <h2 className="text-3xl mb-6">NEWS DASHBOARD</h2>
+      <PageBannerSection
+        slug="news"
+        title="TIN TỨC"
+        initialBanner={pageConfig.bannerImage}
+        className="mb-6"
+      />
       <div className="bg-gray-700 rounded-xl p-6">
         <div className="flex justify-end md:justify-between">
           <div className="hidden md:flex justify-between gap-x-8">

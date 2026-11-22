@@ -1,7 +1,7 @@
 import Statistic from "@/components/partials/statistic";
 import db from "@/lib/db";
 import { verifyToken } from "@/lib/token";
-import { BsFire, BsPeopleFill, BsWechat } from "react-icons/bs";
+import { BsFire, BsInfoCircleFill, BsPeopleFill, BsWechat } from "react-icons/bs";
 import { FaBook, FaNewspaper } from "react-icons/fa";
 import { IoIosImages } from "react-icons/io";
 import { PiPhoneCallFill, PiSealQuestionFill } from "react-icons/pi";
@@ -21,6 +21,11 @@ export default async function AdminPage() {
               model="Banner"
               icon={<IoIosImages className="inline align-middle text-xl" />}
               data={await db.banner.findMany()}
+            />
+            <Statistic
+              model="PageConfig"
+              icon={<BsInfoCircleFill className="inline align-middle text-xl" />}
+              data={await db.pageConfig.findMany()}
             />
             <Statistic
               model="Activity"
