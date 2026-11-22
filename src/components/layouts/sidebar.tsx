@@ -4,21 +4,24 @@ import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
-import { BsFire, BsPeopleFill, BsWechat } from "react-icons/bs";
+import { useState, useTransition } from "react";
+import { BsFire, BsInfoCircleFill, BsPeopleFill, BsWechat } from "react-icons/bs";
 import { CiLogout } from "react-icons/ci";
 import { FaBook, FaGears, FaNewspaper } from "react-icons/fa6";
 import { IoIosImages, IoIosTrophy } from "react-icons/io";
 import { PiPhoneCallFill, PiSealQuestionFill, PiSquaresFour } from "react-icons/pi";
 import { RiQuillPenFill } from "react-icons/ri";
+import { Spinner } from "../admin/actionButton";
 
-const Sidebar = ({ isRoot, logout }: { isRoot: boolean; logout: () => void }) => {
+const Sidebar = ({ isRoot, logout }: { isRoot: boolean; logout: () => Promise<void> | void }) => {
   const pathname = usePathname().split("/")[2];
   const [isOpen, setIsOpen] = useState(true);
+  const [isLoggingOut, startLogout] = useTransition();
 
   const sideNavs = {
     content: [
       { title: "Banners", icon: <IoIosImages /> },
+      { title: "About", icon: <BsInfoCircleFill /> },
       { title: "Activities", icon: <BsFire /> },
       { title: "Courses", icon: <FaBook /> },
       { title: "News", icon: <FaNewspaper /> },
@@ -86,10 +89,30 @@ const Sidebar = ({ isRoot, logout }: { isRoot: boolean; logout: () => void }) =>
               </div>
             </div>
           ))}
-          <div className="*:block *:mb-2 *:px-4 *:py-3 *:rounded-xl *:cursor-pointer *:transition hover:*:bg-gray-600 hover:*:text-gray-200">
-            <button onClick={() => logout()} className="w-full text-left">
-              <CiLogout className="inline mr-2" />
-              Log out
+          <div className="*:block *:mb-2 *:px-4 *:py-3 *:rounded-xl *:transition">
+            <button
+              type="button"
+              disabled={isLoggingOut}
+              aria-busy={isLoggingOut || undefined}
+              onClick={() => startLogout(async () => await logout())}
+              className={clsx(
+                "w-full text-left flex items-center gap-2",
+                isLoggingOut
+                  ? "opacity-50 cursor-not-allowed"
+                  : "cursor-pointer hover:bg-gray-600 hover:text-gray-200"
+              )}
+            >
+              {isLoggingOut ? (
+                <>
+                  <Spinner className="w-4 h-4" />
+                  <span>Đang đăng xuất...</span>
+                </>
+              ) : (
+                <>
+                  <CiLogout className="inline" />
+                  <span>Log out</span>
+                </>
+              )}
             </button>
           </div>
         </div>

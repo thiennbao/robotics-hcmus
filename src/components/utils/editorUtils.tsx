@@ -9,6 +9,7 @@ import { RiDeleteBin2Fill } from "react-icons/ri";
 import "react-quill/dist/quill.snow.css";
 import Image from "next/image";
 import React from "react";
+import { cleanEditorElement, cleanEditorHtml, registerImageFigureBlot } from "../admin/quillImageBlot";
 
 // Deer my kouhai, if one day you have to read this pile of code and can't understand anything, no problem.
 // Even me who wrote it wouldn’t understand if I read it again.
@@ -58,6 +59,7 @@ export const InputField = ({
       {textarea ? (
         <textarea
           {...inputAttr}
+          name={name}
           value={input}
           onChange={handleChange}
           className={clsx(
@@ -68,6 +70,7 @@ export const InputField = ({
       ) : (
         <input
           {...inputAttr}
+          name={name}
           value={input}
           onChange={handleChange}
           className={clsx(
@@ -116,6 +119,7 @@ export const ImageField = ({ label, name, validation, submitErr, data, setData, 
         {label}
         {validation?.required && <span className="ml-1 text-red-400">*</span>}
       </label>
+      <input type="hidden" name={name} value={image} />
       <input type="file" accept="image/*" id={name} onChange={handleUpload} ref={inputRef} hidden />
       <label
         htmlFor={name}
@@ -191,6 +195,7 @@ export const MultiImageField = ({ label, name, validation, submitErr, data, setD
         {label}
         {validation?.required && <span className="ml-1 text-red-400">*</span>}
       </label>
+      <input type="hidden" name={name} value={JSON.stringify(images)} />
       <input hidden type="file" accept="image/*" multiple id={name} ref={inputRef} onChange={handleUpload} />
       <label
         htmlFor={name}
@@ -239,7 +244,57 @@ export const MultiImageField = ({ label, name, validation, submitErr, data, setD
 };
 
 export const RichTextField = ({ label, name, validation, submitErr, data, setData, ...props }: Props) => {
-  const ReactQuill = useMemo(() => dynamic(() => import("react-quill"), { ssr: false }), []);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const ReactQuill = useMemo(
+    () =>
+      dynamic(
+        () =>
+          import("react-quill").then((mod) => {
+            registerImageFigureBlot(mod.default.Quill);
+            return mod;
+          }),
+        { ssr: false }
+      ),
+    []
+  );
+
+  const modules = useMemo(
+    () => ({
+      toolbar: {
+        container: [
+          [{ header: [1, 2, 3] }],
+          ["bold", "italic", "underline", "strike", "code-block", "link"],
+          ["image", "video"],
+          [{ list: "ordered" }, { list: "bullet" }],
+          [{ script: "sub" }, { script: "super" }],
+          [{ color: [] }, { background: [] }],
+          [{ align: [] }],
+          ["clean"],
+        ],
+      },
+      clipboard: {
+        matchers: [
+          [
+            "IMG",
+            (node: Element, delta: any) => {
+              if (node.closest("figure.ql-image-figure")) {
+                return delta;
+              }
+              const Delta = delta.constructor;
+              return new Delta().insert({
+                image: {
+                  src: node.getAttribute("src") || "",
+                  alt: node.getAttribute("alt") || "",
+                  caption: "",
+                },
+              });
+            },
+          ],
+        ],
+      },
+    }),
+    []
+  );
 
   const [input, setInput] = useState(data || "");
   const [errorMsg, setErrorMsg] = useState("");
@@ -251,10 +306,26 @@ export const RichTextField = ({ label, name, validation, submitErr, data, setDat
     setErrorMsg(submitErr || "");
   }, [submitErr, name]);
 
+  useEffect(() => {
+    const wrapper = wrapperRef.current;
+    if (!wrapper) return;
+    const handleCaptionChange = () => {
+      const editorEl = wrapper.querySelector(".ql-editor");
+      if (!editorEl) return;
+      const cleaned = cleanEditorElement(editorEl);
+      setInput(cleaned);
+      setErrorMsg(validation ? validate(cleaned, validation) : "");
+    };
+    wrapper.addEventListener("ql-image-caption-change", handleCaptionChange);
+    return () => wrapper.removeEventListener("ql-image-caption-change", handleCaptionChange);
+  }, [validation]);
+
   // Quill library issue (value is "<p><br></p>" when all input's deleted)
   const handleChange = (value: string) => {
-    setInput(value === "<p><br></p>" ? "" : value);
-    setErrorMsg(validation ? validate(value === "<p><br></p>" ? "" : value, validation) : "");
+    const editorEl = wrapperRef.current?.querySelector(".ql-editor");
+    const cleaned = editorEl ? cleanEditorElement(editorEl) : cleanEditorHtml(value);
+    setInput(cleaned);
+    setErrorMsg(validation ? validate(cleaned, validation) : "");
   };
 
   return (
@@ -263,7 +334,9 @@ export const RichTextField = ({ label, name, validation, submitErr, data, setDat
         {label}
         {validation?.required && <span className="ml-1 text-red-400">*</span>}
       </label>
+      <input type="hidden" name={name} value={input} />
       <div
+        ref={wrapperRef}
         className={clsx(
           "rounded-lg border focus-within:border-sky-500",
           errorMsg ? "border-red-400" : "border-transparent"
@@ -276,26 +349,12 @@ export const RichTextField = ({ label, name, validation, submitErr, data, setDat
             "[&_.ql-toolbar_.ql-stroke]:fill-none [&_.ql-toolbar_.ql-stroke]:stroke-gray-300",
             "[&_.ql-toolbar_.ql-fill]:fill-gray-300 [&_.ql-toolbar_.ql-fill]:stroke-none",
             "[&_.ql-toolbar_.ql-picker-options]:bg-gray-800 [&_.ql-toolbar_.ql-picker]:text-gray-300",
-            "[&_.ql-editor]:text-base [&_.ql-editor]:pb-16 [&_.ql-editor::-webkit-scrollbar]:w-1 [&_.ql-editor::-webkit-scrollbar-thumb]:bg-gray-600",
-            "[&_img]:w-full [&_img]:md:w-1/2 [&_img]:m-auto [&_img]:aspect-video [&_img]:object-cover [&_img]:rounded-md",
+            "[&_.ql-editor]:text-base [&_.ql-editor]:pb-16 [&_.ql-editor::-webkit-scrollbar]:w-1 [&_.ql-editor::-webkit-scrollbar-thumb]:bg-gray-600"
           )}
           theme="snow"
-          value={input}
+          defaultValue={data || ""}
           onChange={handleChange}
-          modules={{
-            toolbar: {
-              container: [
-                [{ header: [1, 2, 3] }],
-                ["bold", "italic", "underline", "strike", "code-block", "link"],
-                ["image", "video"],
-                [{ list: "ordered" }, { list: "bullet" }],
-                [{ script: "sub" }, { script: "super" }],
-                [{ color: [] }, { background: [] }],
-                [{ align: [] }],
-                ["clean"],
-              ],
-            },
-          }}
+          modules={modules}
         />
       </div>
       <span className="mt-1 text-red-400 text-sm">{errorMsg}</span>
@@ -339,6 +398,8 @@ export const SelectField = ({
       </label>
       <select
         {...inputAttr}
+        name={name}
+        value={selected}
         onChange={handleSelect}
         className={clsx(
           "w-full p-2.5 rounded-lg bg-gray-800 outline-none border focus:border-sky-500",
