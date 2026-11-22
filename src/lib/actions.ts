@@ -32,6 +32,7 @@ import {
   processRichTextImages,
   validateBase64Image,
 } from "./pageConfig";
+import { verifyRecaptchaToken } from "./recaptcha";
 
 // Import
 export const importAction = async (model: Prisma.ModelName, data: any) => {
@@ -564,6 +565,19 @@ export const faqDeleteAction = async (question: string) => {
 
 // Message
 export const messageSaveAction = async (_prevData: any, formData: FormData) => {
+  const recaptchaToken = (formData.get("recaptchaToken") as string) || "";
+  const recaptchaResult = await verifyRecaptchaToken(recaptchaToken, "contact_form");
+  if (!recaptchaResult.success) {
+    return {
+      issues: [
+        {
+          path: "general",
+          message: recaptchaResult.message || "Xác thực reCAPTCHA không thành công.",
+        },
+      ],
+    };
+  }
+
   const data = Object.keys(messageSchema).reduce(
     (obj, key) => Object.assign(obj, { [key]: formData.get(key) }),
     {}
@@ -588,6 +602,19 @@ export const messageDeleteAction = async (id: string) => {
 
 // Register
 export const registerSaveAction = async (_prevData: any, formData: FormData) => {
+  const recaptchaToken = (formData.get("recaptchaToken") as string) || "";
+  const recaptchaResult = await verifyRecaptchaToken(recaptchaToken, "register_form");
+  if (!recaptchaResult.success) {
+    return {
+      issues: [
+        {
+          path: "general",
+          message: recaptchaResult.message || "Xác thực reCAPTCHA không thành công.",
+        },
+      ],
+    };
+  }
+
   const data = Object.keys(registerSchema).reduce(
     (obj, key) => Object.assign(obj, { [key]: formData.get(key) }),
     {}
