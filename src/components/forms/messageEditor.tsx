@@ -1,4 +1,5 @@
 import { Message } from "@prisma/client";
+import { FormSubmitButton } from "../admin/actionButton";
 import { InputField } from "../utils/editorUtils";
 import { messageReadAction } from "@/lib/actions";
 
@@ -10,15 +11,13 @@ const MessageEditor = ({ data }: { data: Message }) => {
       <InputField label="Số điện thoại" name="phone" data={data.phone} inputAttr={{ readOnly: true }} />
       <InputField textarea label="Lời nhắn" name="message" data={data.message} inputAttr={{ readOnly: true }} />
       <div className="text-center pt-4">
-        {data.read ? (
-          <button className="w-1/2 py-2 rounded-lg border border-amber-500 text-amber-500 hover:bg-amber-500 hover:text-white transition">
-            ĐÁNH DẤU CHƯA ĐỌC
-          </button>
-        ) : (
-          <button className="w-1/2 py-2 rounded-lg border border-emerald-500 text-emerald-500 hover:bg-emerald-500 hover:text-white transition">
-            ĐÁNH DẤU ĐÃ ĐỌC
-          </button>
-        )}
+        <FormSubmitButton
+          variant={data.read ? "warning" : "success"}
+          loadingText="Đang cập nhật..."
+          className="w-1/2"
+        >
+          {data.read ? "ĐÁNH DẤU CHƯA ĐỌC" : "ĐÁNH DẤU ĐÃ ĐỌC"}
+        </FormSubmitButton>
       </div>
     </form>
   );

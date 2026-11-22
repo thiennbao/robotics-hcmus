@@ -1,9 +1,11 @@
 import NewsArchive from "@/components/partials/newsArchive";
 import PageWall from "@/components/utils/pageWall";
-import { getFile } from "@/lib/storage";
+import { getPageConfig } from "@/lib/pageConfig";
 import { Metadata } from "next";
 
 export async function generateMetadata(): Promise<Metadata> {
+  const config = await getPageConfig("news");
+
   return {
     title: "Tin tức | Robotics & IoT HCMUS",
     description:
@@ -13,22 +15,24 @@ export async function generateMetadata(): Promise<Metadata> {
       description:
         "Tin tức tại câu lạc bộ Robotics and IoT (Internet of Things) Trường Đại học Khoa học Tự nhiên - Đại học Quốc gia TP.HCM",
       type: "website",
-      images: [await getFile("static/wallpaper-news.png")],
+      images: [config.bannerImage],
     },
     twitter: {
       card: "summary_large_image",
       title: "Tin tức | Robotics & IoT HCMUS",
       description:
         "Tin tức tại câu lạc bộ Robotics and IoT (Internet of Things) Trường Đại học Khoa học Tự nhiên - Đại học Quốc gia TP.HCM",
-      images: [await getFile("static/wallpaper-news.png")],
+      images: [config.bannerImage],
     },
   };
 }
 
-export default function NewsPage({ searchParams }: { searchParams: { search: string; take: string } }) {
+export default async function NewsPage({ searchParams }: { searchParams: { search: string; take: string } }) {
+  const config = await getPageConfig("news");
+
   return (
     <main>
-      <PageWall title="TIN TỨC" image="static/wallpaper-news.png" />
+      <PageWall title="TIN TỨC" image={config.bannerImage} />
       <NewsArchive searchParams={searchParams} className="my-16 lg:my-20" />
     </main>
   );

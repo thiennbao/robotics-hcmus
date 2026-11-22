@@ -5,6 +5,7 @@ import { Competition } from "@prisma/client";
 import db from "@/lib/db";
 import clsx from "clsx";
 import Link from "next/link";
+import { RichTextContent } from "../utils/richTextContent";
 
 const Item = ({ competition, isReverse }: { competition: Competition; isReverse: boolean }) => {
   return (
@@ -16,7 +17,7 @@ const Item = ({ competition, isReverse }: { competition: Competition; isReverse:
           </h2>
         </Appear>
         <Appear variant={isReverse ? "left" : "right"}>
-          <div dangerouslySetInnerHTML={{ __html: competition.description }} />
+          <RichTextContent html={competition.description} />
         </Appear>
         <Appear variant={isReverse ? "left" : "right"} className="flex justify-end">
           <Link href={competition.address}>

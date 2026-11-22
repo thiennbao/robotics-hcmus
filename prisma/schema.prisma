@@ -96,3 +96,10 @@ model User {
     role     Role     @default(ADMIN)
     date     DateTime @default(now())
 }
+
+model PageConfig {
+    slug        String   @id
+    bannerImage String
+    content     String?
+    updatedAt   DateTime @updatedAt
+}

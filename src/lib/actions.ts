@@ -19,11 +19,20 @@ import {
   activitySchema,
   faqSchema,
 } from "./schemas";
-import { deleteFile, uploadFile } from "./storage";
+import { deleteFile, getFile, uploadFile } from "./storage";
 import { v4 as uuid } from "uuid";
 import bcrypt from "bcrypt";
 import { Prisma, User } from "@prisma/client";
-import { signToken } from "./token";
+import { signToken, verifyToken } from "./token";
+import {
+  getDefaultAboutContent,
+  isValidPageSlug,
+  PAGE_META,
+  PageSlug,
+  processRichTextImages,
+  validateBase64Image,
+} from "./pageConfig";
+import { verifyRecaptchaToken } from "./recaptcha";
 
 // Import
 export const importAction = async (model: Prisma.ModelName, data: any) => {
@@ -65,6 +74,10 @@ export const importAction = async (model: Prisma.ModelName, data: any) => {
       for (let item of data) {
         await db.register.upsert({ where: { id: item.id }, update: item, create: item });
       }
+    } else if (model === "PageConfig") {
+      for (let item of data) {
+        await db.pageConfig.upsert({ where: { slug: item.slug }, update: item, create: item });
+      }
     } else {
       for (let item of data) {
         await db.user.upsert({ where: { username: item.username }, update: item, create: item });
@@ -74,6 +87,140 @@ export const importAction = async (model: Prisma.ModelName, data: any) => {
     return { message: "success" };
   } catch {
     return { message: "error" };
+  }
+};
+
+// Page Config
+export const savePageBannerAction = async (
+  slug: PageSlug,
+  imageData: string
+): Promise<{ ok: true; bannerImage: string } | { ok: false; error: string }> => {
+  try {
+    await verifyToken();
+  } catch {
+    return { ok: false, error: "Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại." };
+  }
+
+  if (!isValidPageSlug(slug) || !imageData) {
+    return { ok: false, error: "Dữ liệu banner không hợp lệ." };
+  }
+
+  try {
+    const existing = await db.pageConfig.findUnique({ where: { slug } });
+    let uploadedUrl = imageData;
+
+    if (imageData.startsWith("data:")) {
+      const validationErr = validateBase64Image(imageData);
+      if (validationErr) {
+        return { ok: false, error: validationErr };
+      }
+      uploadedUrl = await uploadFile(`pages/${slug}-banner-${uuid()}.jpeg`, imageData);
+    } else if (!imageData.startsWith("http://") && !imageData.startsWith("https://") && !imageData.startsWith("/")) {
+      return { ok: false, error: "Đường dẫn hình ảnh không hợp lệ." };
+    }
+
+    await db.pageConfig.upsert({
+      where: { slug },
+      update: { bannerImage: uploadedUrl },
+      create: { slug, bannerImage: uploadedUrl },
+    });
+
+    if (
+      existing?.bannerImage &&
+      existing.bannerImage !== uploadedUrl &&
+      existing.bannerImage.includes("res.cloudinary.com") &&
+      existing.bannerImage.includes("-banner-")
+    ) {
+      await deleteFile(existing.bannerImage);
+    }
+
+    revalidatePath(PAGE_META[slug].publicPath);
+    revalidatePath(PAGE_META[slug].adminPath);
+    if (slug === "about") {
+      revalidatePath("/");
+    }
+
+    return { ok: true, bannerImage: await getFile(uploadedUrl) };
+  } catch (error) {
+    console.error(`Failed to save page banner for "${slug}":`, error);
+    return {
+      ok: false,
+      error: error instanceof Error ? error.message : "Không thể lưu banner. Vui lòng thử lại.",
+    };
+  }
+};
+
+export const saveAboutPageAction = async (payload: {
+  bannerImage?: string;
+  content?: string;
+}): Promise<{ ok: true; bannerImage: string; content: string } | { ok: false; error: string }> => {
+  try {
+    await verifyToken();
+  } catch {
+    return { ok: false, error: "Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại." };
+  }
+
+  try {
+    const existing = await db.pageConfig.findUnique({ where: { slug: "about" } });
+
+    let finalBanner = existing?.bannerImage ?? (await getFile(PAGE_META.about.defaultBanner));
+    if (payload.bannerImage !== undefined) {
+      if (payload.bannerImage.startsWith("data:")) {
+        const validationErr = validateBase64Image(payload.bannerImage);
+        if (validationErr) {
+          return { ok: false, error: validationErr };
+        }
+        finalBanner = await uploadFile(`pages/about-banner-${uuid()}.jpeg`, payload.bannerImage);
+      } else if (
+        payload.bannerImage.startsWith("http://") ||
+        payload.bannerImage.startsWith("https://") ||
+        payload.bannerImage.startsWith("/")
+      ) {
+        finalBanner = payload.bannerImage;
+      } else {
+        return { ok: false, error: "Đường dẫn ảnh banner không hợp lệ." };
+      }
+    }
+
+    let finalContent =
+      existing?.content && existing.content.trim().length > 0
+        ? existing.content
+        : await getDefaultAboutContent();
+
+    if (payload.content !== undefined) {
+      finalContent = await processRichTextImages(payload.content, existing?.content ?? null);
+    }
+
+    await db.pageConfig.upsert({
+      where: { slug: "about" },
+      update: { bannerImage: finalBanner, content: finalContent },
+      create: { slug: "about", bannerImage: finalBanner, content: finalContent },
+    });
+
+    if (
+      existing?.bannerImage &&
+      existing.bannerImage !== finalBanner &&
+      existing.bannerImage.includes("res.cloudinary.com") &&
+      existing.bannerImage.includes("-banner-")
+    ) {
+      await deleteFile(existing.bannerImage);
+    }
+
+    revalidatePath("/about");
+    revalidatePath("/");
+    revalidatePath("/admin/about");
+
+    return {
+      ok: true,
+      bannerImage: await getFile(finalBanner),
+      content: finalContent,
+    };
+  } catch (error) {
+    console.error("Failed to save About page config:", error);
+    return {
+      ok: false,
+      error: error instanceof Error ? error.message : "Không thể lưu trang Giới thiệu. Vui lòng thử lại.",
+    };
   }
 };
 
@@ -418,6 +565,19 @@ export const faqDeleteAction = async (question: string) => {
 
 // Message
 export const messageSaveAction = async (_prevData: any, formData: FormData) => {
+  const recaptchaToken = (formData.get("recaptchaToken") as string) || "";
+  const recaptchaResult = await verifyRecaptchaToken(recaptchaToken, "contact_form");
+  if (!recaptchaResult.success) {
+    return {
+      issues: [
+        {
+          path: "general",
+          message: recaptchaResult.message || "Xác thực reCAPTCHA không thành công.",
+        },
+      ],
+    };
+  }
+
   const data = Object.keys(messageSchema).reduce(
     (obj, key) => Object.assign(obj, { [key]: formData.get(key) }),
     {}
@@ -442,6 +602,19 @@ export const messageDeleteAction = async (id: string) => {
 
 // Register
 export const registerSaveAction = async (_prevData: any, formData: FormData) => {
+  const recaptchaToken = (formData.get("recaptchaToken") as string) || "";
+  const recaptchaResult = await verifyRecaptchaToken(recaptchaToken, "register_form");
+  if (!recaptchaResult.success) {
+    return {
+      issues: [
+        {
+          path: "general",
+          message: recaptchaResult.message || "Xác thực reCAPTCHA không thành công.",
+        },
+      ],
+    };
+  }
+
   const data = Object.keys(registerSchema).reduce(
     (obj, key) => Object.assign(obj, { [key]: formData.get(key) }),
     {}

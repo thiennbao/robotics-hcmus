@@ -1,4 +1,5 @@
 import { Course, Register } from "@prisma/client";
+import { FormSubmitButton } from "../admin/actionButton";
 import { InputField } from "../utils/editorUtils";
 import { registerReadAction } from "@/lib/actions";
 
@@ -13,15 +14,13 @@ const RegisterEditor = ({ data }: { data: Register & { course: Pick<Course, "nam
       <InputField label="Số điện thoại" name="phone" data={data.phone} inputAttr={{ readOnly: true }} />
       <InputField label="Khung giờ" name="time" data={data.time} inputAttr={{ readOnly: true }} />
       <div className="text-center pt-4">
-        {data.read ? (
-          <button className="w-1/2 py-2 rounded-lg border border-amber-500 text-amber-500 hover:bg-amber-500 hover:text-white transition">
-            ĐÁNH DẤU CHƯA ĐỌC
-          </button>
-        ) : (
-          <button className="w-1/2 py-2 rounded-lg border border-emerald-500 text-emerald-500 hover:bg-emerald-500 hover:text-white transition">
-            ĐÁNH DẤU ĐÃ ĐỌC
-          </button>
-        )}
+        <FormSubmitButton
+          variant={data.read ? "warning" : "success"}
+          loadingText="Đang cập nhật..."
+          className="w-1/2"
+        >
+          {data.read ? "ĐÁNH DẤU CHƯA ĐỌC" : "ĐÁNH DẤU ĐÃ ĐỌC"}
+        </FormSubmitButton>
       </div>
     </form>
   );

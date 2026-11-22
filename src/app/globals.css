@@ -24,3 +24,124 @@ body {
   background-color: rgb(var(--primary-rgb));
   color: black;
 }
+
+@layer components {
+  .ql-editor .ql-image-figure {
+    margin: 1rem 0;
+  }
+
+  .ql-editor .ql-image-card {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    border: 1px solid rgb(75 85 99 / 0.8);
+    background-color: rgb(17 24 39 / 0.7);
+  }
+
+  @media (min-width: 768px) {
+    .ql-editor .ql-image-card {
+      width: 50%;
+    }
+  }
+
+  .ql-editor .ql-image-card img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    margin: 0;
+    border-radius: 0;
+  }
+
+  .ql-editor .ql-image-caption-input {
+    display: block;
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.75rem;
+    line-height: 1.25rem;
+    color: rgb(229 231 235);
+    background-color: rgb(17 24 39 / 0.95);
+    border: 0;
+    border-top: 1px solid rgb(55 65 81);
+    outline: none;
+  }
+
+  .ql-editor .ql-image-caption-input::placeholder {
+    color: rgb(107 114 128);
+  }
+
+  .ql-editor .ql-image-caption-input:focus {
+    background-color: rgb(17 24 39);
+    color: rgb(255 255 255);
+  }
+
+  .ql-disabled .ql-editor .ql-image-caption-input {
+    pointer-events: none;
+    opacity: 0.6;
+  }
+
+  .ql-editor .ql-image-caption-mirror {
+    display: none;
+  }
+
+  .rich-text-content figure.ql-image-figure {
+    width: 100%;
+    margin: 1.5rem auto;
+    border-radius: 0.5rem;
+    overflow: hidden;
+  }
+
+  @media (min-width: 768px) {
+    .rich-text-content figure.ql-image-figure {
+      width: 70%;
+    }
+  }
+
+  .rich-text-content figure.ql-image-figure img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    margin: 0;
+    border-radius: 0;
+    cursor: zoom-in;
+    transition: transform 200ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .rich-text-content figure.ql-image-figure img:hover {
+    transform: scale(1.015);
+  }
+
+  .rich-text-content figure.ql-image-figure figcaption {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+    line-height: 1.35rem;
+    color: rgb(75 85 99);
+    text-align: center;
+    background-color: rgb(243 244 246);
+    border-top: 1px solid rgb(229 231 235);
+  }
+
+  .rich-text-content img:not(figure.ql-image-figure img) {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    margin: 1.5rem auto;
+    border-radius: 0.5rem;
+    cursor: zoom-in;
+    transition: transform 200ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .rich-text-content img:not(figure.ql-image-figure img):hover {
+    transform: scale(1.015);
+  }
+
+  @media (min-width: 768px) {
+    .rich-text-content img:not(figure.ql-image-figure img) {
+      width: 70%;
+    }
+  }
+}
