@@ -40,5 +40,8 @@ next-env.d.ts
 /.vscode
 .agents
 skills-lock.json
-docs
+docs/*
 AGENTS.md
+reset-root.mjs
+
+.taste-skill/

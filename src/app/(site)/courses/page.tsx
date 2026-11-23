@@ -1,5 +1,4 @@
 import CourseArchive from "@/components/partials/courseArchive";
-import PageWall from "@/components/utils/pageWall";
 import { getFile } from "@/lib/storage";
 import { Metadata } from "next";
 
@@ -28,8 +27,8 @@ export async function generateMetadata(): Promise<Metadata> {
 export default function CoursesPage({ searchParams }: { searchParams: { search: string } }) {
   return (
     <main>
-      <PageWall title="KHÓA HỌC" image="static/wallpaper-courses.png" />
-      <CourseArchive search={searchParams.search} className="my-16 lg:my-20" />
+      <div aria-hidden="true" className="h-32 bg-[#14294b]" />
+      <CourseArchive search={searchParams.search} />
     </main>
   );
 }
